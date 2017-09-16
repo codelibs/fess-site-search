@@ -3,3 +3,5 @@
 webpack/node_modules/
 webpack/package-lock.json
 webpack/out/*.min.js
+*.egg-info*
+*/__pycache__/*

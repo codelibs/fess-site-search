@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
   entry: path.join(__dirname, "/fess/src/main/assemblies/extension/fess-ss/src/main.js"),
   output: {
-    path:path.join(__dirname, '/out'),
+    path:path.join(__dirname, '../out/generates'),
     filename: 'fess-ss.min.js'
   },
   plugins: [

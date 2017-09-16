@@ -12,3 +12,6 @@ cd ${DIR}/webpack/
 npm install
 
 cd ${DIR}
+
+# install Flask
+pip3 install --editable .
