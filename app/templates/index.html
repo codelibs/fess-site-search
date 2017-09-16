@@ -18,19 +18,24 @@
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://fess.codelibs.org/">Fess Doc</a>
+          </li>
         </ul>
       </div>
     </nav>
 
     <div class="container theme-showcase" role="main">
-      <div class="jumbotron">
-        <h1 class="display-3">FSS JS Generator</h1>
-        <h2 class="display-5">Generate a JavaScript file for Fess Site Search</h2>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-3">FSS JS Generator</h1>
+          <h2 class="display-5">Generate a JavaScript file for Fess Site Search</h2>
+        </div>
       </div>
 
       <form method="post" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="upload-css-file" class="display-4">Upload CSS file</label>
+        <label class="display-4">Upload CSS file</label>
+        <div class="form-inline">
           <input type="file" name="file" class="form-control-file form-control-lg">
           <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
         </div>
