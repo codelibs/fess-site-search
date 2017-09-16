@@ -3,7 +3,7 @@ from flask import Flask, request, redirect, url_for, flash
 from flask import render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
-WEBPACK_CMD = 'node_modules/.bin/webpack --config webpack.config.js'
+WEBPACK_CMD = 'node_modules/.bin/webpack --config webpack/webpack.config.js'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'uploads')
@@ -45,7 +45,7 @@ def generate(basename):
   print("generate_js: {} -> {}".format(my_env["INPUT_CSS_PATH"], my_env["OUTPUT_JS_FILENAME"]))
 
   try:
-    proc = subprocess.Popen(WEBPACK_CMD.split(), env=my_env, cwd='webpack')
+    proc = subprocess.Popen(WEBPACK_CMD.split(), env=my_env)
     outs, errs = proc.communicate()
     print("Success to generate {}".format(jsfile))
     return send_from_directory(directory=app.config['DOWNLOAD_FOLDER'], filename=jsfile, as_attachment=True)

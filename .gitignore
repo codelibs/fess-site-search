@@ -1,8 +1,7 @@
 *~
 */.tern-port
-webpack/node_modules/
-webpack/package-lock.json
-webpack/out/*.min.js
+node_modules/
+package-lock.json
 *.egg-info*
 */__pycache__/*
 instance
