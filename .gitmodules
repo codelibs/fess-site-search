@@ -1,0 +1,3 @@
+[submodule "webpack/fess"]
+	path = webpack/fess
+	url = git@github.com:codelibs/fess.git
