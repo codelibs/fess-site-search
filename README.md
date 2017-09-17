@@ -1,6 +1,6 @@
-# fess-ss-webpack-app ![Heroku](https://heroku-badge.herokuapp.com/?app=fess-ss-webpack)
+# fess-site-search ![Heroku](https://heroku-badge.herokuapp.com/?app=fess-site-search)
 
-:point_right: https://fess-ss-webpack.herokuapp.com/
+:point_right: https://fess-site-search.herokuapp.com/
 
 ## Run locally
 ```bash
