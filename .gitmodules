@@ -1,4 +1,0 @@
-[submodule "webpack/fess"]
-	path = webpack/fess
-	url = https://github.com/codelibs/fess.git
-	ignore = dirty
