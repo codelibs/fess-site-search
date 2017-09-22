@@ -12,6 +12,20 @@
   .media-body {
     width: initial;
   }
+
+  .fessResultBox {
+    position: relative;
+  }
+  .fessSearchWaiting {
+    z-index: 1001;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    background-color:rgba(255,255,255,0.6) !important;
+
+  }
   /* Large desktop */
   @media ( min-width : 74.9em) {
     .order-box {
@@ -95,5 +109,25 @@
       font-size: small;
     }
   }
+}
 
+.fessOverlay {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:120%;
+  background-color:rgba(255,255,255,0.5);
+  .fessPopup {
+    background-color: #fff;
+    margin: 4% 10% 1% 10%;
+    padding: 0% 1% 3% 1%;
+    height: 70%;
+    overflow: scroll;
+    box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.1);
+    .fessPopupResult {
+      padding: 5% 4% 0% 4%;
+    }
+  }
 }

@@ -3,7 +3,7 @@ const webpack = require("webpack");
 module.exports = {
   entry: __dirname + "/src/main.js",
   output: {
-    path: __dirname +'/../../../webapp/js/ss',
+    path: __dirname +'/../../instance/generates',
     filename: 'fess-ss.min.js'
   },
   plugins: [

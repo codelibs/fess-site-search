@@ -23,7 +23,7 @@ export default class {
 
       var $fessResult = FessJQuery('<div/>');
       $fessResult.addClass('fessResult');
-      $fessResult.css('display', 'none');
+      //$fessResult.css('display', 'none');
       $fessWrapper.append($fessResult);
     }
 
@@ -44,7 +44,7 @@ export default class {
 
       var $fessResultOnly = FessJQuery('<div/>');
       $fessResultOnly.addClass('fessResult');
-      $fessResultOnly.css('display', 'none');
+      //$fessResultOnly.css('display', 'none');
       $fessResultWrapper.append($fessResultOnly);
 
       FessJQuery('fess\\:search-result-only').replaceWith($fessResultWrapper);
@@ -68,33 +68,60 @@ export default class {
   renderResult(contextPath, response, params) {
     response['context_path'] = contextPath;
     var $fessResult = FessJQuery('.fessWrapper .fessResult');
+    response['has_results'] = response.record_count > 0;
     var html = resultTemplate(response);
     $fessResult.html(this.FessMessages.render(html, response));
-    var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, params);
-    FessJQuery('.fessWrapper .paginationNav').append($pagination);
+    if (response.record_count > 0) {
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, params);
+      FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      this._loadThumbnail(contextPath);
+    }
     this._setSearchOptions(response, params);
-    this._loadThumbnail(contextPath);
   }
 
-  renderNoResult(response, params) {
-    var $fessResult = FessJQuery('.fessWrapper .fessResult');
-    var html = noResultTemplate(response);
-    $fessResult.html(this.FessMessages.render(html, response));
+  renderPopupResult(contextPath, response, params) {
+    response['context_path'] = contextPath;
+    var $fessOverlay = FessJQuery('.fessOverlay');
+    response['has_results'] = response.record_count > 0;
+
+    var html = resultTemplate(response);
+    var $popup = FessJQuery('<div/>');
+    $popup.addClass('fessPopup');
+
+    var $popupHeader = FessJQuery('<div/>');
+    var $popupCloseButton = FessJQuery('<button/>');
+    $popupCloseButton.attr('type', 'button');
+    $popupCloseButton.addClass('close');
+    $popupCloseButton.addClass('fessPopupClose');
+    $popupCloseButton.html('&times;');
+    $popupHeader.append($popupCloseButton);
+    $popup.append($popupHeader);
+
+    var $popupResultSection = FessJQuery('<div/>');
+    $popupResultSection.addClass('fessPopupResult');
+    $popupResultSection.html(this.FessMessages.render(html, response));
+    $popup.append($popupResultSection);
+
+
+    $fessOverlay.html('');
+    $fessOverlay.append($popup);
+    if (response.record_count > 0) {
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, params);
+      FessJQuery('.fessOverlay .paginationNav').append($pagination);
+      this._loadThumbnail(contextPath);
+    }
     this._setSearchOptions(response, params);
   }
 
   _setSearchOptions(response, params) {
-    if (FessJQuery('.fessWrapper .fessForm').length > 0) {
-      if (params.sort !== undefined) {
-        FessJQuery('.fessWrapper select.sort').val(params.sort);
-      }
-      if (params['fields.label'] !== undefined){
-        FessJQuery('.fessWrapper select.field-labels').val(params['fields.label']);
-      }
-    } else {
-      FessJQuery('.fessWrapper .fessResult table .order').css('display', 'none');
-      FessJQuery('.fessWrapper .fessResult table .labels').css('display', 'none');
+    if (params.sort !== undefined) {
+      FessJQuery('.fessWrapper select.sort').val(params.sort);
     }
+    if (params['fields.label'] !== undefined){
+      FessJQuery('.fessWrapper select.field-labels').val(params['fields.label']);
+    }
+    FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'none');
+    FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
   }
 
   _createPagination(recordCount, pageSize, currentPage, params) {
@@ -190,7 +217,7 @@ export default class {
       imgData.src = url;
     };
 
-    FessJQuery('.fessWrapper .fessResult img.thumbnail').each(function() {
+    FessJQuery('.fessWrapper .fessResultBox img.thumbnail').each(function() {
       FessJQuery(this).css('background-image', 'url("' + contextPath + '/images/loading.gif")');
       loadImage(this, FessJQuery(this).attr('data-src'), $cls.IMG_LOADING_MAX);
     });
