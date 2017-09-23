@@ -5,11 +5,9 @@
 ## Run locally
 ```bash
 # Setting Up
-$ git submodule init
-$ git submodule update
 $ npm install
 $ pip3 install -r requirements.txt
 # Run
-$ export FLASK_APP=app
+$ export FLASK_APP=app/main.py
 $ flask run
 ```

@@ -7,6 +7,8 @@ import FessView from './view.js';
 import FessController from './controller.js';
 import FessModel from './model.js';
 
+require('!style-loader!css-loader!' + process.env.INPUT_CSS_PATH);
+
 (function() {
   var fessMessages = new FessMessages();
   var fessView = new FessView(fessMessages);

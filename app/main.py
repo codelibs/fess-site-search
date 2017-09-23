@@ -1,9 +1,7 @@
 import subprocess, os, hashlib, random, traceback
-from flask import Flask, request, redirect, url_for, flash
+from flask import Flask, request, redirect, url_for
 from flask import render_template, send_from_directory
 from werkzeug.utils import secure_filename
-
-WEBPACK_CMD = 'node_modules/.bin/webpack --config webpack/webpack.config.js'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'uploads')
@@ -17,35 +15,38 @@ def index():
   return render_template('index.html')
 
 def upload():
+  fess_version = request.form.get('fess-version')
+
   if 'file' not in request.files:
-    flash('No file part')
-    return redirect(request.url)
+    return render_template('index.html')
   file = request.files['file']
   if file.filename == '':
-    flash('No selected file')
-    return redirect(request.url)
+    return render_template('index.html')
 
   if file and is_css(file.filename):
     base = secure_filename(file.filename)[:-4]
     hash_str = rand_hash()
-    basename = "{}-{}".format(base, hash_str)
+    basename = "{}_{}".format(base, hash_str)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], basename + ".css"))
     print("Upload: {}.css".format(basename))
-    return generate(basename)
+    return generate(fess_version, basename)
 
   return render_template('index.html')
 
-def generate(basename):
+def generate(fess_version, basename):
   my_env = os.environ.copy()
-  jsfile = "fess-ss-{}.min.js".format(basename)
+  jsfile = generate_js_name(fess_version, basename)
 
   my_env["INPUT_CSS_PATH"] = "{}/{}.css".format(app.config['UPLOAD_FOLDER'], basename)
   my_env["OUTPUT_JS_FILENAME"] = jsfile
 
+  print("Version: {}".format(fess_version))
   print("generate_js: {} -> {}".format(my_env["INPUT_CSS_PATH"], my_env["OUTPUT_JS_FILENAME"]))
 
   try:
-    proc = subprocess.Popen(WEBPACK_CMD.split(), env=my_env)
+    (cwd, cmd) = get_command(fess_version)
+    print('Command: {}'.format(cmd))
+    proc = subprocess.Popen(cmd, env=my_env, cwd=cwd)
     outs, errs = proc.communicate()
     print("Success to generate {}".format(jsfile))
     return send_from_directory(directory=app.config['DOWNLOAD_FOLDER'], filename=jsfile, as_attachment=True)
@@ -64,3 +65,12 @@ def is_css(filename):
     ext = filename.rsplit('.', 1)[1].lower()
     return ext == 'css'
   return False
+
+def get_command(version):
+  cwd = os.path.join(app.instance_path, '../fss/{}'.format(version))
+  cmd = '{0}/node_modules/.bin/webpack --config {0}/webpack.config.js'.format(cwd)
+  return (cwd, cmd.split())
+
+def generate_js_name(version, base):
+  vs = version.replace('.', '_')
+  return 'fess-ss-{}-{}.min.js'.format(vs, base)

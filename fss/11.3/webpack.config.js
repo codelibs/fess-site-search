@@ -1,13 +1,15 @@
+const path = require('path');
 const webpack = require("webpack");
 
 module.exports = {
-  entry: __dirname + "/src/main.js",
+  entry: path.join(__dirname, "src/main.js"),
   output: {
-    path: __dirname +'/../../instance/generates',
-    filename: 'fess-ss.min.js'
+    path: path.join(__dirname, '../../instance/generates'),
+    filename: process.env.OUTPUT_JS_FILENAME
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.EnvironmentPlugin(['INPUT_CSS_PATH', 'OUTPUT_JS_FILENAME'])
   ],
   module: {
     loaders: [

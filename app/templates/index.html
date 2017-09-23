@@ -35,9 +35,21 @@
 
       <form method="post" enctype="multipart/form-data">
         <label class="display-4">Upload CSS file</label>
-        <div class="form-inline">
-          <input type="file" name="file" class="form-control-file form-control-lg">
-          <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
+        <div class="form-horizontal">
+          <div class="form-group row">
+            <label for="file" class="col-2 col-form-label-lg">CSS: </label>
+            <input type="file" name="file" class="form-control-file form-control-lg">
+          </div>
+          <div class="form-group row">
+            <label for="fess-version" class="col-2 col-form-label-lg">Version: </label>
+            <select name="fess-version"  class="custom-select form-control-lg">
+              <option value="11.4">Fess 11.4</option>
+              <option value="11.3">Fess 11.3</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
+          </div>
         </div>
       </form>
     </div>

@@ -1,8 +1,9 @@
 *~
 */.tern-port
 node_modules/
-package-lock.json
+*package-lock.json
 *.egg-info*
 */__pycache__/*
 instance
 !instance/*/.gitkeep
+*.tern-port

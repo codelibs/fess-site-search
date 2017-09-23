@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require("webpack");
 
 module.exports = {
-  entry: path.join(__dirname, "main.js"),
+  entry: path.join(__dirname, "src/main.js"),
   output: {
-    path:path.join(__dirname, '../instance/generates'),
+    path: path.join(__dirname, '../../instance/generates'),
     filename: process.env.OUTPUT_JS_FILENAME
   },
   plugins: [
