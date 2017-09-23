@@ -1,0 +1,5 @@
+div#loading {
+    display: none;
+    margin:auto;
+    cursor: wait;
+}
