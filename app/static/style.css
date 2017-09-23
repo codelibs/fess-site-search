@@ -3,3 +3,7 @@ div#loading {
     margin:auto;
     cursor: wait;
 }
+
+iframe {
+    border: 2px red solid;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fess Site Search JS Generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/fss-page.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">FSS JS Generator</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://fess.codelibs.org/">Fess Doc</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container theme-showcase" role="main">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Check your Design</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <div class="btn-group mr-2">
+        <a href="/" class="btn btn-secondary btn-lg">
+          << Back
+        </a>
+      </div>
+      <div class="btn-group mr-2">
+        <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
+          Download JS
+        </a>
+      </div>
+    </div>
+    <hr>
+
+    <div class="embed-responsive embed-responsive-4by3">
+      <iframe class="embed-responsive-item" src={{message.search_src}}></iframe>
+    </div>
+  </body>
+</html>
