@@ -10,7 +10,10 @@ for ver in ${FESS_VERS[@]}; do
   echo "####################"
   cd ${SCRIPT_DIR}/fss/${ver}/
   npm install
-  ls
+  echo "pwd"
+  pwd
+  echo "ls -la"
+  ls -la
 done
 
 echo "Done: install"

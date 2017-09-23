@@ -7,6 +7,6 @@
   },
   "dependencies": {},
   "scripts": {
-    "install": "bash -eux ./install.sh"
+    "install": "bash -eu ./install.sh"
   }
 }
