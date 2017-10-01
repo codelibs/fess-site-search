@@ -1,4 +1,4 @@
-# fess-site-search ![Travis](https://travis-ci.org/codelibs/fess-site-search.svg?branch=release)
+# fess-site-search ![Travis](https://travis-ci.org/codelibs/fess-site-search.svg?branch=master)
 
 :point_right: https://fess-site-search.herokuapp.com/
 
