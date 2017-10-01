@@ -19,13 +19,19 @@ def form2css(form):
     rule = '''.fessWrapper {{
       background-color: {};
     }}'''.format(color)
-    css.add(rule)
+    add_rule(css, rule)
 
   if form.get('button-color'):
     color = form.get('button-color')
     rule = '''.fessWrapper #searchButton {{
       background-color: {};
     }}'''.format(color)
-    css.add(rule)
+    add_rule(css, rule)
 
   return css
+
+def add_rule(css, rule):
+  try:
+    css.add(rule)
+  except:
+    print('Invalid:\n', rule)
