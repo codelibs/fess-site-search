@@ -1,3 +1,4 @@
-flask>=0.12.2
-gunicorn>=19.7.1
-cssutils>=1.0.2
+cssutils==1.0.2
+flask==0.12.2
+gunicorn==19.7.1
+pytest==3.2.2
