@@ -9,6 +9,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/style.css">
+    <script type="text/javascript">
+      jQuery(document).ready(function ($) {
+      $('#tabs').tab();
+      });
+    </script>
   </head>
 
   <body>
@@ -34,25 +39,73 @@
         </div>
       </div>
 
-      <form method="post" enctype="multipart/form-data">
-        <label class="display-4">Upload CSS file</label>
-        <div class="form-horizontal">
-          <div class="form-group row">
-            <label for="file" class="col-2 col-form-label-lg">CSS: </label>
-            <input type="file" name="file" class="form-control-file form-control-lg">
-          </div>
-          <div class="form-group row">
-            <label for="fess-version" class="col-2 col-form-label-lg">Version: </label>
-            <select name="fess-version"  class="custom-select form-control-lg">
-              <option value="11.4">Fess 11.4</option>
-              <option value="11.3">Fess 11.3</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+          <a href="#tab-wizard" class="nav-link active" data-toggle="tab">Wizard</a>
+        </li>
+        <li class="nav-item">
+          <a href="#tab-upload" class="nav-link" data-toggle="tab">Upload CSS</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="tab-wizard" class="tab-pane active">
+            <form method="post">
+              <div class="form-horizontal">
+
+                <div class="form-group row">
+                  <label for="bg-color" class="col-2 col-form-label-lg">Background</label>
+                  <div class="col-10">
+                    <input type="text" class="form-control" name="bg-color" id="bg-color" aria-describedby="bg-colorhelp" placeholder="#fafafa" maxlength="7" required>
+                    <small id="bg-colorhelp" class="form-text text-muted">Background Color</small>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="button-color" class="col-2 col-form-label-lg">Button Color</label>
+                  <div class="col-10">
+                    <input type="text" class="form-control" name="button-color" id="button-color" aria-describedby="button-colorhelp" placeholder="#fafafa" maxlength="7">
+                    <small id="button-colorhelp" class="form-text text-muted">Button Color</small>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
+                  <select name="fess-version"  class="custom-select form-control-lg">
+                    <option value="11.4">Fess 11.4</option>
+                    <option value="11.3">Fess 11.3</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
+                </div>
+            </form>
           </div>
         </div>
-      </form>
+
+        <div id="tab-upload" class="tab-pane">
+          <form method="post" enctype="multipart/form-data">
+            <div class="form-horizontal">
+              <div class="form-group row">
+                <label for="file" class="col-2 col-form-label-lg">CSS</label>
+                <input type="file" name="file" class="form-control-file form-control-lg">
+              </div>
+              <div class="form-group row">
+                <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
+                <select name="fess-version"  class="custom-select form-control-lg">
+                  <option value="11.4">Fess 11.4</option>
+                  <option value="11.3">Fess 11.3</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
     </div>
   </body>
 </html>

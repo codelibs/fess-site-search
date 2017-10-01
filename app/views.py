@@ -1,18 +1,19 @@
-import subprocess, os, hashlib, random, traceback
-from flask import Flask, request, redirect, url_for
-from flask import render_template, send_from_directory
+import os
+from flask import request, redirect, url_for, render_template
 from flask import jsonify, abort, make_response
-from werkzeug.utils import secure_filename
-from flask import Blueprint
 
 from .app import app
-from .backend import upload
+from .backend import upload, wizard
 
 # Top Page
 @app.route('/', methods=['GET', 'POST'])
 def index():
   if request.method == 'POST':
-    return upload()
+    if 'file' in request.files:
+      return upload(request.form, request.files['file'])
+    else:
+      return wizard(request.form)
+
   return render_template('index.html')
 
 # Demo Page

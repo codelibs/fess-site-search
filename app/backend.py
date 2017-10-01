@@ -1,22 +1,14 @@
 import subprocess, os, hashlib, random, traceback
-from flask import Flask, request, redirect, url_for
-from flask import render_template, send_from_directory
-from flask import jsonify, abort, make_response
+from flask import redirect, url_for
+from flask import render_template
 from werkzeug.utils import secure_filename
-from flask import Blueprint
-
 from .app import app
+from .generate_css import generate_css
 
-###########
-# Back-end Process
-###########
-def upload():
-  version = request.form.get('fess-version')
-  print(request.form)
+def upload(form, file):
+  version = form.get('fess-version')
+  print(form)
 
-  if 'file' not in request.files:
-    return render_template('index.html')
-  file = request.files['file']
   if file.filename == '':
     return render_template('index.html')
 
@@ -26,11 +18,20 @@ def upload():
     fname = "{}_{}_{}".format(base, hash_str, version.replace('.', '_'))
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + ".css"))
     print("Upload: {}.css".format(fname))
-    return generate(fname, version)
+    return run_webpack(fname, version)
 
   return render_template('index.html')
 
-def generate(fname, version):
+def wizard(form):
+  print('wizard!!')
+  version = form.get('fess-version')
+  fname = 'wizard_{}_{}'.format(rand_hash(), version.replace('.', '_'))
+  if generate_css(form, fname):
+    return run_webpack(fname, version)
+  else:
+    return render_template('index.html')
+
+def run_webpack(fname, version):
   my_env = os.environ.copy()
   jsfile = 'fess-ss-{}.min.js'.format(fname)
 
@@ -60,7 +61,7 @@ def rand_hash():
 def is_css(filename):
   if '.' in filename:
     ext = filename.rsplit('.', 1)[1].lower()
-    return ext == 'css' or ext == 'sccs'
+    return ext == 'css'
   return False
 
 def get_command(version):

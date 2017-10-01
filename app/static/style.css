@@ -11,3 +11,7 @@ div#loaded {
 iframe {
     border: 2px red solid;
 }
+
+.tab-content {
+    padding: 30px;
+}
