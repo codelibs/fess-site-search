@@ -8,6 +8,6 @@
 $ npm install
 $ pip3 install -r requirements.txt
 # Run
-$ export FLASK_APP=app/main.py
+$ export FLASK_APP=app/__init__.py
 $ flask run
 ```
