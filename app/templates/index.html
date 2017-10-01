@@ -5,11 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="./static/style.css">
-    <script src="./static/fss-page.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
   </head>
 
   <body>
@@ -35,15 +34,7 @@
         </div>
       </div>
 
-      <div id="loading" class="text-center">
-        <p>
-          <img id="loading_img" src="static/loading.gif" class="rounded" alt="Loading" />
-        </p>
-        <input id="cbutton" type="submit" class="btn btn-warning btn-lg text-center" value="Cancel" onclick="cancel()">
-        <div id="ctext" class="text-danger h3 mx-auto"></div>
-      </div>
-
-      <form method="post" enctype="multipart/form-data" id="form">
+      <form method="post" enctype="multipart/form-data">
         <label class="display-4">Upload CSS file</label>
         <div class="form-horizontal">
           <div class="form-group row">
@@ -58,7 +49,7 @@
             </select>
           </div>
           <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-lg" value="Generate!" onclick="loading()">
+            <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
           </div>
         </div>
       </form>

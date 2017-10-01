@@ -1,6 +1,7 @@
 import subprocess, os, hashlib, random, traceback
 from flask import Flask, request, redirect, url_for
 from flask import render_template, send_from_directory
+from flask import jsonify, abort, make_response
 from werkzeug.utils import secure_filename
 from flask import Blueprint
 
@@ -46,6 +47,17 @@ def search(fname):
   my_dic['page_path'] = '/search/{}'.format(fname)
   return render_template('search.html', message=my_dic)
 
+###########
+# API
+###########
+# Check if 'fess-ss-<fname>.min.js' is already generated
+@app.route('/api/check_js/<fname>', methods=['GET'])
+def check_js(fname):
+  jsfile = 'fess-ss-{}.min.js'.format(fname)
+  path = os.path.join(app.config['DOWNLOAD_FOLDER'], jsfile)
+  if os.path.exists(path):
+    return make_response(jsonify({'result': True}))
+  return make_response(jsonify({'result': False}))
 
 ###########
 # Back-end Process
@@ -82,14 +94,12 @@ def generate(fname, version):
     (cwd, cmd) = get_command(version)
     print('Command: {}'.format(cmd))
     proc = subprocess.Popen(cmd, env=my_env, cwd=cwd)
-    outs, errs = proc.communicate()
-    print("Success to generate {}".format(jsfile))
+    print('Redirect > /demo/{}'.format(fname))
     return redirect(url_for('demo', fname=fname))
   except:
     print("Fail to generate {}".format(jsfile))
     traceback.print_exc()
     return redirect(url_for('index'))
-
 
 ###########
 # Utilities

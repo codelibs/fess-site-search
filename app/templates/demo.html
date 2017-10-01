@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/fss-page.js"></script>
+    <script src="/static/fss-demo.js"></script>
   </head>
 
   <body>
@@ -35,22 +35,35 @@
       </div>
     </div>
 
-    <div class="text-center">
+    <div id="loading" class="text-center">
+      <p>
+        <img id="loading_img" src="/static/loading.gif" class="rounded" alt="Loading" />
+      </p>
       <div class="btn-group mr-2">
-        <a href="/" class="btn btn-secondary btn-lg">
-          << Back
-        </a>
-      </div>
-      <div class="btn-group mr-2">
-        <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
-          Download JS
+        <a href="/" class="btn btn-warning btn-lg">
+          Cancel
         </a>
       </div>
     </div>
-    <hr>
 
-    <div class="embed-responsive embed-responsive-4by3">
-      <iframe class="embed-responsive-item" src={{message.search_src}}></iframe>
+    <div id="loaded">
+      <div class="text-center">
+        <div class="btn-group mr-2">
+          <a href="/" class="btn btn-secondary btn-lg">
+            << Back
+               </a>
+        </div>
+        <div class="btn-group mr-2">
+          <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
+            Download JS
+          </a>
+        </div>
+      </div>
+      <hr>
+      <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item" data-src={{message.search_src}} id="iframe"></iframe>
+      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
