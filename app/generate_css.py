@@ -14,14 +14,14 @@ def form2css(form):
   css = cssutils.css.CSSStyleSheet()
 
   # Add rules from the form
-  if form.get('bg-color') is not None:
+  if form.get('bg-color'):
     color = form.get('bg-color')
     rule = '''.fessWrapper {{
       background-color: {};
     }}'''.format(color)
     css.add(rule)
 
-  if form.get('button-color') is not None:
+  if form.get('button-color'):
     color = form.get('button-color')
     rule = '''.fessWrapper #searchButton {{
       background-color: {};
