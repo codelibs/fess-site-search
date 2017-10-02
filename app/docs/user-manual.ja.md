@@ -32,7 +32,6 @@ FSSを利用して、Webサイトに検索エンジンFessの検索ボックス�
 
 <fess:search></fess:search>
 ```
-Quick startで指定しているFSS JSのURLは予告なく削除/変更することがあります。運用時はFSS JSをダウンロードして、自サーバーに配置してご利用ください。
 
 ## FSS types
 
