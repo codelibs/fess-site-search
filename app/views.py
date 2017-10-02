@@ -1,6 +1,7 @@
 import os
 from flask import request, redirect, url_for, render_template
 from flask import jsonify, abort, make_response
+from markdown import markdown
 
 from .app import app
 from .backend import upload, wizard
@@ -33,6 +34,20 @@ def search(fname):
   my_dic['js_path'] = '/generates/fess-ss-{}.min.js'.format(fname)
   my_dic['page_path'] = '/search/{}'.format(fname)
   return render_template('search.html', message=my_dic)
+
+# Search Results in Frame
+@app.route('/docs/manual')
+def manual():
+  path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.ja.md')
+  md_file = open(path, mode='r', encoding='utf-8')
+  md_str = md_file.read()
+  md_file.close()
+  extensions = ['gfm']
+  html = markdown(md_str, extensions=extensions)
+
+  my_dic = {}
+  my_dic['markdown_content'] = html
+  return render_template('manual.html', message=my_dic)
 
 ###########
 # API

@@ -1,0 +1,14 @@
+.markdown-body {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.markdown-body pre {
+  background-color: #e9eff2;
+  padding: 10;
+  border-radius: 1px;
+}
+
+.markdown-body h2 {
+  margin-top: 1em;
+}
