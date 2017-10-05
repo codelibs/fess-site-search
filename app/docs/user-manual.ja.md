@@ -15,7 +15,7 @@ Download JSボタンをクリックしてダウンロードしてください。
 以下の手順で簡単にFessを追加できます。
 
 1. FSS JSをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置します。
-1. 以下のコードをWebサイトの検索結果を表示したいページの`<body>`要素の検索ボックスを表示する位置に追加します。(fess-urlの値は検索サーバのURLに変えてください)
+1. 以下のコードをWebサイトの検索結果を表示したいページの`<body>`要素の検索ボックスを表示する位置に追加します。(fess-urlの値は検索サーバのURLに変更してください)
 
 ```html
 <script>
@@ -37,7 +37,7 @@ Download JSボタンをクリックしてダウンロードしてください。
 <fess:search></fess:search>
 ```
 
-## 検索結果表示の種類
+## 検索結果の表示種類
 
 検索結果の表示方法は利用するタグにより変更できます。
 次の3パターンでの表示が可能です。
@@ -80,7 +80,7 @@ fess.setAttribute('enable-order', 'false');
 fess.setAttribute('fess-search-page-path', 'result.html');
 ```
 
-## Customize Design
+## デザインのカスタマイズ
 
 FSS JS Generatorを利用して、デザインを修正することが出来ます。
 
@@ -91,4 +91,5 @@ FSS JS Generatorを利用して、デザインを修正することが出来ま�
 
 ## 商用サポート
 
-Fess docsの[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
+商用サポートではFessの構築支援やFessサーバを低価格で提供しています。
+[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
