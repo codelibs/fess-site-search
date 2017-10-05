@@ -1,17 +1,21 @@
-# FSS利用方法
+# 利用方法
 
 ## FSSについて
 
-FSSを利用して、Webサイトに検索エンジンFessの検索ボックスを追加することができます。  
-[オープンソース全文検索サーバー Fess](http://fess.codelibs.org/ja/)
+Fess Site Search(FSS)を利用して、Webサイトに[検索エンジンFess](http://fess.codelibs.org/ja/)の検索ボックスを追加することができます。
+(Fessサーバは事前に構築しておく必要があります)
 
-## Download
+## ダウンロード
 
-[FSS JS Generator](/)の[Generate!]ボタンをクリックすると、FSS JSをダウンロード出来ます。
+[FSS JS Generator](/)の[Generate!]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
+Download JSボタンをクリックしてダウンロードしてください。
 
-## Quick start
-1. FSS JSをダウンロードし、サーバーに配置します。
-1. 以下のコードをWebサイトの`<body>`要素の検索ボックスを表示する位置に追加します。
+## クイックスタート
+
+以下の手順で簡単にFessを追加できます。
+
+1. FSS JSをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置します。
+1. 以下のコードをWebサイトの検索結果を表示したいページの`<body>`要素の検索ボックスを表示する位置に追加します。(fess-urlの値は検索サーバのURLに変更してください)
 
 ```html
 <script>
@@ -33,9 +37,10 @@ FSSを利用して、Webサイトに検索エンジンFessの検索ボックス�
 <fess:search></fess:search>
 ```
 
-## FSS types
+## 検索結果の表示種類
 
-追加するタグによって、表示する検索ボックスを変更出来ます。
+検索結果の表示方法は利用するタグにより変更できます。
+次の3パターンでの表示が可能です。
 
 * 検索フォームと検索結果を表示します。
 ```html
@@ -50,7 +55,7 @@ FSSを利用して、Webサイトに検索エンジンFessの検索ボックス�
 <fess:search-result-only></fess:search-result-only>
 ```
 
-## FSS Options
+## オプション
 
 script中の `fess.setAttribute('fess-url', '{fess url}');` の下に以下のコードを追加することで、FSSの検索オプションを利用出来ます。
 
@@ -75,7 +80,7 @@ fess.setAttribute('enable-order', 'false');
 fess.setAttribute('fess-search-page-path', 'result.html');
 ```
 
-## Customize Design
+## デザインのカスタマイズ
 
 FSS JS Generatorを利用して、デザインを修正することが出来ます。
 
@@ -86,4 +91,5 @@ FSS JS Generatorを利用して、デザインを修正することが出来ま�
 
 ## 商用サポート
 
-Fess docsの[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
+商用サポートではFessの構築支援やFessサーバを低価格で提供しています。
+[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
