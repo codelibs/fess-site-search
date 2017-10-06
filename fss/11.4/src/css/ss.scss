@@ -4,8 +4,16 @@
   box-sizing: content-box;
   -webkit-box-sizing: content-box;
 
-  a,h3 {
+  a {
     background-image: initial;
+    padding: initial;
+    margin: initial;
+  }
+
+  h3 {
+    background-image: initial;
+    padding: initial;
+    margin: initial;
   }
 
 
