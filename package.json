@@ -25,7 +25,7 @@
     "webpack": "^2.7.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "./node_modules/.bin/webpack",
     "install": "bash -eu ./install.sh"
   }
 }
