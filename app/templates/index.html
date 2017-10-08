@@ -6,109 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/style.css">
-    <script type="text/javascript">
-      jQuery(document).ready(function ($) {
-      $('#tabs').tab();
-      });
-    </script>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="/">FSS JS Generator</a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/docs/manual">User Manual</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="http://fess.codelibs.org/">Fess Doc</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="container theme-showcase" role="main">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-3">FSS JS Generator</h1>
-          <h2 class="display-5">Generate a JavaScript file for Fess Site Search</h2>
-        </div>
-      </div>
-
-      <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-          <a href="#tab-wizard" class="nav-link active" data-toggle="tab">Wizard</a>
-        </li>
-        <li class="nav-item">
-          <a href="#tab-upload" class="nav-link" data-toggle="tab">Upload CSS</a>
-        </li>
-      </ul>
-
-      <div class="tab-content">
-        <div id="tab-wizard" class="tab-pane active">
-            <form method="post">
-              <div class="form-horizontal">
-
-                <div class="form-group row">
-                  <label for="bg-color" class="col-2 col-form-label-lg">Background</label>
-                  <div class="col-10">
-                    <input type="text" class="form-control" name="bg-color" id="bg-color" aria-describedby="bg-colorhelp" placeholder="#fafafa" maxlength="7">
-                    <small id="bg-colorhelp" class="form-text text-muted">Background Color</small>
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <label for="button-color" class="col-2 col-form-label-lg">Button</label>
-                  <div class="col-10">
-                    <input type="text" class="form-control" name="button-color" id="button-color" aria-describedby="button-colorhelp" placeholder="#fafafa" maxlength="7">
-                    <small id="button-colorhelp" class="form-text text-muted">Button Color</small>
-                  </div>
-                </div>
-
-                <div class="form-group row">
-                  <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
-                  <select name="fess-version"  class="custom-select form-control-lg">
-                    <option value="11.4">Fess 11.4</option>
-                    <option value="11.3">Fess 11.3</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
-                </div>
-            </form>
-          </div>
-        </div>
-
-        <div id="tab-upload" class="tab-pane">
-          <form method="post" enctype="multipart/form-data">
-            <div class="form-horizontal">
-              <div class="form-group row">
-                <label for="file" class="col-2 col-form-label-lg">CSS</label>
-                <input type="file" name="file" class="form-control-file form-control-lg">
-              </div>
-              <div class="form-group row">
-                <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
-                <select name="fess-version"  class="custom-select form-control-lg">
-                  <option value="11.4">Fess 11.4</option>
-                  <option value="11.3">Fess 11.3</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-lg" value="Generate!">
-              </div>
-            </div>
-          </form>
-        </div>
-
-      </div>
-    </div>
+    <div id="root"></div>
+    <script src="/static/bundle.js"></script>
   </body>
 </html>

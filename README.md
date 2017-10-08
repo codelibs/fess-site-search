@@ -7,6 +7,8 @@
 # Setting Up
 $ npm install
 $ pip3 install -r requirements.txt
+# Generate '/static/bundle.js'
+$ ./node_modules/.bin/webpack
 # Run
 $ export FLASK_APP=app/__init__.py
 $ flask run
