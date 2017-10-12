@@ -12,3 +12,7 @@
 .markdown-body h2 {
   margin-top: 1em;
 }
+
+.markdown-body h3 {
+  font-size: 1.25rem;
+}
