@@ -1,21 +1,53 @@
 # 利用方法
 
-## FSSについて
+## Fess Site Searchについて
 
-Fess Site Search(FSS)を利用して、Webサイトに[検索エンジンFess](http://fess.codelibs.org/ja/)の検索ボックスを追加することができます。
-(Fessサーバは事前に構築しておく必要があります)
+Fess Site Search(FSS)は[検索サーバFess](http://fess.codelibs.org/ja/)を既存のWebサイトに導入できる機能です。
+FSSが提供するタグとJavaScriptファイルを利用して、運用しているWebサイトに検索ボックスおよび検索結果表を表示することができます。
+簡単に導入することができるので、Google Site SearchやGoogleカスタム検索などからもスムーズに移行することができます。
 
 ## ダウンロード
 
 [FSS JS Generator](/)の[Generate!]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
 Download JSボタンをクリックしてダウンロードしてください。
 
-## クイックスタート
+## 導入手順
 
-以下の手順で簡単にFessを追加できます。
+FSSは以下の数ステップの手順だけで導入することができます。
+FSSを利用するには事前にFessサーバを構築しておく必要があります。
+構築済みのFessサーバを安価な[N2 Search ASP Super Lite](http://www.n2sm.net/services/n2search-asp-lite.html)として提供もしていますのでご検討ください。
 
-1. FSS JSをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置します。
-1. 以下のコードをWebサイトの検索結果を表示したいページの`<body>`要素の検索ボックスを表示する位置に追加します。(fess-urlの値は検索サーバのURLに変更してください)
+### 新規にFSSを導入する場合
+
+1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
+1. Webサイトに検索結果を表示するHTMLファイルを作成する (たとえばresult.html等)
+1. 以下のコードを作成したHTMLファイルの`<body>`要素以下で検索ボックスを表示したい位置に追加する (fess-urlの値は検索サーバのURLに変更してください)
+1. Webサイトの各ページに検索フォームを配置したい場合は、result.html?q=検索語 のように遷移するフォームを配置する
+
+```html
+<script>
+  (function() {
+    var fess = document.createElement('script');
+    fess.type = 'text/javascript';
+    fess.async = true;
+    // FSS JSのURLをsrcに設定します
+    fess.src = 'fess-ss.min.js';
+    fess.charset = 'utf-8';
+    fess.setAttribute('id', 'fess-ss');
+    // Fessの検索APIのURLをfess-urlに設定します
+    fess.setAttribute('fess-url', 'http://search.n2sm.co.jp/json');
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(fess, s);
+  })();
+</script>
+
+<fess:search></fess:search>
+```
+
+### Google Site Search(GSS)等から移行する場合
+
+1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
+1. 以下のコードをGSSなどの検索結果を表示しているタグと置き換える (fess-urlの値は検索サーバのURLに変更してください)
 
 ```html
 <script>
@@ -42,40 +74,47 @@ Download JSボタンをクリックしてダウンロードしてください。
 検索結果の表示方法は利用するタグにより変更できます。
 次の3パターンでの表示が可能です。
 
-* 検索フォームと検索結果を表示します。
+### 検索フォームと検索結果を表示
 ```html
 <fess:search></fess:search>
 ```
-* 検索フォームだけを表示します。
+
+### 検索フォームだけを表示
 ```html
 <fess:search-form-only></fess:search-form-only>
 ```
-* 検索結果だけを表示します。
+
+### 検索結果だけを表示
 ```html
 <fess:search-result-only></fess:search-result-only>
 ```
 
 ## オプション
 
-script中の `fess.setAttribute('fess-url', '{fess url}');` の下に以下のコードを追加することで、FSSの検索オプションを利用出来ます。
+script中の `fess.setAttribute('fess-url', '{fess url}');` の下に以下のコードを追加することで、FSSの検索オプションを利用できます。
 
-* ラベル絞り込み検索を行うフォームを表示します。
+### ラベル絞り込み検索を行うフォームを表示する場合
 ```javascript
 fess.setAttribute('enable-labels', 'true');
 ```
-* 検索結果をポップアップで表示します。
+
+### 検索結果をポップアップで表示する場合
 ```javascript
 fess.setAttribute('popup-result', 'true');
 ```
-* 検索結果に関連クエリー/関連コンテンツを表示します。
+
+### 検索結果に関連クエリー/関連コンテンツを表示する場合
 ```javascript
 fess.setAttribute('enable-related', 'true');
 ```
-* 検索結果のソートを非表示にします。
+
+### 検索結果のソートを非表示にする場合
 ```javascript
 fess.setAttribute('enable-order', 'false');
 ```
-* 検索を実行した際に、指定したURLへページ遷移します。`fess:search-form-only`で検索フォームだけを表示して、検索結果は別のページで表示する場合に利用します。
+### 検索結果ページへ遷移させたい場合
+検索を実行した際に、指定したURLへページ遷移します。
+`fess:search-form-only`で検索フォームだけを表示して、検索結果は別のページで表示する場合に利用します。
 ```javascript
 fess.setAttribute('fess-search-page-path', 'result.html');
 ```
