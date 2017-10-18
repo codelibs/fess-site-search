@@ -1,5 +1,27 @@
 
 .fessWrapper {
+  /* Reset style */
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+
+  a {
+    background-image: initial;
+    padding: initial;
+    margin: initial;
+  }
+
+  h3 {
+    background-image: initial;
+    padding: initial;
+    margin: initial;
+  }
+
+  ul, ol {
+    margin: 0px;
+  }
+
+
+  /* Style */
   margin: 0px;
   padding: 0px 10px;
   .fessResult {

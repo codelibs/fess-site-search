@@ -7,4 +7,5 @@ npm install --save-dev css-loader style-loader sass-loader node-sass extract-tex
 npm install --save-dev jquery
 npm install --save-dev handlebars handlebars-loader
 
+export OUTPUT_JS_FILENAME=fess-ss.min.js
 webpack
