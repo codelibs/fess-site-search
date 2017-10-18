@@ -9,6 +9,7 @@ export default class {
     this.FessMessages = FessMessages;
     this.IMG_LOADING_DELAY = 200;
     this.IMG_LOADING_MAX = 0;
+    this.defaultBodyOverflow = FessJQuery('body').css('overflow');
   }
 
   init() {
@@ -51,7 +52,39 @@ export default class {
     }
   }
 
-  renderForm(searchPagePath) {
+  newState() {
+    return (() => {
+      var state = {};
+      state.contextPath = '';
+      state.searchPagePath = null;
+      state.searchParams = null;
+      state.searchResponse = null;
+      state.enableOrder = false;
+      state.enableLabels = false;
+      state.enableRelated = false;
+      state.popupMode = false;
+      state.labels = null;
+      return state;
+    })();
+  }
+
+  render(state) {
+    if (FessJQuery('.fessWrapper .fessForm form').length == 0 &&
+        FessJQuery('.fessWrapper .fessFormOnly form').length == 0) {
+      this._renderForm(state);
+    }
+
+    if (state.searchResponse !== null) {
+      if (state.popupMode) {
+        this._renderPopupResult(state);
+      } else {
+        this._renderResult(state);
+      }
+      FessJQuery('.fessWrapper .fessResult').css('display', 'block');
+    }
+  }
+
+  _renderForm(state) {
     var $fessForm = FessJQuery('.fessWrapper .fessForm');
     var $fessFormOnly = FessJQuery('.fessWrapper .fessFormOnly');
     if ($fessForm.length > 0) {
@@ -61,27 +94,55 @@ export default class {
     if ($fessFormOnly.length > 0) {
       var html = formOnlyTemplate();
       $fessFormOnly.html(this.FessMessages.render(html, {}));
-      FessJQuery('.fessWrapper .fessFormOnly form').attr('action', searchPagePath);
+      FessJQuery('.fessWrapper .fessFormOnly form').attr('action', state.searchPagePath);
+    }
+    if (state.searchParams !== null && state.searchParams.q !== undefined) {
+      if (FessJQuery('.fessWrapper .fessForm form input').length > 0) {
+        FessJQuery('.fessWrapper .fessForm form input').val(state.searchParams.q);
+      }
+      if (FessJQuery('.fessWrapper .fessFormOnly form input').length > 0) {
+        FessJQuery('.fessWrapper .fessFormOnly form input').val(state.searchParams.q);
+      }
     }
   }
 
-  renderResult(contextPath, response, params) {
-    response['context_path'] = contextPath;
-    var $fessResult = FessJQuery('.fessWrapper .fessResult');
+  _renderResult(state) {
+    var response = state.searchResponse;
+    response['context_path'] = state.contextPath;
+    response['labels'] = state.labels;
+    if (state.enableLabels && state.labels !== null) {
+      response['labels'] = state.labels;
+    }
+
+    if (!state.enableRelated) {
+      delete response.related_query;
+      delete response.related_content;
+    }
     response['has_results'] = response.record_count > 0;
+
+    var $fessResult = FessJQuery('.fessWrapper .fessResult');
     var html = resultTemplate(response);
     $fessResult.html(this.FessMessages.render(html, response));
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, params);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
-      this._loadThumbnail(contextPath);
+      this._loadThumbnail(state.contextPath);
     }
-    this._setSearchOptions(response, params);
+    this._setSearchOptions(state);
   }
 
-  renderPopupResult(contextPath, response, params) {
-    response['context_path'] = contextPath;
-    var $fessOverlay = FessJQuery('.fessOverlay');
+  _renderPopupResult(state) {
+    var response = state.searchResponse;
+    response['context_path'] = state.contextPath;
+    response['labels'] = state.labels;
+    if (state.enableLabels && state.labels !== null) {
+      response['labels'] = state.labels;
+    }
+
+    if (!state.enableRelated) {
+      delete response.related_query;
+      delete response.related_content;
+    }
     response['has_results'] = response.record_count > 0;
 
     var html = resultTemplate(response);
@@ -102,26 +163,35 @@ export default class {
     $popupResultSection.html(this.FessMessages.render(html, response));
     $popup.append($popupResultSection);
 
-
+    var $fessOverlay = FessJQuery('.fessOverlay');
     $fessOverlay.html('');
     $fessOverlay.append($popup);
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, params);
-      FessJQuery('.fessOverlay .paginationNav').append($pagination);
-      this._loadThumbnail(contextPath);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      this._loadThumbnail(state.contextPath);
     }
-    this._setSearchOptions(response, params);
+    this._setSearchOptions(state);
   }
 
-  _setSearchOptions(response, params) {
-    if (params.sort !== undefined) {
-      FessJQuery('.fessWrapper select.sort').val(params.sort);
+  _setSearchOptions(state) {
+    if (state.enableOrder) {
+      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'block');
+      if (state.searchParams.sort !== undefined) {
+        FessJQuery('.fessWrapper select.sort').val(state.searchParams.sort);
+      }
+    } else {
+      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'none');
     }
-    if (params['fields.label'] !== undefined){
-      FessJQuery('.fessWrapper select.field-labels').val(params['fields.label']);
+
+    if (state.enableLabels) {
+      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'block');
+      if (state.searchParams['fields.label'] !== undefined){
+        FessJQuery('.fessWrapper select.field-labels').val(state.searchParams['fields.label']);
+      }
+    } else {
+      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
     }
-    FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'none');
-    FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
   }
 
   _createPagination(recordCount, pageSize, currentPage, params) {
@@ -221,5 +291,41 @@ export default class {
       FessJQuery(this).css('background-image', 'url("' + contextPath + '/images/loading.gif")');
       loadImage(this, FessJQuery(this).attr('data-src'), $cls.IMG_LOADING_MAX);
     });
+  }
+
+  setupOverlay() {
+    var $popupOverlay = FessJQuery('<div/>');
+    $popupOverlay.addClass('fessWrapper');
+    $popupOverlay.addClass('fessOverlay');
+    $popupOverlay.css('display', 'none');
+    FessJQuery('body').append($popupOverlay);
+  }
+
+  showOverlay() {
+    FessJQuery('.fessOverlay').css('display', 'block');
+    FessJQuery(window).on('touchmove.noScroll', function(e) {
+      e.preventDefault();
+    });
+    this.defaultBodyOverflow = FessJQuery('body').css('overflow');
+    FessJQuery('body').css('overflow', 'hidden');
+  }
+
+  hideOverlay() {
+    FessJQuery('.fessPopup').css('display', 'none');
+    FessJQuery('.fessOverlay').css('display', 'none');
+    FessJQuery(window).off('.noScroll');
+    FessJQuery('body').css('overflow', this.defaultBodyOverflow);
+  }
+
+  displaySearchWaiting() {
+    if (FessJQuery('.fessResultBox').length == 0) {
+      return;
+    }
+    var $waiting = FessJQuery('<div/>');
+    $waiting.addClass('fessSearchWaiting');
+    FessJQuery('.fessResultBox').append($waiting);
+  }
+
+  hideSearchWaiting() {
   }
 }
