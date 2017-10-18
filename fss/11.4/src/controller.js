@@ -83,7 +83,7 @@ export default class {
   _bindPopupClose() {
     var $cls = this;
     FessJQuery('.fessOverlay, .fessPopupClose').click(function(){
-      $cls._hideOverlay();
+      $cls.FessView.hideOverlay();
     });
     FessJQuery('.fessOverlay .fessPopup').click(function(e){
       e.stopPropagation();
