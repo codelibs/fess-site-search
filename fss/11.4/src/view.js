@@ -116,7 +116,7 @@ export default class {
 
     if (!state.enableRelated) {
       delete response.related_query;
-      delete response.related_content;
+      delete response.related_contents;
     }
     response['has_results'] = response.record_count > 0;
 
