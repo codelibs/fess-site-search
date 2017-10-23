@@ -32,6 +32,10 @@ export default class {
         console.log(e);
       }
     }
+
+    if (this.urlParams.fssVersion !== undefined) {
+      this._showVersion();
+    }
   }
 
   _initViewState(state) {
@@ -237,5 +241,9 @@ export default class {
       url = url + '#' + hash;
     }
     return url;
+  }
+
+  _showVersion() {
+    console.log(require('../package.json').version);
   }
 }

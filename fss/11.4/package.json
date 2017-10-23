@@ -1,6 +1,6 @@
 {
   "name": "fess-site-search-11.4",
-  "version": "1.0.0",
+  "version": "11.4.0",
   "main": "index.js",
   "license": "ISC",
   "dependencies": {},
