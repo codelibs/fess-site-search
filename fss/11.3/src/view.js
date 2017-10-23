@@ -62,6 +62,7 @@ export default class {
       state.enableOrder = false;
       state.enableLabels = false;
       state.enableRelated = false;
+      state.enableThumbnail = false;
       state.popupMode = false;
       state.labels = null;
       return state;
@@ -126,7 +127,11 @@ export default class {
     if (response.record_count > 0) {
       var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
-      this._loadThumbnail(state.contextPath);
+      if (state.enableThumbnail) {
+        this._loadThumbnail(state.contextPath);
+      } else {
+        FessJQuery('.fessWrapper .thumbnailBox').css('display', 'none');
+      }
     }
     this._setSearchOptions(state);
   }
@@ -169,7 +174,11 @@ export default class {
     if (response.record_count > 0) {
       var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
-      this._loadThumbnail(state.contextPath);
+      if (state.enableThumbnail) {
+        this._loadThumbnail(state.contextPath);
+      } else {
+        FessJQuery('.fessWrapper .thumbnailBox').css('display', 'none');
+      }
     }
     this._setSearchOptions(state);
   }
@@ -271,16 +280,16 @@ export default class {
     var loadImage = function(img, url, limit) {
       var imgData = new Image();
       imgData.onload = function() {
-        FessJQuery(img).css('background-image', '');
-        FessJQuery(img).attr('src', url);
+        var $img = FessJQuery(img);
+        $img.parent().parent().css('display', '');
+        $img.css('background-image', '');
+        $img.attr('src', url);
       };
       imgData.onerror = function() {
         if (limit > 0) {
           setTimeout(function() {
             loadImage(img, url, --limit);
           }, $cls.IMG_LOADING_DELAY);
-        } else {
-          FessJQuery(img).parent().css('display', 'none');
         }
         imgData = null;
       };
@@ -289,6 +298,7 @@ export default class {
 
     FessJQuery('.fessWrapper .fessResultBox img.thumbnail').each(function() {
       FessJQuery(this).css('background-image', 'url("' + contextPath + '/images/loading.gif")');
+      FessJQuery(this).parent().parent().css('display', 'none');
       loadImage(this, FessJQuery(this).attr('data-src'), $cls.IMG_LOADING_MAX);
     });
   }
