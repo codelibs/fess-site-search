@@ -34,7 +34,7 @@ export default class {
     }
   }
   getLanguage() {
-    var lang = window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
+    var lang = (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
     if (lang.indexOf('-') > 0) {
       lang = lang.substr(0, lang.indexOf('-'));
     }

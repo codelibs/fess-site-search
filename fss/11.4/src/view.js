@@ -3,6 +3,7 @@ import formTemplate from '!handlebars-loader!./templates/fess-form.hbs';
 import formOnlyTemplate from '!handlebars-loader!./templates/fess-form-only.hbs';
 import resultTemplate from '!handlebars-loader!./templates/fess-result.hbs';
 import noResultTemplate from '!handlebars-loader!./templates/fess-no-result.hbs';
+import './suggestor.js';
 
 export default class {
   constructor(FessMessages) {
@@ -63,6 +64,7 @@ export default class {
       state.enableLabels = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
+      state.enableSuggest = false;
       state.popupMode = false;
       state.labels = null;
       return state;
@@ -104,6 +106,10 @@ export default class {
       if (FessJQuery('.fessWrapper .fessFormOnly form input').length > 0) {
         FessJQuery('.fessWrapper .fessFormOnly form input').val(state.searchParams.q);
       }
+    }
+
+    if(state.enableSuggest) {
+      this._suggestor(state);
     }
   }
 
@@ -338,4 +344,33 @@ export default class {
 
   hideSearchWaiting() {
   }
+
+  _suggestor(state) {
+    FessJQuery('#contentQuery').suggestor(
+      {
+        ajaxinfo : {
+          url : state.contextPath + '/suggest',
+          fn : '_default,content,title',
+          num : 10,
+          lang : this.FessMessages.getLanguage()
+        },
+        boxCssInfo : {
+          border : '1px solid rgba(82, 168, 236, 0.5)',
+          '-webkit-box-shadow' : '0 1px 1px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(82, 168, 236, 0.2)',
+          '-moz-box-shadow' : '0 1px 1px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(82, 168, 236, 0.2)',
+          'box-shadow' : '0 1px 1px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(82, 168, 236, 0.2)',
+          'background-color' : '#fff',
+          'z-index' : '10000'
+        },
+        listSelectedCssInfo : {
+          'background-color' : 'rgba(72, 158, 226, 0.1)'
+        },
+        listDeselectedCssInfo : {
+          'background-color' : '#ffffff'
+        },
+        minturm : 1,
+        adjustWidthVal : 0,
+        searchForm : FessJQuery('.fessWrapper .fessForm form')
+      });
+    }
 }

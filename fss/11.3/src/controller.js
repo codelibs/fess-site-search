@@ -47,6 +47,7 @@ export default class {
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
     state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
+    state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'false' ? false : true;
     state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
     state.labels = null;
   }
@@ -99,7 +100,7 @@ export default class {
     if (FessJQuery('.fessWrapper .fessForm').length == 0 || this.viewState.popupMode) {
       var $cls = this;
       FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-        $cls._search({});
+        FessJQuery('.fessWrapper .fessForm form').submit();
       });
     }
   }
