@@ -120,6 +120,10 @@ export default class {
       } else {
         params.q = '*:*';
       }
+      if (typeof ga == 'function') {
+        var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
+        ga('send', 'pageview', u);
+      }
     }
 
     var sort = FessJQuery(".fessWrapper select.sort").val();
