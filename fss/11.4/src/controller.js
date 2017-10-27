@@ -5,23 +5,18 @@ export default class {
     this.FessView = FessView;
     this.FessModel = FessModel;
     this.fessUrl = FessJQuery('script#fess-ss').attr('fess-url');
-    this.fessContextPath = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
-    this.searchPagePath = FessJQuery('script#fess-ss').attr('fess-search-page-path');
-    this.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
-    this.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
-    this.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
-    this.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
-    this.labelsCache = null;
     this.urlParams = this._getParameters();
-    this.defaultBodyOverflow = FessJQuery('body').css('overflow');
+    this.viewState = null;
   }
 
   start() {
     this.FessView.init();
-    this.FessView.renderForm(this.searchPagePath, this.urlParams);
+    this.viewState = this.FessView.newState();
+    this._initViewState(this.viewState);
+    this.FessView.render(this.viewState);
     this._bindForm();
-    if (this.popupMode) {
-      this._setupOverlay();
+    if (this.viewState.popupMode) {
+      this.FessView.setupOverlay();
     }
     if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
       var query = this.urlParams.q[0];
@@ -37,6 +32,24 @@ export default class {
         console.log(e);
       }
     }
+
+    if (this.urlParams.fssVersion !== undefined) {
+      this._showVersion();
+    }
+  }
+
+  _initViewState(state) {
+    state.contextPath = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
+    state.searchPagePath = FessJQuery('script#fess-ss').attr('fess-search-page-path');
+    state.searchParams = null;
+    state.searchResponse = null;
+    state.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
+    state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
+    state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
+    state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
+    state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
+    state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
+    state.labels = null;
   }
 
   _bindForm() {
@@ -65,7 +78,7 @@ export default class {
       var params = {};
       params.start = response.page_size * (page - 1);
       $cls._search(params);
-      if (!$cls.popupMode) {
+      if (!$cls.viewState.popupMode) {
         var off = FessJQuery('.fessResultBox').offset();
         FessJQuery(window).scrollTop(off.top);
       }
@@ -76,7 +89,7 @@ export default class {
   _bindPopupClose() {
     var $cls = this;
     FessJQuery('.fessOverlay, .fessPopupClose').click(function(){
-      $cls._hideOverlay();
+      $cls.FessView.hideOverlay();
     });
     FessJQuery('.fessOverlay .fessPopup').click(function(e){
       e.stopPropagation();
@@ -84,17 +97,10 @@ export default class {
   }
 
   _bindSearchOptions() {
-    var $cls = this;
-    if (this.enableOrder) {
-      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'block');
-    }
-    if (this.enableLabels) {
-      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'block');
-    }
-
-    if (FessJQuery('.fessWrapper .fessForm').length == 0 || this.popupMode) {
+    if (FessJQuery('.fessWrapper .fessForm').length == 0 || this.viewState.popupMode) {
+      var $cls = this;
       FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-        $cls._search({});
+        FessJQuery('.fessWrapper .fessForm form').submit();
       });
     }
   }
@@ -114,6 +120,10 @@ export default class {
       } else {
         params.q = '*:*';
       }
+      if (typeof ga == 'function') {
+        var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
+        ga('send', 'pageview', u);
+      }
     }
 
     var sort = FessJQuery(".fessWrapper select.sort").val();
@@ -125,16 +135,18 @@ export default class {
       params['fields.label'] = label;
     }
 
+    this.viewState.searchParams = params;
+
     var $cls = this;
-    this._displaySearchWaiting();
-    if (this.popupMode) {
-      this._showOverlay();
+    this.FessView.displaySearchWaiting();
+    if (this.viewState.popupMode) {
+      this.FessView.showOverlay();
     }
     this.FessModel.search(this.fessUrl, params).then(function(data){
       var searchResponse = data.response;
-      if ($cls.enableLabels && $cls.labelsCache === null) {
+      if ($cls.viewState.enableLabels && $cls.viewState.labels === null) {
         $cls.FessModel.getLabels($cls.fessUrl).then(function(data) {
-          $cls.labelsCache = data.response.result;
+          $cls.viewState.labels = data.response.result;
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
         }, function(data) {
@@ -155,15 +167,6 @@ export default class {
   }
 
   _renderResult(response, params) {
-    if (this.enableLabels && this.labelsCache !== null) {
-      response.labels = this.labelsCache;
-    }
-
-    if (!this.enableRelated) {
-      delete response.related_query;
-      delete response.related_content;
-    }
-
     if (response.related_query !== undefined) {
       for (var i=0;i<response.related_query.length;i++) {
         var relatedQuery = response.related_query[i];
@@ -171,27 +174,26 @@ export default class {
       }
     }
 
-    var $fessResult = FessJQuery('.fessWrapper .fessResultBox');
+    this.viewState.searchResponse = response;
+    this.viewState.searchParams = params;
+
     try {
-      if (this.popupMode) {
-        this._showOverlay();
-        this.FessView.renderPopupResult(this.fessContextPath, response, params);
-      } else {
-        this.FessView.renderResult(this.fessContextPath, response, params);
+      if (this.viewState.popupMode) {
+        this.FessView.showOverlay();
       }
+      this.FessView.render(this.viewState);
     } catch(e) {
       console.log(e);
     }
-    $fessResult.css('display', 'block');
   }
 
   _afterSearch(response, params) {
     this._bindPagination(response);
     this._bindSearchOptions();
-    if (this.popupMode) {
+    if (this.viewState.popupMode) {
       this._bindPopupClose();
     }
-    this._hideSearchWaiting();
+    this.FessView.hideSearchWaiting();
   }
 
   _getParameters() {
@@ -247,39 +249,7 @@ export default class {
     return url;
   }
 
-  _setupOverlay() {
-    var $popupOverlay = FessJQuery('<div/>');
-    $popupOverlay.addClass('fessWrapper');
-    $popupOverlay.addClass('fessOverlay');
-    $popupOverlay.css('display', 'none');
-    FessJQuery('body').append($popupOverlay);
-  }
-
-  _showOverlay() {
-    FessJQuery('.fessOverlay').css('display', 'block');
-    FessJQuery(window).on('touchmove.noScroll', function(e) {
-      e.preventDefault();
-    });
-    this.defaultBodyOverflow = FessJQuery('body').css('overflow');
-    FessJQuery('body').css('overflow', 'hidden');
-  }
-
-  _hideOverlay() {
-    FessJQuery('.fessPopup').css('display', 'none');
-    FessJQuery('.fessOverlay').css('display', 'none');
-    FessJQuery(window).off('.noScroll');
-    FessJQuery('body').css('overflow', this.defaultBodyOverflow);
-  }
-
-  _displaySearchWaiting() {
-    if (FessJQuery('.fessResultBox').length == 0) {
-      return;
-    }
-    var $waiting = FessJQuery('<div/>');
-    $waiting.addClass('fessSearchWaiting');
-    FessJQuery('.fessResultBox').append($waiting);
-  }
-
-  _hideSearchWaiting() {
+  _showVersion() {
+    console.log(require('../package.json').version);
   }
 }

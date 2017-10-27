@@ -40,12 +40,14 @@
             </td>
           </tr>
           {{/if}}
-          {{#if related_content}}
+          {{#if related_contents}}
+          {{#each related_contents}}
           <tr>
             <td>
-              {{{related_content}}}
+              {{{this}}}
             </td>
           </tr>
+          {{/each}}
           {{/if}}
         </tbody>
       </table>
