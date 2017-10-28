@@ -108,9 +108,19 @@ fess.setAttribute('popup-result', 'true');
 fess.setAttribute('enable-related', 'true');
 ```
 
+### サジェストを利用する場合
+```javascript
+fess.setAttribute('enable-suggest', 'true');
+```
+
 ### 検索結果のソートを非表示にする場合
 ```javascript
 fess.setAttribute('enable-order', 'false');
+```
+
+### 検索結果のサムネイルを非表示にする場合
+```javascript
+fess.setAttribute('enable-thumbnail', 'false');
 ```
 ### 検索結果ページへ遷移させたい場合
 検索を実行した際に、指定したURLへページ遷移します。
