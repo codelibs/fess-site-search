@@ -80,8 +80,8 @@ FessJQuery.fn.suggestor = function(setting) {
 			FessJQuery("body").append($boxElement);
 
 			$settingSearchForm.submit(function(){
-				$boxElement.css('display', 'none');
 				started = false;
+				$boxElement.css('display', 'none');
 			});
 		},
 
@@ -121,7 +121,8 @@ FessJQuery.fn.suggestor = function(setting) {
 
 
 		createAutoCompleteList: function(obj) {
-			if(obj.response.status !== 0) {
+			if(started === false || obj.response.status !== 0) {
+				suggestingSts = false;
 				$boxElement.css("display","none");
 				return;
 			}
@@ -329,7 +330,6 @@ FessJQuery.fn.suggestor = function(setting) {
 			 || e.keyCode === 32
 			 || e.keyCode === 46
 			 ) {
-			started = true;
 			isFocusList = false;
 		} else if(e.keyCode === 38) {
 /*			if($boxElement.css("display") !== "none") {
