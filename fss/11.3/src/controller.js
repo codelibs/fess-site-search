@@ -131,11 +131,17 @@ export default class {
       }
       if (typeof ga == 'function') {
         var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
-        if (params.sort !== undefined) {
+        if (!params.start) {
+          u = u + '&start=' + params.start;
+        }
+        if (!params.num) {
+          u = u + '&num=' + params.num;
+        }
+        if (!params.sort) {
           u = u + '&sort=' + params.sort;
         }
-        if (params.start !== undefined) {
-          u = u + '&start=' + params.start;
+        if (!label) {
+          u = u + '&fields.label=' + label;
         }
         ga('send', 'pageview', u);
       }
