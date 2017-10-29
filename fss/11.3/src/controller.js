@@ -131,16 +131,16 @@ export default class {
       }
       if (typeof ga == 'function') {
         var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
-        if (!params.start) {
+        if (params.start) {
           u = u + '&start=' + params.start;
         }
-        if (!params.num) {
+        if (params.num) {
           u = u + '&num=' + params.num;
         }
-        if (!params.sort) {
+        if (params.sort) {
           u = u + '&sort=' + params.sort;
         }
-        if (!label) {
+        if (label) {
           u = u + '&fields.label=' + label;
         }
         ga('send', 'pageview', u);
