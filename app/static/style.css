@@ -8,6 +8,10 @@ div#loaded {
     margin:auto;
 }
 
+div#loaded-text {
+    display: none;
+}
+
 iframe {
     border: 2px red solid;
 }

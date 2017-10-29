@@ -14,7 +14,10 @@ function poll() {
     success: function(data) {
       if (data['result']) {
         $("#loading").hide();
+        $("#loading-text").hide();
+
         $("#loaded").show();
+        $("#loaded-text").show();
         load_iframe();
       } else {
         setTimeout(poll, 200);
