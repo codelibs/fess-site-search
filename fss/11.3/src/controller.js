@@ -106,6 +106,15 @@ export default class {
   }
 
   _search(params) {
+    var sort = FessJQuery(".fessWrapper select.sort").val();
+    if (sort !== undefined && sort !== '') {
+      params.sort = sort;
+    }
+    var label = FessJQuery(".fessWrapper select.field-labels").val();
+    if (label !== undefined && label !== '') {
+      params['fields.label'] = label;
+    }
+
     if (params.q === undefined) {
       var keyword = '';
       if (FessJQuery('.fessWrapper .fessForm').length > 0) {
@@ -122,17 +131,14 @@ export default class {
       }
       if (typeof ga == 'function') {
         var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
+        if (params.sort !== undefined) {
+          u = u + '&sort=' + params.sort;
+        }
+        if (params.start !== undefined) {
+          u = u + '&start=' + params.start;
+        }
         ga('send', 'pageview', u);
       }
-    }
-
-    var sort = FessJQuery(".fessWrapper select.sort").val();
-    if (sort !== undefined && sort !== '') {
-      params.sort = sort;
-    }
-    var label = FessJQuery(".fessWrapper select.field-labels").val();
-    if (label !== undefined && label !== '') {
-      params['fields.label'] = label;
     }
 
     this.viewState.searchParams = params;
