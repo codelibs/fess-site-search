@@ -138,6 +138,22 @@ FSS JS Generatorを利用して、デザインを修正することが出来ま�
     * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/templates)を参照してください。
     * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/css)を参照してください。
 
+## Google Analytics連携
+
+Google Analyticsで検索キーワードを集計するためには、[サイト内検索を設定する](https://support.google.com/analytics/answer/1012264)を参照して、サイト内検索の設定を有効にしてください。
+クエリパラメータはqを指定してください。
+また、検索結果ページ内で入力された検索キーワードを集計するためには、以下のようなコードをFSSのJavaScriptの上部あたりに追加してイベントの集計を有効にする必要があります。
+```javascript
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXXXX-1', 'auto');
+</script>
+```
+
 ## 商用サポート
 
 商用サポートではFessの構築支援やFessサーバを低価格で提供しています。
