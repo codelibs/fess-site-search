@@ -1,8 +1,18 @@
-# fess-site-search ![Travis](https://travis-ci.org/codelibs/fess-site-search.svg?branch=master)
+# Fess Site Search ![Travis](https://travis-ci.org/codelibs/fess-site-search.svg?branch=master)
 
-:point_right: https://fess-site-search.herokuapp.com/
+Fess Site Search(FSS) provides JS file to deploy Search features on your web site. 
+FSS JS is a JavaScript file.
+Putting it to your web site, search results provided by Fess are available.
+[FSS Generator](https://fss-generator.codelibs.org/) provides FSS JS file.
 
-## Run locally
+## FSS Generator
+
+See [FSS Generator](https://fss-generator.codelibs.org/docs/manual).
+
+## Development
+
+### Run locally
+
 ```bash
 # Setting Up
 $ npm install
