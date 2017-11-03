@@ -11,13 +11,16 @@ See [FSS Generator](https://fss-generator.codelibs.org/docs/manual).
 
 ## Development
 
+### Docker
+```bash
+$ docker build -t fss .
+$ docker run -d -p 5000:5000 fss
+```
+
 ### Run locally
 
 ```bash
-# Setting Up
-$ npm install
-$ pip3 install -r requirements.txt
-# Run
+$ ./install.sh
 $ export FLASK_APP=app/__init__.py
 $ flask run
 ```
