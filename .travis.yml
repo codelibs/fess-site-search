@@ -3,8 +3,10 @@ language: python
 python:
   - "3.5"
 
-install:
-  - pip install -r requirements.txt
+services:
+  - docker
 
-script:
-  - pytest app
+before_install:
+  - docker build -t docker/fss .
+  - docker run -d -p 5000:5000 docker/fess
+  - docker ps -a
