@@ -13,7 +13,7 @@ install:
   - docker ps -a
 
 before_script:
-  - pip3 install requests
+  - pip3 install -r travis_requirements.txt
 
 script:
   - docker ps | grep -q fss
