@@ -7,6 +7,10 @@ services:
   - docker
 
 before_install:
-  - docker build -t docker/fss .
-  - docker run -d -p 5000:5000 docker/fess
+  - docker build -t fss .
+  - docker images
+  - docker run -d -p 5000:5000 fss
   - docker ps -a
+
+script:
+  - docker ps | grep -q fss
