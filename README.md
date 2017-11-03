@@ -1,6 +1,6 @@
-# Fess Site Search ![Travis](https://travis-ci.org/codelibs/fess-site-search.svg?branch=master)
+# Fess Site Search [![Build Status](https://travis-ci.org/codelibs/fess-site-search.svg?branch=master)](https://travis-ci.org/codelibs/fess-site-search)
 
-Fess Site Search(FSS) provides JS file to deploy Search features on your web site. 
+Fess Site Search(FSS) provides JS file to deploy Search features on your web site.
 FSS JS is a JavaScript file.
 Putting it to your web site, search results provided by Fess are available.
 [FSS Generator](https://fss-generator.codelibs.org/) provides FSS JS file.
