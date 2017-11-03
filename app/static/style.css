@@ -12,10 +12,6 @@ div#loaded-text {
     display: none;
 }
 
-iframe {
-    border: 2px red solid;
-}
-
 .tab-content {
     padding: 30px;
 }
