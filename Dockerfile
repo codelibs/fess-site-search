@@ -17,6 +17,10 @@ RUN npm install
 RUN for ver in "11.3" "11.4"; do \
       cd /app/fss/${ver}/; \
       npm install; \
+      export OUTPUT_JS_FILENAME=fess-ss.min.js; \
+      node_modules/.bin/webpack; \
+      mkdir -p /app/app/static/fss/${ver}; \
+      cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/${ver}/; \
     done
 
 EXPOSE 5000
