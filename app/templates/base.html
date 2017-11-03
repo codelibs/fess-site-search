@@ -1,0 +1,47 @@
+{% macro nav_link(id, link, name) %}
+  {% if navbar_id == id %}
+    <li class="nav-item active"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
+  {% else %}
+    <li class="nav-item"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
+  {% endif %}
+{% endmacro %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34667351-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-34667351-4');
+    </script>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    {% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">FSS JS Generator</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          {{ nav_link('index', '/', 'Home') }}
+          {{ nav_link('manual', '/docs/manual', 'User Manual') }}
+          {{ nav_link('fess-doc', 'https://fess.codelibs.org/', 'Fess Doc') }}
+          {{ nav_link('github', 'https://github.com/codelibs/fess-site-search/', 'GitHub') }}
+        </ul>
+      </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+  </body>
+</html>

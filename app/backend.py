@@ -5,8 +5,10 @@ from werkzeug.utils import secure_filename
 from .app import app
 from .generate_css import generate_css
 
+DEFAULT_VERSION = '11.4'
+
 def upload(form, file):
-  version = form.get('fess-version')
+  version = form.get('fess-version', DEFAULT_VERSION)
   print(form)
 
   if file.filename == '':
@@ -24,7 +26,7 @@ def upload(form, file):
 
 def wizard(form):
   print('wizard!!')
-  version = form.get('fess-version')
+  version = form.get('fess-version', DEFAULT_VERSION)
   fname = 'wizard_{}_{}'.format(rand_hash(), version.replace('.', '_'))
   if generate_css(form, fname):
     return run_webpack(fname, version)

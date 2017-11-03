@@ -27,7 +27,15 @@ def demo(fname):
   print(my_dic['search_src'])
   return render_template('demo.html', message=my_dic)
 
-# Search Results in Frame
+# Search Result for Preview
+@app.route('/search/')
+def preview():
+  my_dic = {}
+  my_dic['js_path'] = '/static/fss/11.4/fess-ss.min.js'
+  my_dic['page_path'] = '/search/'
+  return render_template('search.html', message=my_dic)
+
+# Search Result Frame in Demo page
 @app.route('/search/<fname>')
 def search(fname):
   my_dic = {}
