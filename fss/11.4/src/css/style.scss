@@ -252,6 +252,10 @@
 		background-repeat: no-repeat;
 	}
 
+	.thumbnailBox {
+		width: 120px;
+	}
+
 	/* Large desktop */
 	@media ( min-width : 74.9em) {
 		.visible-xs {
