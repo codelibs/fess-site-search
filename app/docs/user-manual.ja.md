@@ -8,7 +8,7 @@ FSSが提供するタグとJavaScriptファイルを利用して、運用して�
 
 ## ダウンロード
 
-[FSS JS Generator](/)の[Generate!]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
+[FSS JS Generator](/)の[Generate]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
 Download JSボタンをクリックしてダウンロードしてください。
 
 ## 導入手順
@@ -134,7 +134,7 @@ fess.setAttribute('fess-search-page-path', 'result.html');
 FSS JS Generatorを利用して、デザインを修正することが出来ます。
 
 * Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズ出来ます。
-* Upload CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用出来ます。
+* Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用出来ます。
     * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/templates)を参照してください。
     * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/css)を参照してください。
 
