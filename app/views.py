@@ -1,10 +1,16 @@
 import os
+from flask import g
 from flask import request, redirect, url_for, render_template
 from flask import jsonify, abort, make_response
 from markdown import markdown
 
-from .app import app
+from .app import app, babel
 from .backend import upload, wizard
+
+@app.before_request
+@babel.localeselector
+def detect_user_language():
+  g.language = request.accept_languages.best_match(['en', 'ja'])
 
 # Top Page
 @app.route('/', methods=['GET', 'POST'])
@@ -46,7 +52,7 @@ def search(fname):
 # Search Results in Frame
 @app.route('/docs/manual')
 def manual():
-  path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.ja.md')
+  path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.' + g.language + '.md')
   md_file = open(path, mode='r', encoding='utf-8')
   md_str = md_file.read()
   md_file.close()
