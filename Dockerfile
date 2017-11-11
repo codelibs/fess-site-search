@@ -20,9 +20,13 @@ RUN for ver in "11.3" "11.4"; do \
       export OUTPUT_JS_FILENAME=fess-ss.min.js; \
       node_modules/.bin/webpack; \
       mkdir -p /app/app/static/fss/${ver}; \
+      cp /app/instance/generates/fess-ss.min.js /app/instance/generates/fess-ss-${ver}.min.js; \
       cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/${ver}/; \
     done
 
 EXPOSE 5000
 
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-w", "4", "--threads", "12", "--log-file", "-"]
+ENV APP_WEBPACK_LIMIT 4
+
+# '--preload' is necessary to share a semaphore variable among multiple workers
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-w", "4", "--threads", "12", "--preload", "--log-file", "-"]
