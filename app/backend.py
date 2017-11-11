@@ -32,10 +32,13 @@ def upload(form, file):
 
 def wizard(form):
     version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
-    fname = 'wizard_{}_{}'.format(rand_hash(), version)
+    hash_str = form2hash(form)
+    fname = 'wizard_{}_{}'.format(hash_str, version)
 
     if is_empty_form(form):
         return redirect(url_for('demo', fname=version))
+    elif js_exists(fname):
+        return redirect(url_for('demo', fname=fname))
     elif generate_css(form, fname):
         return run_webpack(fname, version)
     else:
@@ -56,6 +59,10 @@ def rand_hash():
     return hashstr[:10]
 
 
+def form2hash(form):
+    return hashlib.sha256(str(form).encode()).hexdigest()[:10]
+
+
 def is_css(filename):
     if '.' in filename:
         ext = filename.rsplit('.', 1)[1].lower()
@@ -71,3 +78,9 @@ def is_empty_form(form):
         if v:
             return False
     return True
+
+
+def js_exists(fname):
+    jsfile = 'fess-ss-{}.min.js'.format(fname)
+    path = os.path.join(app.config['DOWNLOAD_FOLDER'], jsfile)
+    return os.path.exists(path)

@@ -4,7 +4,7 @@ from flask import request, redirect, url_for, render_template
 from flask import jsonify, abort, make_response
 from markdown import markdown
 from .app import app, babel
-from .backend import upload, wizard
+from .backend import upload, wizard, js_exists
 
 
 @app.before_request
@@ -72,8 +72,5 @@ def manual():
 @app.route('/api/check_js/<fname>', methods=['GET'])
 def check_js(fname):
     """API: check if 'fess-ss-<fname>.min.js' exists"""
-    jsfile = 'fess-ss-{}.min.js'.format(fname)
-    path = os.path.join(app.config['DOWNLOAD_FOLDER'], jsfile)
-    if os.path.exists(path):
-        return make_response(jsonify({'result': True}))
-    return make_response(jsonify({'result': False}))
+    result = js_exists(fname)
+    return make_response(jsonify({'result': result}))
