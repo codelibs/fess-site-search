@@ -1,5 +1,3 @@
-# 利用方法
-
 ## Fess Site Searchについて
 
 Fess Site Search(FSS)は[検索サーバFess](http://fess.codelibs.org/ja/)を既存のWebサイトに導入できる機能です。
