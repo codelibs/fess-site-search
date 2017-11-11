@@ -1,3 +1,15 @@
+function prevent_double_submission() {
+  var self = this;
+  $(":submit", self).prop("disabled", true);
+  setTimeout(function() {
+    $(":submit", self).prop("disabled", false);
+  }, 10000);
+});
+
+$('#wizard-form').submit(prevent_double_submission);
+$('#upload-form').submit(prevent_double_submission);
+
+// preview
 function apply_style() {
 
   const elems = [['bg-color', '.fessWrapper', 'background-color'],
