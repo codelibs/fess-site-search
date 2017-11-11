@@ -25,4 +25,7 @@ RUN for ver in "11.3" "11.4"; do \
 
 EXPOSE 5000
 
-CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-w", "4", "--threads", "12", "--log-file", "-"]
+ENV APP_WEBPACK_LIMIT 4
+
+# '--preload' is necessary to share a semaphore variable among multiple workers
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000", "-w", "4", "--threads", "12", "--preload", "--log-file", "-"]

@@ -1,4 +1,5 @@
 import os
+import base64
 from flask import Flask, Blueprint
 from flask.ext.babel import Babel
 

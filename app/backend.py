@@ -1,13 +1,12 @@
-import subprocess
 import os
 import hashlib
 import random
-import traceback
-from flask import redirect, url_for
+from flask import redirect, url_for, flash
 from flask import render_template
 from werkzeug.utils import secure_filename
 from .app import app
 from .generate_css import generate_css
+from .webpack_manager import WebpackManager
 
 DEFAULT_VERSION = '11.4'
 
@@ -41,34 +40,17 @@ def wizard(form):
 
 
 def run_webpack(fname, version):
-    my_env = os.environ.copy()
-    jsfile = 'fess-ss-{}.min.js'.format(fname)
-
-    my_env['INPUT_CSS_PATH'] = '{}/{}.css'.format(app.config['UPLOAD_FOLDER'], fname)
-    my_env['OUTPUT_JS_FILENAME'] = jsfile
-
-    print('generate_js: {} -> {}'.format(my_env['INPUT_CSS_PATH'], my_env['OUTPUT_JS_FILENAME']))
-
-    try:
-        (cwd, cmd) = get_command(version)
-        print('Command: {}'.format(cmd))
-        proc = subprocess.Popen(cmd, env=my_env, cwd=cwd)
-        print('Redirect > /demo/{}'.format(fname))
+    wp_manager = WebpackManager()
+    if wp_manager.run(app.config['UPLOAD_FOLDER'], app.instance_path, fname, version):
         return redirect(url_for('demo', fname=fname))
-    except:
-        print('Fail to generate {}'.format(jsfile))
-        traceback.print_exc()
+    else:
+        flash('Please try again')
         return redirect(url_for('index'))
-
-###########
-# Utilities
-###########
 
 
 def rand_hash():
-    hash = hashlib.sha256(
-        str(random.getrandbits(256)).encode('utf-8')).hexdigest()
-    return hash[:10]
+    hashstr = hashlib.sha256(str(random.getrandbits(256)).encode('utf-8')).hexdigest()
+    return hashstr[:10]
 
 
 def is_css(filename):
@@ -76,9 +58,3 @@ def is_css(filename):
         ext = filename.rsplit('.', 1)[1].lower()
         return ext == 'css'
     return False
-
-
-def get_command(version):
-    cwd = os.path.join(app.instance_path, '../fss/{}'.format(version))
-    cmd = '{0}/node_modules/.bin/webpack --config {0}/webpack.config.js'.format(cwd)
-    return (cwd, cmd.split())
