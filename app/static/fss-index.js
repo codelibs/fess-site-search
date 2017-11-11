@@ -4,7 +4,7 @@ function prevent_double_submission() {
   setTimeout(function() {
     $(":submit", self).prop("disabled", false);
   }, 10000);
-});
+};
 
 $('#wizard-form').submit(prevent_double_submission);
 $('#upload-form').submit(prevent_double_submission);
