@@ -67,3 +67,6 @@ class WebpackManager():  # Singleton
             cls._instance = _WPManager()
 
         return cls._instance
+
+    def run(self, folder, instance_path, fname, version):
+        return self._instance.run(folder, instance_path, fname, version)
