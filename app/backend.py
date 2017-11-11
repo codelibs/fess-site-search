@@ -8,12 +8,13 @@ from .app import app
 from .generate_css import generate_css
 from .webpack_manager import WebpackManager
 
+
+FESS_VERSION_KEY = 'fess-version'
 DEFAULT_VERSION = '11.4'
 
 
 def upload(form, file):
-    version = form.get('fess-version', DEFAULT_VERSION)
-    print(form)
+    version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
 
     if file.filename == '':
         return render_template('index.html')
@@ -21,7 +22,7 @@ def upload(form, file):
     if file and is_css(file.filename):
         base = secure_filename(file.filename)[:-4]
         hash_str = rand_hash()
-        fname = '{}_{}_{}'.format(base, hash_str, version.replace('.', '_'))
+        fname = '{}_{}_{}'.format(base, hash_str, version)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + '.css'))
         print('Upload: {}.css'.format(fname))
         return run_webpack(fname, version)
@@ -30,10 +31,12 @@ def upload(form, file):
 
 
 def wizard(form):
-    print('wizard!!')
-    version = form.get('fess-version', DEFAULT_VERSION)
-    fname = 'wizard_{}_{}'.format(rand_hash(), version.replace('.', '_'))
-    if generate_css(form, fname):
+    version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
+    fname = 'wizard_{}_{}'.format(rand_hash(), version)
+
+    if is_empty_form(form):
+        return redirect(url_for('demo', fname=version))
+    elif generate_css(form, fname):
         return run_webpack(fname, version)
     else:
         return render_template('index.html')
@@ -58,3 +61,13 @@ def is_css(filename):
         ext = filename.rsplit('.', 1)[1].lower()
         return ext == 'css'
     return False
+
+
+def is_empty_form(form):
+    for (k, v) in form.items():
+        if k == FESS_VERSION_KEY:
+            continue
+
+        if v:
+            return False
+    return True

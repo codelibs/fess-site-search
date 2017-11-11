@@ -14,4 +14,6 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 gen_bp = Blueprint('generates', __name__, static_url_path='/generates', static_folder=os.path.join(app.instance_path, 'generates'))
 app.register_blueprint(gen_bp)
 
+app.secret_key = os.getenv('APP_SECRET_KEY') or base64.b64encode(os.urandom(24))
+
 babel = Babel(app)

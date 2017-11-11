@@ -20,6 +20,7 @@ RUN for ver in "11.3" "11.4"; do \
       export OUTPUT_JS_FILENAME=fess-ss.min.js; \
       node_modules/.bin/webpack; \
       mkdir -p /app/app/static/fss/${ver}; \
+      cp /app/instance/generates/fess-ss.min.js /app/instance/generates/fess-ss-${ver}.min.js; \
       cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/${ver}/; \
     done
 
