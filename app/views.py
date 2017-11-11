@@ -52,7 +52,8 @@ def search(fname):
 # Search Results in Frame
 @app.route('/docs/manual')
 def manual():
-  path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.' + g.language + '.md')
+  lang = g.language if g.language is not None else 'en'
+  path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.{}.md'.format(lang))
   md_file = open(path, mode='r', encoding='utf-8')
   md_str = md_file.read()
   md_file.close()
