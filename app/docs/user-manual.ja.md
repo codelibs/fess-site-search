@@ -1,7 +1,7 @@
 ## Fess Site Searchについて
 
 Fess Site Search(FSS)は[検索サーバFess](http://fess.codelibs.org/ja/)を既存のWebサイトに導入できる機能です。
-FSSが提供するタグとJavaScriptファイルを利用して、運用しているWebサイトに検索ボックスおよび検索結果表を表示することができます。
+FSSが提供するタグとJavaScriptファイルを利用して、運用しているWebサイトに検索ボックスおよび検索結果を表示することができます。
 簡単に導入することができるので、Google Site SearchやGoogleカスタム検索などからもスムーズに移行することができます。
 
 ## ダウンロード
