@@ -12,8 +12,11 @@ $('#upload-form').submit(prevent_double_submission);
 // preview
 function apply_style() {
 
-  const elems = [['bg-color', '.fessWrapper', 'background-color'],
-                 ['button-color', '.fessWrapper #searchButton', 'background-color']];
+  const elems = [
+    ['font-family', '.fessWrapper', 'font-family'],
+    ['bg-color', '.fessWrapper', 'background-color'],
+    ['button-color', '.fessWrapper #searchButton', 'background-color']
+  ];
 
   elems.forEach(function(e) {
     const label = '#wizard-form [name=' + e[0] +']';

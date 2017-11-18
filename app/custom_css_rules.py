@@ -32,6 +32,14 @@ def add_rule(css, form, rule):
     return css
 
 
+class FontRule(AbstractCSSRule):
+    def form_name(self):
+        return 'font-family'
+
+    def gen_rule(self, font):
+        return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
+
+
 class BackgroundColorRule(AbstractCSSRule):
     def form_name(self):
         return 'bg-color'
@@ -49,5 +57,5 @@ class ButtonColorRule(AbstractCSSRule):
 
 
 def get_CSS_rules():
-    css_rules = [BackgroundColorRule(), ButtonColorRule()]
+    css_rules = [BackgroundColorRule(), ButtonColorRule(), FontRule()]
     return css_rules
