@@ -32,6 +32,14 @@ def add_rule(css, form, rule):
     return css
 
 
+"""
+How to add Custom CSS Rule:
+
+1. Define a class extending 'AbstractCSSRule'
+2. Add the class to a list 'css_rules' in 'get_CSS_rules'
+"""
+
+
 class FontRule(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
@@ -56,6 +64,16 @@ class ButtonColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
 
 
+class BorderColorRule(AbstractCSSRule):
+    def form_name(self):
+        return 'border-color'
+
+    def gen_rule(self, font):
+        return '''.fessWrapper {{ border: solid {}; }}'''.format(font)
+
+
 def get_CSS_rules():
-    css_rules = [BackgroundColorRule(), ButtonColorRule(), FontRule()]
+    css_rules = [
+        BackgroundColorRule(), ButtonColorRule(), FontRule(), BorderColorRule()
+    ]
     return css_rules
