@@ -1,0 +1,13 @@
+{% extends "form-category-base.html" %}
+{% block title %}Search Button{% endblock %}
+{% set id = 'form-category-searchbutton' %}
+
+{% block body %}
+  <div class="form-group row">
+    <label for="button-color" class="col-2 col-form-label-lg">Background</label>
+    <div class="col-10">
+      <input type="text" class="form-control" name="button-color" id="button-color" aria-describedby="button-colorhelp" placeholder="#FFFFFF" maxlength="7">
+      <small id="button-colorhelp" class="form-text text-muted">Background Color of Search Button</small>
+    </div>
+  </div>
+{% endblock %}

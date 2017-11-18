@@ -16,7 +16,8 @@ function apply_style() {
     ['font-family', '.fessWrapper', 'font-family', []],
     ['border-color', '.fessWrapper', 'border-color', ['border-style', 'solid']],
     ['bg-color', '.fessWrapper', 'background-color', []],
-    ['button-color', '.fessWrapper #searchButton', 'background-color', []]
+    ['button-color', '.fessWrapper #searchButton', 'background-color', []],
+    ['searchbox-border-color', '.fessWrapper .fessFormOnly', 'border-color', ['border-style', 'solid']]
   ];
 
   elems.forEach(function(e) {

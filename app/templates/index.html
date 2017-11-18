@@ -39,51 +39,13 @@
         <form id="wizard-form" method="post">
           <div class="form-horizontal">
 
-            <div class="form-group row">
-              <label for="font-family" class="col-2 col-form-label-lg">Font</label>
-              <div class="col-10">
-                <select class="form-control" id="font-family" name="font-family">
-                  <option value="">Default</option>
-                  <option>Arial, sans-serif</option>
-                  <option>Verdana, sans-serif</option>
-                  <option>"Trebuchet MS", sans-serif</option>
-                  <option>Times, serif</option>
-                  <option>Georgia, serif</option>
-                </select>
-              </div>
+            <div id="wizard-accordion-form" role="tablist">
+              {% include 'form-category-general.html' %}
+              {% include 'form-category-searchbox.html' %}
+              {% include 'form-category-searchbutton.html' %}
             </div>
 
-            <div class="form-group row">
-              <label for="border-color" class="col-2 col-form-label-lg">Border</label>
-              <div class="col-10">
-                <input type="text" class="form-control" name="border-color" id="border-color" aria-describedby="border-colorhelp" placeholder="#FFFFFF" maxlength="7">
-                <small id="border-colorhelp" class="form-text text-muted">Border Color: If empty, border lines will not be displayed.</small>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="bg-color" class="col-2 col-form-label-lg">Background</label>
-              <div class="col-10">
-                <input type="text" class="form-control" name="bg-color" id="bg-color" aria-describedby="bg-colorhelp" placeholder="#FFFFFF" maxlength="7">
-                <small id="bg-colorhelp" class="form-text text-muted">Background Color</small>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="button-color" class="col-2 col-form-label-lg">Button</label>
-              <div class="col-10">
-                <input type="text" class="form-control" name="button-color" id="button-color" aria-describedby="button-colorhelp" placeholder="#FFFFFF" maxlength="7">
-                <small id="button-colorhelp" class="form-text text-muted">Button Color</small>
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
-              <select name="fess-version"  class="custom-select form-control-lg">
-                <option value="11.4">Fess 11.4</option>
-                <option value="11.3">Fess 11.3</option>
-              </select>
-            </div>
+            <br>
 
             <div class="modal fade" id="preview-modal">
               <div class="modal-dialog modal-lg" role="document">
