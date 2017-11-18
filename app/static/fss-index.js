@@ -16,8 +16,9 @@ function apply_style() {
     ['font-family', '.fessWrapper', 'font-family', []],
     ['border-color', '.fessWrapper', 'border-color', ['border-style', 'solid']],
     ['bg-color', '.fessWrapper', 'background-color', []],
-    ['button-color', '.fessWrapper #searchButton', 'background-color', []],
-    ['searchbox-border-color', '.fessWrapper .fessFormOnly', 'border-color', ['border-style', 'solid']]
+    ['searchbox-border-color', '.fessWrapper .fessFormOnly', 'border-color', ['border-style', 'solid']],
+    ['button-border-color', '.fessWrapper #searchButton', 'border-color', ['border-style', 'solid']],
+    ['button-bg-color', '.fessWrapper #searchButton', 'background-color', []]
   ];
 
   elems.forEach(function(e) {

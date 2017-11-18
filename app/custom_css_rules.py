@@ -79,9 +79,17 @@ class FormBorderColorRule(AbstractCSSRule):
 # Search Button
 
 
-class ButtonColorRule(AbstractCSSRule):
+class ButtonBorderColorRule(AbstractCSSRule):
     def form_name(self):
-        return 'button-color'
+        return 'button-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #searchButton {{border: solid {};}}'''.format(color)
+
+
+class ButtonBackgroundColorRule(AbstractCSSRule):
+    def form_name(self):
+        return 'button-bg-color'
 
     def gen_rule(self, color):
         return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
@@ -91,6 +99,6 @@ def get_CSS_rules():
     css_rules = [
         FontRule(), BackgroundColorRule(), BorderColorRule(),
         FormBorderColorRule(),
-        ButtonColorRule()
+        ButtonBorderColorRule(), ButtonBackgroundColorRule()
     ]
     return css_rules
