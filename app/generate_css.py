@@ -1,6 +1,7 @@
 import os
 import cssutils
 from .app import app
+from .custom_css_rules import get_CSS_rules, add_rule
 
 
 def generate_css(form, fname):
@@ -14,23 +15,9 @@ def generate_css(form, fname):
 
 def form2css(form):
     css = cssutils.css.CSSStyleSheet()
+    css_rules = get_CSS_rules()
 
-    # Add rules from the form
-    if form.get('bg-color'):
-        color = form.get('bg-color')
-        rule = '''.fessWrapper {{background-color: {};}}'''.format(color)
-        add_rule(css, rule)
-
-    if form.get('button-color'):
-        color = form.get('button-color')
-        rule = '''.fessWrapper #searchButton {{background-color: {};}}'''.format(color)
-        add_rule(css, rule)
+    for rule in css_rules:
+        css = add_rule(css, form, rule)
 
     return css
-
-
-def add_rule(css, rule):
-    try:
-        css.add(rule)
-    except:
-        print('Invalid:\n', rule)
