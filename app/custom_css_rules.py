@@ -74,7 +74,7 @@ class FormBorderColorRule(AbstractCSSRule):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper .fessFormOnly {{ border: solid {}; }}'''.format(font)
+        return '''.fessWrapper .fessForm, .fessFormOnly {{ border: solid {}; }}'''.format(font)
 
 # Search Button
 
