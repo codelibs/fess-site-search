@@ -1,0 +1,44 @@
+{% extends "form-category-base.html" %}
+{% block title %}General{% endblock %}
+{% set id = 'form-category-general' %}
+{% set display_default = 'show' %}
+
+{% block body %}
+  <div class="form-group row">
+    <label for="font-family" class="col-2 col-form-label-lg">Font</label>
+    <div class="col-10">
+      <select class="form-control" id="font-family" name="font-family">
+        <option value="">Default</option>
+        <option>Arial, sans-serif</option>
+        <option>Verdana, sans-serif</option>
+        <option>"Trebuchet MS", sans-serif</option>
+        <option>Times, serif</option>
+        <option>Georgia, serif</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="border-color" class="col-2 col-form-label-lg">Border</label>
+    <div class="col-10">
+      <input type="text" class="form-control" name="border-color" id="border-color" aria-describedby="border-colorhelp" placeholder="#FFFFFF" maxlength="7">
+      <small id="border-colorhelp" class="form-text text-muted">Border Color: If empty, border lines will not be displayed.</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="bg-color" class="col-2 col-form-label-lg">Background</label>
+    <div class="col-10">
+      <input type="text" class="form-control" name="bg-color" id="bg-color" aria-describedby="bg-colorhelp" placeholder="#FFFFFF" maxlength="7">
+      <small id="bg-colorhelp" class="form-text text-muted">Background Color</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
+    <select name="fess-version"  class="custom-select form-control-lg">
+      <option value="11.4">Fess 11.4</option>
+      <option value="11.3">Fess 11.3</option>
+    </select>
+  </div>
+{% endblock %}

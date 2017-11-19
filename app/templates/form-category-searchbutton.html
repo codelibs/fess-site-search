@@ -1,0 +1,21 @@
+{% extends "form-category-base.html" %}
+{% block title %}Search Button{% endblock %}
+{% set id = 'form-category-searchbutton' %}
+
+{% block body %}
+  <div class="form-group row">
+    <label for="button-border-color" class="col-2 col-form-label-lg">Border</label>
+    <div class="col-10">
+      <input type="text" class="form-control" name="button-border-color" id="button-border-color" aria-describedby="button-border-colorhelp" placeholder="#FFFFFF" maxlength="7">
+      <small id="button-border-colorhelp" class="form-text text-muted">Border Color of Search Button</small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="button-bg-color" class="col-2 col-form-label-lg">Background</label>
+    <div class="col-10">
+      <input type="text" class="form-control" name="button-bg-color" id="button-bg-color" aria-describedby="button-bg-colorhelp" placeholder="#FFFFFF" maxlength="7">
+      <small id="button-bg-colorhelp" class="form-text text-muted">Background Color of Search Button</small>
+    </div>
+  </div>
+{% endblock %}
