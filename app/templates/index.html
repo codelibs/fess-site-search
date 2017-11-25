@@ -3,95 +3,95 @@
 {% set navbar_id = 'index' %}
 
 {% block head %}
-  {{ super() }}
-  <script src="/static/fss-index.js"></script>
+    {{ super() }}
+    <script src="/static/fss-index.js"></script>
 {% endblock %}
 
 {% block content %}
-  <div class="container theme-showcase" role="main">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="alert alert-danger" role="alert">
-          {% for message in messages %}
-            <h3>{{ message }}</h3>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-3">FSS JS Generator</h1>
-        <h2 class="display-5">Generate JavaScript file for Fess Site Search</h2>
-      </div>
-    </div>
-
-    <ul class="nav nav-pills nav-fill">
-      <li class="nav-item">
-        <a href="#tab-wizard" class="nav-link active" data-toggle="tab">Wizard</a>
-      </li>
-      <li class="nav-item">
-        <a href="#tab-upload" class="nav-link" data-toggle="tab">Custom CSS</a>
-      </li>
-    </ul>
-
-    <div class="tab-content">
-      <div id="tab-wizard" class="tab-pane active">
-        <form id="wizard-form" method="post">
-          <div class="form-horizontal">
-
-            <div id="wizard-accordion-form" role="tablist">
-              {% include 'form-category-general.html' %}
-              {% include 'form-category-searchbox.html' %}
-              {% include 'form-category-searchbutton.html' %}
-            </div>
-
-            <br>
-
-            <div class="modal fade" id="preview-modal">
-              <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Preview</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
-                  </div>
+    <div class="container theme-showcase" role="main">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                    {% for message in messages %}
+                        <h3>{{ message }}</h3>
+                    {% endfor %}
                 </div>
-              </div>
+            {% endif %}
+        {% endwith %}
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-3">FSS JS Generator</h1>
+                <h2 class="display-5">Generate JavaScript file for Fess Site Search</h2>
             </div>
-
-            <div class="form-group ">
-              <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_style();">Preview</button>
-              <input type="submit" class="btn btn-primary btn-lg" value="Generate">
-            </div>
-        </form>
         </div>
-      </div>
 
-      <div id="tab-upload" class="tab-pane">
-        <form id="upload-form" method="post" enctype="multipart/form-data">
-          <div class="form-horizontal">
-            <div class="form-group row">
-              <label for="file" class="col-2 col-form-label-lg">CSS</label>
-              <input type="file" name="file" class="form-control-file form-control-lg">
-            </div>
-            <div class="form-group row">
-              <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
-              <select name="fess-version"  class="custom-select form-control-lg">
-                <option value="11.4">Fess 11.4</option>
-                <option value="11.3">Fess 11.3</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary btn-lg" value="Generate">
-            </div>
-          </div>
-        </form>
-      </div>
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a href="#tab-wizard" class="nav-link active" data-toggle="tab">Wizard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab-upload" class="nav-link" data-toggle="tab">Custom CSS</a>
+            </li>
+        </ul>
 
+        <div class="tab-content">
+            <div id="tab-wizard" class="tab-pane active">
+                <form id="wizard-form" method="post">
+                    <div class="form-horizontal">
+
+                        <div id="wizard-accordion-form" role="tablist">
+                            {% include 'design-form/general.html' %}
+                            {% include 'design-form/searchbox.html' %}
+                            {% include 'design-form/searchbutton.html' %}
+                        </div>
+
+                        <br>
+
+                        <div class="modal fade" id="preview-modal">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Preview</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_style();">Preview</button>
+                            <input type="submit" class="btn btn-primary btn-lg" value="Generate">
+                        </div>
+                </form>
+                </div>
+            </div>
+
+            <div id="tab-upload" class="tab-pane">
+                <form id="upload-form" method="post" enctype="multipart/form-data">
+                    <div class="form-horizontal">
+                        <div class="form-group row">
+                            <label for="file" class="col-2 col-form-label-lg">CSS</label>
+                            <input type="file" name="file" class="form-control-file form-control-lg">
+                        </div>
+                        <div class="form-group row">
+                            <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
+                            <select name="fess-version"  class="custom-select form-control-lg">
+                                <option value="11.4">Fess 11.4</option>
+                                <option value="11.3">Fess 11.3</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-lg" value="Generate">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
-  </div>
 {% endblock %}
