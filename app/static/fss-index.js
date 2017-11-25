@@ -60,7 +60,9 @@ function apply_design() {
         new FssDesign('result-title-color',         '#result .title a:link',    'color'),
         new FssDesign('result-visited-title-color', '#result .title a:visited', 'color'),
         new FssDesign('result-hovered-title-color', '#result .title a:hover',   'color'),
-        new FssDesign('result-active-title-color',  '#result .title a:active',  'color')
+        new FssDesign('result-active-title-color',  '#result .title a:active',  'color'),
+        // Result: URL
+        new FssDesign('result-url-color', '#result .body cite', 'color')
     ];
 
     let css_str = '';

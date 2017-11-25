@@ -1,0 +1,13 @@
+{% extends "design-form/base.html" %}
+{% block title %}Result: URL{% endblock %}
+{% set id = 'design-form-result-url' %}
+
+{% block body %}
+    <div class="form-group row">
+        <label for="result-url-color" class="col-2 col-form-label-lg">Color</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-url-color" id="result-url-color" aria-describedby="result-url-color-help" placeholder="#009933" maxlength="7">
+            <small id="result-url-color-help" class="form-text text-muted">Color of URL in Result Component</small>
+        </div>
+    </div>
+{% endblock %}

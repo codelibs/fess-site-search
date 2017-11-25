@@ -158,12 +158,22 @@ class ResultActiveTitleColor(AbstractCSSRule):
         return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
 
 
+# Result: URL
+class ResultUrlColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-url-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
+
+
 def get_CSS_rules():
     css_rules = [
         Font(), BackgroundColor(), BorderColor(),
         FormBorderColor(),
         ButtonBorderColor(), ButtonBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
-        ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor()
+        ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
+        ResultUrlColor()
     ]
     return css_rules
