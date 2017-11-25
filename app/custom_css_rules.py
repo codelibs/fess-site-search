@@ -125,11 +125,45 @@ class ResultBackgroundColorHover(AbstractCSSRule):
         return '''.fessWrapper  #result li:hover {{background-color: {};}}'''.format(color)
 
 
+# Result: Title
+class ResultTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:link {{color: {};}}'''.format(color)
+
+
+class ResultVisitedTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-visited-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:visited {{color: {};}}'''.format(color)
+
+
+class ResultHoveredTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-hovered-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:hover {{color: {};}}'''.format(color)
+
+
+class ResultActiveTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-active-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
+
+
 def get_CSS_rules():
     css_rules = [
         Font(), BackgroundColor(), BorderColor(),
         FormBorderColor(),
         ButtonBorderColor(), ButtonBackgroundColor(),
-        ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover()
+        ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
+        ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor()
     ]
     return css_rules

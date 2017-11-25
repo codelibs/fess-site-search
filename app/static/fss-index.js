@@ -12,71 +12,66 @@ function prevent_double_submission() {
 $('#wizard-form').submit(prevent_double_submission);
 $('#upload-form').submit(prevent_double_submission);
 
+
 /*
   Preview Modal
 */
-function get_form_value(id) {
-    return $(`#wizard-form [name=${id}]`).val();
-}
+class FssDesign {
+    constructor(form_id, target, prop, pseudo_class=null, parent_form=null) {
+        this.form_id = form_id;
+        this.target = `.fessWrapper ${target}`;
+        this.prop = prop;
+    }
 
-function set_hover_action(target, prop, hover, leave) {
-    console.log(target, prop, hover, leave);
-    $('#preview-iframe').contents().find(target).hover(
-        function(){ // mouse enter
-            $(this).css(prop, hover);
-        },
-        function(){ // mouse leave
-            $(this).css(prop, leave);
+    formatter(value) {
+        if (this.prop == 'border') {
+            return `solid ${value}`;
         }
-    );
-    console.log($('#preview-iframe').contents().find(target).hover);
-}
-
-function apply_hover_style() {
-    const target = '.fessWrapper #result li';
-
-    const border = get_form_value('result-border-color');
-    const hovered_border = get_form_value('result-border-color-hover');
-
-    if (hovered_border) {
-        const hover = `solid 1px ${hovered_border}`;
-        const normal = border ? `solid 1px ${border}` : 'none';
-        set_hover_action(target, 'border', hover, normal);
+        return value;
     }
 
-    const bg = get_form_value('result-bg-color');
-    const hovered_bg = get_form_value('result-bg-color-hover');
-
-    if (hovered_bg) {
-        set_hover_action(target, 'background-color', hovered_bg, bg ? bg : '#FFF');
+    to_css() {
+        const value = $(`#wizard-form [name=${this.form_id}]`).val();
+        if (!value) {
+            return '';
+        }
+        return `${this.target} {${this.prop}: ${this.formatter(value)}}`;
     }
 }
 
-function apply_style() {
+function apply_design() {
 
-    const elems = [
-        ['font-family', '.fessWrapper', 'font-family', []],
-        ['border-color', '.fessWrapper', 'border-color', ['border-style', 'solid']],
-        ['bg-color', '.fessWrapper', 'background-color', []],
-        ['searchbox-border-color', '.fessWrapper .fessForm', 'border-color', ['border-style', 'solid']],
-        ['button-border-color', '.fessWrapper #searchButton', 'border-color', ['border-style', 'solid']],
-        ['button-bg-color', '.fessWrapper #searchButton', 'background-color', []],
-        ['result-border-color', '.fessWrapper #result li', 'border-color', ['border-style', 'solid']],
-        ['result-bg-color', '.fessWrapper #result li', 'background-color', []]
+    const designs = [
+        // General
+        new FssDesign('font-family',  '', 'font-family'),
+        new FssDesign('border-color', '', 'border'),
+        new FssDesign('bg-color',     '', 'background-color'),
+        // Search Box
+        new FssDesign('searchbox-border-color', '.fessForm', 'border'),
+        // Search Button
+        new FssDesign('button-border-color', '#searchButton', 'border'),
+        new FssDesign('button-bg-color',     '#searchButton', 'background-color'),
+        // Result: General
+        new FssDesign('result-border-color',       '#result li',       'border'),
+        new FssDesign('result-bg-color',           '#result li',       'background-color'),
+        new FssDesign('result-border-color-hover', '#result li:hover', 'border'),
+        new FssDesign('result-bg-color-hover',     '#result li:hover', 'background-color'),
+        // Result: Title
+        new FssDesign('result-title-color',         '#result .title a:link',    'color'),
+        new FssDesign('result-visited-title-color', '#result .title a:visited', 'color'),
+        new FssDesign('result-hovered-title-color', '#result .title a:hover',   'color'),
+        new FssDesign('result-active-title-color',  '#result .title a:active',  'color')
     ];
 
-    elems.forEach(function(e) {
-        const val = get_form_value(e[0]);
-        if (val) {
-            $('#preview-iframe').contents().find(e[1]).css(e[2], val);
-
-            if (e[3]) {
-                const opt = e[3];
-                $('#preview-iframe').contents().find(e[1]).css(opt[0], opt[1]);
-            }
-
-        }
+    let css_str = '';
+    designs.forEach(function(d) {
+        css_str += d.to_css();
     });
 
-    apply_hover_style();
+    $('#preview-iframe').contents().find('head').append(`<style>${css_str}</style>`);
+
+    // Reset custom design when closing modal
+    $('#preview-modal').on('hide.bs.modal', function () {
+        document.getElementById('preview-iframe').contentWindow.location.reload(true);
+    });
 }

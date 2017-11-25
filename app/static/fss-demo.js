@@ -31,6 +31,6 @@ function poll() {
     },
     dataType: "json",
     timeout: 2000
-  })
+  });
 }
 setTimeout(poll, 200);
