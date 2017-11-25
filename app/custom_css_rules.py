@@ -167,6 +167,15 @@ class ResultUrlColor(AbstractCSSRule):
         return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
 
 
+# Result: URL
+class ResultSnippetColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-snippet-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
+
+
 def get_CSS_rules():
     css_rules = [
         Font(), BackgroundColor(), BorderColor(),
@@ -174,6 +183,7 @@ def get_CSS_rules():
         ButtonBorderColor(), ButtonBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
-        ResultUrlColor()
+        ResultUrlColor(),
+        ResultSnippetColor()
     ]
     return css_rules
