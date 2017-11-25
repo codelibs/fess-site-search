@@ -1,0 +1,37 @@
+{% extends "design-form/base.html" %}
+{% block title %}Result: Component{% endblock %}
+{% set id = 'design-form-result' %}
+
+{% block body %}
+    <div class="form-group row">
+        <label for="result-border-color" class="col-2 col-form-label-lg">Border</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-border-color" id="result-border-color" aria-describedby="result-border-colorhelp" placeholder="#C0C0C0" maxlength="7">
+            <small id="result-border-colorhelp" class="form-text text-muted">Border Color of Result Component</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="result-bg-color" class="col-2 col-form-label-lg">Background</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-bg-color" id="result-bg-color" aria-describedby="result-bg-colorhelp" placeholder="#C0C0C0" maxlength="7">
+            <small id="result-bg-colorhelp" class="form-text text-muted">Background Color of Result Component</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="result-border-color-hover" class="col-2 col-form-label-lg">Border (Hover)</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-border-color-hover" id="result-border-color-hover" aria-describedby="result-border-color-hoverhelp" placeholder="#C0C0C0" maxlength="7">
+            <small id="result-border-color-hoverhelp" class="form-text text-muted">Border Color of Result Component when hovered</small>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="result-bg-color-hover" class="col-2 col-form-label-lg">Background (Hover)</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-bg-color-hover" id="result-bg-color-hover" aria-describedby="result-bg-color-hoverhelp" placeholder="#C0C0C0" maxlength="7">
+            <small id="result-bg-color-hoverhelp" class="form-text text-muted">Background Color of Result Component when hovered</small>
+        </div>
+    </div>
+{% endblock %}

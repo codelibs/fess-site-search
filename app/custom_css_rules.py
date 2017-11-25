@@ -41,8 +41,6 @@ How to add Custom CSS Rule:
 
 
 # General
-
-
 class FontRule(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
@@ -68,7 +66,6 @@ class BorderColorRule(AbstractCSSRule):
 
 
 # Search Box
-
 class FormBorderColorRule(AbstractCSSRule):
     def form_name(self):
         return 'searchbox-border-color'
@@ -76,9 +73,8 @@ class FormBorderColorRule(AbstractCSSRule):
     def gen_rule(self, font):
         return '''.fessWrapper .fessForm, .fessFormOnly {{ border: solid {}; }}'''.format(font)
 
+
 # Search Button
-
-
 class ButtonBorderColorRule(AbstractCSSRule):
     def form_name(self):
         return 'button-border-color'
@@ -88,6 +84,7 @@ class ButtonBorderColorRule(AbstractCSSRule):
 
 
 class ButtonBackgroundColorRule(AbstractCSSRule):
+
     def form_name(self):
         return 'button-bg-color'
 
@@ -95,10 +92,44 @@ class ButtonBackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
 
 
+# Result Component
+class ResultBorderColorRule(AbstractCSSRule):
+    def form_name(self):
+        return 'result-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li {{border: solid {};}}'''.format(color)
+
+
+class ResultBackgroundColorRule(AbstractCSSRule):
+    def form_name(self):
+        return 'result-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li {{background-color: {};}}'''.format(color)
+
+
+class ResultBorderColorHoverRule(AbstractCSSRule):
+    def form_name(self):
+        return 'result-border-color-hover'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li:hover {{border: solid {};}}'''.format(color)
+
+
+class ResultBackgroundColorHoverRule(AbstractCSSRule):
+    def form_name(self):
+        return 'result-bg-color-hover'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li:hover {{background-color: {};}}'''.format(color)
+
+
 def get_CSS_rules():
     css_rules = [
         FontRule(), BackgroundColorRule(), BorderColorRule(),
         FormBorderColorRule(),
-        ButtonBorderColorRule(), ButtonBackgroundColorRule()
+        ButtonBorderColorRule(), ButtonBackgroundColorRule(),
+        ResultBorderColorRule(), ResultBackgroundColorRule(), ResultBorderColorHoverRule(), ResultBackgroundColorHoverRule()
     ]
     return css_rules
