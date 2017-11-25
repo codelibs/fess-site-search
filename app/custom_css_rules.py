@@ -41,7 +41,7 @@ How to add Custom CSS Rule:
 
 
 # General
-class FontRule(AbstractCSSRule):
+class Font(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
 
@@ -49,7 +49,7 @@ class FontRule(AbstractCSSRule):
         return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
 
 
-class BackgroundColorRule(AbstractCSSRule):
+class BackgroundColor(AbstractCSSRule):
     def form_name(self):
         return 'bg-color'
 
@@ -57,7 +57,7 @@ class BackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper {{background-color: {}; }}'''.format(color)
 
 
-class BorderColorRule(AbstractCSSRule):
+class BorderColor(AbstractCSSRule):
     def form_name(self):
         return 'border-color'
 
@@ -66,7 +66,7 @@ class BorderColorRule(AbstractCSSRule):
 
 
 # Search Box
-class FormBorderColorRule(AbstractCSSRule):
+class FormBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'searchbox-border-color'
 
@@ -75,7 +75,7 @@ class FormBorderColorRule(AbstractCSSRule):
 
 
 # Search Button
-class ButtonBorderColorRule(AbstractCSSRule):
+class ButtonBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'button-border-color'
 
@@ -83,7 +83,7 @@ class ButtonBorderColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{border: solid {};}}'''.format(color)
 
 
-class ButtonBackgroundColorRule(AbstractCSSRule):
+class ButtonBackgroundColor(AbstractCSSRule):
 
     def form_name(self):
         return 'button-bg-color'
@@ -92,8 +92,8 @@ class ButtonBackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
 
 
-# Result Component
-class ResultBorderColorRule(AbstractCSSRule):
+# Result: Component
+class ResultBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'result-border-color'
 
@@ -101,7 +101,7 @@ class ResultBorderColorRule(AbstractCSSRule):
         return '''.fessWrapper  #result li {{border: solid {};}}'''.format(color)
 
 
-class ResultBackgroundColorRule(AbstractCSSRule):
+class ResultBackgroundColor(AbstractCSSRule):
     def form_name(self):
         return 'result-bg-color'
 
@@ -109,7 +109,7 @@ class ResultBackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper  #result li {{background-color: {};}}'''.format(color)
 
 
-class ResultBorderColorHoverRule(AbstractCSSRule):
+class ResultBorderColorHover(AbstractCSSRule):
     def form_name(self):
         return 'result-border-color-hover'
 
@@ -117,7 +117,7 @@ class ResultBorderColorHoverRule(AbstractCSSRule):
         return '''.fessWrapper  #result li:hover {{border: solid {};}}'''.format(color)
 
 
-class ResultBackgroundColorHoverRule(AbstractCSSRule):
+class ResultBackgroundColorHover(AbstractCSSRule):
     def form_name(self):
         return 'result-bg-color-hover'
 
@@ -127,9 +127,9 @@ class ResultBackgroundColorHoverRule(AbstractCSSRule):
 
 def get_CSS_rules():
     css_rules = [
-        FontRule(), BackgroundColorRule(), BorderColorRule(),
-        FormBorderColorRule(),
-        ButtonBorderColorRule(), ButtonBackgroundColorRule(),
-        ResultBorderColorRule(), ResultBackgroundColorRule(), ResultBorderColorHoverRule(), ResultBackgroundColorHoverRule()
+        Font(), BackgroundColor(), BorderColor(),
+        FormBorderColor(),
+        ButtonBorderColor(), ButtonBackgroundColor(),
+        ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover()
     ]
     return css_rules
