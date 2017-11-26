@@ -7,3 +7,4 @@ node_modules/
 instance
 !instance/*/.gitkeep
 *.tern-port
+app/static/fss/*/fess-ss.min.js

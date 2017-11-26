@@ -1,0 +1,13 @@
+{% extends "design-form/base.html" %}
+{% block title %}Search Box{% endblock %}
+{% set id = 'design-form-searchbox' %}
+
+{% block body %}
+    <div class="form-group row">
+        <label for="searchbox-border-color" class="col-2 col-form-label-lg">Border</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="searchbox-border-color" id="searchbox-border-color" aria-describedby="searchbox-border-colorhelp" placeholder="#C0C0C0" maxlength="7">
+            <small id="searchbox-border-colorhelp" class="form-text text-muted">Border Color of SearchBox</small>
+        </div>
+    </div>
+{% endblock %}

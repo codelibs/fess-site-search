@@ -1,0 +1,13 @@
+{% extends "design-form/base.html" %}
+{% block title %}Result: Snippet{% endblock %}
+{% set id = 'design-form-result-snippet' %}
+
+{% block body %}
+    <div class="form-group row">
+        <label for="result-snippet-color" class="col-2 col-form-label-lg">Color</label>
+        <div class="col-10">
+            <input type="text" class="form-control" name="result-snippet-color" id="result-snippet-color" aria-describedby="result-snippet-color-help" placeholder="#000000" maxlength="7">
+            <small id="result-snippet-color-help" class="form-text text-muted">Color of Snippet in Result Component</small>
+        </div>
+    </div>
+{% endblock %}

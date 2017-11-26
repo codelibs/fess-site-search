@@ -41,9 +41,7 @@ How to add Custom CSS Rule:
 
 
 # General
-
-
-class FontRule(AbstractCSSRule):
+class Font(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
 
@@ -51,7 +49,7 @@ class FontRule(AbstractCSSRule):
         return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
 
 
-class BackgroundColorRule(AbstractCSSRule):
+class BackgroundColor(AbstractCSSRule):
     def form_name(self):
         return 'bg-color'
 
@@ -59,7 +57,7 @@ class BackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper {{background-color: {}; }}'''.format(color)
 
 
-class BorderColorRule(AbstractCSSRule):
+class BorderColor(AbstractCSSRule):
     def form_name(self):
         return 'border-color'
 
@@ -68,18 +66,16 @@ class BorderColorRule(AbstractCSSRule):
 
 
 # Search Box
-
-class FormBorderColorRule(AbstractCSSRule):
+class FormBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
         return '''.fessWrapper .fessForm, .fessFormOnly {{ border: solid {}; }}'''.format(font)
 
+
 # Search Button
-
-
-class ButtonBorderColorRule(AbstractCSSRule):
+class ButtonBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'button-border-color'
 
@@ -87,7 +83,8 @@ class ButtonBorderColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{border: solid {};}}'''.format(color)
 
 
-class ButtonBackgroundColorRule(AbstractCSSRule):
+class ButtonBackgroundColor(AbstractCSSRule):
+
     def form_name(self):
         return 'button-bg-color'
 
@@ -95,10 +92,98 @@ class ButtonBackgroundColorRule(AbstractCSSRule):
         return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
 
 
+# Result: Component
+class ResultBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li {{border: solid {};}}'''.format(color)
+
+
+class ResultBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li {{background-color: {};}}'''.format(color)
+
+
+class ResultBorderColorHover(AbstractCSSRule):
+    def form_name(self):
+        return 'result-border-color-hover'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li:hover {{border: solid {};}}'''.format(color)
+
+
+class ResultBackgroundColorHover(AbstractCSSRule):
+    def form_name(self):
+        return 'result-bg-color-hover'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper  #result li:hover {{background-color: {};}}'''.format(color)
+
+
+# Result: Title
+class ResultTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:link {{color: {};}}'''.format(color)
+
+
+class ResultVisitedTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-visited-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:visited {{color: {};}}'''.format(color)
+
+
+class ResultHoveredTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-hovered-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:hover {{color: {};}}'''.format(color)
+
+
+class ResultActiveTitleColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-active-title-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
+
+
+# Result: URL
+class ResultUrlColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-url-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
+
+
+# Result: URL
+class ResultSnippetColor(AbstractCSSRule):
+    def form_name(self):
+        return 'result-snippet-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
+
+
 def get_CSS_rules():
     css_rules = [
-        FontRule(), BackgroundColorRule(), BorderColorRule(),
-        FormBorderColorRule(),
-        ButtonBorderColorRule(), ButtonBackgroundColorRule()
+        Font(), BackgroundColor(), BorderColor(),
+        FormBorderColor(),
+        ButtonBorderColor(), ButtonBackgroundColor(),
+        ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
+        ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
+        ResultUrlColor(),
+        ResultSnippetColor()
     ]
     return css_rules
