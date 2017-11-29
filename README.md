@@ -11,11 +11,14 @@ See [FSS Generator](https://fss-generator.codelibs.org/docs/manual).
 
 ## Development
 
-### Docker
+### Run on Docker
+
 ```bash
 $ docker build -t fss .
 $ docker run -d -p 5000:5000 fss
 ```
+
+and then access http://localhost:5000.
 
 ### Run locally
 
