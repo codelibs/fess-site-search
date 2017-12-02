@@ -16,11 +16,12 @@ div#loaded-text {
     padding: 30px;
 }
 
-.tab-content-wizard {
-    margin: 0 auto;
+.category-label {
+    font-size: 140%;
+    font-weight: bold;
 }
 
-.category-label {
+.mode-tab {
     font-size: 140%;
     font-weight: bold;
 }

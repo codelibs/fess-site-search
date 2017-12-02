@@ -8,6 +8,7 @@
     <script src="/static/fss-index.js"></script>
 {% endblock %}
 
+{# Macro #}
 {% macro menu_item(name, target, opt_class='', selected='false') -%}
     <a class="menu-item nav-link {{ opt_class }}" id="menu-tab-{{ target }}" data-toggle="pill" href="#{{ target }}" role="tab" aria-controls="{{ target }}" aria-selected={{ selected }}>
         {{ name }}
@@ -41,10 +42,10 @@
 
         <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-                <a data-target="#tab-wizard" class="nav-link active" data-toggle="tab" role="tab">Wizard</a>
+                <a data-target="#tab-wizard" class="nav-link mode-tab active" data-toggle="tab" role="tab">Wizard</a>
             </li>
             <li class="nav-item">
-                <a data-target="#tab-upload" class="nav-link" data-toggle="tab" role="tab">Custom CSS</a>
+                <a data-target="#tab-upload" class="nav-link mode-tab" data-toggle="tab" role="tab">Custom CSS</a>
             </li>
         </ul>
 
