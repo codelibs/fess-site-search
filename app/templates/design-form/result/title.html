@@ -1,37 +1,17 @@
 {% extends "design-form/base.html" %}
+
 {% block title %}Result: Title{% endblock %}
-{% set id = 'design-form-result-title' %}
 
 {% block body %}
-    <div class="form-group row">
-        <label for="result-title-color" class="col-2 col-form-label-lg">Text Color</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="result-title-color" id="result-title-color" aria-describedby="result-title-color-help" placeholder="#C0C0C0" maxlength="7">
-            <small id="result-title-color-help" class="form-text text-muted">Title Color of Page Title</small>
-        </div>
-    </div>
+    {# Title Color #}
+    {{ color_form('result-title-color', 'Title Color', 'Color of Page Title') }}
 
-    <div class="form-group row">
-        <label for="result-visited-title-color" class="col-2 col-form-label-lg">Visited</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="result-visited-title-color" id="result-visited-title-color" aria-describedby="result-visited-title-color-help" placeholder="#C0C0C0" maxlength="7">
-            <small id="result-visited-title-color-help" class="form-text text-muted">Title Color of Page Title (Visited)</small>
-        </div>
-    </div>
+    {# Visited #}
+    {{ color_form('result-visited-title-color', 'Visited', 'Color of Page Title (Visited)') }}
 
-    <div class="form-group row">
-        <label for="result-hovered-title-color" class="col-2 col-form-label-lg">Hover</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="result-hovered-title-color" id="result-hovered-title-color" aria-describedby="result-hovered-title-color-help" placeholder="#C0C0C0" maxlength="7">
-            <small id="result-hovered-title-color-help" class="form-text text-muted">Title Color of Page Title (Hover)</small>
-        </div>
-    </div>
+    {# Hovered #}
+    {{ color_form('result-hovered-title-color', 'Hovered', 'Color of Page Title (Hovered)') }}
 
-    <div class="form-group row">
-        <label for="result-active-title-color" class="col-2 col-form-label-lg">Active</label>
-        <div class="col-10">
-            <input type="text" class="form-control" name="result-active-title-color" id="result-active-title-color" aria-describedby="result-active-title-color-help" placeholder="#C0C0C0" maxlength="7">
-            <small id="result-active-title-color-help" class="form-text text-muted">Title Color of Page Title (Active)</small>
-        </div>
-    </div>
+    {# Active #}
+    {{ color_form('result-active-title-color', 'Active', 'Color of Page Title (Active)') }}
 {% endblock %}

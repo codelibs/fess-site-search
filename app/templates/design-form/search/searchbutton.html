@@ -1,0 +1,11 @@
+{% extends "design-form/base.html" %}
+
+{% block title %}Search Button{% endblock %}
+
+{% block body %}
+    {# Border #}
+    {{ color_form('button-border-color', 'Border', 'Border Color of Search Button') }}
+
+    {# Background #}
+    {{ color_form('button-bg-color', 'Background', 'Background Color of Search Button') }}
+{% endblock %}
