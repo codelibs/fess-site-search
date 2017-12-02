@@ -40,7 +40,7 @@ class FssDesign {
 }
 
 function apply_design() {
-    console.log('Hello');
+
     const designs = [
         // General
         new FssDesign('font-family',  '', 'font-family'),
@@ -66,16 +66,14 @@ function apply_design() {
         // Result: Snippet
         new FssDesign('result-snippet-color', '#result .body .description', 'color')
     ];
-    console.log(designs);
+
     let css_str = '';
     designs.forEach(function(d) {
         css_str += d.to_css();
     });
 
-    console.log(css_str);
     $('#preview-iframe').contents().find('head').append(`<style>${css_str}</style>`);
 
-    console.log('OK!');
     // Reset custom design when closing modal
     $('#preview-modal').on('hide.bs.modal', function () {
         document.getElementById('preview-iframe').contentWindow.location.reload(true);
