@@ -12,6 +12,23 @@ div#loaded-text {
     display: none;
 }
 
-.tab-content {
+.tab-content-top {
     padding: 30px;
+}
+
+.tab-content-wizard {
+    margin: 0 auto;
+}
+
+.category-label {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+.menu-item {
+    font-size: 140%;
+}
+
+.submit-button {
+    float: right;
 }

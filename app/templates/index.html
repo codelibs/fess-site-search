@@ -2,11 +2,25 @@
 {% block title %}Fess Site Search JS Generator{% endblock %}
 {% set navbar_id = 'index' %}
 
+{# Head #}
 {% block head %}
     {{ super() }}
     <script src="/static/fss-index.js"></script>
 {% endblock %}
 
+{% macro menu_item(name, target, opt_class='', selected='false') -%}
+    <a class="menu-item nav-link {{ opt_class }}" id="menu-tab-{{ target }}" data-toggle="pill" href="#{{ target }}" role="tab" aria-controls="{{ target }}" aria-selected={{ selected }}>
+        {{ name }}
+    </a>
+{%- endmacro %}
+
+{% macro form_page(id, file_name, opt_class='') -%}
+    <div class="tab-pane {{ opt_class }}" id="{{ id }}" role="tabpanel" aria-labelledby="menu-tab-{{ id }}">
+        {% include file_name %}
+    </div>
+{%- endmacro %}
+
+{# Content #}
 {% block content %}
     <div class="container theme-showcase" role="main">
         {% with messages = get_flashed_messages() %}
@@ -25,57 +39,78 @@
             </div>
         </div>
 
-        <ul class="nav nav-pills nav-fill">
+        <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-                <a href="#tab-wizard" class="nav-link active" data-toggle="tab">Wizard</a>
+                <a data-target="#tab-wizard" class="nav-link active" data-toggle="tab" role="tab">Wizard</a>
             </li>
             <li class="nav-item">
-                <a href="#tab-upload" class="nav-link" data-toggle="tab">Custom CSS</a>
+                <a data-target="#tab-upload" class="nav-link" data-toggle="tab" role="tab">Custom CSS</a>
             </li>
         </ul>
 
-        <div class="tab-content">
-            <div id="tab-wizard" class="tab-pane active">
+        <div class="tab-content tab-content-top">
+            <div id="tab-wizard" class="tab-pane active" role="tabpanel">
                 <form id="wizard-form" method="post">
-                    <div class="form-horizontal">
+                    <div class="row">
+                        <div class="nav nav-fill flex-column col-3 nav-pills" role="tablist" aria-orientation="vertical">
+                            {# General: #}
+                            {{ menu_item('General', 'general', opt_class='active', selected='true') }}
 
-                        <div id="wizard-accordion-form" role="tablist">
-                            {% include 'design-form/general.html' %}
-                            {% include 'design-form/searchbox.html' %}
-                            {% include 'design-form/searchbutton.html' %}
-                            {% include 'design-form/result/general.html' %}
-                            {% include 'design-form/result/title.html' %}
-                            {% include 'design-form/result/url.html' %}
-                            {% include 'design-form/result/snippet.html' %}
+                            {# Seach Form: #}
+                            <div class="category-label">Search Form:</div>
+                            {{ menu_item('Search Box', 'search-box') }}
+                            {{ menu_item('Search Button', 'search-button') }}
+
+                            {# Seach Result: #}
+                            <div class="category-label">Search Result:</div>
+                            {{ menu_item('General', 'result-general') }}
+                            {{ menu_item('Title', 'result-title') }}
+                            {{ menu_item('URL', 'result-url') }}
+                            {{ menu_item('Snippet', 'result-snippet') }}
                         </div>
 
-                        <br>
+                        <div class="tab-content tab-content-wizart col-9">
+                            {# General: #}
+                            {{ form_page('general', 'design-form/general.html', opt_class='active show') }}
 
-                        <div class="modal fade" id="preview-modal">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Preview</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
-                                    </div>
+                            {# Search Form: #}
+                            {{ form_page('search-box', 'design-form/search/searchbox.html') }}
+                            {{ form_page('search-button', 'design-form/search/searchbutton.html') }}
+
+                            {# Seach Result: #}
+                            {{ form_page('result-general', 'design-form/result/general.html') }}
+                            {{ form_page('result-title', 'design-form/result/title.html') }}
+                            {{ form_page('result-url', 'design-form/result/url.html') }}
+                            {{ form_page('result-snippet', 'design-form/result/snippet.html') }}
+                        </div>
+                    </div>
+
+                    {# Modal #}
+                    <div class="modal fade" id="preview-modal">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Preview</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group ">
-                            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_design();">Preview</button>
-                            <input type="submit" class="btn btn-primary btn-lg" value="Generate">
-                        </div>
+                    {# Preview Button, Generate Button #}
+                    <div class="form-group submit-button">
+                        <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_design();">Preview</button>
+                        <input type="submit" class="btn btn-primary btn-lg" value="Generate">
+                    </div>
                 </form>
-                </div>
             </div>
 
-            <div id="tab-upload" class="tab-pane">
+            <div id="tab-upload" class="tab-pane" role="tabpanel">
                 <form id="upload-form" method="post" enctype="multipart/form-data">
                     <div class="form-horizontal">
                         <div class="form-group row">
@@ -89,13 +124,12 @@
                                 <option value="11.3">Fess 11.3</option>
                             </select>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group submit-button">
                             <input type="submit" class="btn btn-primary btn-lg" value="Generate">
                         </div>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 {% endblock %}
