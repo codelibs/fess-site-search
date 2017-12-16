@@ -2,7 +2,6 @@ import os
 import hashlib
 import random
 from flask import redirect, url_for, flash
-from flask import render_template
 from werkzeug.utils import secure_filename
 from .app import app
 from .generate_css import generate_css
@@ -17,7 +16,7 @@ def upload(form, file):
     version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
 
     if file.filename == '':
-        return render_template('index.html')
+        return redirect(url_for('generator'))
 
     if file and is_css(file.filename):
         base = secure_filename(file.filename)[:-4]
@@ -27,7 +26,7 @@ def upload(form, file):
         print('Upload: {}.css'.format(fname))
         return run_webpack(fname, version)
 
-    return render_template('index.html')
+    return redirect(url_for('generator'))
 
 
 def wizard(form):
@@ -42,7 +41,7 @@ def wizard(form):
     elif generate_css(form, fname):
         return run_webpack(fname, version)
     else:
-        return render_template('index.html')
+        return redirect(url_for('generator'))
 
 
 def run_webpack(fname, version):
@@ -51,7 +50,7 @@ def run_webpack(fname, version):
         return redirect(url_for('demo', fname=fname))
     else:
         flash('Please try again')
-        return redirect(url_for('index'))
+        return redirect(url_for('generator'))
 
 
 def rand_hash():

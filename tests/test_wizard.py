@@ -14,7 +14,7 @@ def test_wizard():
         'button-border-color': 'orange',
         'button-bg-color': 'blue'
     }
-    res = requests.post(ROOT_URL, data=form)
+    res = requests.post(ROOT_URL + '/generator', data=form)
     assert res.status_code == 200
 
     regex = re.compile(ROOT_URL + '/demo/(.*)')
