@@ -1,57 +1,58 @@
 {% extends "base.html" %}
 {% block title %}Fess Site Search JS Generator{% endblock %}
-{% set navbar_id = 'index' %}
+{% set navbar_link = '/demo' %}
+{% set language = 'en' %}
 
 {% block head %}
-  {{ super() }}
-  <script src="/static/fss-demo.js"></script>
+    {{ super() }}
+    <script src="/static/fss-demo.js"></script>
 {% endblock %}
 
 {% block content %}
-  <div>
-    <div class="container theme-showcase" role="main">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container" id="loading-text">
-          <h1 class="display-4">Generating..</h1>
+    <div>
+        <div class="container theme-showcase" role="main">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container" id="loading-text">
+                    <h1 class="display-4">Generating..</h1>
+                </div>
+                <div class="container" id="loaded-text">
+                    <h1 class="display-4">Check your Design</h1>
+                </div>
+            </div>
         </div>
-        <div class="container" id="loaded-text">
-          <h1 class="display-4">Check your Design</h1>
+
+        <div id="loading" class="text-center">
+            <p>
+                <img id="loading_img" src="/static/loading.gif" class="rounded" alt="Loading" />
+            </p>
+            <div class="btn-group mr-2">
+                <a href="/generator" class="btn btn-warning btn-lg">
+                    Cancel
+                </a>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div id="loading" class="text-center">
-      <p>
-        <img id="loading_img" src="/static/loading.gif" class="rounded" alt="Loading" />
-      </p>
-      <div class="btn-group mr-2">
-        <a href="/" class="btn btn-warning btn-lg">
-          Cancel
-        </a>
-      </div>
-    </div>
-
-    <div id="loaded">
-      <div class="text-center">
-        <div class="btn-group mr-2">
-          <a href="/" class="btn btn-secondary btn-lg">
-            << Back
-               </a>
+        <div id="loaded">
+            <div class="text-center">
+                <div class="btn-group mr-2">
+                    <a href="/generator" class="btn btn-secondary btn-lg">
+                        &lt;&lt; Back
+                    </a>
+                </div>
+                <div class="btn-group mr-2">
+                    <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
+                        Download JS
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="btn-group mr-2">
-          <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
-            Download JS
-          </a>
+
+        <hr>
+
+        <div class="container">
+            <div class="embed-responsive embed-responsive-4by3">
+                <iframe class="embed-responsive-item" data-src={{message.search_src}} id="iframe"></iframe>
+            </div>
         </div>
-      </div>
     </div>
-
-    <hr>
-
-    <div class="container">
-      <div class="embed-responsive embed-responsive-4by3">
-        <iframe class="embed-responsive-item" data-src={{message.search_src}} id="iframe"></iframe>
-      </div>
-    </div>
-  </div>
 {% endblock %}

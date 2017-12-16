@@ -6,7 +6,7 @@ FSSが提供するタグとJavaScriptファイルを利用して、運用して�
 
 ## ダウンロード
 
-[FSS JS Generator](/)の[Generate]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
+[FSS JS Generator](/generator)の[Generate]ボタンをクリックすると、FSSのJavaScriptファイルが生成されます。
 Download JSボタンをクリックしてダウンロードしてください。
 
 ## 導入手順
