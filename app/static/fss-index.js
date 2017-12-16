@@ -1,16 +1,16 @@
 /*
-  Prevent Double Submission
+  Prevent Double Submissions
 */
-function prevent_double_submission() {
+function preventDoubleSubmission() {
     var self = this;
-    $(":submit", self).prop("disabled", true);
+    $(':submit', self).prop('disabled', true);
     setTimeout(function() {
-        $(":submit", self).prop("disabled", false);
+        $(':submit', self).prop('disabled', false);
     }, 10000);
-};
+}
 
-$('#wizard-form').submit(prevent_double_submission);
-$('#upload-form').submit(prevent_double_submission);
+$('#wizard-form').submit(preventDoubleSubmission);
+$('#upload-form').submit(preventDoubleSubmission);
 
 /*
   Preview: Common
@@ -18,17 +18,25 @@ $('#upload-form').submit(prevent_double_submission);
 const WIZARD_STYLE_ID = 'wizard-style';
 const UPLOADED_STYLE_ID = 'uploaded-style';
 
-function reset_iframe() {
-    $('#preview-iframe').contents().find(`#${WIZARD_STYLE_ID}`).remove();
-    $('#preview-iframe').contents().find(`#${UPLOADED_STYLE_ID}`).remove();
+function appendIframeDesign(id, cssStr) {
+    $('#preview-iframe')
+        .contents()
+        .find('head')
+        .append(`<style id="${id}">${cssStr}</style>`);
+}
+
+function resetIframeDesign() {
+    let content = $('#preview-iframe').contents();
+    content.find(`#${WIZARD_STYLE_ID}`).remove();
+    content.find(`#${UPLOADED_STYLE_ID}`).remove();
 }
 
 /*
   Preview: Wizard
 */
 class FssDesign {
-    constructor(form_id, target, prop, pseudo_class=null, parent_form=null) {
-        this.form_id = form_id;
+    constructor(formId, target, prop) {
+        this.formId = formId;
         this.target = `.fessWrapper ${target}`;
         this.prop = prop;
     }
@@ -40,8 +48,8 @@ class FssDesign {
         return value;
     }
 
-    to_css() {
-        const value = $(`#wizard-form [name=${this.form_id}]`).val();
+    toCss() {
+        const value = $(`#wizard-form [name=${this.formId}]`).val();
         if (!value) {
             return '';
         }
@@ -49,9 +57,8 @@ class FssDesign {
     }
 }
 
-function apply_wizard_design() {
-
-    reset_iframe();
+function applyWizardDesign() {
+    resetIframeDesign();
 
     const designs = [
         // General
@@ -79,32 +86,31 @@ function apply_wizard_design() {
         new FssDesign('result-snippet-color', '#result .body .description', 'color')
     ];
 
-    let css_str = '';
+    let cssStr = '';
     designs.forEach(function(d) {
-        css_str += d.to_css();
+        cssStr += d.toCss();
     });
 
-    $('#preview-iframe').contents().find('head').append(`<style id="${WIZARD_STYLE_ID}">${css_str}</style>`);
+    appendIframeDesign(WIZARD_STYLE_ID, cssStr);
 }
 
 /*
   Preview: Upload
 */
-function apply_uploaded_design() {
-
-    reset_iframe();
+function applyUploadedDesign() {
+    resetIframeDesign();
 
     const files = $('#custom-css')[0].files;
     const reader = new FileReader();
 
     reader.onload = function(event) {
-        const css_str = event.target.result;
-        $('#preview-iframe').contents().find('head').append(`<style id="${UPLOADED_STYLE_ID}">${css_str}</style>`);
+        const cssStr = event.target.result;
+        appendIframeDesign(UPLOADED_STYLE_ID, cssStr);
     };
 
     for (const f of files) {
-         if (f.type === 'text/css') {
-             reader.readAsText(f);
-         }
+        if (f.type === 'text/css') {
+            reader.readAsText(f);
+        }
     }
 }
