@@ -1,4 +1,16 @@
-{% macro nav_link(id, name, link=id, ja_link=link, external=false) %}
+{#
+  This file is used as a parent template.
+
+  If you create a child template by extending this file, please assign values to the following variables and blocks in your file:
+  * variable 'navbar_link'
+  * variable 'language'
+  * block 'title'
+  * block 'head'
+  * block 'content'
+#}
+
+{# Utility #}
+{% macro nav_link(id, name, link=id, external=false) %}
     {% if navbar_link == id %}
         <li class="nav-item active"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
     {% else %}
@@ -22,12 +34,12 @@
                     {{ nav_link('/', 'Home') }}
                     {{ nav_link('/docs/manual', 'User Manual') }}
                     {{ nav_link('/generator', 'Generator') }}
-                    {{ nav_link('fess-doc', 'Fess', link='https://fess.codelibs.org/', external=true) }}
-                    {{ nav_link('github', 'GitHub', link='https://github.com/codelibs/fess-site-search/', external=true) }}
+                    {{ nav_link('fess-doc', 'Fess', 'https://fess.codelibs.org/', external=true) }}
+                    {{ nav_link('github', 'GitHub', 'https://github.com/codelibs/fess-site-search/', external=true) }}
                 {% else %}
                     {{ nav_link('/', 'ホーム', '/ja') }}
                     {{ nav_link('/docs/manual', 'マニュアル', '/ja/docs/manual') }}
-                    {{ nav_link('/generator', 'Generator', '/generator') }}
+                    {{ nav_link('/generator', 'Generator') }}
                     {{ nav_link('fess-doc', 'Fess', 'https://fess.codelibs.org/ja/', external=true) }}
                     {{ nav_link('github', 'GitHub', 'https://github.com/codelibs/fess-site-search/', external=true) }}
                 {% endif %}
@@ -51,6 +63,7 @@
     </nav>
 {% endmacro %}
 
+{# Contents #}
 <!DOCTYPE html>
 <html>
     <head>
