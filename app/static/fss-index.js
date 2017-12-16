@@ -12,9 +12,19 @@ function prevent_double_submission() {
 $('#wizard-form').submit(prevent_double_submission);
 $('#upload-form').submit(prevent_double_submission);
 
+/*
+  Preview: Common
+*/
+const WIZARD_STYLE_ID = 'wizard-style';
+const UPLOADED_STYLE_ID = 'uploaded-style';
+
+function reset_iframe() {
+    $('#preview-iframe').contents().find(`#${WIZARD_STYLE_ID}`).remove();
+    $('#preview-iframe').contents().find(`#${UPLOADED_STYLE_ID}`).remove();
+}
 
 /*
-  Preview Modal
+  Preview: Wizard
 */
 class FssDesign {
     constructor(form_id, target, prop, pseudo_class=null, parent_form=null) {
@@ -39,7 +49,9 @@ class FssDesign {
     }
 }
 
-function apply_design() {
+function apply_wizard_design() {
+
+    reset_iframe();
 
     const designs = [
         // General
@@ -72,10 +84,27 @@ function apply_design() {
         css_str += d.to_css();
     });
 
-    $('#preview-iframe').contents().find('head').append(`<style>${css_str}</style>`);
+    $('#preview-iframe').contents().find('head').append(`<style id="${WIZARD_STYLE_ID}">${css_str}</style>`);
+}
 
-    // Reset custom design when closing modal
-    $('#preview-modal').on('hide.bs.modal', function () {
-        document.getElementById('preview-iframe').contentWindow.location.reload(true);
-    });
+/*
+  Preview: Upload
+*/
+function apply_uploaded_design() {
+
+    reset_iframe();
+
+    const files = $('#custom-css')[0].files;
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const css_str = event.target.result;
+        $('#preview-iframe').contents().find('head').append(`<style id="${UPLOADED_STYLE_ID}">${css_str}</style>`);
+    };
+
+    for (const f of files) {
+         if (f.type === 'text/css') {
+             reader.readAsText(f);
+         }
+    }
 }

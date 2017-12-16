@@ -86,26 +86,9 @@
                         </div>
                     </div>
 
-                    {# Modal #}
-                    <div class="modal fade" id="preview-modal">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Preview</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     {# Preview Button, Generate Button #}
                     <div class="form-group submit-button">
-                        <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_design();">Preview</button>
+                        <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_wizard_design()">Preview</button>
                         <input type="submit" class="btn btn-primary btn-lg" value="Generate">
                     </div>
                 </form>
@@ -116,7 +99,7 @@
                     <div class="form-horizontal">
                         <div class="form-group row">
                             <label for="file" class="col-2 col-form-label-lg">CSS</label>
-                            <input type="file" name="file" class="form-control-file form-control-lg">
+                            <input type="file" name="file" id="custom-css" class="form-control-file form-control-lg">
                         </div>
                         <div class="form-group row">
                             <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
@@ -125,11 +108,31 @@
                                 <option value="11.3">Fess 11.3</option>
                             </select>
                         </div>
+
+                        {# Preview Button, Generate Button #}
                         <div class="form-group submit-button">
+                            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="apply_uploaded_design()">Preview</button>
                             <input type="submit" class="btn btn-primary btn-lg" value="Generate">
                         </div>
                     </div>
                 </form>
+            </div>
+
+            {# Modal #}
+            <div class="modal fade" id="preview-modal">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Preview</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
