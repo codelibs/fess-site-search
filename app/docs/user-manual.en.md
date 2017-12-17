@@ -7,7 +7,7 @@ The installation is very easy and you can smoothly migrate from Google Site Sear
 
 ## Download
 
-To click Generate button on [FSS JS Generator](/), JavaScript file for FSS is generated.
+To click Generate button on [FSS JS Generator](/generator), JavaScript file for FSS is generated.
 After checking a preview search result, you can download it to click Download JS button.
 
 ## Installation
@@ -145,4 +145,3 @@ ga('create', 'UA-XXXXXXX-X', 'auto'); // PUT YOUR UA-XXXXXXX-X
 ## Commercial Support
 
 If you need more supports, please see [Commercial Support](http://www.n2sm.net/en/support/fess_support.html).
-

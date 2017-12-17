@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Fess Site Search{% endblock %}
+{% set navbar_link = '/' %}
+{% set language = message.language %}
+
+{# Head #}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/markdown.css">
+    <link rel="stylesheet" href="/static/github.css">
+{% endblock %}
+
+{# Content #}
+{% block content %}
+    <div class="container theme-showcase" role="main">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-3">Fess Site Search</h1>
+            </div>
+        </div>
+        <div class="markdown-body" role="main">
+            {% autoescape false %}
+                {{message.markdown_content}}
+            {% endautoescape %}
+        </div>
+    </div>
+{% endblock %}

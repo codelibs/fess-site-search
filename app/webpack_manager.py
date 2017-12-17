@@ -3,11 +3,14 @@ import os
 import sys
 from multiprocessing import BoundedSemaphore
 
-# To share 'semaphore' among multiple workers on gunicorn, use '--preload'
+# To share 'semaphore' among multiple workers on gunicorn, use '--preload' option
 semaphore = BoundedSemaphore(int(os.environ.get('APP_WEBPACK_LIMIT', '2')))
 
 
 class _WPManager():
+    """
+    Used in 'WebpackManager'.
+    """
 
     def __init__(self):
         self.semaphore = semaphore
@@ -57,6 +60,9 @@ class _WPManager():
 
 
 class WebpackManager():  # Singleton
+    """
+    This class keeps the number of webpack processes from exceeding 'APP_WEBPACK_LIMIT'.
+    """
     _instance = None
 
     def __init__(self):

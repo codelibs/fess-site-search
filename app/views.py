@@ -1,28 +1,44 @@
 import os
-from flask import g
-from flask import request, redirect, url_for, render_template
-from flask import jsonify, abort, make_response
+from flask import request, render_template, jsonify, make_response
 from markdown import markdown
-from .app import app, babel
+from .app import app
 from .backend import upload, wizard, js_exists
 
 
-@app.before_request
-@babel.localeselector
-def detect_user_language():
-    g.language = request.accept_languages.best_match(['en', 'ja'])
+@app.route('/')
+def home():
+    """overview page (English)"""
+    return render_markdown('top.html', 'overview.en.md', 'en')
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    """index page"""
+@app.route('/ja/')
+def home_ja():
+    """overview page (Japanese)"""
+    return render_markdown('top.html', 'overview.ja.md', 'ja')
+
+
+@app.route('/docs/manual')
+def manual():
+    """manual page (English)"""
+    return render_markdown('manual.html', 'user-manual.en.md', 'en')
+
+
+@app.route('/ja/docs/manual')
+def manual_ja():
+    """manual page (English)"""
+    return render_markdown('manual.html', 'user-manual.ja.md', 'ja')
+
+
+@app.route('/generator', methods=['GET', 'POST'])
+def generator():
+    """page for FSS JS Generator"""
     if request.method == 'POST':
         if 'file' in request.files:
             return upload(request.form, request.files['file'])
         else:
             return wizard(request.form)
 
-    return render_template('index.html')
+    return render_template('generator.html')
 
 
 @app.route('/demo/<fname>')
@@ -54,23 +70,24 @@ def search(fname):
     return render_template('search.html', message=my_dic)
 
 
-@app.route('/docs/manual')
-def manual():
-    """manual page"""
-    lang = g.language if g.language is not None else 'en'
-    path = os.path.join(app.config['DOCS_FOLDER'], 'user-manual.{}.md'.format(lang))
-    md_file = open(path, mode='r', encoding='utf-8')
-    md_str = md_file.read()
-    md_file.close()
-    extensions = ['gfm']
-    html = markdown(md_str, extensions=extensions)
-    my_dic = {}
-    my_dic['markdown_content'] = html
-    return render_template('manual.html', message=my_dic)
-
-
 @app.route('/api/check_js/<fname>', methods=['GET'])
 def check_js(fname):
     """API: check if 'fess-ss-<fname>.min.js' exists"""
     result = js_exists(fname)
     return make_response(jsonify({'result': result}))
+
+
+# Utility
+def render_markdown(html_file, md_file, lang):
+    """render a markdown document in DOCS_FOLDER"""
+    path = os.path.join(app.config['DOCS_FOLDER'], md_file)
+    md_file = open(path, mode='r', encoding='utf-8')
+    md_str = md_file.read()
+    md_file.close()
+    extensions = ['gfm']
+    html = markdown(md_str, extensions=extensions)
+    my_dic = {
+        'language': lang,
+        'markdown_content': html
+    }
+    return render_template(html_file, message=my_dic)

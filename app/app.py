@@ -1,8 +1,6 @@
 import os
 import base64
 from flask import Flask, Blueprint
-from flask.ext.babel import Babel
-
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'uploads')
@@ -15,5 +13,3 @@ gen_bp = Blueprint('generates', __name__, static_url_path='/generates', static_f
 app.register_blueprint(gen_bp)
 
 app.secret_key = os.getenv('APP_SECRET_KEY') or base64.b64encode(os.urandom(24))
-
-babel = Babel(app)
