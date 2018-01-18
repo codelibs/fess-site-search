@@ -129,12 +129,27 @@ fess.setAttribute('fess-search-page-path', 'result.html');
 
 ## デザインのカスタマイズ
 
-FSS JS Generatorを利用して、デザインを修正することが出来ます。
+FSS JS Generatorを利用して、デザインを修正することができます。
 
-* Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズ出来ます。
-* Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用出来ます。
+* Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズできます。
+* Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用できます。
     * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/templates)を参照してください。
     * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/css)を参照してください。
+
+### サムネイルのサイズ変更
+
+検索結果に表示するサムネイルサイズを変更したい場合はCSSで以下を指定して変更してください。
+デフォルトのサイズは100pxです。
+
+```
+.fessWrapper .thumbnail {
+  width: 100px !important;
+}
+
+.fessWrapper .thumbnailBox {
+  width: 100px !important;
+}
+```
 
 ## Google Analytics連携
 
