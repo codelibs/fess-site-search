@@ -8,7 +8,12 @@ module.exports = {
     filename: process.env.OUTPUT_JS_FILENAME
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      output: {
+        ascii_only: true,
+        beautify: false
+      }
+    }),
     new webpack.EnvironmentPlugin(['INPUT_CSS_PATH', 'OUTPUT_JS_FILENAME'])
   ],
   module: {

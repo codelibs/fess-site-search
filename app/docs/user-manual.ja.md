@@ -151,6 +151,21 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 }
 ```
 
+## UTF-8以外のサイトでの利用
+
+Shift\_JISなどのUTF-8以外のエンコーディングで作成されたサイトでは、既存のページに検索フォームを配置して検索する際に次のようにformタグを設定する必要があります。
+
+```
+<form action="search.html" method="get"
+  onsubmit="document.location=this.action+'?q='+encodeURIComponent(document.getElementById('query').value);return false">
+  <input type="text" id="query" name="q" value="">
+  <input type="submit" value="検索">
+</form>
+```
+
+検索語を入力するinputタグにはid属性を設定して、formタグではonsubmit属性を指定して、action属性で指定された検索ページへ遷移します。
+
+
 ## Google Analytics連携
 
 Google Analyticsで検索キーワードを集計するためには、[サイト内検索を設定する](https://support.google.com/analytics/answer/1012264)を参照して、サイト内検索の設定を有効にしてください。
