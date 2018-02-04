@@ -13,7 +13,7 @@ Download JSボタンをクリックしてダウンロードしてください。
 
 FSSは以下の数ステップの手順だけで導入することができます。
 FSSを利用するには事前にFessサーバを構築しておく必要があります。
-構築済みのFessサーバを安価な[N2 Search ASP Super Lite](http://www.n2sm.net/services/n2search-asp-lite.html)として提供もしていますのでご検討ください。
+構築済みのFessサーバを安価な[N2 Search ASP Super Lite](https://www.n2sm.net/services/n2search-asp-lite.html)として提供もしていますのでご検討ください。
 
 ### 新規にFSSを導入する場合
 
@@ -46,6 +46,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
 1. 以下のコードをGSSなどの検索結果を表示しているタグと置き換える (fess-urlの値は検索サーバのURLに変更してください)
+1. Webサイトの各ページに検索フォームを配置している場合は、そのまま利用可能です
 
 ```html
 <script>
@@ -184,5 +185,12 @@ ga('create', 'UA-XXXXXXX-1', 'auto');
 
 ## 商用サポート
 
-商用サポートではFessの構築支援やFessサーバを低価格で提供しています。
-[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
+Fess は Apache ライセンスで提供されるオープンソース製品で、個人や商用向けでも無料でご自由にご利用いただけます。
+
+Fess のカスタマイズや導入・構築などのサポートサービスが必要な場合は、[商用サポート(有償)](https://www.n2sm.net/products/n2search.html)をご覧ください。
+また、検索品質やクロールが遅いなどのパフォーマンスチューニングも商用サポートで対応しています。
+
+### N2 Search ASP Super Lite
+
+[N2 Search ASP Super Lite](https://www.n2sm.net/services/n2search-asp-lite.html)は、Google Site Searchと同程度の価格帯で提供するサイト内検索サービスです。
+Google Site SearchのJavaScriptを置き換えるだけでご利用いただけます。
