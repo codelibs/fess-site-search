@@ -1,6 +1,6 @@
 ## Fess Site Searchとは？
 
-Fess Site Search(FSS)は[検索サーバFess](http://fess.codelibs.org/ja/)を既存のWebサイトに導入できる機能です。
+Fess Site Search(FSS)は[検索サーバFess](https://fess.codelibs.org/ja/)を既存のWebサイトに導入できる機能です。
 FSSが提供するタグとJavaScriptファイルを利用して、運用しているWebサイトに検索ボックスおよび検索結果を表示することができます。
 簡単に導入することができるので、Google Site SearchやGoogleカスタム検索などからもスムーズに移行することができます。
 
@@ -15,5 +15,12 @@ FessをWebサイトに埋め込むためのJavaScriptファイルを生成する
 
 ## 商用サポート
 
-Fessには構築支援やサーバ提供を低価格でおこなう商用サポートがあります。
-[商用サポートについて](http://fess.codelibs.org/ja/support-services.html)を参照してください。
+Fess は Apache ライセンスで提供されるオープンソース製品で、個人や商用向けでも無料でご自由にご利用いただけます。
+
+Fess のカスタマイズや導入・構築などのサポートサービスが必要な場合は、[商用サポート(有償)](https://www.n2sm.net/products/n2search.html)をご覧ください。
+また、検索品質やクロールが遅いなどのパフォーマンスチューニングも商用サポートで対応しています。
+
+### N2 Search ASP Super Lite
+
+[N2 Search ASP Super Lite](https://www.n2sm.net/services/n2search-asp-lite.html)は、Google Site Searchと同程度の価格帯で提供するサイト内検索サービスです。
+Google Site SearchのJavaScriptを置き換えるだけでご利用いただけます。
