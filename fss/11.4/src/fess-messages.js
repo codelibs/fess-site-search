@@ -105,7 +105,7 @@ export default class {
     for (var key in vars) {
       if (typeof vars[key] == 'string' || typeof vars == 'string') {
         var reg = new RegExp('{{' + key + '}}', 'g');
-        message = message.replace(reg, vars[key]);
+        message = message.replace(reg, this._escapeHtml(vars[key]));
       }
     }
     //var reg = new RegExp('{{[^{}]*}}', 'g');
@@ -124,5 +124,21 @@ export default class {
       tmpHtml = tmpHtml.replace(reg, this.getMessage(key, vars));
     }
     return tmpHtml;
+  }
+
+  _escapeHtml (message) {
+    if(typeof message !== 'string') {
+      return message;
+    }
+    return message.replace(/[&'`"<>]/g, function(match) {
+      return {
+        '&': '&amp;',
+        "'": '&#x27;',
+        '`': '&#x60;',
+        '"': '&quot;',
+        '<': '&lt;',
+        '>': '&gt;',
+      }[match]
+    });
   }
 }
