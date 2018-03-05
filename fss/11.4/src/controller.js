@@ -114,6 +114,10 @@ export default class {
     if (label !== undefined && label !== '') {
       params['fields.label'] = label;
     }
+    var pageSize = FessJQuery('script#fess-ss').attr('page-size');
+    if (pageSize !== undefined && pageSize !== '') {
+      params.num = pageSize;
+    }
 
     if (params.q === undefined) {
       var keyword = '';
