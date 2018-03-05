@@ -126,6 +126,11 @@ If you use `fess:search-form-only` tag, using the following setting, you can mov
 fess.setAttribute('fess-search-page-path', 'result.html');
 ```
 
+### Change The Number of Reuslts
+```javascript
+fess.setAttribute('page-size', '20');
+```
+
 ## Use Google Analytics
 
 To enable Site Search Tracking on Google Analytics, see [Set up Site Search](https://support.google.com/analytics/answer/1012264).
