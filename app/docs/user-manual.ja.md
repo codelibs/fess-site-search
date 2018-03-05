@@ -121,11 +121,17 @@ fess.setAttribute('enable-order', 'false');
 ```javascript
 fess.setAttribute('enable-thumbnail', 'false');
 ```
+
 ### 検索結果ページへ遷移させたい場合
 検索を実行した際に、指定したURLへページ遷移します。
 `fess:search-form-only`で検索フォームだけを表示して、検索結果は別のページで表示する場合に利用します。
 ```javascript
 fess.setAttribute('fess-search-page-path', 'result.html');
+```
+
+### 検索結果の表示件数を変更する場合
+```javascript
+fess.setAttribute('page-size', '20');
 ```
 
 ## デザインのカスタマイズ
