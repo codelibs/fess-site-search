@@ -20,11 +20,8 @@ export default class {
     }
     if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
       var query = this.urlParams.q[0];
-      if (FessJQuery('.fessWrapper .fessForm form input').length > 0) {
-        FessJQuery('.fessWrapper .fessForm form input').val(query);
-      }
-      if (FessJQuery('.fessWrapper .fessFormOnly form input').length > 0) {
-        FessJQuery('.fessWrapper .fessFormOnly form input').val(query);
+      if (FessJQuery('.fessWrapper form input.query').length > 0) {
+        FessJQuery('.fessWrapper form input.query').val(query);
       }
       try {
         this._search({q: query});
@@ -56,8 +53,8 @@ export default class {
     var $cls = this;
     FessJQuery('.fessWrapper .fessForm form').submit(function(){
       try {
-        var keyword = FessJQuery('#contentQuery', this).val();
-        FessJQuery('.fessWrapper #contentQuery').val(keyword);
+        var keyword = FessJQuery('input.query', this).val();
+        FessJQuery('.fessWrapper form input.query').val(keyword);
         $cls._search({});
       } catch (e) {
         console.log(e);
@@ -122,9 +119,9 @@ export default class {
     if (params.q === undefined) {
       var keyword = '';
       if (FessJQuery('.fessWrapper .fessForm').length > 0) {
-        keyword = FessJQuery('.fessWrapper .fessForm #contentQuery').val();
+        keyword = FessJQuery('.fessWrapper .fessForm form input.query').val();
       } else if(FessJQuery('.fessWrapper .fessFormOnly').length > 0) {
-        keyword = FessJQuery('.fessWrapper .fessFormOnly #contentQuery').val();
+        keyword = FessJQuery('.fessWrapper .fessFormOnly form input.query').val();
       } else if(this.urlParams.q !== undefined){
         keyword = this.urlParams.q[0];
       }
@@ -232,7 +229,7 @@ export default class {
           var key = decodeURIComponent(tpl[0]);
           var value = '';
           if (tpl.length > 1) {
-            value = decodeURIComponent(tpl[1]);
+            value = decodeURIComponent(tpl[1].replace('+', '%20', 'g'));
           }
 
           if (params[key] === undefined) {
