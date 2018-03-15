@@ -100,11 +100,11 @@ export default class {
       FessJQuery('.fessWrapper .fessFormOnly form').attr('action', state.searchPagePath);
     }
     if (state.searchParams !== null && state.searchParams.q !== undefined) {
-      if (FessJQuery('.fessWrapper .fessForm form input').length > 0) {
-        FessJQuery('.fessWrapper .fessForm form input').val(state.searchParams.q);
+      if (FessJQuery('.fessWrapper .fessForm form input.query').length > 0) {
+        FessJQuery('.fessWrapper .fessForm form input.query').val(state.searchParams.q);
       }
-      if (FessJQuery('.fessWrapper .fessFormOnly form input').length > 0) {
-        FessJQuery('.fessWrapper .fessFormOnly form input').val(state.searchParams.q);
+      if (FessJQuery('.fessWrapper .fessFormOnly form input.query').length > 0) {
+        FessJQuery('.fessWrapper .fessFormOnly form input.query').val(state.searchParams.q);
       }
     }
 
@@ -346,7 +346,7 @@ export default class {
   }
 
   _suggestor(state) {
-    FessJQuery('#contentQuery').suggestor(
+    FessJQuery('.fessWrapper form input.query').suggestor(
       {
         ajaxinfo : {
           url : state.contextPath + '/suggest',
