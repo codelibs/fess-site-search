@@ -14,4 +14,5 @@ You can also customize the appearance of your FSS engine here.
 
 ## Commercial Support
 
-If you need more support, please see [Commercial Support](http://www.n2sm.net/en/support/fess_support.html).
+If you need any technical help, contact [N2SM, Inc](http://www.n2sm.net/en/support/fess_support.html).
+

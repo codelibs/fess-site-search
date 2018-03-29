@@ -44,6 +44,7 @@ export default class {
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
     state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
+    state.linkTarget = FessJQuery('script#fess-ss').attr('link-target');
     state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
     state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
     state.labels = null;

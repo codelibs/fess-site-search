@@ -131,6 +131,11 @@ fess.setAttribute('fess-search-page-path', 'result.html');
 fess.setAttribute('page-size', '20');
 ```
 
+### Open Document In New Tab
+```javascript
+fess.setAttribute('link-target', '_blank');
+```
+
 ## Use Google Analytics
 
 To enable Site Search Tracking on Google Analytics, see [Set up Site Search](https://support.google.com/analytics/answer/1012264).
