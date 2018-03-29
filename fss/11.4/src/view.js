@@ -64,6 +64,7 @@ export default class {
       state.enableLabels = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
+      state.linkTarget = null;
       state.enableSuggest = false;
       state.popupMode = false;
       state.labels = null;
@@ -127,6 +128,10 @@ export default class {
     }
     response['has_results'] = response.record_count > 0;
 
+    if (state.linkTarget) {
+      response['link_target'] = state.linkTarget;
+    }
+
     var $fessResult = FessJQuery('.fessWrapper .fessResult');
     var html = resultTemplate(response);
     $fessResult.html(this.FessMessages.render(html, response));
@@ -155,6 +160,10 @@ export default class {
       delete response.related_content;
     }
     response['has_results'] = response.record_count > 0;
+
+    if (state.linkTarget) {
+      response['link_target'] = state.linkTarget;
+    }
 
     var html = resultTemplate(response);
     var $popup = FessJQuery('<div/>');

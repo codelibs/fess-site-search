@@ -134,6 +134,11 @@ fess.setAttribute('fess-search-page-path', 'result.html');
 fess.setAttribute('page-size', '20');
 ```
 
+### 検索結果を別タブで表示する場合
+```javascript
+fess.setAttribute('link-target', '_blank');
+```
+
 ## デザインのカスタマイズ
 
 FSS JS Generatorを利用して、デザインを修正することができます。
