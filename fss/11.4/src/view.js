@@ -117,7 +117,6 @@ export default class {
   _renderResult(state) {
     var response = state.searchResponse;
     response['context_path'] = state.contextPath;
-    response['labels'] = state.labels;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
     }
@@ -150,7 +149,6 @@ export default class {
   _renderPopupResult(state) {
     var response = state.searchResponse;
     response['context_path'] = state.contextPath;
-    response['labels'] = state.labels;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
     }
