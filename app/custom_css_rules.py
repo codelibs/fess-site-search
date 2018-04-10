@@ -80,7 +80,7 @@ class ButtonBorderColor(AbstractCSSRule):
         return 'button-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #searchButton {{border: solid {};}}'''.format(color)
+        return '''.fessWrapper  .searchButton {{border: solid {};}}'''.format(color)
 
 
 class ButtonBackgroundColor(AbstractCSSRule):
@@ -89,7 +89,7 @@ class ButtonBackgroundColor(AbstractCSSRule):
         return 'button-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #searchButton {{background-color: {};}}'''.format(color)
+        return '''.fessWrapper  .searchButton {{background-color: {};}}'''.format(color)
 
 
 # Result: Component

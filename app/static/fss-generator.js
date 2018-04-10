@@ -68,8 +68,8 @@ function applyWizardDesign() {
         // Search Box
         new FssDesign('searchbox-border-color', '.fessForm', 'border'),
         // Search Button
-        new FssDesign('button-border-color', '#searchButton', 'border'),
-        new FssDesign('button-bg-color',     '#searchButton', 'background-color'),
+        new FssDesign('button-border-color', '.searchButton', 'border'),
+        new FssDesign('button-bg-color',     '.searchButton', 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
