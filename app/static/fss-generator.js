@@ -37,7 +37,11 @@ function resetIframeDesign() {
 class FssDesign {
     constructor(formId, target, prop) {
         this.formId = formId;
-        this.target = `.fessWrapper ${target}`;
+        if(target instanceof Array) {
+            this.target = '.fessWrapper' + target.join(', .fessWrapper ');
+        } else {
+            this.target = `.fessWrapper ${target}`;
+        }
         this.prop = prop;
     }
 
@@ -68,8 +72,15 @@ function applyWizardDesign() {
         // Search Box
         new FssDesign('searchbox-border-color', '.fessForm', 'border'),
         // Search Button
-        new FssDesign('button-border-color', '#searchButton', 'border'),
-        new FssDesign('button-bg-color',     '#searchButton', 'background-color'),
+        new FssDesign('button-text-color', '.searchButton', 'color'),
+        new FssDesign('button-border-color', '.searchButton', 'border'),
+        new FssDesign('button-bg-color',     '.searchButton', 'background-color'),
+        new FssDesign('button-active-text-color',
+                      ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'color'),
+        new FssDesign('button-active-border-color',
+                      ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'border'),
+        new FssDesign('button-active-bg-color',
+                      ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
