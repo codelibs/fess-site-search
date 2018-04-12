@@ -75,12 +75,20 @@ class FormBorderColor(AbstractCSSRule):
 
 
 # Search Button
+class ButtonTextColor(AbstractCSSRule):
+    def form_name(self):
+        return 'button-text-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .searchButton {{color: {};}}'''.format(color)
+
+
 class ButtonBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'button-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  .searchButton {{border: solid {};}}'''.format(color)
+        return '''.fessWrapper .searchButton {{border: solid {};}}'''.format(color)
 
 
 class ButtonBackgroundColor(AbstractCSSRule):
@@ -89,7 +97,32 @@ class ButtonBackgroundColor(AbstractCSSRule):
         return 'button-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  .searchButton {{background-color: {};}}'''.format(color)
+        return '''.fessWrapper .searchButton {{background-color: {};}}'''.format(color)
+
+
+class ButtonActiveTextColor(AbstractCSSRule):
+    def form_name(self):
+        return 'button-active-text-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{color: {};}}'''.format(color)
+
+
+class ButtonActiveBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'button-active-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{border: solid {};}}'''.format(color)
+
+
+class ButtonActiveBackgroundColor(AbstractCSSRule):
+
+    def form_name(self):
+        return 'button-active-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{background-color: {};}}'''.format(color)
 
 
 # Result: Component
@@ -180,7 +213,8 @@ def get_CSS_rules():
     css_rules = [
         Font(), BackgroundColor(), BorderColor(),
         FormBorderColor(),
-        ButtonBorderColor(), ButtonBackgroundColor(),
+        ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
+        ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
         ResultUrlColor(),

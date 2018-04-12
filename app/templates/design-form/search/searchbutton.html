@@ -3,9 +3,21 @@
 {% block title %}Search Button{% endblock %}
 
 {% block body %}
+    {# Text #}
+    {{ color_form('button-text-color', 'Text', 'Text Color of Search Button') }}
+
     {# Border #}
     {{ color_form('button-border-color', 'Border', 'Border Color of Search Button') }}
 
     {# Background #}
     {{ color_form('button-bg-color', 'Background', 'Background Color of Search Button') }}
+
+    {# Text #}
+    {{ color_form('button-active-text-color', 'Text (active)', 'Text Color of Search Button when it becomes active') }}
+
+    {# Border #}
+    {{ color_form('button-active-border-color', 'Border (active)', 'Border Color of Search Button when it becomes active') }}
+
+    {# Background #}
+    {{ color_form('button-active-bg-color', 'Background (active)', 'Background Color of Search Button when it becomes active') }}
 {% endblock %}
