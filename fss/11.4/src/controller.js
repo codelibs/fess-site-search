@@ -5,6 +5,7 @@ export default class {
     this.FessView = FessView;
     this.FessModel = FessModel;
     this.fessUrl = FessJQuery('script#fess-ss').attr('fess-url');
+    this.fessLang = FessJQuery('script#fess-ss').attr('fess-lang');
     this.urlParams = this._getParameters();
     this.viewState = null;
   }
@@ -115,6 +116,12 @@ export default class {
     var pageSize = FessJQuery('script#fess-ss').attr('page-size');
     if (pageSize !== undefined && pageSize !== '') {
       params.num = pageSize;
+    }
+
+    if (this.fessLang !== undefined) {
+      params.lang = this.fessLang;
+    } else {
+      params.lang = this.FessView.getLanguage();
     }
 
     if (params.q === undefined) {
