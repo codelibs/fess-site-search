@@ -378,6 +378,11 @@ export default class {
         minturm : 1,
         adjustWidthVal : 0,
         searchForm : FessJQuery('.fessWrapper .fessForm form')
-      });
-    }
+      }
+  　);
+  }
+
+  getLanguage() {
+    return this.FessMessages.getLanguage();
+  }
 }

@@ -136,6 +136,11 @@ fess.setAttribute('page-size', '20');
 fess.setAttribute('link-target', '_blank');
 ```
 
+### Set Query Language
+```javascript
+fess.setAttribute('fess-lang', 'en');
+```
+
 ## Use Google Analytics
 
 To enable Site Search Tracking on Google Analytics, see [Set up Site Search](https://support.google.com/analytics/answer/1012264).
