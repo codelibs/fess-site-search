@@ -158,7 +158,7 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 検索結果に表示するサムネイルサイズを変更したい場合はCSSで以下を指定して変更してください。
 デフォルトのサイズは100pxです。
 
-```
+```css
 .fessWrapper .thumbnail {
   width: 100px !important;
 }
@@ -172,7 +172,7 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 
 Shift\_JISなどのUTF-8以外のエンコーディングで作成されたサイトでは、既存のページに検索フォームを配置して検索する際に次のようにformタグを設定する必要があります。
 
-```
+```html
 <form action="search.html" method="get"
   onsubmit="document.location=this.action+'?q='+encodeURIComponent(document.getElementById('query').value);return false">
   <input type="text" id="query" name="q" value="">

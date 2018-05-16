@@ -1,18 +1,24 @@
 .markdown-body {
-  padding-top: 20px;
-  padding-bottom: 40px;
+    padding: 0.2em 0 1em;
 }
 
 .markdown-body pre {
-  background-color: #e9eff2;
-  padding: 10;
-  border-radius: 1px;
+    background-color: #e9eff2;
+    padding: 10px;
+    border-radius: 1px;
 }
 
 .markdown-body h2 {
-  margin-top: 1em;
+    font-size: 1.8em;
 }
 
 .markdown-body h3 {
-  font-size: 1.25rem;
+    font-size: 1.4em;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    margin-top: 1em;
+    margin-bottom: 0.6em;
 }

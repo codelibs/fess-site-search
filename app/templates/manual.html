@@ -3,16 +3,31 @@
 {% set navbar_link = '/docs/manual' %}
 {% set language = message.language %}
 
+{# Head #}
 {% block head %}
-  {{ super() }}
-  <link rel="stylesheet" href="/static/markdown.css">
-  <link rel="stylesheet" href="/static/github.css">
+    {{ super() }}
+    <link rel="stylesheet" href="/static/markdown.css">
+    <link rel="stylesheet" href="/static/github.css">
 {% endblock %}
 
+{# Content #}
 {% block content %}
-  <div class="container markdown-body" role="main">
-    {% autoescape false %}
-      {{message.markdown_content}}
-    {% endautoescape %}
-  </div>
+    <div class="content-wrapper" role="main">
+        <article>
+            <header class="content-header">
+                <h1>
+                    {% if language == 'en' %}
+                        User Manual
+                    {% else %}
+                        ユーザーマニュアル
+                    {% endif %}
+                </h1>
+            </header>
+            <div class="markdown-body" role="main">
+                {% autoescape false %}
+                    {{message.markdown_content}}
+                {% endautoescape %}
+            </div>
+        </article>
+    </div>
 {% endblock %}
