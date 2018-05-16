@@ -12,16 +12,16 @@
 
 {# Content #}
 {% block content %}
-    <div class="container theme-showcase" role="main">
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-3">Fess Site Search</h1>
+    <div class="content-wrapper" role="main">
+        <article>
+            <header class="content-header">
+                <h1>Fess Site Search</h1>
+            </header>
+            <div class="markdown-body" role="main">
+                {% autoescape false %}
+                    {{message.markdown_content}}
+                {% endautoescape %}
             </div>
-        </div>
-        <div class="markdown-body" role="main">
-            {% autoescape false %}
-                {{message.markdown_content}}
-            {% endautoescape %}
-        </div>
+        </article>
     </div>
 {% endblock %}

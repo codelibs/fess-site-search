@@ -9,50 +9,42 @@
 {% endblock %}
 
 {% block content %}
-    <div>
-        <div class="container theme-showcase" role="main">
-            <div class="jumbotron jumbotron-fluid">
-                <div class="container" id="loading-text">
-                    <h1 class="display-4">Generating..</h1>
+    <div class="content-wrapper" role="main">
+        <article>
+            <header class="content-header">
+                <h1>FSS JS Generator</h1>
+            </header>
+            <div class="content container-fluid">
+                <div class="box box-default" id="loading">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Generating...</h3>
+                    </div>
+                    <div class="box-body"></div>
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
                 </div>
-                <div class="container" id="loaded-text">
-                    <h1 class="display-4">Check your Design</h1>
+                <div class="box box-default" id="loaded">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Check your Design</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <a href="/generator" class="btn btn-default btn-lg col-xs-3 col-xs-offset-2">
+                                <i class="fa fa-backward"></i> Back
+                            </a>
+                            <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg col-xs-3 col-xs-offset-2">
+                                <i class="fa fa-download"></i> Download JS
+                            </a>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="embed-responsive embed-responsive-4by3">
+                            <iframe class="embed-responsive-item" data-src="{{message.search_src}}" id="iframe"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div id="loading" class="text-center">
-            <p>
-                <img id="loading_img" src="/static/loading.gif" class="rounded" alt="Loading" />
-            </p>
-            <div class="btn-group mr-2">
-                <a href="/generator" class="btn btn-warning btn-lg">
-                    Cancel
-                </a>
-            </div>
-        </div>
-
-        <div id="loaded">
-            <div class="text-center">
-                <div class="btn-group mr-2">
-                    <a href="/generator" class="btn btn-secondary btn-lg">
-                        &lt;&lt; Back
-                    </a>
-                </div>
-                <div class="btn-group mr-2">
-                    <a href={{message.js_path}} download={{message.js_file}} class="btn btn-primary btn-lg">
-                        Download JS
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="container">
-            <div class="embed-responsive embed-responsive-4by3">
-                <iframe class="embed-responsive-item" data-src={{message.search_src}} id="iframe"></iframe>
-            </div>
-        </div>
+        </article>
     </div>
 {% endblock %}
