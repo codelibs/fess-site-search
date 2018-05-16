@@ -10,57 +10,95 @@
 #}
 
 {# Utility #}
-{% macro nav_link(id, name, link=id, external=false) %}
+{% macro nav_link(id, name, icon, link=id) %}
     {% if navbar_link == id %}
-        <li class="nav-item active"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
+        <li class="active"><a href="{{link}}">
+            <i class="fa {{icon}}"></i>
+            <span>{{name}}</span>
+        </a></li>
     {% else %}
-        {% if external %}
-            <li class="nav-item"> <a class="nav-link" href="{{link}}">{{name}} <i class="fa fa-external-link" aria-hidden="true"></i></a></li>
-        {% else %}
-            <li class="nav-item"> <a class="nav-link" href="{{link}}">{{name}}</a></li>
-        {% endif %}
+        <li><a href="{{link}}">
+            <i class="fa {{icon}}"></i>
+            <span>{{name}}</span>
+        </a></li>
     {% endif %}
 {% endmacro %}
 
-{% macro navbar() %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContents" aria-controls="navbarContents" aria-expanded="false" >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="/">Fess Site Search</a>
-        <div class="collapse navbar-collapse" id="navbarContents">
-            <ul class="navbar-nav mr-auto">
-                {% if language == 'en' %}
-                    {{ nav_link('/', 'Home') }}
-                    {{ nav_link('/docs/manual', 'User Manual') }}
-                    {{ nav_link('/generator', 'Generator') }}
-                    {{ nav_link('fess-doc', 'Fess', 'https://fess.codelibs.org/', external=true) }}
-                    {{ nav_link('github', 'GitHub', 'https://github.com/codelibs/fess-site-search/', external=true) }}
-                {% else %}
-                    {{ nav_link('/', 'ホーム', '/ja') }}
-                    {{ nav_link('/docs/manual', 'マニュアル', '/ja/docs/manual') }}
-                    {{ nav_link('/generator', 'Generator') }}
-                    {{ nav_link('fess-doc', 'Fess', 'https://fess.codelibs.org/ja/', external=true) }}
-                    {{ nav_link('github', 'GitHub', 'https://github.com/codelibs/fess-site-search/', external=true) }}
-                {% endif %}
-            </ul>
-
+{% macro header() %}
+    <header class="main-header">
+        <a href="/{% if language != 'en' %}{{language}}{% endif %}" class="logo">
+            <span class="logo-mini">FSS</span>
+            <span class="logo-lg">Fess Site Search</span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
             {# Dropdown menu to change language #}
             {% if navbar_link == '/' or navbar_link == '/docs/manual' %}
-                <ul class="navbar-nav navbar-right">
-                    <li class="nav-item dropdown active">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-globe" aria-hidden="true"></i> Language
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="{{ navbar_link }}">English</a>
-                            <a class="dropdown-item" href="/ja{{ navbar_link }}">日本語</a>
-                        </div>
-                    </li>
-                </ul>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-globe" aria-hidden="true"></i> Language
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="{{ navbar_link }}">English</a>
+                                </li>
+                                <li>
+                                    <a href="/ja{{ navbar_link }}">日本語</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             {% endif %}
-        </div>
-    </nav>
+        </nav>
+    </header>
+{% endmacro %}
+
+{% macro navbar() %}
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu" data-widget="tree">
+                {% if language == 'en' %}
+                    {{ nav_link('/', 'Home', 'fa-home') }}
+                    {{ nav_link('/docs/manual', 'User Manual', 'fa-book') }}
+                    {{ nav_link('/generator', 'Generator', 'fa-edit') }}
+                {% else %}
+                    {{ nav_link('/', 'ホーム', 'fa-home', '/ja') }}
+                    {{ nav_link('/docs/manual', 'マニュアル', 'fa-book', '/ja/docs/manual') }}
+                    {{ nav_link('/generator', 'Generator', 'fa-edit') }}
+                {% endif %}
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-link"></i>
+                        <span>
+                            {% if language == 'en' %}
+                                Link
+                            {% else %}
+                                リンク
+                            {% endif %}
+                        </span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {% if language == 'en' %}
+                            {{ nav_link('fess-doc', 'Fess', 'fa-circle-o', 'https://fess.codelibs.org/') }}
+                            {{ nav_link('github', 'GitHub', 'fa-circle-o', 'https://github.com/codelibs/fess-site-search/') }}
+                        {% else %}
+                            {{ nav_link('fess-doc', 'Fess', 'fa-circle-o', 'https://fess.codelibs.org/ja/') }}
+                            {{ nav_link('github', 'GitHub', 'fa-circle-o', 'https://github.com/codelibs/fess-site-search/') }}
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </aside>
 {% endmacro %}
 
 {# Contents #}
@@ -78,27 +116,31 @@
             <meta charset="utf-8">
             <title>{% block title %}{% endblock %}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/AdminLTE.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/skins/_all-skins.min.css">
             <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/js/adminlte.min.js"></script>
             <link rel="stylesheet" href="/static/style.css">
         {% endblock %}
     </head>
 
-    <body>
+    <body class="skin-black sidebar-mini">
+        <div class="wrapper">
 
-        {{ navbar() }}
+            {{ header() }}
 
-        {% block content %}{% endblock %}
+            {{ navbar() }}
 
-        <footer class="text-muted" role="contentinfo">
-            <div id="footer" class="container">
-                <p>
-                    &copy;2017 <a href="https://github.com/codelibs">CodeLibs Project</a>.
-                </p>
-            </div>
-        </footer>
+            {% block content %}{% endblock %}
+
+            <footer class="main-footer" role="contentinfo">
+                © 2017
+                <a href="https://github.com/codelibs">CodeLibs Project</a>.
+            </footer>
+
+        </div>
     </body>
 </html>

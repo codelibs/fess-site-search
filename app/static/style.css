@@ -1,29 +1,34 @@
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.content-wrapper {
+    padding: 0 40px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: #454545;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
-  text-align: center;
+.content-header {
+    padding: 0;
+    margin-bottom: 1.6em;
+}
+
+.content-header h1 {
+    padding: 1em 0 0.3em;
+    font-size: 2.4em;
+    border-bottom: 1px solid #d2d6de;
 }
 
 div#loading {
     cursor: wait;
-    margin:auto;
+    margin: auto;
 }
 
 div#loaded {
     display: none;
-    margin:auto;
+    margin: auto;
 }
 
 div#loaded-text {
