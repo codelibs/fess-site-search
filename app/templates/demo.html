@@ -9,7 +9,17 @@
 {% endblock %}
 
 {% block content %}
-    <div>
+    <div class="content-wrapper" role="main">
+        <article>
+            <header class="content-header">
+                <h1>Generating</h1>
+            </header>
+            <div class="markdown-body" role="main">
+                {% autoescape false %}
+                    {{message.markdown_content}}
+                {% endautoescape %}
+            </div>
+        </article>
         <div class="container theme-showcase" role="main">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container" id="loading-text">
@@ -51,7 +61,7 @@
 
         <div class="container">
             <div class="embed-responsive embed-responsive-4by3">
-                <iframe class="embed-responsive-item" data-src={{message.search_src}} id="iframe"></iframe>
+                <iframe class="embed-responsive-item" data-src="{{message.search_src}}" id="iframe"></iframe>
             </div>
         </div>
     </div>
