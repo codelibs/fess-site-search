@@ -6,12 +6,12 @@
     {# Font #}
     {% call general_form('font-family', 'Font') %}
         <select class="form-control" id="font-family" name="font-family">
-                <option value="">Default</option>
-                <option>Arial, sans-serif</option>
-                <option>Verdana, sans-serif</option>
-                <option>"Trebuchet MS", sans-serif</option>
-                <option>Times, serif</option>
-                <option>Georgia, serif</option>
+            <option value="">Default</option>
+            <option>Arial, sans-serif</option>
+            <option>Verdana, sans-serif</option>
+            <option>"Trebuchet MS", sans-serif</option>
+            <option>Times, serif</option>
+            <option>Georgia, serif</option>
         </select>
     {% endcall %}
 
@@ -23,9 +23,9 @@
 
     {# Version #}
     {% call general_form('fess-version', 'Version') %}
-        <select name="fess-version"  class="form-control">
-                <option value="11.4">Fess 11.4/12.x</option>
-                <option value="11.3">Fess 11.3</option>
+        <select name="fess-version" class="form-control">
+            <option value="11.4">Fess 11.4/12.x</option>
+            <option value="11.3">Fess 11.3</option>
         </select>
     {% endcall %}
 {% endblock %}

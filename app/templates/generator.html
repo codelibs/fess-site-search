@@ -10,131 +10,111 @@
 {% endblock %}
 
 {# Macro #}
-{% macro menu_item(name, target, opt_class='', selected='false') -%}
-    <a class="menu-item nav-link {{ opt_class }}" id="menu-tab-{{ target }}" data-toggle="pill" href="#{{ target }}" role="tab" aria-controls="{{ target }}" aria-selected={{ selected }}>
-        {{ name }}
-    </a>
-{%- endmacro %}
-
-{% macro form_page(id, file_name, opt_class='') -%}
-    <div class="tab-pane {{ opt_class }}" id="{{ id }}" role="tabpanel" aria-labelledby="menu-tab-{{ id }}">
+{% macro form_page(id, file_name, collapesed=true) -%}
+    <div class="box box-default collapsed-box" id="{{ id }}">
         {% include file_name %}
     </div>
 {%- endmacro %}
 
 {# Content #}
 {% block content %}
-    <div class="container theme-showcase" role="main">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-danger" role="alert">
-                    {% for message in messages %}
-                        <h3>{{ message }}</h3>
-                    {% endfor %}
+    <div class="content-wrapper" role="main">
+        <article>
+            <header class="content-header container-fluid">
+                <h1>FSS JS Generator</h1>
+            </header>
+
+            <div class="content container-fluid">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% endwith %}
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs with-boarder">
+                        <li class="active">
+                            <a href="#tab_wizard" data-toggle="tab" aria-expanded="true">Wizard</a>
+                        </li>
+                        <li class="">
+                            <a href="#tab_upload" data-toggle="tab" aria-expanded="false">Custom CSS</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_wizard">
+                            <form id="wizard-form" method="post">
+                                <div class="body-box">
+                                    {# General: #}
+                                    {{ form_page('general', 'design-form/general.html', false) }}
+        
+                                    {# Search Form: #}
+                                    {{ form_page('search-box', 'design-form/search/searchbox.html') }}
+                                    {{ form_page('search-button', 'design-form/search/searchbutton.html') }}
+        
+                                    {# Seach Result: #}
+                                    {{ form_page('result-general', 'design-form/result/general.html') }}
+                                    {{ form_page('result-title', 'design-form/result/title.html') }}
+                                    {{ form_page('result-url', 'design-form/result/url.html') }}
+                                    {{ form_page('result-snippet', 'design-form/result/snippet.html') }}
+                                </div>
+                                <script>
+                                    $('.colorpicker-element').colorpicker();
+                                </script>
+
+                                {# Preview Button, Generate Button #}
+                                <div class="box-footer">
+                                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyWizardDesign()">Preview</button>
+                                    <input type="submit" class="btn btn-primary btn-lg pull-right" value="Generate">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="tab_upload">
+                            <form id="upload-form" method="post" enctype="multipart/form-data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="file">CSS</label>
+                                        <input type="file" id="file">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fess-version">Version</label>
+                                        <select name="fess-version" class="form-control">
+                                            <option value="11.4">Fess 11.4/12.x</option>
+                                            <option value="11.3">Fess 11.3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {# Preview Button, Generate Button #}
+                                <div class="box-footer">
+                                    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyUploadedDesign()">Preview</button>
+                                    <input type="submit" class="btn btn-primary btn-lg pull-right" value="Generate">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
-        {% endwith %}
-        <div class="jumbotron jumbotron-fluid">
-            <div class="container">
-                <h1 class="display-3">FSS JS Generator</h1>
-                <h2 class="display-5">Generate JavaScript file for Fess Site Search</h2>
-            </div>
-        </div>
 
-        <ul class="nav nav-tabs nav-fill">
-            <li class="nav-item">
-                <a data-target="#tab-wizard" class="nav-link mode-tab active" data-toggle="tab" role="tab">Wizard</a>
-            </li>
-            <li class="nav-item">
-                <a data-target="#tab-upload" class="nav-link mode-tab" data-toggle="tab" role="tab">Custom CSS</a>
-            </li>
-        </ul>
-
-        <div class="tab-content tab-content-top">
-            <div id="tab-wizard" class="tab-pane active" role="tabpanel">
-                <form id="wizard-form" method="post">
-                    <div class="row">
-                        <div class="nav nav-fill flex-column col-3 nav-pills" role="tablist" aria-orientation="vertical">
-                            {# General: #}
-                            {{ menu_item('General', 'general', opt_class='active', selected='true') }}
-
-                            {# Seach Form: #}
-                            <div class="category-label">Search Form:</div>
-                            {{ menu_item('Search Box', 'search-box') }}
-                            {{ menu_item('Search Button', 'search-button') }}
-
-                            {# Seach Result: #}
-                            <div class="category-label">Search Result:</div>
-                            {{ menu_item('General', 'result-general') }}
-                            {{ menu_item('Title', 'result-title') }}
-                            {{ menu_item('URL', 'result-url') }}
-                            {{ menu_item('Snippet', 'result-snippet') }}
-                        </div>
-
-                        <div class="tab-content tab-content-wizart col-9">
-                            {# General: #}
-                            {{ form_page('general', 'design-form/general.html', opt_class='active show') }}
-
-                            {# Search Form: #}
-                            {{ form_page('search-box', 'design-form/search/searchbox.html') }}
-                            {{ form_page('search-button', 'design-form/search/searchbutton.html') }}
-
-                            {# Seach Result: #}
-                            {{ form_page('result-general', 'design-form/result/general.html') }}
-                            {{ form_page('result-title', 'design-form/result/title.html') }}
-                            {{ form_page('result-url', 'design-form/result/url.html') }}
-                            {{ form_page('result-snippet', 'design-form/result/snippet.html') }}
-                        </div>
-                    </div>
-
-                    {# Preview Button, Generate Button #}
-                    <div class="form-group submit-button">
-                        <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyWizardDesign()">Preview</button>
-                        <input type="submit" class="btn btn-primary btn-lg" value="Generate">
-                    </div>
-                </form>
-            </div>
-
-            <div id="tab-upload" class="tab-pane" role="tabpanel">
-                <form id="upload-form" method="post" enctype="multipart/form-data">
-                    <div class="form-horizontal">
-                        <div class="form-group row">
-                            <label for="file" class="col-2 col-form-label-lg">CSS</label>
-                            <input type="file" name="file" id="custom-css" class="form-control-file form-control-lg">
-                        </div>
-                        <div class="form-group row">
-                            <label for="fess-version" class="col-2 col-form-label-lg">Version</label>
-                            <select name="fess-version"  class="custom-select form-control-lg">
-                                <option value="11.4">Fess 11.4/12.x</option>
-                                <option value="11.3">Fess 11.3</option>
-                            </select>
-                        </div>
-
-                        {# Preview Button, Generate Button #}
-                        <div class="form-group submit-button">
-                            <button type="button" class="btn btn-secondary btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyUploadedDesign()">Preview</button>
-                            <input type="submit" class="btn btn-primary btn-lg" value="Generate">
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            {# Modal #}
-            <div class="modal fade" id="preview-modal">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Preview</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
+                {# Modal #}
+                <div class="modal fade" id="preview-modal">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Preview</h4>
+                            </div>
+                            <div class="modal-body">
+                                <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     </div>
 {% endblock %}
