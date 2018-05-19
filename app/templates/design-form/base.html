@@ -1,25 +1,33 @@
 {# Utilities #}
 {% macro general_form(id, label) -%}
-    <div class="form-group row">
-        <label for="{{ id }}" class="col-4 col-form-label-lg">{{ label }}</label>
-        <div class="col-8">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="{{ id }}">{{ label }}</label>
             {{ caller () }}
         </div>
     </div>
 {%- endmacro %}
 
-{% macro color_form(id, label, help, placeholder='#FFFFFF') -%}
+{% macro color_form(id, label, help, placeholder='#ffffff') -%}
     {% call general_form(id, label) %}
-        <input type="text" class="form-control" name="{{ id }}" id="{{ id }}"
-               aria-describedby="{{ id }}-help" placeholder="{{ placeholder }}" maxlength="7">
-        <small id="{{ id }}-help" class="form-text text-muted">
-            {{ help }}
-        </small>
+        <input type="text" class="form-control colorpicker-element" name="{{ id }}" id="{{ id }}" placeholder="{{ placeholder }}" maxlength="7">
+        <span class="help-block">{{ help }}</span>
     {% endcall %}
 {%- endmacro %}
 
 
 {# Page #}
-<h2 class="display-5"> {% block title %}{% endblock %} </h2>
-<br>
-{% block body %}{% endblock %}
+<div class="box-header with-border">
+    <h3 class="box-title">{% block title %}{% endblock %}</h3>
+    <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<div class="box-body">
+    <div class="row">
+        {% block body %}{% endblock %}
+    </div>
+</div>

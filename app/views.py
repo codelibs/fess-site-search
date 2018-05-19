@@ -25,7 +25,7 @@ def manual():
 
 @app.route('/ja/docs/manual')
 def manual_ja():
-    """manual page (English)"""
+    """manual page (Japanese)"""
     return render_markdown('manual.html', 'user-manual.ja.md', 'ja')
 
 
