@@ -49,6 +49,7 @@ export default class {
     state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
     state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
     state.labels = null;
+    state.fessLang = this.fessLang || null;
   }
 
   _bindForm() {
@@ -118,11 +119,7 @@ export default class {
       params.num = pageSize;
     }
 
-    if (this.fessLang !== undefined) {
-      params.lang = this.fessLang;
-    } else {
-      params.lang = this.FessView.getLanguage();
-    }
+    params.lang = this.FessView.getLanguage(this.viewState);
 
     if (params.q === undefined) {
       var keyword = '';

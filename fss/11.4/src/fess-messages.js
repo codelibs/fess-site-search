@@ -573,8 +573,9 @@ export default class {
       }
     }
   }
-  getLanguage() {
-    var lang = (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
+
+  getLanguage(fessLang) {
+    var lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
     if (lang.indexOf('-') > 0) {
       if (lang === 'zh-TW') {
         lang = 'tw';
@@ -584,19 +585,29 @@ export default class {
         lang = lang.substr(0, lang.indexOf('-'));
       }
     }
+    if (this.messages[lang] === undefined) {
+      lang = 'en';
+    }
     return lang;
   }
-  getMessage(key, vars) {
-    var language = this.getLanguage();
-    if (this.messages[language] === undefined) {
-      language = 'en';
+
+  render(html, vars, fessLang) {
+    var language = this.getLanguage(fessLang);
+    var tmpHtml = html;
+    var messages = this.messages[language];
+    for(var key in messages) {
+      var reg = new RegExp('{' + key + '}', 'g');
+      tmpHtml = tmpHtml.replace(reg, this._getMessage(key, vars, language));
     }
+    return tmpHtml;
+  }
+
+  _getMessage(key, vars, language) {
     var message = this.messages[language][key];
     if (message === undefined) {
       console.log('Invalid message key:' + key);
       return '';
     }
-
     for (var key in vars) {
       if (typeof vars[key] == 'string' || typeof vars == 'string') {
         var reg = new RegExp('{{' + key + '}}', 'g');
@@ -606,19 +617,6 @@ export default class {
     //var reg = new RegExp('{{[^{}]*}}', 'g');
     //message = message.replace(reg, '');
     return message;
-  }
-  render(html, vars) {
-    var language = this.getLanguage();
-    if (this.messages[language] === undefined) {
-      language = 'en';
-    }
-    var tmpHtml = html;
-    var messages = this.messages[language];
-    for(var key in messages) {
-      var reg = new RegExp('{' + key + '}', 'g');
-      tmpHtml = tmpHtml.replace(reg, this.getMessage(key, vars));
-    }
-    return tmpHtml;
   }
 
   _escapeHtml (message) {
