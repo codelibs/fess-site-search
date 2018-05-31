@@ -138,7 +138,7 @@ fess.setAttribute('link-target', '_blank');
 
 ### Set Query Language
 ```javascript
-fess.setAttribute('fess-lang', 'en');
+fess.setAttribute('language', 'en');
 ```
 
 ## Use Google Analytics

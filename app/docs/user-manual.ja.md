@@ -141,7 +141,7 @@ fess.setAttribute('link-target', '_blank');
 
 ### 言語を指定しての検索を行う場合
 ```javascript
-fess.setAttribute('fess-lang', 'ja');
+fess.setAttribute('language', 'ja');
 ```
 
 ## デザインのカスタマイズ

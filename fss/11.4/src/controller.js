@@ -50,6 +50,7 @@ export default class {
     state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
     state.labels = null;
     state.fessLang = this.fessLang || null;
+    state.enableDetails = FessJQuery('script#fess-ss').attr('enable-details') === 'true' ? true : false;
   }
 
   _bindForm() {
