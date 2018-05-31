@@ -68,6 +68,7 @@ export default class {
       state.enableSuggest = false;
       state.popupMode = false;
       state.labels = null;
+      state.fessLang = null;
       return state;
     })();
   }
@@ -93,11 +94,11 @@ export default class {
     var $fessFormOnly = FessJQuery('.fessWrapper .fessFormOnly');
     if ($fessForm.length > 0) {
       var html = formTemplate();
-      $fessForm.html(this.FessMessages.render(html, {}));
+      $fessForm.html(this.FessMessages.render(html, {}, state.fessLang));
     }
     if ($fessFormOnly.length > 0) {
       var html = formOnlyTemplate();
-      $fessFormOnly.html(this.FessMessages.render(html, {}));
+      $fessFormOnly.html(this.FessMessages.render(html, {}, state.fessLang));
       FessJQuery('.fessWrapper .fessFormOnly form').attr('action', state.searchPagePath);
     }
     if (state.searchParams !== null && state.searchParams.q !== undefined) {
@@ -133,7 +134,7 @@ export default class {
 
     var $fessResult = FessJQuery('.fessWrapper .fessResult');
     var html = resultTemplate(response);
-    $fessResult.html(this.FessMessages.render(html, response));
+    $fessResult.html(this.FessMessages.render(html, response, state.fessLang));
     if (response.record_count > 0) {
       var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
@@ -178,7 +179,7 @@ export default class {
 
     var $popupResultSection = FessJQuery('<div/>');
     $popupResultSection.addClass('fessPopupResult');
-    $popupResultSection.html(this.FessMessages.render(html, response));
+    $popupResultSection.html(this.FessMessages.render(html, response, state.fessLang));
     $popup.append($popupResultSection);
 
     var $fessOverlay = FessJQuery('.fessOverlay');
@@ -249,7 +250,7 @@ export default class {
       $li.addClass('prev');
       $li.attr('aria-label', 'Previous');
       $li.attr('page', paginationInfo.current - 1);
-      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}));
+      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, state.fessLang));
       if (currentPage > 1) {
         $li.css('cursor', 'pointer');
       } else {
@@ -275,7 +276,7 @@ export default class {
       $li.addClass('next');
       $li.attr('aria-label', 'Next');
       $li.attr('page', paginationInfo.current + 1);
-      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}));
+      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, state.fessLang));
       if (paginationInfo.current < paginationInfo.max) {
         $li.css('cursor', 'pointer');
       } else {
@@ -359,7 +360,7 @@ export default class {
           url : state.contextPath + '/suggest',
           fn : '_default,content,title',
           num : 10,
-          lang : this.FessMessages.getLanguage()
+          lang : this.FessMessages.getLanguage(state.fessLang)
         },
         boxCssInfo : {
           border : '1px solid rgba(82, 168, 236, 0.5)',
@@ -379,10 +380,10 @@ export default class {
         adjustWidthVal : 0,
         searchForm : FessJQuery('.fessWrapper .fessForm form')
       }
-  　);
+  );
   }
 
-  getLanguage() {
-    return this.FessMessages.getLanguage();
+  getLanguage(state) {
+    return this.FessMessages.getLanguage(state.fessLang);
   }
 }
