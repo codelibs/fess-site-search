@@ -5,7 +5,7 @@ export default class {
     this.FessView = FessView;
     this.FessModel = FessModel;
     this.fessUrl = FessJQuery('script#fess-ss').attr('fess-url');
-    this.fessLang = FessJQuery('script#fess-ss').attr('fess-lang');
+    this.fessLang = FessJQuery('script#fess-ss').attr('language');
     this.urlParams = this._getParameters();
     this.viewState = null;
   }
