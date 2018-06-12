@@ -34,6 +34,25 @@ export default class {
     if (this.urlParams.fssVersion !== undefined) {
       this._showVersion();
     }
+
+    window.addEventListener(
+      "popstate",
+      function(event) {
+        if (event.state != null) {
+          this._renderResult(event.state.response, event.state.params);
+          this._afterSearch(event.state.response, event.state.params);
+          FessJQuery('.fessWrapper form input.query').val(event.state.params.q);
+        } else {
+          if (this.viewState.popupMode) {
+            this.FessView.hideOverlay();
+            FessJQuery('.fessOverlay').empty();
+          } else {
+            FessJQuery('.fessWrapper .fessResult').empty();
+          }
+          FessJQuery('.fessWrapper form input.query').val('');
+        }
+      }.bind(this)
+    );
   }
 
   _initViewState(state) {
@@ -168,20 +187,24 @@ export default class {
           $cls.viewState.labels = data.response.result;
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
+          $cls._registerHistory(searchResponse, params);
         }, function(data) {
           console.log("labels error: " + JSON.stringify(data));
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
+          $cls._registerHistory(searchResponse, params);
         });
       } else {
         $cls._renderResult(searchResponse, params);
         $cls._afterSearch(searchResponse, params);
+        $cls._registerHistory(searchResponse, params);
       }
     }, function(data) {
       var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
       console.log("search error: " + JSON.stringify(data));
       $cls._renderResult(searchResponse, params);
       $cls._afterSearch(searchResponse, params);
+      $cls._registerHistory(searchResponse, params);
     });
   }
 
@@ -213,6 +236,12 @@ export default class {
       this._bindPopupClose();
     }
     this.FessView.hideSearchWaiting();
+  }
+
+  _registerHistory(response, params) {
+    if (window.history && window.history.pushState) {
+      history.pushState({response: response, params: params}, null);
+    }
   }
 
   _getParameters() {
