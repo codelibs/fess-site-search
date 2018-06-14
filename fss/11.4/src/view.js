@@ -133,7 +133,7 @@ export default class {
       response['link_target'] = state.linkTarget;
     }
     
-    if (state.enableDetails) {
+    if (state.enableDetails && response['has_results']) {
       var lang = this.getLanguage(state);
       response['details'] = true;
       for (var result of response['result']) {
@@ -175,7 +175,7 @@ export default class {
       response['link_target'] = state.linkTarget;
     }
 
-    if (state.enableDetails) {
+    if (state.enableDetails && response['has_results']) {
       var lang = this.getLanguage(state);
       response['details'] = true;
       for (var result of response['result']) {
