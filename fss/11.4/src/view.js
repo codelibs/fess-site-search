@@ -136,7 +136,7 @@ export default class {
     var html = resultTemplate(response);
     $fessResult.html(this.FessMessages.render(html, response, state.fessLang));
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
@@ -186,7 +186,7 @@ export default class {
     $fessOverlay.html('');
     $fessOverlay.append($popup);
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
@@ -217,7 +217,7 @@ export default class {
     }
   }
 
-  _createPagination(recordCount, pageSize, currentPage, params) {
+  _createPagination(recordCount, pageSize, currentPage, params, fessLang) {
     var $cls = this;
 
     var $pagination = FessJQuery('<ul/>');
@@ -250,7 +250,7 @@ export default class {
       $li.addClass('prev');
       $li.attr('aria-label', 'Previous');
       $li.attr('page', paginationInfo.current - 1);
-      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, state.fessLang));
+      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, fessLang));
       if (currentPage > 1) {
         $li.css('cursor', 'pointer');
       } else {
@@ -276,7 +276,7 @@ export default class {
       $li.addClass('next');
       $li.attr('aria-label', 'Next');
       $li.attr('page', paginationInfo.current + 1);
-      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, state.fessLang));
+      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, fessLang));
       if (paginationInfo.current < paginationInfo.max) {
         $li.css('cursor', 'pointer');
       } else {
