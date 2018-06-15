@@ -80,6 +80,19 @@
               <div class="site ellipsis">
                 <cite>{{site_path}}</cite>
               </div>
+              {{#if ../details}}
+                <div class="info" dir="{{../dir}}">
+                  <small>
+                    {result.created} {{created}}
+                    <span class="hidden-xs">-</span>
+                    <span class="br-xs"></span>
+                    {result.order.last_modified}: {{last_modified}}
+                    <span class="hidden-xs">-</span>
+                    <span class="br-xs"></span>
+                    {{content_length}} {result.size}
+                  </small>
+                </div>
+              {{/if}}
             </div>
           </div>
         </li>

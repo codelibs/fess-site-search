@@ -14,7 +14,9 @@ export default class {
         'result.pagination.prev': 'prev',
         'result.pagination.next': 'next',
         'result.did_not_match': 'Your search - <b>{{q}}</b> - did not match any documents.',
-        'result.related_query_label': 'Related Query:'
+        'result.related_query_label': 'Related Query:',
+        'result.size': 'bytes',
+        'result.created': 'Registered:'
       },
       ja: {
         'form.search.button': '検索',
@@ -29,7 +31,9 @@ export default class {
         'result.pagination.prev': '前へ',
         'result.pagination.next': '次へ',
         'result.did_not_match': '<b>{{q}}</b>に一致する情報は見つかりませんでした。',
-        'result.related_query_label': '関連クエリ:'
+        'result.related_query_label': '関連クエリ:',
+        'result.size': 'バイト',
+        'result.created': '登録日時:'
       },
       zh: {
         'form.search.button': '搜尋',
@@ -44,7 +48,9 @@ export default class {
         'result.pagination.prev': '上一页',
         'result.pagination.next': '下一页',
         'result.did_not_match': '未找到符合 <b>{{q}}</b> 的搜索结果',
-        'result.related_query_label': '相关查询:'
+        'result.related_query_label': '相关查询:',
+        'result.size': '個字節',
+        'result.created': '註冊:'
       },
       tw: {
         'form.search.button': '搜尋',
@@ -59,7 +65,9 @@ export default class {
         'result.pagination.prev': '上一页',
         'result.pagination.next': '下一页',
         'result.did_not_match': '找不到符合搜尋字詞 <b>{{q}}</b> 的文件',
-        'result.related_query_label': '相關查詢:'
+        'result.related_query_label': '相關查詢:',
+        'result.size': '個字節',
+        'result.created': '註冊:'
       },
       ko: {
         'form.search.button': '검색',
@@ -74,7 +82,9 @@ export default class {
         'result.pagination.prev': '이전',
         'result.pagination.next': '다음',
         'result.did_not_match': '<b>{{q}}</b>와(과) 일치하는 검색결과가 없습니다',
-        'result.related_query_label': '관련 검색어:'
+        'result.related_query_label': '관련 검색어:',
+        'result.size': '바이트',
+        'result.created': '등록 시간 :'
       },
       cs: {
         'form.search.button': 'Hledat',
@@ -89,7 +99,9 @@ export default class {
         'result.pagination.prev': 'Předchozí',
         'result.pagination.next': 'Další',
         'result.did_not_match': 'Na váš předmět vyhledávání - <b>{{q}}</b> - nebyl nalezen žádný odkaz.',
-        'result.related_query_label': 'Související Dotaz:'
+        'result.related_query_label': 'Související Dotaz:',
+        'result.size': 'bajty',
+        'result.created': 'Registrováno:'
       },
       da: {
         'form.search.button': 'Søg',
@@ -104,7 +116,9 @@ export default class {
         'result.pagination.prev': 'Forrige',
         'result.pagination.next': 'Næste',
         'result.did_not_match': 'Din søgning - <b>{{q}}</b> - matchede ikke nogen dokumenter.',
-        'result.related_query_label': 'Relateret Forespørgsel:'
+        'result.related_query_label': 'Relateret Forespørgsel:',
+        'result.size': 'byte',
+        'result.created': 'anbefalet:'
       },
       de: {
         'form.search.button': 'Suche',
@@ -119,7 +133,9 @@ export default class {
         'result.pagination.prev': 'Zurück',
         'result.pagination.next': 'Weiter',
         'result.did_not_match': 'Es wurden keine mit deiner Suchanfrage - <b>{{q}}</b> - übereinstimmenden Dokumente gefunden.',
-        'result.related_query_label': 'Verwandte Abfrage:'
+        'result.related_query_label': 'Verwandte Abfrage:',
+        'result.size': 'Bytes',
+        'result.created': 'Registriert:'
       },
       es: {
         'form.search.button': 'Buscar',
@@ -134,7 +150,9 @@ export default class {
         'result.pagination.prev': 'Anterior',
         'result.pagination.next': 'Siguiente',
         'result.did_not_match': 'La búsqueda de <b>{{q}}</b> no obtuvo ningún resultado.',
-        'result.related_query_label': 'Consulta relacionada:'
+        'result.related_query_label': 'Consulta relacionada:',
+        'result.size': 'bytes',
+        'result.created': 'Registrado:'
       },
       fr: {
         'form.search.button': 'Rechercher',
@@ -149,7 +167,9 @@ export default class {
         'result.pagination.prev': 'Précédent',
         'result.pagination.next': 'Suivant',
         'result.did_not_match': 'Aucun document ne correspond aux termes de recherche spécifiés (<b>{{q}}</b>)',
-        'result.related_query_label': 'Requête associée:'
+        'result.related_query_label': 'Requête associée:',
+        'result.size': 'octets',
+        'result.created': 'Enregistré:'
       },
       it: {
         'form.search.button': 'Cerca',
@@ -164,7 +184,9 @@ export default class {
         'result.pagination.prev': 'Indietro',
         'result.pagination.next': 'Avanti',
         'result.did_not_match': 'La ricerca di - <b>{{q}}</b> - non ha prodotto risultati in nessun documento.',
-        'result.related_query_label': 'Query correlata:'
+        'result.related_query_label': 'Query correlata:',
+        'result.size': 'byte',
+        'result.created': 'registrato:'
       },
       hu: {
         'form.search.button': 'Keresés',
@@ -179,7 +201,9 @@ export default class {
         'result.pagination.prev': 'Előző',
         'result.pagination.next': 'Következő',
         'result.did_not_match': 'A keresett kifejezés (<b>{{q}}</b>) egyetlen dokumentumban sem található meg.',
-        'result.related_query_label': 'Kapcsolódó lekérdezés:'
+        'result.related_query_label': 'Kapcsolódó lekérdezés:',
+        'result.size': 'bájt',
+        'result.created': 'bejegyzett:'
       },
       nl: {
         'form.search.button': 'Zoeken',
@@ -194,7 +218,9 @@ export default class {
         'result.pagination.prev': 'Vorige',
         'result.pagination.next': 'Volgende',
         'result.did_not_match': 'Je zoekbewerking - <b>{{q}}</b> - heeft geen overeenkomstige documenten opgeleverd.',
-        'result.related_query_label': 'Gerelateerde zoekopdracht:'
+        'result.related_query_label': 'Gerelateerde zoekopdracht:',
+        'result.size': 'bytes',
+        'result.created': 'geregistreerd:'
       },
       no: {
         'form.search.button': 'Søk',
@@ -209,7 +235,9 @@ export default class {
         'result.pagination.prev': 'Forrige',
         'result.pagination.next': 'Neste',
         'result.did_not_match': 'Ingen dokumenter samsvarte med søket ditt på «<b>{{q}}</b>».',
-        'result.related_query_label': 'Relatert spørsmål:'
+        'result.related_query_label': 'Relatert spørsmål:',
+        'result.size': 'byte',
+        'result.created': 'registrert:'
       },
       pl: {
         'form.search.button': 'Szukaj',
@@ -224,7 +252,9 @@ export default class {
         'result.pagination.prev': 'Poprzednia',
         'result.pagination.next': 'Następna',
         'result.did_not_match': 'Podana fraza - <b>{{q}}</b> - nie została odnaleziona.',
-        'result.related_query_label': 'Podobne zapytanie:'
+        'result.related_query_label': 'Podobne zapytanie:',
+        'result.size': 'bajty',
+        'result.created': 'Zarejestrowany:'
       },
       pt: {
         'form.search.button': 'Pesquisar',
@@ -239,7 +269,9 @@ export default class {
         'result.pagination.prev': 'Anterior',
         'result.pagination.next': 'Mais',
         'result.did_not_match': 'Sua pesquisa - <b>{{q}}</b> - não encontrou nenhum documento correspondente.',
-        'result.related_query_label': 'Consulta Relacionada:'
+        'result.related_query_label': 'Consulta Relacionada:',
+        'result.size': 'bytes',
+        'result.created': 'Registrado:'
       },
       fi: {
         'form.search.button': 'Haku',
@@ -254,7 +286,9 @@ export default class {
         'result.pagination.prev': 'Edellinen',
         'result.pagination.next': 'Seuraava',
         'result.did_not_match': 'Hakusi - <b>{{q}}</b> - ei vastaa yhtään sivua.',
-        'result.related_query_label': 'Vastaava kysely:'
+        'result.related_query_label': 'Vastaava kysely:',
+        'result.size': 'tavua',
+        'result.created': 'kirjattu:'
       },
       sv: {
         'form.search.button': 'Sök',
@@ -269,7 +303,9 @@ export default class {
         'result.pagination.prev': 'Föregående',
         'result.pagination.next': 'Nästa',
         'result.did_not_match': 'Din sökning - <b>{{q}}</b> - matchade inte något dokument.',
-        'result.related_query_label': 'Relaterad sökning:'
+        'result.related_query_label': 'Relaterad sökning:',
+        'result.size': 'byte',
+        'result.created': 'rekommenderat:'
       },
       tr: {
         'form.search.button': 'Ara',
@@ -284,7 +320,9 @@ export default class {
         'result.pagination.prev': 'Önceki',
         'result.pagination.next': 'Sonraki',
         'result.did_not_match': 'Aradığınız - <b>{{q}}</b> - ile ilgili hiçbir arama sonucu mevcut değil.',
-        'result.related_query_label': 'Ilgili Sorgu:'
+        'result.related_query_label': 'Ilgili Sorgu:',
+        'result.size': 'bayt',
+        'result.created': 'kayıtlı:'
       },
       ru: {
         'form.search.button': 'Поиск',
@@ -299,7 +337,9 @@ export default class {
         'result.pagination.prev': 'Предыдущая',
         'result.pagination.next': 'Следующая',
         'result.did_not_match': 'По запросу <b>{{q}}</b> ничего не найдено.',
-        'result.related_query_label': 'Связанный запрос:'
+        'result.related_query_label': 'Связанный запрос:',
+        'result.size': 'байтов',
+        'result.created': 'Записан:'
       },
       ar: {
         'form.search.button': 'البحث',
@@ -314,7 +354,9 @@ export default class {
         'result.pagination.prev': 'السابقة',
         'result.pagination.next': 'التالية',
         'result.did_not_match': 'لم ينجح بحثك عن <b>{{q}}</b> في إظهار أي نتائج.',
-        'result.related_query_label': 'استفسار متعلق:'
+        'result.related_query_label': 'استفسار متعلق:',
+        'result.size': 'بايت',
+        'result.created': 'مسجل:'
       },
       bg: {
         'form.search.button': 'търсене',
@@ -329,7 +371,9 @@ export default class {
         'result.pagination.prev': 'Предишна',
         'result.pagination.next': 'Следваща',
         'result.did_not_match': 'При търсенето на - <b>{{q}}</b> - не бяха открити съответстващи документи.',
-        'result.related_query_label': 'Свързани заявки:'
+        'result.related_query_label': 'Свързани заявки:',
+        'result.size': 'байта',
+        'result.created': 'регистрирано:'
       },
       ca: {
         'form.search.button': 'Cerca',
@@ -344,7 +388,9 @@ export default class {
         'result.pagination.prev': 'Anterior',
         'result.pagination.next': 'Següent',
         'result.did_not_match': 'La cerca (<b>{{q}}</b>) no ha obtingut cap resultat.',
-        'result.related_query_label': 'consulta relacionada:'
+        'result.related_query_label': 'consulta relacionada:',
+        'result.size': 'bytes',
+        'result.created': 'Registrat:'
       },
       hr: {
         'form.search.button': 'pretraživanje',
@@ -359,7 +405,9 @@ export default class {
         'result.pagination.prev': 'Prethodna',
         'result.pagination.next': 'Sljedeća',
         'result.did_not_match': 'Pretraga - <b>{{q}}</b> - nije pronašla niti jedan dokument.',
-        'result.related_query_label': 'povezani upit:'
+        'result.related_query_label': 'povezani upit:',
+        'result.size': 'bajta',
+        'result.created': 'zabilježen:'
       },
       fil: {
         'form.search.button': 'Paghahanap',
@@ -374,7 +422,9 @@ export default class {
         'result.pagination.prev': 'Nakaraan',
         'result.pagination.next': 'Susunod',
         'result.did_not_match': 'Walang katugmang dokumento na nahanap para sa <b>{{q}}</b>.',
-        'result.related_query_label': 'kaugnay na query:'
+        'result.related_query_label': 'kaugnay na query:',
+        'result.size': 'bytes',
+        'result.created': 'Nakarehistro:'
       },
       el: {
         'form.search.button': 'αναζήτηση',
@@ -389,7 +439,9 @@ export default class {
         'result.pagination.prev': 'Προηγούμενη',
         'result.pagination.next': 'Επόμενη',
         'result.did_not_match': 'Η αναζήτηση - <b>{{q}}</b> - δεν βρήκε κάποιο έγγραφο.',
-        'result.related_query_label': 'σχετικό ερώτημα:'
+        'result.related_query_label': 'σχετικό ερώτημα:',
+        'result.size': 'byte',
+        'result.created': 'Εγγεγραμμένοι:'
       },
       he: {
         'form.search.button': 'חיפוש',
@@ -404,7 +456,9 @@ export default class {
         'result.pagination.prev': 'הקודם',
         'result.pagination.next': 'הבא',
         'result.did_not_match': 'החיפוש שלך - <b>{{q}}</b> – לא תאם אף מסמך.',
-        'result.related_query_label': 'שאילתה קשורה:'
+        'result.related_query_label': 'שאילתה קשורה:',
+        'result.size': 'בתים',
+        'result.created': 'רשום:'
       },
       hi: {
         'form.search.button': 'खोज',
@@ -419,7 +473,9 @@ export default class {
         'result.pagination.prev': 'पिछला',
         'result.pagination.next': 'अगला',
         'result.did_not_match': 'आपकी खोज - <b>{{q}}</b> - किसी दस्तावेज़ से नहीं मिली.',
-        'result.related_query_label': 'संबंधित प्रश्न:'
+        'result.related_query_label': 'संबंधित प्रश्न:',
+        'result.size': 'बाइट्स',
+        'result.created': 'पंजीकृत:'
       },
       id: {
         'form.search.button': 'pencarian',
@@ -434,7 +490,9 @@ export default class {
         'result.pagination.prev': 'Sebelumnya',
         'result.pagination.next': 'Berikutnya',
         'result.did_not_match': 'Penelusuran Anda - <b>{{q}}</b> - tidak cocok dengan dokumen apa pun.',
-        'result.related_query_label': 'kueri terkait:'
+        'result.related_query_label': 'kueri terkait:',
+        'result.size': 'byte',
+        'result.created': 'Terdaftar:'
       },
       lv: {
         'form.search.button': 'meklēšana',
@@ -449,7 +507,9 @@ export default class {
         'result.pagination.prev': 'iepriekšējā',
         'result.pagination.next': 'nākamā',
         'result.did_not_match': 'Mēs neatradām nevienu dokumentu ar iekļautu vaicājumu "<b>{{q}}</b>".',
-        'result.related_query_label': 'saistīts vaicājums:'
+        'result.related_query_label': 'saistīts vaicājums:',
+        'result.size': 'baiti',
+        'result.created': 'Reģistrēts:'
       },
       lt: {
         'form.search.button': 'paieška',
@@ -464,7 +524,9 @@ export default class {
         'result.pagination.prev': 'Ankstesnis',
         'result.pagination.next': 'Kitas',
         'result.did_not_match': 'Jūsų užklausa - <b>{{q}}</b> - neatitiko jokių dokumentų.',
-        'result.related_query_label': 'Susijusios užklausos:'
+        'result.related_query_label': 'Susijusios užklausos:',
+        'result.size': 'byte',
+        'result.created': 'registrato:'
       },
       ro: {
         'form.search.button': 'Căutare',
@@ -479,7 +541,9 @@ export default class {
         'result.pagination.prev': 'Înapoi',
         'result.pagination.next': 'Înainte',
         'result.did_not_match': 'Căutarea dvs. - <b>{{q}}</b> - nu a returnat niciun document.',
-        'result.related_query_label': 'legate de întrebări:'
+        'result.related_query_label': 'legate de întrebări:',
+        'result.size': 'octeți',
+        'result.created': 'înregistrat:'
       },
       sr: {
         'form.search.button': 'претрага',
@@ -494,7 +558,9 @@ export default class {
         'result.pagination.prev': 'Претходна',
         'result.pagination.next': 'Следећа',
         'result.did_not_match': 'Претрага - <b>{{q}}</b> - не одговара ниједном документу.',
-        'result.related_query_label': 'Повезани упити:'
+        'result.related_query_label': 'Повезани упити:',
+        'result.size': 'бајта',
+        'result.created': 'Регистровано:'
       },
       sk: {
         'form.search.button': 'vyhľadávanie',
@@ -509,7 +575,9 @@ export default class {
         'result.pagination.prev': 'Predošlá',
         'result.pagination.next': 'Ďalšia',
         'result.did_not_match': 'Pre hľadaný výraz - <b>{{q}}</b> - neboli nájdené žiadne dokumenty.',
-        'result.related_query_label': 'súvisiace dopyty:'
+        'result.related_query_label': 'súvisiace dopyty:',
+        'result.size': 'bajty',
+        'result.created': 'registrovaný:'
       },
       sl: {
         'form.search.button': 'iskanje',
@@ -524,7 +592,9 @@ export default class {
         'result.pagination.prev': 'Prejšnja',
         'result.pagination.next': 'Naslednja',
         'result.did_not_match': 'Poizvedba – <b>{{q}}</b> – se ne ujema z nobenim dokumentom.',
-        'result.related_query_label': 'povezana poizvedba:'
+        'result.related_query_label': 'povezana poizvedba:',
+        'result.size': 'bajta',
+        'result.created': 'Registrirani:'
       },
       th: {
         'form.search.button': 'ค้นหา',
@@ -539,7 +609,9 @@ export default class {
         'result.pagination.prev': 'ก่อนหน้า',
         'result.pagination.next': 'ถัดไป',
         'result.did_not_match': 'การค้นหาของคุณ - <b>{{q}}</b>- ไม่ตรงกับเอกสารใดๆ ',
-        'result.related_query_label': 'ข้อความค้นหาที่เกี่ยวข้อง:'
+        'result.related_query_label': 'ข้อความค้นหาที่เกี่ยวข้อง:',
+        'result.size': 'ไบต์',
+        'result.created': 'ลงทะเบียน:'
       },
       uk: {
         'form.search.button': 'пошук',
@@ -554,7 +626,9 @@ export default class {
         'result.pagination.prev': 'Назад',
         'result.pagination.next': 'Уперед',
         'result.did_not_match': 'На запит <b>{{q}}</b> не знайдено жодного документа.',
-        'result.related_query_label': 'пов\'язаний запит:'
+        'result.related_query_label': 'пов\'язаний запит:',
+        'result.size': 'байти',
+        'result.created': 'Зареєстровано:'
       },
       vi: {
         'form.search.button': 'Tìm kiếm',
@@ -569,7 +643,9 @@ export default class {
         'result.pagination.prev': 'Trước',
         'result.pagination.next': 'Tiếp',
         'result.did_not_match': 'Không tìm thấy <b>{{q}}</b> trong tài liệu nào.',
-        'result.related_query_label': 'truy vấn liên quan:'
+        'result.related_query_label': 'truy vấn liên quan:',
+        'result.size': 'byte',
+        'result.created': 'Đã đăng ký:'
       }
     }
   }
@@ -594,7 +670,7 @@ export default class {
   render(html, vars, fessLang) {
     var language = this.getLanguage(fessLang);
     var tmpHtml = html;
-    var messages = this.messages[language];
+    var messages = this.messages['en'];
     for(var key in messages) {
       var reg = new RegExp('{' + key + '}', 'g');
       tmpHtml = tmpHtml.replace(reg, this._getMessage(key, vars, language));
@@ -605,8 +681,11 @@ export default class {
   _getMessage(key, vars, language) {
     var message = this.messages[language][key];
     if (message === undefined) {
-      console.log('Invalid message key:' + key);
-      return '';
+      message = this.messages['en'][key];
+      /*if (message === undefined) {
+        console.log('Invalid message key:' + key);
+        return '';
+      }*/
     }
     for (var key in vars) {
       if (typeof vars[key] == 'string' || typeof vars == 'string') {

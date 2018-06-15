@@ -69,6 +69,7 @@ export default class {
       state.popupMode = false;
       state.labels = null;
       state.fessLang = null;
+      state.enableDetails = false;
       return state;
     })();
   }
@@ -131,6 +132,16 @@ export default class {
     if (state.linkTarget) {
       response['link_target'] = state.linkTarget;
     }
+    
+    if (state.enableDetails && response['has_results']) {
+      var lang = this.getLanguage(state);
+      response['details'] = true;
+      for (var result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
 
     var $fessResult = FessJQuery('.fessWrapper .fessResult');
     var html = resultTemplate(response);
@@ -164,6 +175,16 @@ export default class {
       response['link_target'] = state.linkTarget;
     }
 
+    if (state.enableDetails && response['has_results']) {
+      var lang = this.getLanguage(state);
+      response['details'] = true;
+      for (var result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
+
     var html = resultTemplate(response);
     var $popup = FessJQuery('<div/>');
     $popup.addClass('fessPopup');
@@ -195,6 +216,10 @@ export default class {
       }
     }
     this._setSearchOptions(state);
+  }
+
+  _dateToString(date, lang) {
+      return date.toLocaleDateString(lang) + ' ' + date.toLocaleTimeString(lang);
   }
 
   _setSearchOptions(state) {
