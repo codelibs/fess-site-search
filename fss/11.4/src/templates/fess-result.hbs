@@ -61,7 +61,7 @@
             <div class="media-body">
               <h3 class="title ellipsis media-heading">
                 <a class="link" href="{{url_link}}" data-uri="{{url_link}}" data-order="0"{{#if ../link_target}} target="{{../link_target}}"{{/if}}>
-                  {{content_title}}
+                  {{{content_title}}}
                 </a>
               </h3>
             </div>
@@ -80,6 +80,21 @@
               <div class="site ellipsis">
                 <cite>{{site_path}}</cite>
               </div>
+              {{#if ../details}}
+                <div class="info" dir="{{../dir}}">
+                  <small>
+                    {result.created} {{created}}
+                    {{#if last_modified}}
+                      <span class="hidden-xs">-</span>
+                      <span class="br-xs"></span>
+                      {result.order.last_modified}: {{last_modified}}
+                    {{/if}}
+                    <span class="hidden-xs">-</span>
+                    <span class="br-xs"></span>
+                    {{content_length}} {result.size}
+                  </small>
+                </div>
+              {{/if}}
             </div>
           </div>
         </li>

@@ -68,6 +68,8 @@ export default class {
       state.enableSuggest = false;
       state.popupMode = false;
       state.labels = null;
+      state.fessLang = null;
+      state.enableDetails = false;
       return state;
     })();
   }
@@ -93,11 +95,11 @@ export default class {
     var $fessFormOnly = FessJQuery('.fessWrapper .fessFormOnly');
     if ($fessForm.length > 0) {
       var html = formTemplate();
-      $fessForm.html(this.FessMessages.render(html, {}));
+      $fessForm.html(this.FessMessages.render(html, {}, state.fessLang));
     }
     if ($fessFormOnly.length > 0) {
       var html = formOnlyTemplate();
-      $fessFormOnly.html(this.FessMessages.render(html, {}));
+      $fessFormOnly.html(this.FessMessages.render(html, {}, state.fessLang));
       FessJQuery('.fessWrapper .fessFormOnly form').attr('action', state.searchPagePath);
     }
     if (state.searchParams !== null && state.searchParams.q !== undefined) {
@@ -130,12 +132,24 @@ export default class {
     if (state.linkTarget) {
       response['link_target'] = state.linkTarget;
     }
+    
+    if (state.enableDetails && response['has_results']) {
+      var lang = this.getLanguage(state);
+      response['details'] = true;
+      for (var result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
 
     var $fessResult = FessJQuery('.fessWrapper .fessResult');
     var html = resultTemplate(response);
-    $fessResult.html(this.FessMessages.render(html, response));
+    $fessResult.html(this.FessMessages.render(html, response, state.fessLang));
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
@@ -163,6 +177,18 @@ export default class {
       response['link_target'] = state.linkTarget;
     }
 
+    if (state.enableDetails && response['has_results']) {
+      var lang = this.getLanguage(state);
+      response['details'] = true;
+      for (var result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
+
     var html = resultTemplate(response);
     var $popup = FessJQuery('<div/>');
     $popup.addClass('fessPopup');
@@ -178,14 +204,14 @@ export default class {
 
     var $popupResultSection = FessJQuery('<div/>');
     $popupResultSection.addClass('fessPopupResult');
-    $popupResultSection.html(this.FessMessages.render(html, response));
+    $popupResultSection.html(this.FessMessages.render(html, response, state.fessLang));
     $popup.append($popupResultSection);
 
     var $fessOverlay = FessJQuery('.fessOverlay');
     $fessOverlay.html('');
     $fessOverlay.append($popup);
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
@@ -194,6 +220,10 @@ export default class {
       }
     }
     this._setSearchOptions(state);
+  }
+
+  _dateToString(date, lang) {
+      return date.toLocaleDateString(lang) + ' ' + date.toLocaleTimeString(lang);
   }
 
   _setSearchOptions(state) {
@@ -216,7 +246,7 @@ export default class {
     }
   }
 
-  _createPagination(recordCount, pageSize, currentPage, params) {
+  _createPagination(recordCount, pageSize, currentPage, params, fessLang) {
     var $cls = this;
 
     var $pagination = FessJQuery('<ul/>');
@@ -249,7 +279,7 @@ export default class {
       $li.addClass('prev');
       $li.attr('aria-label', 'Previous');
       $li.attr('page', paginationInfo.current - 1);
-      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}));
+      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, fessLang));
       if (currentPage > 1) {
         $li.css('cursor', 'pointer');
       } else {
@@ -275,7 +305,7 @@ export default class {
       $li.addClass('next');
       $li.attr('aria-label', 'Next');
       $li.attr('page', paginationInfo.current + 1);
-      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}));
+      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, fessLang));
       if (paginationInfo.current < paginationInfo.max) {
         $li.css('cursor', 'pointer');
       } else {
@@ -359,7 +389,7 @@ export default class {
           url : state.contextPath + '/suggest',
           fn : '_default,content,title',
           num : 10,
-          lang : this.FessMessages.getLanguage()
+          lang : this.FessMessages.getLanguage(state.fessLang)
         },
         boxCssInfo : {
           border : '1px solid rgba(82, 168, 236, 0.5)',
@@ -379,10 +409,10 @@ export default class {
         adjustWidthVal : 0,
         searchForm : FessJQuery('.fessWrapper .fessForm form')
       }
-  　);
+  );
   }
 
-  getLanguage() {
-    return this.FessMessages.getLanguage();
+  getLanguage(state) {
+    return this.FessMessages.getLanguage(state.fessLang);
   }
 }
