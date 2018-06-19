@@ -138,7 +138,9 @@ export default class {
       response['details'] = true;
       for (var result of response['result']) {
         result['created'] = this._dateToString(new Date(result['created']), lang);
-        result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
       }
       response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
     }
@@ -180,7 +182,9 @@ export default class {
       response['details'] = true;
       for (var result of response['result']) {
         result['created'] = this._dateToString(new Date(result['created']), lang);
-        result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
       }
       response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
     }
