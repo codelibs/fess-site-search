@@ -81,6 +81,11 @@ function applyWizardDesign() {
                       ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'border'),
         new FssDesign('button-active-bg-color',
                       ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'background-color'),
+        // Label
+        new FssDesign ('label-border-color', ['.not-selected', 'not-selected:focus'], 'border'),
+        new FssDesign ('label-bg-color', '.not-selected', 'background-color'),
+        new FssDesign ('label-selected-border-color', ['.selected', 'selected:focus'], 'border'),
+        new FssDesign ('label-selected-bg-color', '.selected', 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
