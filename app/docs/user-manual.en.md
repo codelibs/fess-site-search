@@ -34,7 +34,7 @@ FSS requires Fess server as Search server before this installation.
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // fess-url is URL for Fess Server
-    fess.setAttribute('fess-url', 'http://search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
@@ -59,7 +59,7 @@ FSS requires Fess server as Search server before this installation.
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // fess-url is URL for Fess Server
-    fess.setAttribute('fess-url', 'http://search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
