@@ -33,7 +33,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', 'http://search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
@@ -59,7 +59,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', 'http://search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
