@@ -117,12 +117,17 @@ export default class {
   }
 
   _bindSearchOptions() {
-    if (FessJQuery('.fessWrapper .fessForm').length == 0 || this.viewState.popupMode) {
-      var $cls = this;
-      FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-        FessJQuery('.fessWrapper .fessForm form').submit();
-      });
-    }
+    var $cls = this;
+    FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
+      if (FessJQuery(this).val()) {
+        FessJQuery(this).removeClass('not-selected');
+        FessJQuery(this).addClass('selected');
+      } else {
+        FessJQuery(this).removeClass('selected');
+        FessJQuery(this).addClass('not-selected');
+      }
+      FessJQuery('.fessWrapper .fessForm form').submit();
+    });
   }
 
   _search(params) {
@@ -232,6 +237,15 @@ export default class {
   _afterSearch(response, params) {
     this._bindPagination(response);
     this._bindSearchOptions();
+    FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").each(function() {
+      if (FessJQuery(this).val()) {
+        FessJQuery(this).removeClass('not-selected');
+        FessJQuery(this).addClass('selected');
+      } else {
+        FessJQuery(this).removeClass('selected');
+        FessJQuery(this).addClass('not-selected');
+      }
+    });
     if (this.viewState.popupMode) {
       this._bindPopupClose();
     }

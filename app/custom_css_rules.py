@@ -46,7 +46,7 @@ class Font(AbstractCSSRule):
         return 'font-family'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
+        return '''.fessWrapper {{font-family: {};}}'''.format(font)
 
 
 class BackgroundColor(AbstractCSSRule):
@@ -54,7 +54,7 @@ class BackgroundColor(AbstractCSSRule):
         return 'bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper {{background-color: {}; }}'''.format(color)
+        return '''.fessWrapper {{background-color: {};}}'''.format(color)
 
 
 class BorderColor(AbstractCSSRule):
@@ -62,7 +62,7 @@ class BorderColor(AbstractCSSRule):
         return 'border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{ border: solid {}; }}'''.format(font)
+        return '''.fessWrapper {{border: solid {};}}'''.format(font)
 
 
 # Search Box
@@ -71,7 +71,7 @@ class FormBorderColor(AbstractCSSRule):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper .fessForm, .fessFormOnly {{ border: solid {}; }}'''.format(font)
+        return '''.fessWrapper .fessForm, .fessFormOnly {{border: solid {};}}'''.format(font)
 
 
 # Search Button
@@ -92,7 +92,6 @@ class ButtonBorderColor(AbstractCSSRule):
 
 
 class ButtonBackgroundColor(AbstractCSSRule):
-
     def form_name(self):
         return 'button-bg-color'
 
@@ -117,7 +116,6 @@ class ButtonActiveBorderColor(AbstractCSSRule):
 
 
 class ButtonActiveBackgroundColor(AbstractCSSRule):
-
     def form_name(self):
         return 'button-active-bg-color'
 
@@ -125,7 +123,40 @@ class ButtonActiveBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{background-color: {};}}'''.format(color)
 
 
-# Result: Component
+# Label
+class LabelBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .not-selected, .fessWrapper .not-selected:focus {{border: solid {};}}'''.format(color)
+
+
+class LabelBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .not-selected {{background-color: {};}}'''.format(color)
+
+
+class LabelSelectedBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .selected, .fessWrapper .selected:focus {{border: solid {};}}'''.format(color)
+
+
+class LabelSelectedBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .selected {{background-color: {};}}'''.format(color)
+
+
+# Result: General
 class ResultBorderColor(AbstractCSSRule):
     def form_name(self):
         return 'result-border-color'
@@ -215,6 +246,7 @@ def get_CSS_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
+        LabelBorderColor(), LabelBackgroundColor(), LabelSelectedBorderColor(), LabelSelectedBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
         ResultUrlColor(),
