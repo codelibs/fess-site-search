@@ -14,11 +14,19 @@ class AbstractCSSRule(metaclass=ABCMeta):
     def gen_rule(self, val):
         return ''
 
+    def isCheckbox(self):
+        return False
+
 
 def add_rule(css, form, rule):
     val = form.get(rule.form_name())
 
-    if not val:
+    if rule.isCheckbox():
+        if not val:
+            val = 'unchecked'
+        else:
+            val = 'checked'
+    elif not val:
         return css
 
     rule = rule.gen_rule(val)
@@ -40,7 +48,7 @@ How to add Custom CSS Rule:
 """
 
 
-# General
+# General Design
 class Font(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
@@ -192,6 +200,17 @@ class ResultActiveTitleColor(AbstractCSSRule):
 
 
 # Result: URL
+class ResultUrlVisibility(AbstractCSSRule):
+    def form_name(self):
+        return 'result-url-visibility'
+
+    def gen_rule(self, visible):
+        return '''.fessWrapper #result .body cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+
+    def isCheckbox(self):
+        return True
+
+
 class ResultUrlColor(AbstractCSSRule):
     def form_name(self):
         return 'result-url-color'
@@ -200,7 +219,7 @@ class ResultUrlColor(AbstractCSSRule):
         return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
 
 
-# Result: URL
+# Result: Snippet
 class ResultSnippetColor(AbstractCSSRule):
     def form_name(self):
         return 'result-snippet-color'
@@ -217,7 +236,7 @@ def get_CSS_rules():
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
-        ResultUrlColor(),
+        ResultUrlVisibility(), ResultUrlColor(),
         ResultSnippetColor()
     ]
     return css_rules

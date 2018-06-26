@@ -35,25 +35,41 @@ function resetIframeDesign() {
   Preview: Wizard
 */
 class FssDesign {
-    constructor(formId, target, prop) {
+    constructor(formId, target, prop, choices = {}) {
         this.formId = formId;
-        if(target instanceof Array) {
+        if (target instanceof Array) {
             this.target = '.fessWrapper' + target.join(', .fessWrapper ');
         } else {
             this.target = `.fessWrapper ${target}`;
         }
         this.prop = prop;
+        this.choices = choices;
+        this.type = $(`#wizard-form [name=${this.formId}]`).attr('type');
+        this.getValue = () => {
+            if (this.type == 'checkbox') {
+                var value = $(`#wizard-form [name=${this.formId}]`).prop('checked');
+                if (value) {
+                    return 'checked';
+                } else {
+                    return 'unchecked';
+                }
+            } else {
+                return $(`#wizard-form [name=${this.formId}]`).val();
+            }
+        }
     }
 
     formatter(value) {
         if (this.prop == 'border') {
             return `solid ${value}`;
+        } else if (this.type == 'checkbox') {
+            return this.choices[value];
         }
         return value;
     }
 
     toCss() {
-        const value = $(`#wizard-form [name=${this.formId}]`).val();
+        const value = this.getValue();
         if (!value) {
             return '';
         }
@@ -92,7 +108,8 @@ function applyWizardDesign() {
         new FssDesign('result-hovered-title-color', '#result .title a:hover',   'color'),
         new FssDesign('result-active-title-color',  '#result .title a:active',  'color'),
         // Result: URL
-        new FssDesign('result-url-color', '#result .body cite', 'color'),
+        new FssDesign('result-url-visibility', '#result .body cite', 'display', {'checked': 'inline', 'unchecked': 'none'}),
+        new FssDesign('result-url-color',      '#result .body cite', 'color'),
         // Result: Snippet
         new FssDesign('result-snippet-color', '#result .body .description', 'color')
     ];
