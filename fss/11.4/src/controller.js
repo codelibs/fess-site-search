@@ -53,6 +53,15 @@ export default class {
         }
       }.bind(this)
     );
+    window.addEventListener(
+      "load",
+      function() {
+        if (history.state != null) {
+          FessJQuery('.fessWrapper form input.query').val(history.state.params.q);
+          this._search(history.state.params, true);
+        }
+      }.bind(this)
+    );
   }
 
   _initViewState(state) {
@@ -123,7 +132,7 @@ export default class {
     });
   }
 
-  _search(params) {
+  _search(params, replace = false) {
     var sort = FessJQuery(".fessWrapper select.sort").val();
     if (sort !== undefined && sort !== '') {
       params.sort = sort;
@@ -185,24 +194,24 @@ export default class {
           $cls.viewState.labels = data.response.result;
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
-          $cls._registerHistory(searchResponse, params);
+          $cls._registerHistory(searchResponse, params, replace);
         }, function(data) {
           console.log("labels error: " + JSON.stringify(data));
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
-          $cls._registerHistory(searchResponse, params);
+          $cls._registerHistory(searchResponse, params, replace);
         });
       } else {
         $cls._renderResult(searchResponse, params);
         $cls._afterSearch(searchResponse, params);
-        $cls._registerHistory(searchResponse, params);
+        $cls._registerHistory(searchResponse, params, replace);
       }
     }, function(data) {
       var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
       console.log("search error: " + JSON.stringify(data));
       $cls._renderResult(searchResponse, params);
       $cls._afterSearch(searchResponse, params);
-      $cls._registerHistory(searchResponse, params);
+      $cls._registerHistory(searchResponse, params, replace);
     });
   }
 
@@ -236,9 +245,13 @@ export default class {
     this.FessView.hideSearchWaiting();
   }
 
-  _registerHistory(response, params) {
+  _registerHistory(response, params, replace) {
     if (window.history && window.history.pushState) {
-      history.pushState({response: response, params: params}, null);
+      if (replace) {
+          history.replaceState({response: response, params: params}, null);
+      } else {
+          history.pushState({response: response, params: params}, null);
+      }
     }
   }
 
