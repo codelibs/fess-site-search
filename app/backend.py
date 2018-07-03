@@ -34,8 +34,6 @@ def wizard(form):
     hash_str = form2hash(form)
     fname = 'wizard_{}_{}'.format(hash_str, version)
 
-    #if is_empty_form(form):
-    #    return redirect(url_for('demo', fname=version))
     if js_exists(fname):
         return redirect(url_for('demo', fname=fname))
     elif generate_css(form, fname):
