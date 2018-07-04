@@ -15,6 +15,22 @@
     {% endcall %}
 {%- endmacro %}
 
+{% macro visibility_checkbox(groupid, id, label, checked) -%}
+    <div class="col-md-12">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="{{ id }}" id="{{ id }}" {%- if checked is defined %} checked="checked" {%- endif %} onclick="document.getElementById('{{groupid}}').disabled = !this.checked">
+            <label>{{ label }}</label>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <fieldset id="{{groupid}}">
+            <div class="row">
+                {{ caller () }}
+            </div>
+        </fieldset>
+    </div>
+{%- endmacro %}
+
 
 {# Page #}
 <div class="box-header with-border">
