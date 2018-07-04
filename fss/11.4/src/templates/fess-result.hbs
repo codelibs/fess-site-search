@@ -1,6 +1,18 @@
 <div class="fessResultBox">
   <div id="result">
     <div style="border-bottom:solid thin #eeeeee;padding-bottom:5px;margin-bottom:10px;">
+      {{#if label_tabs}}
+      <div class="label-tab-box">
+        <div class="label-tab" value="">
+          {result.label.all}
+        </div>
+        {{#each label_tabs}}
+        <div class="label-tab" value="{{value}}">
+          {{label}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
       <table width="100%" class="result-header">
         <tbody>
           <tr>
