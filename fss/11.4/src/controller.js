@@ -275,7 +275,7 @@ export default class {
           var key = decodeURIComponent(tpl[0]);
           var value = '';
           if (tpl.length > 1) {
-            value = decodeURIComponent(tpl[1].replace('+', '%20', 'g'));
+            value = decodeURIComponent(tpl[1].replace(new RegExp("\\+", 'g'), '%20'));
           }
 
           if (params[key] === undefined) {
