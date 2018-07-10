@@ -71,6 +71,7 @@ export default class {
     state.searchResponse = null;
     state.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
+    state.enableLabelTabs = FessJQuery('script#fess-ss').attr('enable-label-tabs') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
     state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
     state.linkTarget = FessJQuery('script#fess-ss').attr('link-target');
@@ -106,6 +107,9 @@ export default class {
       var page = $this.attr('page');
       var params = {};
       params.start = response.page_size * (page - 1);
+      if (FessJQuery('.fessWrapper .label-tab-box').length > 0) {
+        params['fields.label'] = FessJQuery('.fessWrapper .label-tab-selected').attr('value');
+      }
       $cls._search(params);
       if (!$cls.viewState.popupMode) {
         var off = FessJQuery('.fessResultBox').offset();
@@ -130,15 +134,20 @@ export default class {
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
       FessJQuery('.fessWrapper .fessForm form').submit();
     });
+    if (this.viewState.enableLabelTabs) {
+      FessJQuery(".fessWrapper .label-tab").click(function(){
+        $cls._search({'fields.label': FessJQuery(this).attr('value')});
+      });
+    }
   }
 
   _search(params, replace = false) {
     var sort = FessJQuery(".fessWrapper select.sort").val();
-    if (sort !== undefined && sort !== '') {
+    if (params.sort === undefined && sort !== undefined && sort !== '') {
       params.sort = sort;
     }
     var label = FessJQuery(".fessWrapper select.field-labels").val();
-    if (label !== undefined && label !== '') {
+    if (params['fields.label'] === undefined && label !== undefined && label !== '') {
       params['fields.label'] = label;
     }
     var pageSize = FessJQuery('script#fess-ss').attr('page-size');
@@ -189,7 +198,7 @@ export default class {
     }
     this.FessModel.search(this.fessUrl, params).then(function(data){
       var searchResponse = data.response;
-      if ($cls.viewState.enableLabels && $cls.viewState.labels === null) {
+      if (($cls.viewState.enableLabels || $cls.viewState.enableLabelTabs) && $cls.viewState.labels === null) {
         $cls.FessModel.getLabels($cls.fessUrl).then(function(data) {
           $cls.viewState.labels = data.response.result;
           $cls._renderResult(searchResponse, params);
