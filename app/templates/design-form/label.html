@@ -1,0 +1,17 @@
+{% extends "design-form/base.html" %}
+
+{% block title %}Label{% endblock %}
+
+{% block body %}
+    {# Border #}
+    {{ color_form('label-border-color', 'Border', 'Border Color of Label') }}
+
+    {# Background #}
+    {{ color_form('label-bg-color', 'Background', 'Background Color of Label') }}
+
+    {# Border #}
+    {{ color_form('label-selected-border-color', 'Border (Selected)', 'Border Color of Label (Selected)') }}
+
+    {# Background #}
+    {{ color_form('label-selected-bg-color', 'Background (Selected)', 'Background Color of Label (Selected)') }}
+{% endblock %}

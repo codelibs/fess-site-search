@@ -133,6 +133,39 @@ class ButtonActiveBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{background-color: {};}}'''.format(color)
 
 
+# Label
+class LabelBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab {{border-color: {};}}'''.format(color)
+
+
+class LabelBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab {{background-color: {};}}'''.format(color)
+
+
+class LabelSelectedBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab-selected {{border-color: {};}}'''.format(color)
+
+
+class LabelSelectedBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab-selected {{background-color: {};}}'''.format(color)
+
+
 # Result: Component
 class ResultBorderColor(AbstractCSSRule):
     def form_name(self):
@@ -234,6 +267,7 @@ def get_CSS_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
+        LabelBorderColor(), LabelBackgroundColor(), LabelSelectedBorderColor(), LabelSelectedBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
         ResultUrlVisibility(), ResultUrlColor(),
