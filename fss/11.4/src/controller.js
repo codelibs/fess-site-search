@@ -70,6 +70,7 @@ export default class {
     state.searchParams = null;
     state.searchResponse = null;
     state.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
+    state.enableAllOrders = FessJQuery('script#fess-ss').attr('enable-all-orders') === 'true' ? true : false;
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
     state.enableLabelTabs = FessJQuery('script#fess-ss').attr('enable-label-tabs') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
