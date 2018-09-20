@@ -61,6 +61,7 @@ export default class {
       state.searchParams = null;
       state.searchResponse = null;
       state.enableOrder = false;
+      state.enableAllOrders = false;
       state.enableLabels = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
@@ -132,6 +133,11 @@ export default class {
       delete response.related_query;
       delete response.related_contents;
     }
+
+    if (state.enableAllOrders) {
+      response['all_orders'] = true;
+    }
+
     response['has_results'] = response.record_count > 0;
 
     if (state.linkTarget) {
