@@ -3,6 +3,9 @@
 {% block title %}Result: URL{% endblock %}
 
 {% block body %}
-    {# Color #}
-    {{ color_form('result-url-color', 'Color', 'Color of URL in Result Components') }}
+    {# Visibility #}
+    {% call visibility_checkbox('result-url-settings', 'result-url-visibility', 'Visible', 'checked') %}
+        {# Color #}
+        {{ color_form('result-url-color', 'Color', 'Color of URL in Result Components') }}
+    {% endcall %}
 {% endblock %}

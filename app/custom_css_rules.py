@@ -14,11 +14,19 @@ class AbstractCSSRule(metaclass=ABCMeta):
     def gen_rule(self, val):
         return ''
 
+    def isCheckbox(self):
+        return False
+
 
 def add_rule(css, form, rule):
     val = form.get(rule.form_name())
 
-    if not val:
+    if rule.isCheckbox():
+        if not val:
+            val = 'unchecked'
+        else:
+            val = 'checked'
+    elif not val:
         return css
 
     rule = rule.gen_rule(val)
@@ -40,7 +48,7 @@ How to add Custom CSS Rule:
 """
 
 
-# General
+# General Design
 class Font(AbstractCSSRule):
     def form_name(self):
         return 'font-family'
@@ -125,6 +133,39 @@ class ButtonActiveBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{background-color: {};}}'''.format(color)
 
 
+# Label
+class LabelBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab {{border-color: {};}}'''.format(color)
+
+
+class LabelBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab {{background-color: {};}}'''.format(color)
+
+
+class LabelSelectedBorderColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab-selected {{border-color: {};}}'''.format(color)
+
+
+class LabelSelectedBackgroundColor(AbstractCSSRule):
+    def form_name(self):
+        return 'label-selected-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper .label-tab-selected {{background-color: {};}}'''.format(color)
+
+
 # Result: Component
 class ResultBorderColor(AbstractCSSRule):
     def form_name(self):
@@ -192,6 +233,17 @@ class ResultActiveTitleColor(AbstractCSSRule):
 
 
 # Result: URL
+class ResultUrlVisibility(AbstractCSSRule):
+    def form_name(self):
+        return 'result-url-visibility'
+
+    def gen_rule(self, visible):
+        return '''.fessWrapper #result .body cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+
+    def isCheckbox(self):
+        return True
+
+
 class ResultUrlColor(AbstractCSSRule):
     def form_name(self):
         return 'result-url-color'
@@ -200,7 +252,7 @@ class ResultUrlColor(AbstractCSSRule):
         return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
 
 
-# Result: URL
+# Result: Snippet
 class ResultSnippetColor(AbstractCSSRule):
     def form_name(self):
         return 'result-snippet-color'
@@ -215,9 +267,10 @@ def get_CSS_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
+        LabelBorderColor(), LabelBackgroundColor(), LabelSelectedBorderColor(), LabelSelectedBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
-        ResultUrlColor(),
+        ResultUrlVisibility(), ResultUrlColor(),
         ResultSnippetColor()
     ]
     return css_rules

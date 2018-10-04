@@ -6,6 +6,7 @@ export default class {
     this.FessModel = FessModel;
     this.fessUrl = FessJQuery('script#fess-ss').attr('fess-url');
     this.fessLang = FessJQuery('script#fess-ss').attr('language');
+    this.anyParams = FessJQuery('script#fess-ss').data('params') || {};
     this.urlParams = this._getParameters();
     this.viewState = null;
   }
@@ -53,6 +54,15 @@ export default class {
         }
       }.bind(this)
     );
+    window.addEventListener(
+      "load",
+      function() {
+        if (history.state != null) {
+          FessJQuery('.fessWrapper form input.query').val(history.state.params.q);
+          this._search(history.state.params, true);
+        }
+      }.bind(this)
+    );
   }
 
   _initViewState(state) {
@@ -61,7 +71,9 @@ export default class {
     state.searchParams = null;
     state.searchResponse = null;
     state.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
+    state.enableAllOrders = FessJQuery('script#fess-ss').attr('enable-all-orders') === 'true' ? true : false;
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
+    state.enableLabelTabs = FessJQuery('script#fess-ss').attr('enable-label-tabs') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
     state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
     state.linkTarget = FessJQuery('script#fess-ss').attr('link-target');
@@ -97,6 +109,9 @@ export default class {
       var page = $this.attr('page');
       var params = {};
       params.start = response.page_size * (page - 1);
+      if (FessJQuery('.fessWrapper .label-tab-box').length > 0) {
+        params['fields.label'] = FessJQuery('.fessWrapper .label-tab-selected').attr('value');
+      }
       $cls._search(params);
       if (!$cls.viewState.popupMode) {
         var off = FessJQuery('.fessResultBox').offset();
@@ -117,26 +132,33 @@ export default class {
   }
 
   _bindSearchOptions() {
-    if (FessJQuery('.fessWrapper .fessForm').length == 0 || this.viewState.popupMode) {
-      var $cls = this;
-      FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-        FessJQuery('.fessWrapper .fessForm form').submit();
+    var $cls = this;
+    FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
+      FessJQuery('.fessWrapper .fessForm form').submit();
+    });
+    if (this.viewState.enableLabelTabs) {
+      FessJQuery(".fessWrapper .label-tab").click(function(){
+        $cls._search({'fields.label': FessJQuery(this).attr('value')});
       });
     }
   }
 
-  _search(params) {
+  _search(params, replace = false) {
     var sort = FessJQuery(".fessWrapper select.sort").val();
-    if (sort !== undefined && sort !== '') {
+    if (params.sort === undefined && sort !== undefined && sort !== '') {
       params.sort = sort;
     }
     var label = FessJQuery(".fessWrapper select.field-labels").val();
-    if (label !== undefined && label !== '') {
+    if (params['fields.label'] === undefined && label !== undefined && label !== '') {
       params['fields.label'] = label;
     }
     var pageSize = FessJQuery('script#fess-ss').attr('page-size');
     if (pageSize !== undefined && pageSize !== '') {
       params.num = pageSize;
+    }
+
+    for (var key in this.anyParams) {
+      params[key] = this.anyParams[key];
     }
 
     params.lang = this.FessView.getLanguage(this.viewState);
@@ -182,29 +204,29 @@ export default class {
     }
     this.FessModel.search(this.fessUrl, params).then(function(data){
       var searchResponse = data.response;
-      if ($cls.viewState.enableLabels && $cls.viewState.labels === null) {
+      if (($cls.viewState.enableLabels || $cls.viewState.enableLabelTabs) && $cls.viewState.labels === null) {
         $cls.FessModel.getLabels($cls.fessUrl).then(function(data) {
           $cls.viewState.labels = data.response.result;
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
-          $cls._registerHistory(searchResponse, params);
+          $cls._registerHistory(searchResponse, params, replace);
         }, function(data) {
           console.log("labels error: " + JSON.stringify(data));
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
-          $cls._registerHistory(searchResponse, params);
+          $cls._registerHistory(searchResponse, params, replace);
         });
       } else {
         $cls._renderResult(searchResponse, params);
         $cls._afterSearch(searchResponse, params);
-        $cls._registerHistory(searchResponse, params);
+        $cls._registerHistory(searchResponse, params, replace);
       }
     }, function(data) {
       var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
       console.log("search error: " + JSON.stringify(data));
       $cls._renderResult(searchResponse, params);
       $cls._afterSearch(searchResponse, params);
-      $cls._registerHistory(searchResponse, params);
+      $cls._registerHistory(searchResponse, params, replace);
     });
   }
 
@@ -238,9 +260,13 @@ export default class {
     this.FessView.hideSearchWaiting();
   }
 
-  _registerHistory(response, params) {
+  _registerHistory(response, params, replace) {
     if (window.history && window.history.pushState) {
-      history.pushState({response: response, params: params}, null);
+      if (replace) {
+          history.replaceState({response: response, params: params}, null);
+      } else {
+          history.pushState({response: response, params: params}, null);
+      }
     }
   }
 
@@ -264,7 +290,7 @@ export default class {
           var key = decodeURIComponent(tpl[0]);
           var value = '';
           if (tpl.length > 1) {
-            value = decodeURIComponent(tpl[1].replace('+', '%20', 'g'));
+            value = decodeURIComponent(tpl[1].replace(new RegExp("\\+", 'g'), '%20'));
           }
 
           if (params[key] === undefined) {

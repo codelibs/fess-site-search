@@ -61,6 +61,7 @@ export default class {
       state.searchParams = null;
       state.searchResponse = null;
       state.enableOrder = false;
+      state.enableAllOrders = false;
       state.enableLabels = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
@@ -119,20 +120,30 @@ export default class {
   _renderResult(state) {
     var response = state.searchResponse;
     response['context_path'] = state.contextPath;
+    response['labels'] = null;
+    response['label_tabs'] = null;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
+    }
+    if (state.enableLabelTabs && state.labels !== null) {
+      response['label_tabs'] = state.labels;
     }
 
     if (!state.enableRelated) {
       delete response.related_query;
       delete response.related_contents;
     }
+
+    if (state.enableAllOrders) {
+      response['all_orders'] = true;
+    }
+
     response['has_results'] = response.record_count > 0;
 
     if (state.linkTarget) {
       response['link_target'] = state.linkTarget;
     }
-    
+
     if (state.enableDetails && response['has_results']) {
       var lang = this.getLanguage(state);
       response['details'] = true;
@@ -163,8 +174,13 @@ export default class {
   _renderPopupResult(state) {
     var response = state.searchResponse;
     response['context_path'] = state.contextPath;
+    response['labels'] = null;
+    response['label_tabs'] = null;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
+    }
+    if (state.enableLabelTabs && state.labels !== null) {
+      response['label_tabs'] = state.labels;
     }
 
     if (!state.enableRelated) {
@@ -243,6 +259,15 @@ export default class {
       }
     } else {
       FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
+    }
+
+    if (state.enableLabelTabs) {
+      FessJQuery('.fessWrapper .label-tab').each(function(){
+        if((FessJQuery(this).attr('value') === state.searchParams['fields.label']) ||
+           (FessJQuery(this).attr('value') === "" && state.searchParams['fields.label'] === undefined)) {
+          FessJQuery(this).addClass('label-tab-selected');
+        }
+      });
     }
   }
 
