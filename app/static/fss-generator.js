@@ -18,6 +18,68 @@ $('#upload-form').submit(preventDoubleSubmission);
 const WIZARD_STYLE_ID = 'wizard-style';
 const UPLOADED_STYLE_ID = 'uploaded-style';
 
+window.addEventListener("load", function() {
+    resetPreviewSettings();
+    applyPreviewSettings(getDefaultPreviewSettings());
+});
+
+function getDefaultPreviewSettings() {
+    var page_path = $('#preview-iframe').contents().find('script#embed').attr('page_path');
+    return "fess.setAttribute('id', 'fess-ss');\n" +
+           "fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');\n" +
+           `fess.setAttribute('fess-search-page-path', '${page_path}');`
+}
+
+function resetPreviewSettings() {
+    $('#preview-settings').val(getDefaultPreviewSettings());
+    validatePreviewSettings(getDefaultPreviewSettings());
+}
+
+function parse(settings) {
+    var lines = settings.split('\n');
+    var obj = {};
+    var reg = /.*'([^']+)',\s*'([^']+)'[^']*/;
+    for (let line of lines) {
+        if (line !== '') {
+            var arr = reg.exec(line);
+            if (arr === null || arr[0] !== line) {
+                return null;
+            }
+            obj[arr[1]] = arr[2];
+        }
+    }
+    return obj;
+}
+
+function validatePreviewSettings(settings) {
+    var obj = parse(settings);
+    if (obj === null) {
+        $('#preview-settings-savebutton').prop('disabled', true);
+    } else {
+        $('#preview-settings-savebutton').prop('disabled', false);
+    }
+}
+
+function applyPreviewSettings(settings = $('#preview-settings').val()) {
+    // avoid double loading js
+    var obj = parse(settings);
+    document.getElementById('preview-iframe').contentWindow.location.reload();
+    document.getElementById('preview-iframe').onload = function() {
+        (function() {
+            var fess = document.createElement('script');
+            fess.type = 'text/javascript';
+            fess.async = true;
+            fess.src = $('#preview-iframe').contents().find('script#embed').attr('js_path');
+            fess.charset = 'utf-8';
+            for (let id in obj) {
+                fess.setAttribute(id, obj[id]);
+            }
+            var s = document.getElementById('preview-iframe').contentDocument.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(fess, s);
+        })();
+    }
+}
+
 function appendIframeDesign(id, cssStr) {
     $('#preview-iframe')
         .contents()
