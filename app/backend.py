@@ -4,7 +4,7 @@ import random
 from flask import redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from .app import app
-from .generate_css import generate_css
+from .generate_config import generate_config
 from .webpack_manager import WebpackManager
 
 
@@ -36,7 +36,7 @@ def wizard(form):
 
     if js_exists(fname):
         return redirect(url_for('demo', fname=fname))
-    elif generate_css(form, fname):
+    elif generate_config(form, fname):
         return run_webpack(fname, version)
     else:
         return redirect(url_for('generator'))

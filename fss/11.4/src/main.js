@@ -11,10 +11,14 @@ if (process.env.INPUT_CSS_PATH !== undefined) {
   require('!style-loader!css-loader!' + process.env.INPUT_CSS_PATH);
 }
 
+if (process.env.INPUT_JSON_PATH !== undefined) {
+  var fessConfig = require('json-loader!' + process.env.INPUT_JSON_PATH);
+}
+
 (function() {
   var fessMessages = new FessMessages();
   var fessView = new FessView(fessMessages);
   var fessModel = new FessModel();
   var fessController = new FessController(fessView, fessModel);
-  fessController.start();
+  fessController.start(fessConfig);
 })();

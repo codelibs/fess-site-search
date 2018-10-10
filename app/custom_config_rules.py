@@ -1,10 +1,9 @@
 from abc import ABCMeta, abstractmethod
 import traceback
 
+class AbstractConfigRule(metaclass=ABCMeta):
 
-class AbstractCSSRule(metaclass=ABCMeta):
-
-    # Abstract Class for Custom CSS Rule
+    # Abstract Class for Custom CSS and JSON Rule
 
     @abstractmethod
     def form_name(self):
@@ -14,11 +13,14 @@ class AbstractCSSRule(metaclass=ABCMeta):
     def gen_rule(self, val):
         return ''
 
+    def filetype(self):
+        return 'css'
+
     def isCheckbox(self):
         return False
 
 
-def add_rule(css, form, rule):
+def add_rule(json, css, form, rule):
     val = form.get(rule.form_name())
 
     if rule.isCheckbox():
@@ -27,29 +29,32 @@ def add_rule(css, form, rule):
         else:
             val = 'checked'
     elif not val:
-        return css
+        return (json, css)
 
-    rule = rule.gen_rule(val)
+    fragment = rule.gen_rule(val)
 
-    try:
-        css.add(rule)
-    except:
-        print('Invalid:\n', rule)
-        print(traceback.format_exc())
+    if rule.filetype() == 'json':
+        json += ('' if json == '' else ',') + fragment
+    else:
+        try:
+            css.add(fragment)
+        except:
+            print('Invalid:\n', fragment)
+            print(traceback.format_exc())
 
-    return css
+    return (json, css)
 
 
 """
-How to add Custom CSS Rule:
+How to add Custom CSS and JSON Rule:
 
-1. Define a class extending 'AbstractCSSRule'
-2. Add the class to a list 'css_rules' in 'get_CSS_rules'
+1. Define a class extending 'AbstractConfigRule'
+2. Add the class to a list 'config_rules' in 'get_config_rules'
 """
 
 
 # General Design
-class Font(AbstractCSSRule):
+class Font(AbstractConfigRule):
     def form_name(self):
         return 'font-family'
 
@@ -57,7 +62,7 @@ class Font(AbstractCSSRule):
         return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
 
 
-class BackgroundColor(AbstractCSSRule):
+class BackgroundColor(AbstractConfigRule):
     def form_name(self):
         return 'bg-color'
 
@@ -65,7 +70,7 @@ class BackgroundColor(AbstractCSSRule):
         return '''.fessWrapper {{background-color: {}; }}'''.format(color)
 
 
-class BorderColor(AbstractCSSRule):
+class BorderColor(AbstractConfigRule):
     def form_name(self):
         return 'border-color'
 
@@ -74,7 +79,7 @@ class BorderColor(AbstractCSSRule):
 
 
 # Search Box
-class FormBorderColor(AbstractCSSRule):
+class FormBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'searchbox-border-color'
 
@@ -83,7 +88,7 @@ class FormBorderColor(AbstractCSSRule):
 
 
 # Search Button
-class ButtonTextColor(AbstractCSSRule):
+class ButtonTextColor(AbstractConfigRule):
     def form_name(self):
         return 'button-text-color'
 
@@ -91,7 +96,7 @@ class ButtonTextColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton {{color: {};}}'''.format(color)
 
 
-class ButtonBorderColor(AbstractCSSRule):
+class ButtonBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'button-border-color'
 
@@ -99,7 +104,7 @@ class ButtonBorderColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton {{border: solid {};}}'''.format(color)
 
 
-class ButtonBackgroundColor(AbstractCSSRule):
+class ButtonBackgroundColor(AbstractConfigRule):
 
     def form_name(self):
         return 'button-bg-color'
@@ -108,7 +113,7 @@ class ButtonBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton {{background-color: {};}}'''.format(color)
 
 
-class ButtonActiveTextColor(AbstractCSSRule):
+class ButtonActiveTextColor(AbstractConfigRule):
     def form_name(self):
         return 'button-active-text-color'
 
@@ -116,7 +121,7 @@ class ButtonActiveTextColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{color: {};}}'''.format(color)
 
 
-class ButtonActiveBorderColor(AbstractCSSRule):
+class ButtonActiveBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'button-active-border-color'
 
@@ -124,7 +129,7 @@ class ButtonActiveBorderColor(AbstractCSSRule):
         return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{border: solid {};}}'''.format(color)
 
 
-class ButtonActiveBackgroundColor(AbstractCSSRule):
+class ButtonActiveBackgroundColor(AbstractConfigRule):
 
     def form_name(self):
         return 'button-active-bg-color'
@@ -134,7 +139,7 @@ class ButtonActiveBackgroundColor(AbstractCSSRule):
 
 
 # Label
-class LabelBorderColor(AbstractCSSRule):
+class LabelBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'label-border-color'
 
@@ -142,7 +147,7 @@ class LabelBorderColor(AbstractCSSRule):
         return '''.fessWrapper .label-tab {{border-color: {};}}'''.format(color)
 
 
-class LabelBackgroundColor(AbstractCSSRule):
+class LabelBackgroundColor(AbstractConfigRule):
     def form_name(self):
         return 'label-bg-color'
 
@@ -150,7 +155,7 @@ class LabelBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper .label-tab {{background-color: {};}}'''.format(color)
 
 
-class LabelSelectedBorderColor(AbstractCSSRule):
+class LabelSelectedBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'label-selected-border-color'
 
@@ -158,7 +163,7 @@ class LabelSelectedBorderColor(AbstractCSSRule):
         return '''.fessWrapper .label-tab-selected {{border-color: {};}}'''.format(color)
 
 
-class LabelSelectedBackgroundColor(AbstractCSSRule):
+class LabelSelectedBackgroundColor(AbstractConfigRule):
     def form_name(self):
         return 'label-selected-bg-color'
 
@@ -167,7 +172,7 @@ class LabelSelectedBackgroundColor(AbstractCSSRule):
 
 
 # Result: Component
-class ResultBorderColor(AbstractCSSRule):
+class ResultBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'result-border-color'
 
@@ -175,7 +180,7 @@ class ResultBorderColor(AbstractCSSRule):
         return '''.fessWrapper  #result li {{border: solid {};}}'''.format(color)
 
 
-class ResultBackgroundColor(AbstractCSSRule):
+class ResultBackgroundColor(AbstractConfigRule):
     def form_name(self):
         return 'result-bg-color'
 
@@ -183,7 +188,7 @@ class ResultBackgroundColor(AbstractCSSRule):
         return '''.fessWrapper  #result li {{background-color: {};}}'''.format(color)
 
 
-class ResultBorderColorHover(AbstractCSSRule):
+class ResultBorderColorHover(AbstractConfigRule):
     def form_name(self):
         return 'result-border-color-hover'
 
@@ -191,7 +196,7 @@ class ResultBorderColorHover(AbstractCSSRule):
         return '''.fessWrapper  #result li:hover {{border: solid {};}}'''.format(color)
 
 
-class ResultBackgroundColorHover(AbstractCSSRule):
+class ResultBackgroundColorHover(AbstractConfigRule):
     def form_name(self):
         return 'result-bg-color-hover'
 
@@ -200,7 +205,7 @@ class ResultBackgroundColorHover(AbstractCSSRule):
 
 
 # Result: Title
-class ResultTitleColor(AbstractCSSRule):
+class ResultTitleColor(AbstractConfigRule):
     def form_name(self):
         return 'result-title-color'
 
@@ -208,7 +213,7 @@ class ResultTitleColor(AbstractCSSRule):
         return '''.fessWrapper #result .title a:link {{color: {};}}'''.format(color)
 
 
-class ResultVisitedTitleColor(AbstractCSSRule):
+class ResultVisitedTitleColor(AbstractConfigRule):
     def form_name(self):
         return 'result-visited-title-color'
 
@@ -216,7 +221,7 @@ class ResultVisitedTitleColor(AbstractCSSRule):
         return '''.fessWrapper #result .title a:visited {{color: {};}}'''.format(color)
 
 
-class ResultHoveredTitleColor(AbstractCSSRule):
+class ResultHoveredTitleColor(AbstractConfigRule):
     def form_name(self):
         return 'result-hovered-title-color'
 
@@ -224,7 +229,7 @@ class ResultHoveredTitleColor(AbstractCSSRule):
         return '''.fessWrapper #result .title a:hover {{color: {};}}'''.format(color)
 
 
-class ResultActiveTitleColor(AbstractCSSRule):
+class ResultActiveTitleColor(AbstractConfigRule):
     def form_name(self):
         return 'result-active-title-color'
 
@@ -232,8 +237,23 @@ class ResultActiveTitleColor(AbstractCSSRule):
         return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
 
 
+# Result:
+class ResultThumbnailVisibility(AbstractConfigRule):
+    def form_name(self):
+        return 'result-thumbnail-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableThumbnail": true' if visible == 'checked' else '"enableThumbnail": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
 # Result: URL
-class ResultUrlVisibility(AbstractCSSRule):
+class ResultUrlVisibility(AbstractConfigRule):
     def form_name(self):
         return 'result-url-visibility'
 
@@ -244,7 +264,7 @@ class ResultUrlVisibility(AbstractCSSRule):
         return True
 
 
-class ResultUrlColor(AbstractCSSRule):
+class ResultUrlColor(AbstractConfigRule):
     def form_name(self):
         return 'result-url-color'
 
@@ -253,7 +273,7 @@ class ResultUrlColor(AbstractCSSRule):
 
 
 # Result: Snippet
-class ResultSnippetColor(AbstractCSSRule):
+class ResultSnippetColor(AbstractConfigRule):
     def form_name(self):
         return 'result-snippet-color'
 
@@ -261,8 +281,8 @@ class ResultSnippetColor(AbstractCSSRule):
         return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
 
 
-def get_CSS_rules():
-    css_rules = [
+def get_config_rules():
+    config_rules = [
         Font(), BackgroundColor(), BorderColor(),
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
@@ -270,7 +290,8 @@ def get_CSS_rules():
         LabelBorderColor(), LabelBackgroundColor(), LabelSelectedBorderColor(), LabelSelectedBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
+        ResultThumbnailVisibility(),
         ResultUrlVisibility(), ResultUrlColor(),
         ResultSnippetColor()
     ]
-    return css_rules
+    return config_rules

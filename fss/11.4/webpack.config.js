@@ -14,7 +14,7 @@ module.exports = {
         beautify: false
       }
     }),
-    new webpack.EnvironmentPlugin(['INPUT_CSS_PATH', 'OUTPUT_JS_FILENAME'])
+    new webpack.EnvironmentPlugin(['INPUT_JSON_PATH', 'INPUT_CSS_PATH', 'OUTPUT_JS_FILENAME'])
   ],
   module: {
     loaders: [

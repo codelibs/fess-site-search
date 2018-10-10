@@ -129,11 +129,11 @@
                                 <h4 class="modal-title">Preview Settings</h4>
                             </div>
                             <div class="modal-body">
-                                <textarea class="form-control" id="preview-settings" rows="6" onkeyup="validatePreviewSettings(value)" style="resize: vertical;"></textarea>
+                                <textarea class="form-control" id="preview-settings" rows="6" onkeyup="PreviewSettings.validate(value)" style="resize: vertical;"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-lg btn-secondary" onclick="resetPreviewSettings()">Reset</button>
-                                <button type="button" class="btn btn-lg btn-primary" id="preview-settings-savebutton" data-dismiss="modal" onclick="applyPreviewSettings()">Apply</button>
+                                <button type="button" class="btn btn-lg btn-secondary" onclick="PreviewSettings.reset()">Reset</button>
+                                <button type="button" class="btn btn-lg btn-primary" id="preview-settings-savebutton" data-dismiss="modal" onclick="PreviewSettings.apply()">Apply</button>
                             </div>
                         </div>
                     </div>
