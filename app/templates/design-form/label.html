@@ -3,15 +3,23 @@
 {% block title %}Label{% endblock %}
 
 {% block body %}
-    {# Border #}
-    {{ color_form('label-border-color', 'Border', 'Border Color of Label') }}
+    {# Visibility (Label)#}
+    {% call visibility_checkbox('labelbox-empty', 'labelbox-visibility', 'Visible Label Box') %}
+        {# empty call #}
+    {% endcall %}
 
-    {# Background #}
-    {{ color_form('label-bg-color', 'Background', 'Background Color of Label') }}
+    {# Visibility (Label Tab) #}
+    {% call visibility_checkbox('labeltab-settings', 'labeltab-visibility', 'Visible Label Tabs') %}
+        {# Border #}
+        {{ color_form('labeltab-border-color', 'Border', 'Border Color of Label Tab') }}
 
-    {# Border #}
-    {{ color_form('label-selected-border-color', 'Border (Selected)', 'Border Color of Label (Selected)') }}
+        {# Background #}
+        {{ color_form('labeltab-bg-color', 'Background', 'Background Color of Label Tab') }}
 
-    {# Background #}
-    {{ color_form('label-selected-bg-color', 'Background (Selected)', 'Background Color of Label (Selected)') }}
+        {# Border #}
+        {{ color_form('labeltab-selected-border-color', 'Border (Selected)', 'Border Color of Label Tab (Selected)') }}
+
+        {# Background #}
+        {{ color_form('labeltab-selected-bg-color', 'Background (Selected)', 'Background Color of Label Tab (Selected)') }}
+    {% endcall %}
 {% endblock %}

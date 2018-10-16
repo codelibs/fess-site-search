@@ -1,0 +1,12 @@
+{% extends "design-form/base.html" %}
+
+{% block title %}Order Box{% endblock %}
+
+{% block body %}
+    {# Visibility #}
+    {% call visibility_checkbox('orderbox-settings', 'orderbox-visibility', 'Visible Orderbox', 'checked') %}
+        {% call visibility_checkbox('orderbox-verbose-empty', 'orderbox-verbose-visibility', 'Visible All Orders') %}
+            {# empty call #}
+        {% endcall %}
+    {% endcall %}
+{% endblock %}

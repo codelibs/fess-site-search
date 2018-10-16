@@ -66,22 +66,22 @@ export default class {
   }
 
   _initViewState(state, conf) {
-    state.contextPath = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
-    state.searchPagePath = FessJQuery('script#fess-ss').attr('fess-search-page-path');
-    state.searchParams = null;
-    state.searchResponse = null;
-    state.enableOrder = FessJQuery('script#fess-ss').attr('enable-order') === 'false' ? false : true;
-    state.enableAllOrders = FessJQuery('script#fess-ss').attr('enable-all-orders') === 'true' ? true : false;
-    state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
-    state.enableLabelTabs = FessJQuery('script#fess-ss').attr('enable-label-tabs') === 'true' ? true : false;
-    state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
-    state.enableThumbnail = this._convert('enable-thumbnail', conf.enableThumbnail, true);
-    state.linkTarget = FessJQuery('script#fess-ss').attr('link-target');
-    state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
-    state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
-    state.labels = null;
-    state.fessLang = this.fessLang || null;
-    state.enableDetails = FessJQuery('script#fess-ss').attr('enable-details') === 'true' ? true : false;
+    state.contextPath     = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
+    state.searchPagePath  = FessJQuery('script#fess-ss').attr('fess-search-page-path');
+    state.searchParams    = null;
+    state.searchResponse  = null;
+    state.enableOrder     = this._convert('enable-order',      conf.enableOrder,     true );
+    state.enableAllOrders = this._convert('enable-all-orders', conf.enableAllOrder,  false);
+    state.enableLabels    = this._convert('enable-labels',     conf.enableLabels,    false);
+    state.enableLabelTabs = this._convert('enable-label-tabs', conf.enableLabelTabs, false);
+    state.enableThumbnail = this._convert('enable-thumbnail',  conf.enableThumbnail, true );
+    state.enableDetails   = this._convert('enable-details',    conf.enableDetails,   false);
+    state.enableRelated   = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
+    state.linkTarget      = FessJQuery('script#fess-ss').attr('link-target');
+    state.enableSuggest   = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
+    state.popupMode       = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
+    state.labels          = null;
+    state.fessLang        = this.fessLang || null;
   }
 
   _convert(attr, conf, def) {

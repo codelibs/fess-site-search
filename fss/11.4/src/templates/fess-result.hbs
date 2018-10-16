@@ -34,7 +34,7 @@
             {{/if}}
             <td class="order-box" align="right">
               <div class="order">
-                <select class="form-control sort">
+                <select class="form-control sort short">
                   <option value="" disabled selected style="display:none;">{result.order}</option>
                   <option value="score.desc">{result.order.score}</option>
                   {{#unless all_orders}}
@@ -107,21 +107,19 @@
               <div class="site ellipsis">
                 <cite>{{site_path}}</cite>
               </div>
-              {{#if ../details}}
-                <div class="info" dir="{{../dir}}">
-                  <small>
-                    {result.created} {{created}}
-                    {{#if last_modified}}
-                      <span class="hidden-xs">-</span>
-                      <span class="br-xs"></span>
-                      {result.order.last_modified}: {{last_modified}}
-                    {{/if}}
+              <div class="info" dir="{{../dir}}">
+                <small>
+                  {result.created} {{created}}
+                  {{#if last_modified}}
                     <span class="hidden-xs">-</span>
                     <span class="br-xs"></span>
-                    {{content_length}} {result.size}
-                  </small>
-                </div>
-              {{/if}}
+                    {result.order.last_modified}: {{last_modified}}
+                  {{/if}}
+                  <span class="hidden-xs">-</span>
+                  <span class="br-xs"></span>
+                  {{content_length}} {result.size}
+                </small>
+              </div>
             </div>
           </div>
         </li>

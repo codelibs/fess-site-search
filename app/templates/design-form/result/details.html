@@ -1,0 +1,11 @@
+{% extends "design-form/base.html" %}
+
+{% block title %}Result: Details{% endblock %}
+
+{% block body %}
+    {# Visibility #}
+    {% call visibility_checkbox('result-details-settings', 'result-details-visibility', 'Visible') %}
+        {# Color #}
+        {{ color_form('result-details-color', 'Color', 'Color of Details in Result Components') }}
+    {% endcall %}
+{% endblock %}
