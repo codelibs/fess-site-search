@@ -52,10 +52,11 @@ class _WPManager():
         my_env = os.environ.copy()
         jsfile = 'fess-ss-{}.min.js'.format(fname)
 
+        my_env['INPUT_JSON_PATH'] = '{}/{}.json'.format(folder, fname)
         my_env['INPUT_CSS_PATH'] = '{}/{}.css'.format(folder, fname)
         my_env['OUTPUT_JS_FILENAME'] = jsfile
 
-        print('generate_js: {} -> {}'.format(my_env['INPUT_CSS_PATH'], my_env['OUTPUT_JS_FILENAME']))
+        print('generate_js: ({}, {}) -> {}'.format(my_env['INPUT_JSON_PATH'], my_env['INPUT_CSS_PATH'], my_env['OUTPUT_JS_FILENAME']))
         return my_env
 
 
