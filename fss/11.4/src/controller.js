@@ -142,7 +142,7 @@ export default class {
   _bindSearchOptions() {
     var $cls = this;
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-      FessJQuery('.fessWrapper .fessForm form').submit();
+      $cls._search({});;
     });
     if (this.viewState.enableLabelTabs) {
       FessJQuery(".fessWrapper .label-tab").click(function(){
