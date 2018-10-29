@@ -1,6 +1,6 @@
 {
   "name": "fess-site-search-11.4",
-  "version": "11.4.11",
+  "version": "11.4.12",
   "main": "index.js",
   "license": "ISC",
   "dependencies": {
@@ -14,7 +14,8 @@
     "handlebars": "^4.0.12",
     "handlebars-loader": "^1.7.0",
     "jquery": "^3.3.1",
-    "node-sass": "^4.9.3",
+    "json-loader": "^0.5.7",
+    "node-sass": "^4.9.4",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.18.2",
     "webpack": "^2.7.0"

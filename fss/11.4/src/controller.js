@@ -11,10 +11,10 @@ export default class {
     this.viewState = null;
   }
 
-  start() {
+  start(fessConfig = {}) {
     this.FessView.init();
     this.viewState = this.FessView.newState();
-    this._initViewState(this.viewState);
+    this._initViewState(this.viewState, fessConfig);
     this.FessView.render(this.viewState);
     this._bindForm();
     if (this.viewState.popupMode) {
@@ -65,7 +65,7 @@ export default class {
     );
   }
 
-  _initViewState(state) {
+  _initViewState(state, conf) {
     state.contextPath = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
     state.searchPagePath = FessJQuery('script#fess-ss').attr('fess-search-page-path');
     state.searchParams = null;
@@ -75,13 +75,21 @@ export default class {
     state.enableLabels = FessJQuery('script#fess-ss').attr('enable-labels') === 'true' ? true : false;
     state.enableLabelTabs = FessJQuery('script#fess-ss').attr('enable-label-tabs') === 'true' ? true : false;
     state.enableRelated = FessJQuery('script#fess-ss').attr('enable-related') === 'true' ? true : false;
-    state.enableThumbnail = FessJQuery('script#fess-ss').attr('enable-thumbnail') === 'false' ? false : true;
+    state.enableThumbnail = this._convert('enable-thumbnail', conf.enableThumbnail, true);
     state.linkTarget = FessJQuery('script#fess-ss').attr('link-target');
     state.enableSuggest = FessJQuery('script#fess-ss').attr('enable-suggest') === 'true' ? true : false;
     state.popupMode = FessJQuery('script#fess-ss').attr('popup-result') === 'true' ? true : false;
     state.labels = null;
     state.fessLang = this.fessLang || null;
     state.enableDetails = FessJQuery('script#fess-ss').attr('enable-details') === 'true' ? true : false;
+  }
+
+  _convert(attr, conf, def) {
+    switch (FessJQuery('script#fess-ss').attr(attr)) {
+      case 'true':  return true;  break;
+      case 'false': return false; break;
+      default:      return (conf !== undefined ? conf : def);
+    }
   }
 
   _bindForm() {
@@ -134,7 +142,7 @@ export default class {
   _bindSearchOptions() {
     var $cls = this;
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-      FessJQuery('.fessWrapper .fessForm form').submit();
+      $cls._search({});;
     });
     if (this.viewState.enableLabelTabs) {
       FessJQuery(".fessWrapper .label-tab").click(function(){

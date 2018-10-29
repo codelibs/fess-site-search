@@ -12,20 +12,7 @@
     <title>Demo</title>
   </head>
 
-  <script>
-    (function() {
-    var fess = document.createElement('script');
-    fess.type = 'text/javascript';
-    fess.async = true;
-    fess.src = '{{message.js_path}}';
-    fess.charset = 'utf-8';
-    fess.setAttribute('id', 'fess-ss');
-    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
-    fess.setAttribute('fess-search-page-path', '{{message.page_path}}');
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fess, s);
-    })();
-  </script>
+  <script id="embed" js_path="{{message.js_path}}" page_path="{{message.page_path}}"></script>
 
   <fess:search></fess:search>
 </html>

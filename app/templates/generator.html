@@ -71,6 +71,7 @@
                                 {# Preview Button, Generate Button #}
                                 <div class="box-footer">
                                     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyWizardDesign()">Preview</button>
+                                    <a class="btn btn-link" data-toggle="modal" data-target="#preview-settings-modal">Preview settings</a>
                                     <input type="submit" class="btn btn-primary btn-lg pull-right" value="Generate">
                                 </div>
                             </form>
@@ -94,6 +95,7 @@
                                 {# Preview Button, Generate Button #}
                                 <div class="box-footer">
                                     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#preview-modal" onclick="applyUploadedDesign()">Preview</button>
+                                    <a class="btn btn-link" data-toggle="modal" data-target="#preview-settings-modal">Preview settings</a>
                                     <input type="submit" class="btn btn-primary btn-lg pull-right" value="Generate">
                                 </div>
                             </form>
@@ -113,6 +115,25 @@
                             </div>
                             <div class="modal-body">
                                 <iframe id="preview-iframe" src="/search/?q=test" width="99%" height="800px" ></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="preview-settings-modal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Preview Settings</h4>
+                            </div>
+                            <div class="modal-body">
+                                <textarea class="form-control" id="preview-settings" rows="6" onkeyup="PreviewSettings.validate(value)" style="resize: vertical;"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-lg btn-secondary" onclick="PreviewSettings.reset()">Reset</button>
+                                <button type="button" class="btn btn-lg btn-primary" id="preview-settings-savebutton" data-dismiss="modal" onclick="PreviewSettings.apply()">Apply</button>
                             </div>
                         </div>
                     </div>
