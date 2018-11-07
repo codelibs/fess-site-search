@@ -4,6 +4,9 @@ export default class {
       en: {
         'form.search.button': 'Search',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'under maintenance',
+        'error.fess_not_found': 'Server not found.',
+        'error.fess_unsupported_version': 'Fess Version Error  - Minimum supported version : {{minFessVersion}}  /  used version : {{apiVersion}}',
         'result.number': 'results',
         'result.second': 'second',
         'result.label': 'Labels',
@@ -28,6 +31,9 @@ export default class {
       ja: {
         'form.search.button': '検索',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'メンテナンス中です。',
+        'error.fess_not_found': 'サーバーが見つかりません。',
+        'error.fess_unsupported_version': 'Fessバージョンエラー  - サポートバージョン：{{minFessVersion}}以降  /  現在のバージョン：{{apiVersion}}',
         'result.number': '件',
         'result.second': '秒',
         'result.label': 'ラベル',
@@ -954,7 +960,7 @@ export default class {
       }*/
     }
     for (var key in vars) {
-      if (typeof vars[key] == 'string' || typeof vars == 'string') {
+      if (typeof vars[key] == 'string' || typeof vars[key] == 'number' || typeof vars == 'string') {
         var reg = new RegExp('{{' + key + '}}', 'g');
         message = message.replace(reg, this._escapeHtml(vars[key]));
       }

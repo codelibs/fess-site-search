@@ -33,4 +33,19 @@ export default class {
       });
     });
   }
+
+  getStatus(url) {
+    return new Promise(function(resolve, reject) {
+      FessJQuery.ajax({
+        url: url,
+        type: "GET",
+        dataType: "jsonp",
+        data: {type: 'ping'}
+      }).done(function(data){
+        resolve(data);
+      }).fail(function(data){
+        reject(data);
+      });
+    });
+  }
 }

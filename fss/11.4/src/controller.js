@@ -4,6 +4,7 @@ export default class {
   constructor(FessView, FessModel) {
     this.FessView = FessView;
     this.FessModel = FessModel;
+    this.minFessVersion = 11.4;
     this.fessUrl = FessJQuery('script#fess-ss').attr('fess-url');
     this.fessLang = FessJQuery('script#fess-ss').attr('language');
     this.anyParams = FessJQuery('script#fess-ss').data('params') || {};
@@ -19,6 +20,16 @@ export default class {
     this._bindForm();
     if (this.viewState.popupMode) {
       this.FessView.setupOverlay();
+    }
+    var $cls = this;
+    if (this.viewState.enableSuggest) {
+      this.FessModel.getStatus(this.fessUrl).then(function(data) {
+        if (data.response.status === 0 && $cls.minFessVersion <= data.response.version) {
+          this.FessView.suggestor();
+        }
+      }, function(data) {
+        // do nothing
+      });
     }
     if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
       var query = this.urlParams.q[0];
@@ -67,6 +78,8 @@ export default class {
 
   _initViewState(state, conf) {
     state.contextPath     = this.fessUrl.slice(0, this.fessUrl.indexOf('/json'));
+    state.apiVersion      = null;
+    state.minFessVersion  = this.minFessVersion;
     state.searchPagePath  = FessJQuery('script#fess-ss').attr('fess-search-page-path');
     state.searchParams    = null;
     state.searchResponse  = null;
@@ -210,28 +223,37 @@ export default class {
     if (this.viewState.popupMode) {
       this.FessView.showOverlay();
     }
-    this.FessModel.search(this.fessUrl, params).then(function(data){
+    this.FessModel.search(this.fessUrl, params).then(function(data) {
       var searchResponse = data.response;
-      if (($cls.viewState.enableLabels || $cls.viewState.enableLabelTabs) && $cls.viewState.labels === null) {
-        $cls.FessModel.getLabels($cls.fessUrl).then(function(data) {
-          $cls.viewState.labels = data.response.result;
+      $cls.viewState.apiVersion = searchResponse.version;
+      if (searchResponse.status === 0 && $cls.minFessVersion <= searchResponse.version) {
+        if (($cls.viewState.enableLabels || $cls.viewState.enableLabelTabs) && $cls.viewState.labels === null) {
+          $cls.FessModel.getLabels($cls.fessUrl).then(function(data) {
+            $cls.viewState.labels = data.response.result;
+            $cls._renderResult(searchResponse, params);
+            $cls._afterSearch(searchResponse, params);
+            $cls._registerHistory(searchResponse, params, replace);
+          }, function(data) {
+            console.log("labels error: " + JSON.stringify(data));
+            $cls._renderResult(searchResponse, params);
+            $cls._afterSearch(searchResponse, params);
+            $cls._registerHistory(searchResponse, params, replace);
+          });
+        } else {
           $cls._renderResult(searchResponse, params);
           $cls._afterSearch(searchResponse, params);
           $cls._registerHistory(searchResponse, params, replace);
-        }, function(data) {
-          console.log("labels error: " + JSON.stringify(data));
-          $cls._renderResult(searchResponse, params);
-          $cls._afterSearch(searchResponse, params);
-          $cls._registerHistory(searchResponse, params, replace);
-        });
+        }
       } else {
+        searchResponse = {record_count: 0, exec_time: 0, q: params.q};
+        searchResponse.warning = (data.response.status !== 0) ? 'error.fess_unavailable' : 'error.fess_unsupported_version';
         $cls._renderResult(searchResponse, params);
         $cls._afterSearch(searchResponse, params);
         $cls._registerHistory(searchResponse, params, replace);
       }
     }, function(data) {
       var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
-      console.log("search error: " + JSON.stringify(data));
+      searchResponse.warning = 'error.fess_not_found';
       $cls._renderResult(searchResponse, params);
       $cls._afterSearch(searchResponse, params);
       $cls._registerHistory(searchResponse, params, replace);
