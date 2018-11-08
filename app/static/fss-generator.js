@@ -154,7 +154,12 @@ class FssDesign {
                     return 'unchecked';
                 }
             } else {
-                return $(`#wizard-form [name=${this.formId}]`).val();
+                var disabled = $(`#wizard-form [name=${this.formId}]`).is(':disabled');
+                if (disabled) {
+                    return '';
+                } else {
+                    return $(`#wizard-form [name=${this.formId}]`).val();
+                }
             }
         }
     }
@@ -170,7 +175,7 @@ class FssDesign {
 
     toCss() {
         const value = this.getValue();
-        if (!value) {
+        if (!value || !this.formatter(value)) {
             return '';
         }
         return `${this.target} {${this.prop}: ${this.formatter(value)}}`;
@@ -230,10 +235,14 @@ function applyWizardDesign() {
         new FssDesign('button-active-bg-color',
                       ['.searchButton:active', '.searchButton:hover', '.searchButton:focus'], 'background-color'),
         // Label
-        new FssDesign ('label-border-color', ['.not-selected', '.not-selected:focus'], 'border'),
-        new FssDesign ('label-bg-color', '.not-selected', 'background-color'),
-        new FssDesign ('label-selected-border-color', ['.selected', '.selected:focus'], 'border'),
-        new FssDesign ('label-selected-bg-color', '.selected', 'background-color'),
+        /* new FssDesign ('label-border-color', ['.not-selected', '.not-selected:focus'], 'border'),
+           new FssDesign ('label-bg-color', '.not-selected', 'background-color'),
+           new FssDesign ('label-selected-border-color', ['.selected', '.selected:focus'], 'border'),
+           new FssDesign ('label-selected-bg-color', '.selected', 'background-color'), */
+        new FssDesign('labeltab-border-color',          '.label-tab', 'border'),
+        new FssDesign('labeltab-bg-color',              '.label-tab', 'background-color'),
+        new FssDesign('labeltab-selected-border-color', '.label-tab-selected', 'border'),
+        new FssDesign('labeltab-selected-bg-color',     '.label-tab-selected', 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
@@ -244,15 +253,26 @@ function applyWizardDesign() {
         new FssDesign('result-visited-title-color', '#result .title a:visited', 'color'),
         new FssDesign('result-hovered-title-color', '#result .title a:hover',   'color'),
         new FssDesign('result-active-title-color',  '#result .title a:active',  'color'),
+        // Result: Snippet
+        new FssDesign('result-snippet-color', '#result .body .description', 'color'),
         // Result: URL
         new FssDesign('result-url-visibility', '#result .body cite', 'display', {checked: 'inline', unchecked: 'none'}),
         new FssDesign('result-url-color',      '#result .body cite', 'color'),
-        // Result: Snippet
-        new FssDesign('result-snippet-color', '#result .body .description', 'color')
+        // Result: Details
+        new FssDesign('result-details-color',      '#result .body .info', 'color')
     ];
 
     const configs = [
-        new FssConfig('result-thumbnail-visibility', 'enable-thumbnail', {checked: 'true', unchecked: 'false'})
+        // Label
+        new FssConfig('labelbox-visibility', 'enable-labels',     {checked: 'true', unchecked: 'false'}),
+        new FssConfig('labeltab-visibility', 'enable-label-tabs', {checked: 'true', unchecked: 'false'}),
+        // Order Box
+        new FssConfig('orderbox-visibility',         'enable-order',      {checked: 'true', unchecked: 'false'}),
+        new FssConfig('orderbox-verbose-visibility', 'enable-all-orders', {checked: 'true', unchecked: 'false'}),
+        // Result: Snippet
+        new FssConfig('result-thumbnail-visibility', 'enable-thumbnail', {checked: 'true', unchecked: 'false'}),
+        // Result: Details
+        new FssConfig('result-details-visibility', 'enable-details', {checked: 'true', unchecked: 'false'})
     ];
 
     let cssStr = '';

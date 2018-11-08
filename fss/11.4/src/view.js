@@ -63,6 +63,7 @@ export default class {
       state.enableOrder = false;
       state.enableAllOrders = false;
       state.enableLabels = false;
+      state.enableLabelTabs = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
       state.linkTarget = null;
@@ -144,9 +145,8 @@ export default class {
       response['link_target'] = state.linkTarget;
     }
 
-    if (state.enableDetails && response['has_results']) {
+    if (response['has_results']) {
       var lang = this.getLanguage(state);
-      response['details'] = true;
       for (var result of response['result']) {
         result['created'] = this._dateToString(new Date(result['created']), lang);
         if (result['last_modified']) {
@@ -162,6 +162,9 @@ export default class {
     if (response.record_count > 0) {
       var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      if (!state.enableDetails) {
+          FessJQuery('.fessWrapper .info').css('display', 'none');
+      }
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
       } else {
@@ -185,17 +188,21 @@ export default class {
 
     if (!state.enableRelated) {
       delete response.related_query;
-      delete response.related_content;
+      delete response.related_contents;
     }
+
+    if (state.enableAllOrders) {
+      response['all_orders'] = true;
+    }
+
     response['has_results'] = response.record_count > 0;
 
     if (state.linkTarget) {
       response['link_target'] = state.linkTarget;
     }
 
-    if (state.enableDetails && response['has_results']) {
+    if (response['has_results']) {
       var lang = this.getLanguage(state);
-      response['details'] = true;
       for (var result of response['result']) {
         result['created'] = this._dateToString(new Date(result['created']), lang);
         if (result['last_modified']) {
@@ -229,6 +236,9 @@ export default class {
     if (response.record_count > 0) {
       var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      if (!state.enableDetails) {
+          FessJQuery('.fessWrapper .info').css('display', 'none');
+      }
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
       } else {
@@ -244,21 +254,23 @@ export default class {
 
   _setSearchOptions(state) {
     if (state.enableOrder) {
-      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'block');
+      FessJQuery('.fessWrapper .fessResultBox table .order-box').css('display', 'table-cell');
       if (state.searchParams.sort !== undefined) {
         FessJQuery('.fessWrapper select.sort').val(state.searchParams.sort);
       }
+      FessJQuery('.fessWrapper .fessResultBox table .labels .form-control').removeClass('short');
     } else {
-      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .order-box').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .labels .form-control').addClass('short');
     }
 
     if (state.enableLabels) {
-      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'block');
+      FessJQuery('.fessWrapper .fessResultBox table .labels-box').css('display', 'table-cell');
       if (state.searchParams['fields.label'] !== undefined){
         FessJQuery('.fessWrapper select.field-labels').val(state.searchParams['fields.label']);
       }
     } else {
-      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .labels-box').css('display', 'none');
     }
 
     if (state.enableLabelTabs) {
