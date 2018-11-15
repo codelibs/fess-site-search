@@ -141,8 +141,20 @@ export default class {
 
   _bindSearchOptions() {
     var $cls = this;
+    FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").each(function(){
+      if (FessJQuery(this).val()) {
+        FessJQuery(this).addClass('selected');
+      } else {
+        FessJQuery(this).removeClass('selected');
+      }
+    });
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-      $cls._search({});;
+      if (FessJQuery(this).val()) {
+        FessJQuery(this).addClass('selected');
+      } else {
+        FessJQuery(this).removeClass('selected');
+      }
+      $cls._search({});
     });
     if (this.viewState.enableLabelTabs) {
       FessJQuery(".fessWrapper .label-tab").click(function(){

@@ -8,5 +8,17 @@
         {% call visibility_checkbox('orderbox-verbose-empty', 'orderbox-verbose-visibility', 'Visible All Orders') %}
             {# empty call #}
         {% endcall %}
+
+        {# Border #}
+        {{ color_form('orderbox-border-color', 'Border', 'Border Color of Orderbox') }}
+
+        {# Background #}
+        {{ color_form('orderbox-bg-color', 'Background', 'Background Color of Orderbox') }}
+
+        {# Border #}
+        {{ color_form('orderbox-selected-border-color', 'Border (Selected)', 'Border Color of Orderbox (Selected)') }}
+
+        {# Background #}
+        {{ color_form('orderbox-selected-bg-color', 'Background (Selected)', 'Background Color of Orderbox (Selected)') }}
     {% endcall %}
 {% endblock %}
