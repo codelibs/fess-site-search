@@ -3,6 +3,7 @@ import formTemplate from '!handlebars-loader!./templates/fess-form.hbs';
 import formOnlyTemplate from '!handlebars-loader!./templates/fess-form-only.hbs';
 import resultTemplate from '!handlebars-loader!./templates/fess-result.hbs';
 import noResultTemplate from '!handlebars-loader!./templates/fess-no-result.hbs';
+import warningTemplate from '!handlebars-loader!./templates/fess-warning.hbs';
 import './suggestor.js';
 
 export default class {
@@ -57,6 +58,8 @@ export default class {
     return (() => {
       var state = {};
       state.contextPath = '';
+      state.apiVersion = null;
+      state.minFessVersion = null;
       state.searchPagePath = null;
       state.searchParams = null;
       state.searchResponse = null;
@@ -83,12 +86,43 @@ export default class {
     }
 
     if (state.searchResponse !== null) {
-      if (state.popupMode) {
+      if (state.searchResponse.warning !== undefined) {
+        this._renderWarningPage(state);
+      } else if (state.popupMode) {
         this._renderPopupResult(state);
       } else {
         this._renderResult(state);
       }
       FessJQuery('.fessWrapper .fessResult').css('display', 'block');
+    }
+  }
+
+  _renderWarningPage(state) {
+    var html = warningTemplate({ 'warning': '{' + state.searchResponse.warning + '}' });
+    if (state.popupMode) {
+      var $popup = FessJQuery('<div/>');
+      $popup.addClass('fessPopup');
+
+      var $popupHeader = FessJQuery('<div/>');
+      var $popupCloseButton = FessJQuery('<button/>');
+      $popupCloseButton.attr('type', 'button');
+      $popupCloseButton.addClass('close');
+      $popupCloseButton.addClass('fessPopupClose');
+      $popupCloseButton.html('&times;');
+      $popupHeader.append($popupCloseButton);
+      $popup.append($popupHeader);
+
+      var $popupResultSection = FessJQuery('<div/>');
+      $popupResultSection.addClass('fessPopupResult');
+      $popupResultSection.html(this.FessMessages.render(html, state, state.fessLang));
+      $popup.append($popupResultSection);
+
+      var $fessOverlay = FessJQuery('.fessOverlay');
+      $fessOverlay.html('');
+      $fessOverlay.append($popup);
+    } else {
+      var $fessResult = FessJQuery('.fessWrapper .fessResult');
+      $fessResult.html(this.FessMessages.render(html, state, state.fessLang));
     }
   }
 
@@ -111,10 +145,6 @@ export default class {
       if (FessJQuery('.fessWrapper .fessFormOnly form input.query').length > 0) {
         FessJQuery('.fessWrapper .fessFormOnly form input.query').val(state.searchParams.q);
       }
-    }
-
-    if(state.enableSuggest) {
-      this._suggestor(state);
     }
   }
 
@@ -419,14 +449,14 @@ export default class {
   hideSearchWaiting() {
   }
 
-  _suggestor(state) {
+  suggestor(state) {
     FessJQuery('.fessWrapper form input.query').suggestor(
       {
         ajaxinfo : {
           url : state.contextPath + '/suggest',
           fn : '_default,content,title',
           num : 10,
-          lang : this.FessMessages.getLanguage(state.fessLang)
+          lang : this.getLanguage(state)
         },
         boxCssInfo : {
           border : '1px solid rgba(82, 168, 236, 0.5)',

@@ -4,6 +4,9 @@ export default class {
       en: {
         'form.search.button': 'Search',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'under maintenance',
+        'error.fess_not_found': 'Server not found.',
+        'error.fess_unsupported_version': 'Fess Version Error  - Minimum supported version {{minFessVersion}}  /  used version {{apiVersion}}',
         'result.number': 'results',
         'result.second': 'second',
         'result.label': 'Labels',
@@ -28,6 +31,9 @@ export default class {
       ja: {
         'form.search.button': '検索',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'メンテナンス中です。',
+        'error.fess_not_found': 'サーバーが見つかりません。',
+        'error.fess_unsupported_version': 'Fessバージョンエラー  - サポートバージョン {{minFessVersion}}以降  /  現在のバージョン {{apiVersion}}',
         'result.number': '件',
         'result.second': '秒',
         'result.label': 'ラベル',
@@ -52,6 +58,9 @@ export default class {
       zh: {
         'form.search.button': '搜尋',
         'form.input.placeholder': '',
+        'error.fess_unavailable': '正在维护中',
+        'error.fess_not_found': '找不到服务器。',
+        'error.fess_unsupported_version': 'Fess: 版本错误  - 支持的最低版本 {{minFessVersion}}  /  当前版本 {{apiVersion}}',
         'result.number': '条结果',
         'result.second': '秒',
         'result.label': '标签',
@@ -76,6 +85,9 @@ export default class {
       tw: {
         'form.search.button': '搜尋',
         'form.input.placeholder': '',
+        'error.fess_unavailable': '正在維護中',
+        'error.fess_not_found': '找不到服務器。',
+        'error.fess_unsupported_version': 'Fess: 版本錯誤  - 支持的最低版本 {{minFessVersion}}  /  當前版本 {{apiVersion}}',
         'result.number': '条结果',
         'result.second': '秒',
         'result.label': '標籤',
@@ -100,6 +112,9 @@ export default class {
       ko: {
         'form.search.button': '검색',
         'form.input.placeholder': '',
+        'error.fess_unavailable': '멘 테넌 스입니다.',
+        'error.fess_not_found': '서버가 발견되지 않았습니다.',
+        'error.fess_unsupported_version': 'Fess: 버전 오류  - 최소 지원 버전 {{minFessVersion}}  /  현재의 버전 {{apiVersion}}',
         'result.number': '개',
         'result.second': '초',
         'result.label': '라벨',
@@ -124,6 +139,9 @@ export default class {
       cs: {
         'form.search.button': 'Hledat',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'pod údržbou',
+        'error.fess_not_found': 'Server nebyl nalezen.',
+        'error.fess_unsupported_version': 'Fess: Chyba verze  - Minimální podporovaná verze {{minFessVersion}}  /  použitá verze {{apiVersion}}',
         'result.number': '',
         'result.second': 's',
         'result.label': 'Štítku',
@@ -148,6 +166,9 @@ export default class {
       da: {
         'form.search.button': 'Søg',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'under vedligeholdelse',
+        'error.fess_not_found': 'Server ikke fundet.',
+        'error.fess_unsupported_version': 'Fess: Versionsfejl  - Support version {{minFessVersion}}  /  brugt version {{apiVersion}}',
         'result.number': 'resultater',
         'result.second': 'sekunder',
         'result.label': 'Etiket',
@@ -172,6 +193,9 @@ export default class {
       de: {
         'form.search.button': 'Suche',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'unter Wartung',
+        'error.fess_not_found': 'Server nicht gefunden',
+        'error.fess_unsupported_version': 'Fess: Versionsfehler  - Minimale unterstützte Version {{minFessVersion}}  /  verwendete Version {{apiVersion}}',
         'result.number': 'Ergebnisse',
         'result.second': 'Sekunden',
         'result.label': 'Labels',
@@ -196,6 +220,9 @@ export default class {
       es: {
         'form.search.button': 'Buscar',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'El mantenimiento está en progreso.',
+        'error.fess_not_found': 'Servidor no encontrado.',
+        'error.fess_unsupported_version': 'Fess: Error de version  - Versión mínima soportada {{minFessVersion}}  /  versión usada {{apiVersion}}',
         'result.number': 'resultados',
         'result.second': 'segundos',
         'result.label': 'Etiquetas',
@@ -220,6 +247,9 @@ export default class {
       fr: {
         'form.search.button': 'Rechercher',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'en maintenance',
+        'error.fess_not_found': 'Serveur introuvable.',
+        'error.fess_unsupported_version': 'Fess: Erreur de version  - Version minimale prise en charge {{minFessVersion}}  /  version utilisée {{apiVersion}}',
         'result.number': 'résultats',
         'result.second': 'secondes',
         'result.label': 'Libellés',
@@ -244,6 +274,9 @@ export default class {
       it: {
         'form.search.button': 'Cerca',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'in manutenzione',
+        'error.fess_not_found': 'Server non trovato.',
+        'error.fess_unsupported_version': 'Fess: Errore di versione  - Versione di supporto {{minFessVersion}}  /  versione usata {{apiVersion}}',
         'result.number': 'risultati',
         'result.second': 'secondi',
         'result.label': 'Etichette',
@@ -268,6 +301,9 @@ export default class {
       hu: {
         'form.search.button': 'Keresés',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'karbantartás alatt',
+        'error.fess_not_found': 'A kiszolgáló nem található.',
+        'error.fess_unsupported_version': 'Fess: Verzióhiba  - Minimális támogatott verzió {{minFessVersion}}  /  használt verzió {{apiVersion}}',
         'result.number': 'találat',
         'result.second': 'másodperc',
         'result.label': 'Címke',
@@ -292,6 +328,9 @@ export default class {
       nl: {
         'form.search.button': 'Zoeken',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'onder onderhoud',
+        'error.fess_not_found': 'Server niet gevonden.',
+        'error.fess_unsupported_version': 'Fess: Versie fout  - Ondersteunende versie {{minFessVersion}}  /  gebruikte versie {{apiVersion}}',
         'result.number': 'resultaten',
         'result.second': 'seconden',
         'result.label': 'Labels',
@@ -316,6 +355,9 @@ export default class {
       no: {
         'form.search.button': 'Søk',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'under vedlikehold',
+        'error.fess_not_found': 'Server ikke funnet.',
+        'error.fess_unsupported_version': 'Fess: Versjonsfeil  - Minimum støttet versjon {{minFessVersion}}  /  brukt versjon {{apiVersion}}',
         'result.number': 'resultater',
         'result.second': 'sekunder',
         'result.label': 'Etiketter',
@@ -340,6 +382,9 @@ export default class {
       pl: {
         'form.search.button': 'Szukaj',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'Konserwacja jest w toku.',
+        'error.fess_not_found': 'Nie znaleziono serwera.',
+        'error.fess_unsupported_version': 'Fess: Błąd wersji  - Minimalna obsługiwana wersja {{minFessVersion}}  /  używana wersja {{apiVersion}}',
         'result.number': 'wyników',
         'result.second': 's',
         'result.label': 'Etykiety',
@@ -364,6 +409,9 @@ export default class {
       pt: {
         'form.search.button': 'Pesquisar',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'em manutenção',
+        'error.fess_not_found': 'Servidor não encontrado.',
+        'error.fess_unsupported_version': 'Fess: Erro de versão  - Versão mínima suportada {{minFessVersion}}  /  versão usada {{apiVersion}}',
         'result.number': 'resultados',
         'result.second': 'segundos',
         'result.label': 'Marcador',
@@ -388,6 +436,9 @@ export default class {
       fi: {
         'form.search.button': 'Haku',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'Huolto on käynnissä.',
+        'error.fess_not_found': 'Palvelinta ei löydy.',
+        'error.fess_unsupported_version': 'Fess: Versiovirhe  - Pienin tuettu versio {{minFessVersion}}  /  käytetty versio {{apiVersion}}',
         'result.number': 'tuloksesta',
         'result.second': 'sekuntia',
         'result.label': 'Tunniste',
@@ -412,6 +463,9 @@ export default class {
       sv: {
         'form.search.button': 'Sök',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'under underhåll',
+        'error.fess_not_found': 'Server hittades inte.',
+        'error.fess_unsupported_version': 'Fess: Versionsfel  - stödd version {{minFessVersion}}  /  använd version {{apiVersion}}',
         'result.number': 'resultat',
         'result.second': 'sekunder',
         'result.label': 'Etikett',
@@ -436,6 +490,9 @@ export default class {
       tr: {
         'form.search.button': 'Ara',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'bakım altında',
+        'error.fess_not_found': 'Sunucu bulunamadı.',
+        'error.fess_unsupported_version': 'Fess: Sürüm Hatası  - Minimum desteklenen sürüm {{minFessVersion}}  /  kullanılmış versiyon {{apiVersion}}',
         'result.number': 'sonuç',
         'result.second': 'saniye',
         'result.label': 'Etiket\'i',
@@ -460,6 +517,9 @@ export default class {
       ru: {
         'form.search.button': 'Поиск',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'под техническим обслуживанием',
+        'error.fess_not_found': 'Сервер не найден.',
+        'error.fess_unsupported_version': 'Fess: Ошибка версии  - Минимальная поддерживаемая версия {{minFessVersion}}  /  используемая версия {{apiVersion}}',
         'result.number': 'страница',
         'result.second': 'сек.',
         'result.label': 'Ярлыки',
@@ -484,6 +544,9 @@ export default class {
       ar: {
         'form.search.button': 'البحث',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'تحت الصيانة',
+        'error.fess_not_found': 'الخادم غير موجود.',
+        'error.fess_unsupported_version': 'Fess: خطأ في الإصدار  - الحد الأدنى من النسخة المدعومة {{minFessVersion}}  /  النسخة المستخدمة {{apiVersion}}',
         'result.number': 'من النتائج',
         'result.second': 'عدد الثواني',
         'result.label': 'تصنيفات',
@@ -508,6 +571,9 @@ export default class {
       bg: {
         'form.search.button': 'търсене',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'поддръжката',
+        'error.fess_not_found': 'Сървърът не е намерен.',
+        'error.fess_unsupported_version': 'Fess: Версия Грешка  - Поддържаща версия {{minFessVersion}}  /  използваната версия {{apiVersion}}',
         'result.number': 'резултата',
         'result.second': 'секунди',
         'result.label': 'етикети',
@@ -532,6 +598,9 @@ export default class {
       ca: {
         'form.search.button': 'Cerca',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'sota manteniment',
+        'error.fess_not_found': 'El servidor no s\'ha trobat.',
+        'error.fess_unsupported_version': 'Fess: Error de versió  - Versió de suport {{minFessVersion}}  /  versió usada {{apiVersion}}',
         'result.number': 'resultats',
         'result.second': 'segons',
         'result.label': 'etiquetes',
@@ -556,6 +625,9 @@ export default class {
       hr: {
         'form.search.button': 'pretraživanje',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'pod održavanjem',
+        'error.fess_not_found': 'Poslužitelj nije pronađen.',
+        'error.fess_unsupported_version': 'Fess: Pogreška u verziji  - Minimalna podržana verzija {{minFessVersion}}  /  Trenutačna verzija {{apiVersion}}',
         'result.number': 'rezultata',
         'result.second': 'sek',
         'result.label': 'etikete',
@@ -580,6 +652,9 @@ export default class {
       fil: {
         'form.search.button': 'Paghahanap',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'sa ilalim ng pagpapanatili',
+        'error.fess_not_found': 'Hindi nakita ang server.',
+        'error.fess_unsupported_version': 'Fess: Error sa Bersyon  - Suporta sa bersyon {{minFessVersion}}  /  ginamit na bersyon {{apiVersion}}',
         'result.number': 'resulta',
         'result.second': 'segundo',
         'result.label': 'Tatak',
@@ -604,6 +679,9 @@ export default class {
       el: {
         'form.search.button': 'αναζήτηση',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'υπό συντήρηση',
+        'error.fess_not_found': 'Ο διακομιστής δεν βρέθηκε.',
+        'error.fess_unsupported_version': 'Fess: Σφάλμα έκδοσης  - Ελάχιστη υποστηριζόμενη έκδοση {{minFessVersion}}  /  χρησιμοποιημένη έκδοση {{apiVersion}}',
         'result.number': 'αποτελέσματα',
         'result.second': 'δευτερόλεπτα',
         'result.label': 'ετικέτες',
@@ -628,6 +706,9 @@ export default class {
       he: {
         'form.search.button': 'חיפוש',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'תחת תחזוקה',
+        'error.fess_not_found': 'השרת לא נמצא.',
+        'error.fess_unsupported_version': 'Fess: שגיאת גירסה  - גרסה נתמכת מינימלית {{minFessVersion}}  /  גרסה בשימוש {{apiVersion}}',
         'result.number': 'תוצאות',
         'result.second': 'שניות',
         'result.label': 'תוויות',
@@ -652,6 +733,9 @@ export default class {
       hi: {
         'form.search.button': 'खोज',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'रखरखाव के तहत',
+        'error.fess_not_found': 'सर्वर नहीं मिला',
+        'error.fess_unsupported_version': 'Fess: संस्करण त्रुटि  - न्यूनतम समर्थित संस्करण {{minFessVersion}}  /  वर्तमान संस्करण {{apiVersion}}',
         'result.number': 'परिणाम',
         'result.second': 'सेकंड',
         'result.label': 'लेबल',
@@ -676,6 +760,9 @@ export default class {
       id: {
         'form.search.button': 'pencarian',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'di bawah pemeliharaan',
+        'error.fess_not_found': 'Server tidak ditemukan.',
+        'error.fess_unsupported_version': 'Fess: Kesalahan Versi  - Versi dukungan {{minFessVersion}}  /  versi yang digunakan {{apiVersion}}',
         'result.number': 'hasil',
         'result.second': 'detik',
         'result.label': 'label',
@@ -700,6 +787,9 @@ export default class {
       lv: {
         'form.search.button': 'meklēšana',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'zem uzturēšanas',
+        'error.fess_not_found': 'Serveris nav atrasts.',
+        'error.fess_unsupported_version': 'Fess: Versijas kļūda  - Minimālā atbalstītā versija {{minFessVersion}}  /  izmantotā versija {{apiVersion}}',
         'result.number': 'rezultāti',
         'result.second': 'sekundes',
         'result.label': 'etiķetes',
@@ -724,6 +814,9 @@ export default class {
       lt: {
         'form.search.button': 'paieška',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'pagal techninę priežiūrą',
+        'error.fess_not_found': 'Serveris nerastas.',
+        'error.fess_unsupported_version': 'Fess: Versijos klaida  - Minimali palaikoma versija {{minFessVersion}}  /  Dabartinė versija {{apiVersion}}',
         'result.number': 'rezult.',
         'result.second': 'sek.',
         'result.label': 'etiketės',
@@ -748,6 +841,9 @@ export default class {
       ro: {
         'form.search.button': 'Căutare',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'în întreținere',
+        'error.fess_not_found': 'Serverul nu a fost găsit.',
+        'error.fess_unsupported_version': 'Fess: versiune eroare  - Versiune de suport {{minFessVersion}}  /  versiunea folosită {{apiVersion}}',
         'result.number': 'rezultate',
         'result.second': 'secunde',
         'result.label': 'etichete',
@@ -772,6 +868,9 @@ export default class {
       sr: {
         'form.search.button': 'претрага',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'под одржавањем',
+        'error.fess_not_found': 'Сервер није пронађен.',
+        'error.fess_unsupported_version': 'Fess: Верзија Грешка  - Минимална подржана верзија {{minFessVersion}}  /  употребљена верзија {{apiVersion}}',
         'result.number': 'резултата',
         'result.second': 'секунде/и',
         'result.label': 'Лабел',
@@ -796,6 +895,9 @@ export default class {
       sk: {
         'form.search.button': 'vyhľadávanie',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'pod údržbou',
+        'error.fess_not_found': 'Server nebol nájdený.',
+        'error.fess_unsupported_version': 'Fess: Chyba verzie  - Minimálna podporovaná verzia {{minFessVersion}}  /  použitá verzia {{apiVersion}}',
         'result.number': 'výsledkov',
         'result.second': 'sekúnd',
         'result.label': 'etikety',
@@ -820,6 +922,9 @@ export default class {
       sl: {
         'form.search.button': 'iskanje',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'pod vzdrževanjem',
+        'error.fess_not_found': 'Strežnika ni mogoče najti.',
+        'error.fess_unsupported_version': 'Fess: Napaka pri različici  - Najmanjša podprta različica {{minFessVersion}}  /  uporabljena različica {{apiVersion}}',
         'result.number': 'rez.',
         'result.second': 'sek.',
         'result.label': 'nalepk',
@@ -844,6 +949,9 @@ export default class {
       th: {
         'form.search.button': 'ค้นหา',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'ภายใต้การบำรุงรักษา',
+        'error.fess_not_found': 'ไม่พบเซิร์ฟเวอร์',
+        'error.fess_unsupported_version': 'Fess: ข้อผิดพลาดของเวอร์ชัน  - เวอร์ชันสนับสนุน {{minFessVersion}}  /  เวอร์ชันปัจจุบัน {{apiVersion}}',
         'result.number': 'รายการ',
         'result.second': 'วินาที',
         'result.label': 'ป้ายกำกับ',
@@ -868,6 +976,9 @@ export default class {
       uk: {
         'form.search.button': 'пошук',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'під технічним обслуговуванням',
+        'error.fess_not_found': 'Сервер не знайдено.',
+        'error.fess_unsupported_version': 'Fess: Помилка версії  - Мінімальна підтримувана версія {{minFessVersion}}  /  використовувана версія {{apiVersion}}',
         'result.number': 'результатів',
         'result.second': 'сек.',
         'result.label': 'міток',
@@ -892,6 +1003,9 @@ export default class {
       vi: {
         'form.search.button': 'Tìm kiếm',
         'form.input.placeholder': '',
+        'error.fess_unavailable': 'đang được bảo trì',
+        'error.fess_not_found': 'Không tìm thấy máy chủ.',
+        'error.fess_unsupported_version': 'Fess: Lỗi phiên bản  - Phiên bản được hỗ trợ tối thiểu {{minFessVersion}}  /  phiên bản đã sử dụng {{apiVersion}}',
         'result.number': 'kết quả',
         'result.second': 'giây',
         'result.label': 'nhãn',
@@ -954,7 +1068,7 @@ export default class {
       }*/
     }
     for (var key in vars) {
-      if (typeof vars[key] == 'string' || typeof vars == 'string') {
+      if (typeof vars[key] == 'string' || typeof vars[key] == 'number' || typeof vars == 'string') {
         var reg = new RegExp('{{' + key + '}}', 'g');
         message = message.replace(reg, this._escapeHtml(vars[key]));
       }
