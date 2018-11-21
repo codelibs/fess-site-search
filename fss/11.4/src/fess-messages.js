@@ -1082,8 +1082,8 @@ export default class {
     if(typeof message !== 'string') {
       return message;
     }
-    return message.replace(/[&'`"<>]/g, function(match) {
-      return {
+    return message.replace(/[&'`"<>]/g, match => (
+      {
         '&': '&amp;',
         "'": '&#x27;',
         '`': '&#x60;',
@@ -1091,6 +1091,6 @@ export default class {
         '<': '&lt;',
         '>': '&gt;',
       }[match]
-    });
+    ));
   }
 }

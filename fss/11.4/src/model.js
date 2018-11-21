@@ -5,45 +5,45 @@ export default class {
   }
 
   search(url, params) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       FessJQuery.ajax({
         url: url,
         type: "GET",
         dataType: "jsonp",
         data: params
-      }).done(function(data){
+      }).done(data => {
         resolve(data);
-      }).fail(function(data){
+      }).fail(data => {
         reject(data);
       });
     });
   }
 
   getLabels(url) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) =>  {
       FessJQuery.ajax({
         url: url,
         type: "GET",
         dataType: "jsonp",
         data: {type: 'label'}
-      }).done(function(data){
+      }).done(data => {
         resolve(data);
-      }).fail(function(data){
+      }).fail(data => {
         reject(data);
       });
     });
   }
 
   getStatus(url) {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       FessJQuery.ajax({
         url: url,
         type: "GET",
         dataType: "jsonp",
         data: {type: 'ping'}
-      }).done(function(data){
+      }).done(data => {
         resolve(data);
-      }).fail(function(data){
+      }).fail(data => {
         reject(data);
       });
     });

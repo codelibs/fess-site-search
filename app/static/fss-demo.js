@@ -1,4 +1,4 @@
-window.addEventListener('beforeunload', function (e) {
+window.addEventListener('beforeunload', e => {
     const confirmationMessage = 'data you have entered may not be saved';
     e.returnValue = confirmationMessage;     // Gecko and Trident
     return confirmationMessage;              // Gecko and WebKit
