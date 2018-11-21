@@ -314,17 +314,13 @@ export default class {
   }
 
   _createPagination(recordCount, pageSize, currentPage, params, fessLang) {
-    var $cls = this;
-
     var $pagination = FessJQuery('<ul/>');
     $pagination.addClass('pagination');
 
-    var calc_start_pos = function(page, pageSize) {
-      return (pageSize * (page - 1));
-    }
+    var calc_start_pos = (page, pageSize) => pageSize * (page - 1);
 
-    var paginationInfo = (function(){
-      var pageWidth = function() {
+    var paginationInfo = (() => {
+      var pageWidth = (() => {
         var width;
         if (window.matchMedia('( max-width : 47.9em)').matches) {
           width = 2;
@@ -332,7 +328,7 @@ export default class {
           width = 5;
         }
         return width;
-      }();
+      })();
       var allPageNum = Math.floor((recordCount - 1) / pageSize) + 1;
       var info = {};
       info.current = currentPage;
@@ -341,12 +337,12 @@ export default class {
       return info;
     })();
 
-    var $prev = (function(){
+    var $prev = (() => {
       var $li = FessJQuery('<li/>');
       $li.addClass('prev');
       $li.attr('aria-label', 'Previous');
       $li.attr('page', paginationInfo.current - 1);
-      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, fessLang));
+      $li.html(this.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, fessLang));
       if (currentPage > 1) {
         $li.css('cursor', 'pointer');
       } else {
@@ -367,12 +363,12 @@ export default class {
       $pagination.append($li);
     }
 
-    var $next = (function(){
+    var $next = (() => {
       var $li = FessJQuery('<li/>');
       $li.addClass('next');
       $li.attr('aria-label', 'Next');
       $li.attr('page', paginationInfo.current + 1);
-      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, fessLang));
+      $li.html(this.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, fessLang));
       if (paginationInfo.current < paginationInfo.max) {
         $li.css('cursor', 'pointer');
       } else {
@@ -386,26 +382,26 @@ export default class {
   }
 
   _loadThumbnail(contextPath) {
-    var $cls = this;
-    var loadImage = function(img, url, limit) {
+    var loadImage = (img, url, limit) => {
       var imgData = new Image();
-      imgData.onload = function() {
+      imgData.onload = () => {
         var $img = FessJQuery(img);
         $img.parent().parent().css('display', '');
         $img.css('background-image', '');
         $img.attr('src', url);
       };
-      imgData.onerror = function() {
+      imgData.onerror = () => {
         if (limit > 0) {
-          setTimeout(function() {
+          setTimeout(() => {
             loadImage(img, url, --limit);
-          }, $cls.IMG_LOADING_DELAY);
+          }, this.IMG_LOADING_DELAY);
         }
         imgData = null;
       };
       imgData.src = url;
     };
 
+    var $cls = this;
     FessJQuery('.fessWrapper .fessResultBox img.thumbnail').each(function() {
       FessJQuery(this).css('background-image', 'url("' + contextPath + '/images/loading.gif")');
       FessJQuery(this).parent().parent().css('display', 'none');

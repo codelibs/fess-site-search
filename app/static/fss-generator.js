@@ -18,7 +18,7 @@ $('#upload-form').submit(preventDoubleSubmission);
 const WIZARD_STYLE_ID = 'wizard-style';
 const UPLOADED_STYLE_ID = 'uploaded-style';
 
-window.addEventListener("load", function() {
+window.addEventListener("load", () => {
     PreviewSettings.reset();
     PreviewSettings.apply();
 });
@@ -78,7 +78,7 @@ const PreviewSettings = new class {
         if (!this._compare(this.applied, attribute)) {
             this.applied = attribute;
             document.getElementById('preview-iframe').contentWindow.location.reload();
-            document.getElementById('preview-iframe').onload = function() {
+            document.getElementById('preview-iframe').onload = () => {
                 if (callback !== undefined) {
                     callback();
                 }
@@ -281,19 +281,19 @@ function applyWizardDesign() {
     ];
 
     let cssStr = '';
-    designs.forEach(function(d) {
+    designs.forEach(d => {
         cssStr += d.toCss();
     });
 
     let attribute = {}
-    configs.forEach(function(c) {
+    configs.forEach(c => {
         if (c.value !== '') {
             attribute[c.name] = c.value;
         }
     });
 
     PreviewSettings.setDesign(attribute);
-    PreviewSettings.reload(function (){ appendIframeDesign(WIZARD_STYLE_ID, cssStr); });
+    PreviewSettings.reload(() => { appendIframeDesign(WIZARD_STYLE_ID, cssStr); });
 }
 
 /*
@@ -302,11 +302,11 @@ function applyWizardDesign() {
 function applyUploadedDesign() {
     resetIframeDesign();
     PreviewSettings.setDesign({});
-    PreviewSettings.reload(function() {
+    PreviewSettings.reload(() => {
         const files = $('#custom-css')[0].files;
         const reader = new FileReader();
 
-        reader.onload = function(event) {
+        reader.onload = event => {
             const cssStr = event.target.result;
             appendIframeDesign(UPLOADED_STYLE_ID, cssStr);
         };
