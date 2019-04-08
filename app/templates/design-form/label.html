@@ -3,15 +3,33 @@
 {% block title %}Label{% endblock %}
 
 {% block body %}
-    {# Border #}
-    {{ color_form('label-border-color', 'Border', 'Border Color of Label') }}
+    {# Visibility (Label)#}
+    {% call visibility_checkbox('labelbox-settings', 'labelbox-visibility', 'Visible Label Box') %}
+        {# Border #}
+        {{ color_form('labelbox-border-color', 'Border', 'Border Color of Label') }}
 
-    {# Background #}
-    {{ color_form('label-bg-color', 'Background', 'Background Color of Label') }}
+        {# Background #}
+        {{ color_form('labelbox-bg-color', 'Background', 'Background Color of Label') }}
 
-    {# Border #}
-    {{ color_form('label-selected-border-color', 'Border (Selected)', 'Border Color of Label (Selected)') }}
+        {# Border #}
+        {{ color_form('labelbox-selected-border-color', 'Border (Selected)', 'Border Color of Label (Selected)') }}
 
-    {# Background #}
-    {{ color_form('label-selected-bg-color', 'Background (Selected)', 'Background Color of Label (Selected)') }}
+        {# Background #}
+        {{ color_form('labelbox-selected-bg-color', 'Background (Selected)', 'Background Color of Label (Selected)') }}
+    {% endcall %}
+
+    {# Visibility (Label Tab) #}
+    {% call visibility_checkbox('labeltab-settings', 'labeltab-visibility', 'Visible Label Tabs') %}
+        {# Border #}
+        {{ color_form('labeltab-border-color', 'Border', 'Border Color of Label Tab') }}
+
+        {# Background #}
+        {{ color_form('labeltab-bg-color', 'Background', 'Background Color of Label Tab') }}
+
+        {# Border #}
+        {{ color_form('labeltab-selected-border-color', 'Border (Selected)', 'Border Color of Label Tab (Selected)') }}
+
+        {# Background #}
+        {{ color_form('labeltab-selected-bg-color', 'Background (Selected)', 'Background Color of Label Tab (Selected)') }}
+    {% endcall %}
 {% endblock %}

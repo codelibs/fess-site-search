@@ -59,7 +59,7 @@ class Font(AbstractConfigRule):
         return 'font-family'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{ font-family: {}; }}'''.format(font)
+        return '''.fessWrapper {{font-family: {};}}'''.format(font)
 
 
 class BackgroundColor(AbstractConfigRule):
@@ -67,7 +67,7 @@ class BackgroundColor(AbstractConfigRule):
         return 'bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper {{background-color: {}; }}'''.format(color)
+        return '''.fessWrapper {{background-color: {};}}'''.format(color)
 
 
 class BorderColor(AbstractConfigRule):
@@ -75,7 +75,7 @@ class BorderColor(AbstractConfigRule):
         return 'border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{ border: solid {}; }}'''.format(font)
+        return '''.fessWrapper {{border: solid {};}}'''.format(font)
 
 
 # Search Box
@@ -84,7 +84,7 @@ class FormBorderColor(AbstractConfigRule):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper .fessForm, .fessFormOnly {{ border: solid {}; }}'''.format(font)
+        return '''.fessWrapper .fessForm, .fessFormOnly {{border: solid {};}}'''.format(font)
 
 
 # Search Button
@@ -139,39 +139,160 @@ class ButtonActiveBackgroundColor(AbstractConfigRule):
 
 
 # Label
-class LabelBorderColor(AbstractConfigRule):
+class LabelboxVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'label-border-color'
+        return 'labelbox-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableLabels": true' if visible == 'checked' else '"enableLabels": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
+class LabelboxBorderColor(AbstractConfigRule):
+    def form_name(self):
+        return 'labelbox-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.field-labels, .fessWrapper select.field-labels:focus {{border-color: {};}}'''.format(color)
+
+
+class LabelboxBackgroundColor(AbstractConfigRule):
+    def form_name(self):
+        return 'labelbox-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.field-labels {{background-color: {};}}'''.format(color)
+
+
+class LabelboxSelectedBorderColor(AbstractConfigRule):
+    def form_name(self):
+        return 'labelbox-selected-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.field-labels.selected, fessWrapper select.field-labels.selected:focus {{border-color: {};}}'''.format(color)
+
+
+class LabelboxSelectedBackgroundColor(AbstractConfigRule):
+    def form_name(self):
+        return 'labelbox-selected-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.field-labels.selected {{background-color: {};}}'''.format(color)
+
+
+class LabeltabVisibility(AbstractConfigRule):
+    def form_name(self):
+        return 'labeltab-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableLabelTabs": true' if visible == 'checked' else '"enableLabelTabs": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
+class LabeltabBorderColor(AbstractConfigRule):
+    def form_name(self):
+        return 'labeltab-border-color'
 
     def gen_rule(self, color):
         return '''.fessWrapper .label-tab {{border-color: {};}}'''.format(color)
 
 
-class LabelBackgroundColor(AbstractConfigRule):
+class LabeltabBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'label-bg-color'
+        return 'labeltab-bg-color'
 
     def gen_rule(self, color):
         return '''.fessWrapper .label-tab {{background-color: {};}}'''.format(color)
 
 
-class LabelSelectedBorderColor(AbstractConfigRule):
+class LabeltabSelectedBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'label-selected-border-color'
+        return 'labeltab-selected-border-color'
 
     def gen_rule(self, color):
         return '''.fessWrapper .label-tab-selected {{border-color: {};}}'''.format(color)
 
 
-class LabelSelectedBackgroundColor(AbstractConfigRule):
+class LabeltabSelectedBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'label-selected-bg-color'
+        return 'labeltab-selected-bg-color'
 
     def gen_rule(self, color):
         return '''.fessWrapper .label-tab-selected {{background-color: {};}}'''.format(color)
 
 
-# Result: Component
+# Order Box
+class OrderboxVisibility(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableOrder": true' if visible == 'checked' else '"enableOrder": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
+class OrderboxVerboseVisibility(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-verbose-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableAllOrders": true' if visible == 'checked' else '"enableAllOrders": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
+class OrderboxBorderColor(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.sort, .fessWrapper select.sort:focus {{border-color: {};}}'''.format(color)
+
+
+class OrderboxBackgroundColor(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.sort {{background-color: {};}}'''.format(color)
+
+
+class OrderboxSelectedBorderColor(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-selected-border-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.sort.selected, fessWrapper select.sort.selected:focus {{border-color: {};}}'''.format(color)
+
+
+class OrderboxSelectedBackgroundColor(AbstractConfigRule):
+    def form_name(self):
+        return 'orderbox-selected-bg-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper select.sort.selected {{background-color: {};}}'''.format(color)
+
+
+# Result: General
 class ResultBorderColor(AbstractConfigRule):
     def form_name(self):
         return 'result-border-color'
@@ -237,7 +358,7 @@ class ResultActiveTitleColor(AbstractConfigRule):
         return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
 
 
-# Result:
+# Result: Snippet
 class ResultThumbnailVisibility(AbstractConfigRule):
     def form_name(self):
         return 'result-thumbnail-visibility'
@@ -250,6 +371,14 @@ class ResultThumbnailVisibility(AbstractConfigRule):
 
     def isCheckbox(self):
         return True
+
+
+class ResultSnippetColor(AbstractConfigRule):
+    def form_name(self):
+        return 'result-snippet-color'
+
+    def gen_rule(self, color):
+        return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
 
 
 # Result: URL
@@ -272,13 +401,27 @@ class ResultUrlColor(AbstractConfigRule):
         return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
 
 
-# Result: Snippet
-class ResultSnippetColor(AbstractConfigRule):
+# Result: Details
+class ResultDetailsVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'result-snippet-color'
+        return 'result-details-visibility'
+
+    def gen_rule(self, visible):
+        return ('"enableDetails": true' if visible == 'checked' else '"enableDetails": false')
+
+    def filetype(self):
+        return 'json'
+
+    def isCheckbox(self):
+        return True
+
+
+class ResultDetailsColor(AbstractConfigRule):
+    def form_name(self):
+        return 'result-details-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
+        return '''.fessWrapper #result .body .info {{color: {};}}'''.format(color)
 
 
 def get_config_rules():
@@ -287,11 +430,14 @@ def get_config_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
-        LabelBorderColor(), LabelBackgroundColor(), LabelSelectedBorderColor(), LabelSelectedBackgroundColor(),
+        LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(), LabelboxSelectedBorderColor(), LabelboxSelectedBackgroundColor(),
+        LabeltabVisibility(), LabeltabBorderColor(), LabeltabBackgroundColor(), LabeltabSelectedBorderColor(), LabeltabSelectedBackgroundColor(),
+        OrderboxVisibility(), OrderboxVerboseVisibility(),
+        OrderboxBorderColor(), OrderboxBackgroundColor(), OrderboxSelectedBorderColor(), OrderboxSelectedBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
-        ResultThumbnailVisibility(),
+        ResultThumbnailVisibility(), ResultSnippetColor(),
         ResultUrlVisibility(), ResultUrlColor(),
-        ResultSnippetColor()
+        ResultDetailsVisibility(), ResultDetailsColor()
     ]
     return config_rules

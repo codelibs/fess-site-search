@@ -1,4 +1,4 @@
-FROM node:8.7-slim
+FROM node:8.15-slim
 LABEL maintainer "N2SM <support@n2sm.net>"
 
 # Install latest npm
