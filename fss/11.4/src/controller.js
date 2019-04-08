@@ -204,11 +204,8 @@ export default class {
       } else if(this.urlParams.q !== undefined){
         keyword = this.urlParams.q[0];
       }
-      if (keyword.length > 0) {
-        params.q = keyword;
-      } else {
-        params.q = '*:*';
-      }
+      params.q = keyword;
+
       if (typeof ga == 'function') {
         var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
         if (params.start) {
@@ -225,6 +222,9 @@ export default class {
         }
         ga('send', 'pageview', u);
       }
+    }
+    if (this._isIgnoreQuery(params.q)) {
+      return;
     }
 
     this.viewState.searchParams = params;
@@ -268,6 +268,14 @@ export default class {
       this._afterSearch(searchResponse, params);
       this._registerHistory(searchResponse, params, replace);
     });
+  }
+
+  _isIgnoreQuery(keyword) {
+    if (keyword === undefined || keyword.length == 0) {
+      return true;
+    }
+    var regex = new RegExp(/^[ 　]+$/);
+    return regex.test(keyword);
   }
 
   _renderResult(response, params) {
