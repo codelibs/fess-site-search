@@ -31,7 +31,7 @@ export default class {
       });
     }
     if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
-      var query = this.urlParams.q[0];
+      const query = this.urlParams.q[0];
       if (FessJQuery('.fessWrapper form input.query').length > 0) {
         FessJQuery('.fessWrapper form input.query').val(query);
       }
@@ -105,10 +105,10 @@ export default class {
   }
 
   _bindForm() {
-    var $cls = this;
+    const $cls = this;
     FessJQuery('.fessWrapper .fessForm form').submit(function(){
       try {
-        var keyword = FessJQuery('input.query', this).val();
+        const keyword = FessJQuery('input.query', this).val();
         FessJQuery('.fessWrapper form input.query').val(keyword);
         $cls._search({});
       } catch (e) {
@@ -119,22 +119,22 @@ export default class {
   }
 
   _bindPagination(response) {
-    var $cls = this;
+    const $cls = this;
     FessJQuery('.fessWrapper .pagination li').click(function(){
-      var $this = FessJQuery(this);
+      const $this = FessJQuery(this);
       if ($this.hasClass('disabled')) {
         return false;
       }
 
-      var page = $this.attr('page');
-      var params = {};
+      const page = $this.attr('page');
+      const params = {};
       params.start = response.page_size * (page - 1);
       if (FessJQuery('.fessWrapper .label-tab-box').length > 0) {
         params['fields.label'] = FessJQuery('.fessWrapper .label-tab-selected').attr('value');
       }
       $cls._search(params);
       if (!$cls.viewState.popupMode) {
-        var off = FessJQuery('.fessResultBox').offset();
+        const off = FessJQuery('.fessResultBox').offset();
         FessJQuery(window).scrollTop(off.top);
       }
       return false;
@@ -142,7 +142,7 @@ export default class {
   }
 
   _bindPopupClose() {
-    var $cls = this;
+    const $cls = this;
     FessJQuery('.fessOverlay, .fessPopupClose').click(function(){
       $cls.FessView.hideOverlay();
     });
@@ -152,7 +152,7 @@ export default class {
   }
 
   _bindSearchOptions() {
-    var $cls = this;
+    const $cls = this;
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").each(function(){
       if (FessJQuery(this).val()) {
         FessJQuery(this).addClass('selected');
@@ -176,15 +176,15 @@ export default class {
   }
 
   _search(params, replace = false) {
-    var sort = FessJQuery(".fessWrapper select.sort").val();
+    const sort = FessJQuery(".fessWrapper select.sort").val();
     if (params.sort === undefined && sort !== undefined && sort !== '') {
       params.sort = sort;
     }
-    var label = FessJQuery(".fessWrapper select.field-labels").val();
+    const label = FessJQuery(".fessWrapper select.field-labels").val();
     if (params['fields.label'] === undefined && label !== undefined && label !== '') {
       params['fields.label'] = label;
     }
-    var pageSize = FessJQuery('script#fess-ss').attr('page-size');
+    const pageSize = FessJQuery('script#fess-ss').attr('page-size');
     if (pageSize !== undefined && pageSize !== '') {
       params.num = pageSize;
     }
@@ -196,7 +196,7 @@ export default class {
     params.lang = this.FessView.getLanguage(this.viewState);
 
     if (params.q === undefined) {
-      var keyword = '';
+      let keyword = '';
       if (FessJQuery('.fessWrapper .fessForm').length > 0) {
         keyword = FessJQuery('.fessWrapper .fessForm form input.query').val();
       } else if(FessJQuery('.fessWrapper .fessFormOnly').length > 0) {
@@ -207,7 +207,7 @@ export default class {
       params.q = keyword;
 
       if (typeof ga == 'function') {
-        var u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
+        let u = '/' + window.location.pathname + '?q=' + encodeURIComponent(params.q);
         if (params.start) {
           u = u + '&start=' + params.start;
         }
@@ -234,7 +234,7 @@ export default class {
       this.FessView.showOverlay();
     }
     this.FessModel.search(this.fessUrl, params).then(data => {
-      var searchResponse = data.response;
+      let searchResponse = data.response;
       this.viewState.apiVersion = searchResponse.version;
       if (searchResponse.status === 0 && this.minFessVersion <= searchResponse.version) {
         if ((this.viewState.enableLabels || this.viewState.enableLabelTabs) && this.viewState.labels === null) {
@@ -262,7 +262,7 @@ export default class {
         this._registerHistory(searchResponse, params, replace);
       }
     }, data => { // eslint-disable-line
-      var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
+      const searchResponse = {record_count: 0, exec_time: 0, q: params.q};
       searchResponse.warning = 'error.fess_not_found';
       this._renderResult(searchResponse, params);
       this._afterSearch(searchResponse, params);
@@ -275,14 +275,14 @@ export default class {
       return true;
     }
     /* eslint no-irregular-whitespace: ["error", {"skipRegExps": true}] */
-    var regex = new RegExp(/^[ 　]+$/);
+    const regex = new RegExp(/^[ 　]+$/);
     return regex.test(keyword);
   }
 
   _renderResult(response, params) {
     if (response.related_query !== undefined) {
-      for (var i=0;i<response.related_query.length;i++) {
-        var relatedQuery = response.related_query[i];
+      for (let i=0;i<response.related_query.length;i++) {
+        const relatedQuery = response.related_query[i];
         response.related_query[i] = {"query": relatedQuery, "link": this._getRelatedQueryLink(relatedQuery)};
       }
     }
@@ -320,23 +320,23 @@ export default class {
   }
 
   _getParameters() {
-    var hash = '';
-    var url = location.href;
+    let hash = '';
+    let url = location.href;
     if (url.indexOf('#') != -1) {
-      var array = url.split('#');
+      const array = url.split('#');
       url = array[0];
       hash = array[1];
     }
 
-    var params = (url => {
-      var params = {};
+    const params = (url => {
+      const params = {};
       if (url.indexOf('?') != -1) {
-        var array = url.split('?');
-        var paramArray = array[1].split('&');
+        const array = url.split('?');
+        const paramArray = array[1].split('&');
         paramArray.forEach((val, index, ar) => { // eslint-disable-line no-unused-vars
-          var tpl = val.split('=');
-          var key = decodeURIComponent(tpl[0]);
-          var value = '';
+          const tpl = val.split('=');
+          const key = decodeURIComponent(tpl[0]);
+          let value = '';
           if (tpl.length > 1) {
             value = decodeURIComponent(tpl[1].replace(new RegExp("\\+", 'g'), '%20'));
           }
@@ -356,8 +356,8 @@ export default class {
   }
 
   _getRelatedQueryLink(query) {
-    var url = location.href.replace(/\?.*$/, '') + '?q=' + encodeURIComponent(query);
-    var hash = this.urlParams['fess_url_hash'];
+    let url = location.href.replace(/\?.*$/, '') + '?q=' + encodeURIComponent(query);
+    const hash = this.urlParams['fess_url_hash'];
     Object.keys(this.urlParams).forEach(function(key) {
       if (key !== 'q' && key !== 'fess_url_hash') {
         this[key].forEach(function(val) {

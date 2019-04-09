@@ -16,9 +16,9 @@ if (process.env.INPUT_JSON_PATH !== undefined) {
 }
 
 (function() {
-  var fessMessages = new FessMessages();
-  var fessView = new FessView(fessMessages);
-  var fessModel = new FessModel();
-  var fessController = new FessController(fessView, fessModel);
+  const fessMessages = new FessMessages();
+  const fessView = new FessView(fessMessages);
+  const fessModel = new FessModel();
+  const fessController = new FessController(fessView, fessModel);
   fessController.start(fessConfig);
 })();
