@@ -26,7 +26,7 @@ export default class {
         if (data.response.status === 0 && this.minFessVersion <= data.response.version) {
           this.FessView.suggestor(this.viewState);
         }
-      }, data => {
+      }, data => { // eslint-disable-line
         // do nothing
       });
     }
@@ -98,9 +98,9 @@ export default class {
 
   _convert(attr, conf, def) {
     switch (FessJQuery('script#fess-ss').attr(attr)) {
-      case 'true':  return true;  break;
-      case 'false': return false; break;
-      default:      return (conf !== undefined ? conf : def);
+    case 'true':  return true;
+    case 'false': return false;
+    default:      return (conf !== undefined ? conf : def);
     }
   }
 
@@ -148,7 +148,7 @@ export default class {
     });
     FessJQuery('.fessOverlay .fessPopup').click(function(e){
       e.stopPropagation();
-    })
+    });
   }
 
   _bindSearchOptions() {
@@ -220,7 +220,7 @@ export default class {
         if (label) {
           u = u + '&fields.label=' + label;
         }
-        ga('send', 'pageview', u);
+        ga('send', 'pageview', u); // eslint-disable-line
       }
     }
     if (this._isIgnoreQuery(params.q)) {
@@ -261,7 +261,7 @@ export default class {
         this._afterSearch(searchResponse, params);
         this._registerHistory(searchResponse, params, replace);
       }
-    }, data => {
+    }, data => { // eslint-disable-line
       var searchResponse = {record_count: 0, exec_time: 0, q: params.q};
       searchResponse.warning = 'error.fess_not_found';
       this._renderResult(searchResponse, params);
@@ -274,6 +274,7 @@ export default class {
     if (keyword === undefined || keyword.length == 0) {
       return true;
     }
+    /* eslint no-irregular-whitespace: ["error", {"skipRegExps": true}] */
     var regex = new RegExp(/^[ 　]+$/);
     return regex.test(keyword);
   }
@@ -299,7 +300,7 @@ export default class {
     }
   }
 
-  _afterSearch(response, params) {
+  _afterSearch(response, params) { // eslint-disable-line
     this._bindPagination(response);
     this._bindSearchOptions();
     if (this.viewState.popupMode) {
@@ -311,15 +312,14 @@ export default class {
   _registerHistory(response, params, replace) {
     if (window.history && window.history.pushState) {
       if (replace) {
-          history.replaceState({response: response, params: params}, null);
+        history.replaceState({response: response, params: params}, null);
       } else {
-          history.pushState({response: response, params: params}, null);
+        history.pushState({response: response, params: params}, null);
       }
     }
   }
 
   _getParameters() {
-    var path = location.href.replace(/\?.*$/, '');
     var hash = '';
     var url = location.href;
     if (url.indexOf('#') != -1) {
@@ -333,7 +333,7 @@ export default class {
       if (url.indexOf('?') != -1) {
         var array = url.split('?');
         var paramArray = array[1].split('&');
-        paramArray.forEach((val, index, ar) => {
+        paramArray.forEach((val, index, ar) => { // eslint-disable-line no-unused-vars
           var tpl = val.split('=');
           var key = decodeURIComponent(tpl[0]);
           var value = '';

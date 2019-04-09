@@ -1027,7 +1027,7 @@ export default class {
         'result.size': 'byte',
         'result.created': 'Đã đăng ký:'
       }
-    }
+    };
   }
 
   getLanguage(fessLang) {
@@ -1067,10 +1067,10 @@ export default class {
         return '';
       }*/
     }
-    for (var key in vars) {
-      if (typeof vars[key] == 'string' || typeof vars[key] == 'number' || typeof vars == 'string') {
-        var reg = new RegExp('{{' + key + '}}', 'g');
-        message = message.replace(reg, this._escapeHtml(vars[key]));
+    for (var k in vars) {
+      if (typeof vars[k] == 'string' || typeof vars[k] == 'number' || typeof vars == 'string') {
+        var reg = new RegExp('{{' + k + '}}', 'g');
+        message = message.replace(reg, this._escapeHtml(vars[k]));
       }
     }
     //var reg = new RegExp('{{[^{}]*}}', 'g');
