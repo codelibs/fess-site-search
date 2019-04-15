@@ -18,12 +18,14 @@ module.exports = {
   ],
   module: {
     loaders: [
+      /*
       {
         enforce: "pre",
         test: /\.js$/,
         exclude: /(node_modules|suggestor.js)/,
         loader: "eslint-loader"
       },
+      */
       {
         test: /\.js$/,
         loader: 'babel-loader',
