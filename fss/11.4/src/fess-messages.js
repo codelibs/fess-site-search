@@ -1027,11 +1027,11 @@ export default class {
         'result.size': 'byte',
         'result.created': 'Đã đăng ký:'
       }
-    }
+    };
   }
 
   getLanguage(fessLang) {
-    var lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
+    let lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
     if (lang.indexOf('-') > 0) {
       if (lang === 'zh-TW') {
         lang = 'tw';
@@ -1048,18 +1048,18 @@ export default class {
   }
 
   render(html, vars, fessLang) {
-    var language = this.getLanguage(fessLang);
-    var tmpHtml = html;
-    var messages = this.messages['en'];
-    for(var key in messages) {
-      var reg = new RegExp('{' + key + '}', 'g');
+    const language = this.getLanguage(fessLang);
+    let tmpHtml = html;
+    const messages = this.messages['en'];
+    for(let key in messages) {
+      const reg = new RegExp('{' + key + '}', 'g');
       tmpHtml = tmpHtml.replace(reg, this._getMessage(key, vars, language));
     }
     return tmpHtml;
   }
 
   _getMessage(key, vars, language) {
-    var message = this.messages[language][key];
+    let message = this.messages[language][key];
     if (message === undefined) {
       message = this.messages['en'][key];
       /*if (message === undefined) {
@@ -1067,10 +1067,10 @@ export default class {
         return '';
       }*/
     }
-    for (var key in vars) {
-      if (typeof vars[key] == 'string' || typeof vars[key] == 'number' || typeof vars == 'string') {
-        var reg = new RegExp('{{' + key + '}}', 'g');
-        message = message.replace(reg, this._escapeHtml(vars[key]));
+    for (var k in vars) {
+      if (typeof vars[k] == 'string' || typeof vars[k] == 'number' || typeof vars == 'string') {
+        const reg = new RegExp('{{' + k + '}}', 'g');
+        message = message.replace(reg, this._escapeHtml(vars[k]));
       }
     }
     //var reg = new RegExp('{{[^{}]*}}', 'g');
