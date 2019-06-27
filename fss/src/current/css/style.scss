@@ -226,7 +226,7 @@
 		display: inline-block;
 	}
 
-	#contentQuery {
+	input.query {
 		display: inline-block;
 	}
 
@@ -247,13 +247,13 @@
 	}
 
 	.thumbnail {
-		width: 120px;
+		width: 100px;
 		background-position: 50% 50%;
 		background-repeat: no-repeat;
 	}
 
 	.thumbnailBox {
-		width: 120px;
+		width: 100px;
 	}
 
 	/* Large desktop */
@@ -342,7 +342,7 @@
 		#subheader {
 			font-size: 90%;
 		}
-		#searchButton {
+		.searchButton {
 			padding-left: 0.8rem;
 			padding-right: 0.8rem;
 		}

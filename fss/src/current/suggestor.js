@@ -1,6 +1,6 @@
 import FessJQuery from 'jquery';
 
-;(function($){
+(function($){
 
 FessJQuery.fn.suggestor = function(setting) {
 
@@ -115,7 +115,7 @@ FessJQuery.fn.suggestor = function(setting) {
 					    lang: settingAjaxInfo.lang
 				},
 				traditional: true
-			}).done(function(obj) { suggestor.createAutoCompleteList(obj); }).fail(function(a,obj,b) { suggestingSts=false; return; });
+			}).done(obj => { suggestor.createAutoCompleteList(obj); }).fail((a,obj,b) => { suggestingSts=false; return; });
 
 		},
 
@@ -295,7 +295,7 @@ FessJQuery.fn.suggestor = function(setting) {
 
 	suggestor.init(FessJQuery(this), setting);
 
-	FessJQuery(this).keydown( function(e){
+	FessJQuery(this).keydown(function(e){
 		if( ((e.keyCode >= 48) && (e.keyCode <= 90))
 			 || ((e.keyCode >= 96) && (e.keyCode <= 105))
 			 || ((e.keyCode >= 186) && (e.keyCode <= 226))
@@ -322,7 +322,7 @@ FessJQuery.fn.suggestor = function(setting) {
 			}
 		}
 	});
-	FessJQuery(this).keyup(  function(e){
+	FessJQuery(this).keyup(function(e){
 		if( ((e.keyCode >= 48) && (e.keyCode <= 90))
 			 || ((e.keyCode >= 96) && (e.keyCode <= 105))
 			 || ((e.keyCode >= 186) && (e.keyCode <= 226))
@@ -347,7 +347,7 @@ FessJQuery.fn.suggestor = function(setting) {
 	});
 
 	//テキストエリア監視
-	setInterval( function() {
+	setInterval(() => {
 		if(interval < 5) {
 			interval = interval + 1;
 		} else {
