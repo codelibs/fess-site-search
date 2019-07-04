@@ -33,7 +33,7 @@ const PreviewSettings = new class {
     reset() {
         var page_path = $('#preview-iframe').contents().find('script#embed').attr('page_path');
         $('#preview-settings').val("fess.setAttribute('id', 'fess-ss');\n" +
-                                   "fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');\n" +
+                                   "fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');\n" +
                                    `fess.setAttribute('fess-search-page-path', '${page_path}');`);
     }
 
