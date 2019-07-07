@@ -15,7 +15,7 @@ class _WPManager():
     def __init__(self):
         self.semaphore = semaphore
 
-    def run(self, folder, instance_path, fname, version):
+    def run(self, folder, instance_path, fname):
 
         if not self.semaphore.acquire(False):
             return False
@@ -25,7 +25,7 @@ class _WPManager():
         try:
             pid = os.fork()
             if pid == 0:  # Child
-                (cwd, cmd) = self.gen_command(instance_path, version)
+                (cwd, cmd) = self.gen_command(instance_path)
                 my_env = self.gen_exec_env(folder, fname)
                 proc = subprocess.Popen(cmd, env=my_env, cwd=cwd)
                 outs, errs = proc.communicate()
@@ -43,8 +43,8 @@ class _WPManager():
         self.semaphore.release()
         sys.exit()
 
-    def gen_command(self, path, version):
-        cwd = os.path.join(path, '../fss/{}'.format(version))
+    def gen_command(self, path):
+        cwd = os.path.join(path, '../fss')
         cmd = '{0}/node_modules/.bin/webpack --config {0}/webpack.config.js'.format(cwd)
         return (cwd, cmd.split())
 
@@ -75,5 +75,5 @@ class WebpackManager():  # Singleton
 
         return cls._instance
 
-    def run(self, folder, instance_path, fname, version):
-        return self._instance.run(folder, instance_path, fname, version)
+    def run(self, folder, instance_path, fname):
+        return self._instance.run(folder, instance_path, fname)

@@ -2,7 +2,7 @@ import FessJQuery from 'jquery';
 import formTemplate from '!handlebars-loader!./templates/fess-form.hbs';
 import formOnlyTemplate from '!handlebars-loader!./templates/fess-form-only.hbs';
 import resultTemplate from '!handlebars-loader!./templates/fess-result.hbs';
-import noResultTemplate from '!handlebars-loader!./templates/fess-no-result.hbs';
+import warningTemplate from '!handlebars-loader!./templates/fess-warning.hbs';
 import './suggestor.js';
 
 export default class {
@@ -15,25 +15,25 @@ export default class {
 
   init() {
     {
-      var $fessWrapper = FessJQuery('<div/>');
+      const $fessWrapper = FessJQuery('<div/>');
       $fessWrapper.addClass('fessWrapper');
       FessJQuery('fess\\:search').replaceWith($fessWrapper);
 
-      var $fessForm = FessJQuery('<div/>');
+      const $fessForm = FessJQuery('<div/>');
       $fessForm.addClass('fessForm');
       $fessWrapper.append($fessForm);
 
-      var $fessResult = FessJQuery('<div/>');
+      const $fessResult = FessJQuery('<div/>');
       $fessResult.addClass('fessResult');
       //$fessResult.css('display', 'none');
       $fessWrapper.append($fessResult);
     }
 
     {
-      var $fessFormWrapper = FessJQuery('<div/>');
+      const $fessFormWrapper = FessJQuery('<div/>');
       $fessFormWrapper.addClass('fessWrapper');
 
-      var $fessFormOnly = FessJQuery('<div/>');
+      const $fessFormOnly = FessJQuery('<div/>');
       $fessFormOnly.addClass('fessFormOnly');
       $fessFormWrapper.append($fessFormOnly);
 
@@ -41,10 +41,10 @@ export default class {
     }
 
     {
-      var $fessResultWrapper = FessJQuery('<div/>');
+      const $fessResultWrapper = FessJQuery('<div/>');
       $fessResultWrapper.addClass('fessWrapper');
 
-      var $fessResultOnly = FessJQuery('<div/>');
+      const $fessResultOnly = FessJQuery('<div/>');
       $fessResultOnly.addClass('fessResult');
       //$fessResultOnly.css('display', 'none');
       $fessResultWrapper.append($fessResultOnly);
@@ -55,18 +55,25 @@ export default class {
 
   newState() {
     return (() => {
-      var state = {};
+      const state = {};
       state.contextPath = '';
+      state.apiVersion = null;
+      state.minFessVersion = null;
       state.searchPagePath = null;
       state.searchParams = null;
       state.searchResponse = null;
       state.enableOrder = false;
+      state.enableAllOrders = false;
       state.enableLabels = false;
+      state.enableLabelTabs = false;
       state.enableRelated = false;
       state.enableThumbnail = false;
+      state.linkTarget = null;
       state.enableSuggest = false;
       state.popupMode = false;
       state.labels = null;
+      state.fessLang = null;
+      state.enableDetails = false;
       return state;
     })();
   }
@@ -78,7 +85,9 @@ export default class {
     }
 
     if (state.searchResponse !== null) {
-      if (state.popupMode) {
+      if (state.searchResponse.warning !== undefined) {
+        this._renderWarningPage(state);
+      } else if (state.popupMode) {
         this._renderPopupResult(state);
       } else {
         this._renderResult(state);
@@ -87,52 +96,104 @@ export default class {
     }
   }
 
+  _renderWarningPage(state) {
+    const html = warningTemplate({ 'warning': '{' + state.searchResponse.warning + '}' });
+    if (state.popupMode) {
+      const $popup = FessJQuery('<div/>');
+      $popup.addClass('fessPopup');
+
+      const $popupHeader = FessJQuery('<div/>');
+      const $popupCloseButton = FessJQuery('<button/>');
+      $popupCloseButton.attr('type', 'button');
+      $popupCloseButton.addClass('close');
+      $popupCloseButton.addClass('fessPopupClose');
+      $popupCloseButton.html('&times;');
+      $popupHeader.append($popupCloseButton);
+      $popup.append($popupHeader);
+
+      const $popupResultSection = FessJQuery('<div/>');
+      $popupResultSection.addClass('fessPopupResult');
+      $popupResultSection.html(this.FessMessages.render(html, state, state.fessLang));
+      $popup.append($popupResultSection);
+
+      const $fessOverlay = FessJQuery('.fessOverlay');
+      $fessOverlay.html('');
+      $fessOverlay.append($popup);
+    } else {
+      const $fessResult = FessJQuery('.fessWrapper .fessResult');
+      $fessResult.html(this.FessMessages.render(html, state, state.fessLang));
+    }
+  }
+
   _renderForm(state) {
-    var $fessForm = FessJQuery('.fessWrapper .fessForm');
-    var $fessFormOnly = FessJQuery('.fessWrapper .fessFormOnly');
+    const $fessForm = FessJQuery('.fessWrapper .fessForm');
+    const $fessFormOnly = FessJQuery('.fessWrapper .fessFormOnly');
     if ($fessForm.length > 0) {
-      var html = formTemplate();
-      $fessForm.html(this.FessMessages.render(html, {}));
+      const html = formTemplate();
+      $fessForm.html(this.FessMessages.render(html, {}, state.fessLang));
     }
     if ($fessFormOnly.length > 0) {
-      var html = formOnlyTemplate();
-      $fessFormOnly.html(this.FessMessages.render(html, {}));
+      const html = formOnlyTemplate();
+      $fessFormOnly.html(this.FessMessages.render(html, {}, state.fessLang));
       FessJQuery('.fessWrapper .fessFormOnly form').attr('action', state.searchPagePath);
     }
     if (state.searchParams !== null && state.searchParams.q !== undefined) {
-      if (FessJQuery('.fessWrapper .fessForm form input').length > 0) {
-        FessJQuery('.fessWrapper .fessForm form input').val(state.searchParams.q);
+      if (FessJQuery('.fessWrapper .fessForm form input.query').length > 0) {
+        FessJQuery('.fessWrapper .fessForm form input.query').val(state.searchParams.q);
       }
-      if (FessJQuery('.fessWrapper .fessFormOnly form input').length > 0) {
-        FessJQuery('.fessWrapper .fessFormOnly form input').val(state.searchParams.q);
+      if (FessJQuery('.fessWrapper .fessFormOnly form input.query').length > 0) {
+        FessJQuery('.fessWrapper .fessFormOnly form input.query').val(state.searchParams.q);
       }
-    }
-
-    if(state.enableSuggest) {
-      this._suggestor(state);
     }
   }
 
   _renderResult(state) {
-    var response = state.searchResponse;
+    const response = state.searchResponse;
     response['context_path'] = state.contextPath;
-    response['labels'] = state.labels;
+    response['labels'] = null;
+    response['label_tabs'] = null;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
+    }
+    if (state.enableLabelTabs && state.labels !== null) {
+      response['label_tabs'] = state.labels;
     }
 
     if (!state.enableRelated) {
       delete response.related_query;
-      delete response.related_content;
+      delete response.related_contents;
     }
+
+    if (state.enableAllOrders) {
+      response['all_orders'] = true;
+    }
+
     response['has_results'] = response.record_count > 0;
 
-    var $fessResult = FessJQuery('.fessWrapper .fessResult');
-    var html = resultTemplate(response);
-    $fessResult.html(this.FessMessages.render(html, response));
+    if (state.linkTarget) {
+      response['link_target'] = state.linkTarget;
+    }
+
+    if (response['has_results']) {
+      const lang = this.getLanguage(state);
+      for (var result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
+
+    const $fessResult = FessJQuery('.fessWrapper .fessResult');
+    const html = resultTemplate(response);
+    $fessResult.html(this.FessMessages.render(html, response, state.fessLang));
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      const $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      if (!state.enableDetails) {
+        FessJQuery('.fessWrapper .info').css('display', 'none');
+      }
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
       } else {
@@ -143,25 +204,49 @@ export default class {
   }
 
   _renderPopupResult(state) {
-    var response = state.searchResponse;
+    const response = state.searchResponse;
     response['context_path'] = state.contextPath;
-    response['labels'] = state.labels;
+    response['labels'] = null;
+    response['label_tabs'] = null;
     if (state.enableLabels && state.labels !== null) {
       response['labels'] = state.labels;
+    }
+    if (state.enableLabelTabs && state.labels !== null) {
+      response['label_tabs'] = state.labels;
     }
 
     if (!state.enableRelated) {
       delete response.related_query;
-      delete response.related_content;
+      delete response.related_contents;
     }
+
+    if (state.enableAllOrders) {
+      response['all_orders'] = true;
+    }
+
     response['has_results'] = response.record_count > 0;
 
-    var html = resultTemplate(response);
-    var $popup = FessJQuery('<div/>');
+    if (state.linkTarget) {
+      response['link_target'] = state.linkTarget;
+    }
+
+    if (response['has_results']) {
+      const lang = this.getLanguage(state);
+      for (let result of response['result']) {
+        result['created'] = this._dateToString(new Date(result['created']), lang);
+        if (result['last_modified']) {
+          result['last_modified'] = this._dateToString(new Date(result['last_modified']), lang);
+        }
+      }
+      response['dir'] = lang == 'ar' || lang == 'he' ? 'rtl' : 'ltr';
+    }
+
+    const html = resultTemplate(response);
+    const $popup = FessJQuery('<div/>');
     $popup.addClass('fessPopup');
 
-    var $popupHeader = FessJQuery('<div/>');
-    var $popupCloseButton = FessJQuery('<button/>');
+    const $popupHeader = FessJQuery('<div/>');
+    const $popupCloseButton = FessJQuery('<button/>');
     $popupCloseButton.attr('type', 'button');
     $popupCloseButton.addClass('close');
     $popupCloseButton.addClass('fessPopupClose');
@@ -169,17 +254,20 @@ export default class {
     $popupHeader.append($popupCloseButton);
     $popup.append($popupHeader);
 
-    var $popupResultSection = FessJQuery('<div/>');
+    const $popupResultSection = FessJQuery('<div/>');
     $popupResultSection.addClass('fessPopupResult');
-    $popupResultSection.html(this.FessMessages.render(html, response));
+    $popupResultSection.html(this.FessMessages.render(html, response, state.fessLang));
     $popup.append($popupResultSection);
 
-    var $fessOverlay = FessJQuery('.fessOverlay');
+    const $fessOverlay = FessJQuery('.fessOverlay');
     $fessOverlay.html('');
     $fessOverlay.append($popup);
     if (response.record_count > 0) {
-      var $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams);
+      const $pagination = this._createPagination(response.record_count, response.page_size, response.page_number, state.searchParams, state.fessLang);
       FessJQuery('.fessWrapper .paginationNav').append($pagination);
+      if (!state.enableDetails) {
+        FessJQuery('.fessWrapper .info').css('display', 'none');
+      }
       if (state.enableThumbnail) {
         this._loadThumbnail(state.contextPath);
       } else {
@@ -189,60 +277,69 @@ export default class {
     this._setSearchOptions(state);
   }
 
+  _dateToString(date, lang) {
+    return date.toLocaleDateString(lang) + ' ' + date.toLocaleTimeString(lang);
+  }
+
   _setSearchOptions(state) {
     if (state.enableOrder) {
-      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'block');
+      FessJQuery('.fessWrapper .fessResultBox table .order-box').css('display', 'table-cell');
       if (state.searchParams.sort !== undefined) {
         FessJQuery('.fessWrapper select.sort').val(state.searchParams.sort);
       }
+      FessJQuery('.fessWrapper .fessResultBox table .labels .form-control').removeClass('short');
     } else {
-      FessJQuery('.fessWrapper .fessResultBox table .order').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .order-box').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .labels .form-control').addClass('short');
     }
 
     if (state.enableLabels) {
-      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'block');
+      FessJQuery('.fessWrapper .fessResultBox table .labels-box').css('display', 'table-cell');
       if (state.searchParams['fields.label'] !== undefined){
         FessJQuery('.fessWrapper select.field-labels').val(state.searchParams['fields.label']);
       }
     } else {
-      FessJQuery('.fessWrapper .fessResultBox table .labels').css('display', 'none');
+      FessJQuery('.fessWrapper .fessResultBox table .labels-box').css('display', 'none');
+    }
+
+    if (state.enableLabelTabs) {
+      FessJQuery('.fessWrapper .label-tab').each(function(){
+        if((FessJQuery(this).attr('value') === state.searchParams['fields.label']) ||
+           (FessJQuery(this).attr('value') === "" && state.searchParams['fields.label'] === undefined)) {
+          FessJQuery(this).addClass('label-tab-selected');
+        }
+      });
     }
   }
 
-  _createPagination(recordCount, pageSize, currentPage, params) {
-    var $cls = this;
-
-    var $pagination = FessJQuery('<ul/>');
+  _createPagination(recordCount, pageSize, currentPage, params, fessLang) {
+    const $pagination = FessJQuery('<ul/>');
     $pagination.addClass('pagination');
 
-    var calc_start_pos = function(page, pageSize) {
-      return (pageSize * (page - 1));
-    }
-
-    var paginationInfo = (function(){
-      var pageWidth = function() {
-        var width;
+    const paginationInfo = (() => {
+      const pageWidth = (() => {
+        let width;
         if (window.matchMedia('( max-width : 47.9em)').matches) {
           width = 2;
         } else {
           width = 5;
         }
         return width;
-      }();
-      var allPageNum = Math.floor((recordCount - 1) / pageSize) + 1;
-      var info = {};
+      })();
+      const allPageNum = Math.floor((recordCount - 1) / pageSize) + 1;
+      const info = {};
       info.current = currentPage;
       info.min = (currentPage - pageWidth) > 0 ? currentPage - pageWidth : 1;
       info.max = (currentPage + pageWidth) < allPageNum ? currentPage + pageWidth : allPageNum;
       return info;
     })();
 
-    var $prev = (function(){
-      var $li = FessJQuery('<li/>');
+    const $prev = (() => {
+      const $li = FessJQuery('<li/>');
       $li.addClass('prev');
       $li.attr('aria-label', 'Previous');
       $li.attr('page', paginationInfo.current - 1);
-      $li.html($cls.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}));
+      $li.html(this.FessMessages.render('<a><span aria-hidden="true">&laquo;</span> <span class="sr-only">{result.pagination.prev}</span></a>', {}, fessLang));
       if (currentPage > 1) {
         $li.css('cursor', 'pointer');
       } else {
@@ -252,8 +349,8 @@ export default class {
     })();
     $pagination.append($prev);
 
-    for (var i=paginationInfo.min;i<=paginationInfo.max;i++) {
-      var $li = FessJQuery('<li/>');
+    for (let i=paginationInfo.min;i<=paginationInfo.max;i++) {
+      const $li = FessJQuery('<li/>');
       if (i == paginationInfo.current) {
         $li.addClass('active');
       }
@@ -263,12 +360,12 @@ export default class {
       $pagination.append($li);
     }
 
-    var $next = (function(){
-      var $li = FessJQuery('<li/>');
+    const $next = (() => {
+      const $li = FessJQuery('<li/>');
       $li.addClass('next');
       $li.attr('aria-label', 'Next');
       $li.attr('page', paginationInfo.current + 1);
-      $li.html($cls.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}));
+      $li.html(this.FessMessages.render('<a><span class="sr-only">{result.pagination.next}</span><span aria-hidden="true">&raquo;</span></a>', {}, fessLang));
       if (paginationInfo.current < paginationInfo.max) {
         $li.css('cursor', 'pointer');
       } else {
@@ -282,26 +379,25 @@ export default class {
   }
 
   _loadThumbnail(contextPath) {
-    var $cls = this;
-    var loadImage = function(img, url, limit) {
-      var imgData = new Image();
-      imgData.onload = function() {
-        var $img = FessJQuery(img);
+    const loadImage = (img, url, limit) => {
+      const imgData = new Image();
+      imgData.onload = () => {
+        const $img = FessJQuery(img);
         $img.parent().parent().css('display', '');
         $img.css('background-image', '');
         $img.attr('src', url);
       };
-      imgData.onerror = function() {
+      imgData.onerror = () => {
         if (limit > 0) {
-          setTimeout(function() {
+          setTimeout(() => {
             loadImage(img, url, --limit);
-          }, $cls.IMG_LOADING_DELAY);
+          }, this.IMG_LOADING_DELAY);
         }
-        imgData = null;
       };
       imgData.src = url;
     };
 
+    const $cls = this;
     FessJQuery('.fessWrapper .fessResultBox img.thumbnail').each(function() {
       FessJQuery(this).css('background-image', 'url("' + contextPath + '/images/loading.gif")');
       FessJQuery(this).parent().parent().css('display', 'none');
@@ -310,7 +406,7 @@ export default class {
   }
 
   setupOverlay() {
-    var $popupOverlay = FessJQuery('<div/>');
+    const $popupOverlay = FessJQuery('<div/>');
     $popupOverlay.addClass('fessWrapper');
     $popupOverlay.addClass('fessOverlay');
     $popupOverlay.css('display', 'none');
@@ -337,7 +433,7 @@ export default class {
     if (FessJQuery('.fessResultBox').length == 0) {
       return;
     }
-    var $waiting = FessJQuery('<div/>');
+    const $waiting = FessJQuery('<div/>');
     $waiting.addClass('fessSearchWaiting');
     FessJQuery('.fessResultBox').append($waiting);
   }
@@ -345,14 +441,14 @@ export default class {
   hideSearchWaiting() {
   }
 
-  _suggestor(state) {
-    FessJQuery('#contentQuery').suggestor(
+  suggestor(state) {
+    FessJQuery('.fessWrapper form input.query').suggestor(
       {
         ajaxinfo : {
           url : state.contextPath + '/suggest',
           fn : '_default,content,title',
           num : 10,
-          lang : this.FessMessages.getLanguage()
+          lang : this.getLanguage(state)
         },
         boxCssInfo : {
           border : '1px solid rgba(82, 168, 236, 0.5)',
@@ -371,6 +467,11 @@ export default class {
         minturm : 1,
         adjustWidthVal : 0,
         searchForm : FessJQuery('.fessWrapper .fessForm form')
-      });
-    }
+      }
+    );
+  }
+
+  getLanguage(state) {
+    return this.FessMessages.getLanguage(state.fessLang);
+  }
 }

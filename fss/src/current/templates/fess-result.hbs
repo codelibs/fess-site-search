@@ -1,6 +1,18 @@
 <div class="fessResultBox">
   <div id="result">
     <div style="border-bottom:solid thin #eeeeee;padding-bottom:5px;margin-bottom:10px;">
+      {{#if label_tabs}}
+      <div class="label-tab-box">
+        <div class="label-tab" value="">
+          {result.label.all}
+        </div>
+        {{#each label_tabs}}
+        <div class="label-tab" value="{{value}}">
+          {{label}}
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
       <table width="100%" class="result-header">
         <tbody>
           <tr>
@@ -22,10 +34,25 @@
             {{/if}}
             <td class="order-box" align="right">
               <div class="order">
-                <select class="form-control sort">
+                <select class="form-control sort short">
                   <option value="" disabled selected style="display:none;">{result.order}</option>
-                  <option value="score.desc">{result.order.score}</option>
+                  <option value="">{result.order.score}</option>
+                  {{#unless all_orders}}
                   <option value="last_modified.desc">{result.order.last_modified}</option>
+                  {{else}}
+                  <option value="filename.asc">{result.order.filename} ({result.order.asc})</option>
+                  <option value="filename.desc">{result.order.filename} ({result.order.desc})</option>
+                  <option value="created.asc">{result.order.created} ({result.order.asc})</option>
+                  <option value="created.desc">{result.order.created} ({result.order.desc})</option>
+                  <option value="content_length.asc">{result.order.content_length} ({result.order.asc})</option>
+                  <option value="content_length.desc">{result.order.content_length} ({result.order.desc})</option>
+                  <option value="last_modified.asc">{result.order.last_modified} ({result.order.asc})</option>
+                  <option value="last_modified.desc">{result.order.last_modified} ({result.order.desc})</option>
+                  <option value="click_count.asc">{result.order.click_count} ({result.order.asc})</option>
+                  <option value="click_count.desc">{result.order.click_count} ({result.order.desc})</option>
+                  <option value="favorite_count.asc">{result.order.favorite_count} ({result.order.asc})</option>
+                  <option value="favorite_count.desc">{result.order.favorite_count} ({result.order.desc})</option>
+                  {{/unless}}
                 </select>
               </div>
             </td>
@@ -40,12 +67,14 @@
             </td>
           </tr>
           {{/if}}
-          {{#if related_content}}
+          {{#if related_contents}}
+          {{#each related_contents}}
           <tr>
             <td>
-              {{{related_content}}}
+              {{{this}}}
             </td>
           </tr>
+          {{/each}}
           {{/if}}
         </tbody>
       </table>
@@ -58,8 +87,8 @@
           <div class="media">
             <div class="media-body">
               <h3 class="title ellipsis media-heading">
-                <a class="link" href="{{url_link}}" data-uri="{{url_link}}" data-order="0">
-                  {{content_title}}
+                <a class="link" href="{{url_link}}" data-uri="{{url_link}}" data-order="0"{{#if ../link_target}} target="{{../link_target}}"{{/if}}>
+                  {{{content_title}}}
                 </a>
               </h3>
             </div>
@@ -77,6 +106,19 @@
               </div>
               <div class="site ellipsis">
                 <cite>{{site_path}}</cite>
+              </div>
+              <div class="info" dir="{{../dir}}">
+                <small>
+                  {result.created} {{created}}
+                  {{#if last_modified}}
+                    <span class="hidden-xs">-</span>
+                    <span class="br-xs"></span>
+                    {result.order.last_modified}: {{last_modified}}
+                  {{/if}}
+                  <span class="hidden-xs">-</span>
+                  <span class="br-xs"></span>
+                  {{content_length}} {result.size}
+                </small>
               </div>
             </div>
           </div>

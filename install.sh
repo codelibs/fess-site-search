@@ -4,7 +4,7 @@
 pip3 install -r requirements.txt
 
 ## Node.js
-FESS_VERS=("11.3" "11.4")
+FESS_VERS=("12.7", "current")
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 

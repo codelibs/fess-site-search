@@ -33,7 +33,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
@@ -59,7 +59,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
     fess.charset = 'utf-8';
     fess.setAttribute('id', 'fess-ss');
     // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', '//search.n2sm.co.jp/json');
+    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(fess, s);
   })();
@@ -150,8 +150,8 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 
 * Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズできます。
 * Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用できます。
-    * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/templates)を参照してください。
-    * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/11.4/src/css)を参照してください。
+    * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/src/templates)を参照してください。
+    * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/src/css)を参照してください。
 
 ### サムネイルのサイズ変更
 
