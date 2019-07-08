@@ -17,36 +17,19 @@ ADD requirements.txt /app
 RUN pip3 install -r requirements.txt
 RUN npm install
 
-# Build 11.3
-RUN mkdir -p /app/fss/11.3
-ADD fss/11.3/package.json /app/fss/11.3
-ADD fss/11.3/webpack.config.js /app/fss/11.3
-
-WORKDIR /app/fss/11.3
-RUN npm install;
-
-ADD fss/11.3/src /app/fss/11.3/src
-RUN export OUTPUT_JS_FILENAME=fess-ss.min.js; \
-    node_modules/.bin/webpack; \
-    mkdir -p /app/app/static/fss/11.3; \
-    cp /app/instance/generates/fess-ss.min.js /app/instance/generates/fess-ss-11.3.min.js; \
-    cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/11.3/;
-
-
 # Build 11.4
-RUN mkdir -p /app/fss/11.4
-ADD fss/11.4/package.json /app/fss/11.4
-ADD fss/11.4/webpack.config.js /app/fss/11.4
+RUN mkdir -p /app/fss/
+ADD fss/package.json /app/fss/
+ADD fss/webpack.config.js /app/fss/
 
-WORKDIR /app/fss/11.4
+WORKDIR /app/fss
 RUN npm install;
 
-ADD fss/11.4/src /app/fss/11.4/src
+ADD fss/src /app/fss/src
 RUN export OUTPUT_JS_FILENAME=fess-ss.min.js; \
     node_modules/.bin/webpack; \
-    mkdir -p /app/app/static/fss/11.4; \
-    cp /app/instance/generates/fess-ss.min.js /app/instance/generates/fess-ss-11.4.min.js; \
-    cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/11.4/;
+    mkdir -p /app/app/static/fss; \
+    cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/;
 
 
 EXPOSE 5000

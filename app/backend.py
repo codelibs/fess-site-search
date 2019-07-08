@@ -8,43 +8,37 @@ from .generate_config import generate_config
 from .webpack_manager import WebpackManager
 
 
-FESS_VERSION_KEY = 'fess-version'
-DEFAULT_VERSION = '11.4'
-
 
 def upload(form, file):
-    version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
-
     if file.filename == '':
         return redirect(url_for('generator'))
 
     if file and is_css(file.filename):
         base = secure_filename(file.filename)[:-4]
         hash_str = rand_hash()
-        fname = '{}_{}_{}'.format(base, hash_str, version)
+        fname = '{}_{}'.format(base, hash_str)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + '.css'))
         print('Upload: {}.css'.format(fname))
-        return run_webpack(fname, version)
+        return run_webpack(fname)
 
     return redirect(url_for('generator'))
 
 
 def wizard(form):
-    version = form.get(FESS_VERSION_KEY, DEFAULT_VERSION)
     hash_str = form2hash(form)
-    fname = 'wizard_{}_{}'.format(hash_str, version)
+    fname = 'wizard_{}'.format(hash_str)
 
     if js_exists(fname):
         return redirect(url_for('demo', fname=fname))
     elif generate_config(form, fname):
-        return run_webpack(fname, version)
+        return run_webpack(fname)
     else:
         return redirect(url_for('generator'))
 
 
-def run_webpack(fname, version):
+def run_webpack(fname):
     wp_manager = WebpackManager()
-    if wp_manager.run(app.config['UPLOAD_FOLDER'], app.instance_path, fname, version):
+    if wp_manager.run(app.config['UPLOAD_FOLDER'], app.instance_path, fname):
         return redirect(url_for('demo', fname=fname))
     else:
         flash('Please try again')
@@ -69,9 +63,6 @@ def is_css(filename):
 
 def is_empty_form(form):
     for (k, v) in form.items():
-        if k == FESS_VERSION_KEY:
-            continue
-
         if v:
             return False
     return True
