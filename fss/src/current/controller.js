@@ -1,7 +1,7 @@
 import FessJQuery from 'jquery';
 
 export default class {
-  constructor(FessView, FessModel) {
+  constructor(FessView, FessModel, fessVersion) {
     this.FessView = FessView;
     this.FessModel = FessModel;
     this.minFessVersion = 11.4;
@@ -10,6 +10,7 @@ export default class {
     this.anyParams = FessJQuery('script#fess-ss').data('params') || {};
     this.urlParams = this._getParameters();
     this.viewState = null;
+    this.fessVersion = fessVersion;
   }
 
   start(fessConfig = {}) {
@@ -372,6 +373,6 @@ export default class {
   }
 
   _showVersion() {
-    console.log(require('../../package.json').version);
+    console.log('fss:' + require('../../package.json').version + ' fess:' + this.fessVersion);
   }
 }
