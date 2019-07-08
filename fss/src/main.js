@@ -34,12 +34,12 @@ if (process.env.INPUT_JSON_PATH !== undefined) {
       const fessMessages = new FessMessages();
       const fessView = new FessView(fessMessages);
       const fessModel = new FessModel();
-      fessController = new FessController(fessView, fessModel);
+      fessController = new FessController(fessView, fessModel, fessVersion);
     } else {
       const fessMessages = new FessMessages_12_7();
       const fessView = new FessView_12_7(fessMessages);
       const fessModel = new FessModel_12_7();
-      fessController = new FessController_12_7(fessView, fessModel);
+      fessController = new FessController_12_7(fessView, fessModel, fessVersion);
     }
     fessController.start(fessConfig);
   };
