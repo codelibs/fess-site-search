@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import '!style-loader!css-loader!sass-loader!./current/css/style-base.scss';
 import '!style-loader!css-loader!sass-loader!./current/css/style.scss';
 import '!style-loader!css-loader!sass-loader!./current/css/ss.scss';

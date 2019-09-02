@@ -32,7 +32,15 @@ module.exports = {
         exclude: /node_modules/,
         query:
         {
-          presets: ['es2015','stage-0']
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                useBuiltIns: "usage",
+                corejs: 3
+              }
+            ]
+          ]
         }
       }
     ]
