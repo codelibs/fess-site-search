@@ -31,7 +31,11 @@ export default class {
         // do nothing
       });
     }
-    if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
+
+    if (history.state != null) {
+      FessJQuery('.fessWrapper form input.query').val(history.state.params.q);
+      this._search(history.state.params, true);
+    } else if (this.urlParams.q !== undefined && this.urlParams.q.length > 0) {
       const query = this.urlParams.q[0];
       if (FessJQuery('.fessWrapper form input.query').length > 0) {
         FessJQuery('.fessWrapper form input.query').val(query);
@@ -62,15 +66,6 @@ export default class {
             FessJQuery('.fessWrapper .fessResult').empty();
           }
           FessJQuery('.fessWrapper form input.query').val('');
-        }
-      }
-    );
-    window.addEventListener(
-      "load",
-      () => {
-        if (history.state != null) {
-          FessJQuery('.fessWrapper form input.query').val(history.state.params.q);
-          this._search(history.state.params, true);
         }
       }
     );
