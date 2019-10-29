@@ -2,7 +2,7 @@ import FessJQuery from 'jquery';
 
 (function($){
 
-FessJQuery.fn.suggestor = function(setting) {
+FessJQuery.fn.suggestor12 = function(setting) {
 
 	var $boxElement;
 	var $textArea;
@@ -102,7 +102,6 @@ FessJQuery.fn.suggestor = function(setting) {
 				suggestingSts = false;
 				return;
 			}
-
 
 			FessJQuery.ajax({
 				url: settingAjaxInfo.url,
