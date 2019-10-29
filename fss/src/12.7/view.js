@@ -442,7 +442,7 @@ export default class {
   }
 
   suggestor(state) {
-    FessJQuery('.fessWrapper form input.query').suggestor(
+    FessJQuery('.fessWrapper form input.query').suggestor12(
       {
         ajaxinfo : {
           url : state.contextPath + '/suggest',

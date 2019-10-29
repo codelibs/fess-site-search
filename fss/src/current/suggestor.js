@@ -103,11 +103,11 @@ FessJQuery.fn.suggestor = function(setting) {
 				return;
 			}
 
-
 			FessJQuery.ajax({
+				crossDomain: false,
 				url: settingAjaxInfo.url,
 				type:"get",
-				dataType: "jsonp",
+				dataType: "json",
 				cache : false,
 				data:{	query: $textArea.val(),
 						fields: settingAjaxInfo.fn,
