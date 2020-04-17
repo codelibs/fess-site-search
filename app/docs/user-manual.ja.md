@@ -150,8 +150,8 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 
 * Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズできます。
 * Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用できます。
-    * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/src/templates)を参照してください。
-    * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/src/css)を参照してください。
+    * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/src/current/templates)を参照してください。
+    * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/src/current/css)を参照してください。
 
 ### サムネイルのサイズ変更
 
