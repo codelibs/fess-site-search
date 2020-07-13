@@ -149,19 +149,7 @@ export default class {
 
   _bindSearchOptions() {
     const $cls = this;
-    FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").each(function(){
-      if (FessJQuery(this).val()) {
-        FessJQuery(this).addClass('selected');
-      } else {
-        FessJQuery(this).removeClass('selected');
-      }
-    });
     FessJQuery(".fessWrapper select.sort, .fessWrapper select.field-labels").change(function(){
-      if (FessJQuery(this).val()) {
-        FessJQuery(this).addClass('selected');
-      } else {
-        FessJQuery(this).removeClass('selected');
-      }
       $cls._search({});
     });
     if (this.viewState.enableLabelTabs) {
@@ -173,11 +161,11 @@ export default class {
 
   _search(params, replace = false) {
     const sort = FessJQuery(".fessWrapper select.sort").val();
-    if (params.sort === undefined && sort !== undefined && sort !== '') {
+    if (params.sort === undefined && sort !== undefined && sort !== '_default_') {
       params.sort = sort;
     }
     const label = FessJQuery(".fessWrapper select.field-labels").val();
-    if (params['fields.label'] === undefined && label !== undefined && label !== '') {
+    if (params['fields.label'] === undefined && label !== undefined && label !== '_default_') {
       params['fields.label'] = label;
     }
     const pageSize = FessJQuery('script#fess-ss').attr('page-size');
