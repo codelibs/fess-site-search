@@ -6,12 +6,10 @@ const CopyPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: path.join(__dirname, "src/index.js"),
   output: {
-    //path: path.join(__dirname, '../instance/generates'),
     path: path.join(__dirname, './dest'),
     filename: process.env.OUTPUT_JS_FILENAME
   },
   devServer: {
-    // webpackの扱わないファイル(HTMLや画像など)が入っているディレクトリ
     contentBase: path.resolve(__dirname, 'static')
   },
   module: {
@@ -23,8 +21,8 @@ module.exports = {
         loader: "eslint-loader",
       },
       {
-        test: /\.vue$/, // ファイルが.vueで終われば...
-        loader: 'vue-loader' // vue-loaderを使う
+        test: /\.vue$/,
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
@@ -32,7 +30,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader'] // css-loader -> vue-style-loaderの順で通していく
+        use: ['vue-style-loader', 'css-loader']
       },
       {
         test: /\.scss$/,
@@ -41,10 +39,8 @@ module.exports = {
     ]
   },
   resolve: {
-    // import './foo.vue' の代わりに import './foo' と書けるようになる(拡張子省略)
     extensions: ['.js', '.vue'],
     alias: {
-      // vue-template-compilerに読ませてコンパイルするために必要
       vue$: 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, 'src/'),
     },
