@@ -1,5 +1,7 @@
 export default class {
-  constructor() {
+  constructor(fessLang) {
+    this.fessLang = fessLang;
+
     this.messages = {
       en: {
         'form.search.button': 'Search',
@@ -7,6 +9,8 @@ export default class {
         'error.fess_unavailable': 'under maintenance',
         'error.fess_not_found': 'Server not found.',
         'error.fess_unsupported_version': 'Fess Version Error  - Minimum supported version {{minFessVersion}}  /  used version {{apiVersion}}',
+        'result.status': 'Results <b>{{startRecordNumber}}</b><span class="hidden-phone"> -</span> <b>{{endRecordNumber}}</b> of <b>{{recordCount}}</b> for <b>{{q}}</b> ({{execTime}} sec)',
+        'result.status_over': 'Results <b>{{startRecordNumber}}</b><span class="hidden-phone"> -</span> <b>{{endRecordNumber}}</b> of about <b>{{recordCount}}</b> for <b>{{q}}</b> ({{execTime}} sec)',
         'result.number': 'results',
         'result.second': 'second',
         'result.label': 'Labels',
@@ -34,6 +38,8 @@ export default class {
         'error.fess_unavailable': 'メンテナンス中です。',
         'error.fess_not_found': 'サーバーが見つかりません。',
         'error.fess_unsupported_version': 'Fessバージョンエラー  - サポートバージョン {{minFessVersion}}以降  /  現在のバージョン {{apiVersion}}',
+        'result.status': '<b>{{q}}</b> の検索結果<span class="br-phone"></span> <b>{{recordCount}}</b> 件中 <b>{{startRecordNumber}}</b> - <b>{{endRecordNumber}}</b> 件目 ({{execTime}} 秒)',
+        'result.status_over': '<b>{{q}}</b> の検索結果<span class="br-phone"></span> <b>{{recordCount}}</b> 件以上 <b>{{startRecordNumber}}</b> - <b>{{endRecordNumber}}</b> 件目 ({{execTime}} 秒)',
         'result.number': '件',
         'result.second': '秒',
         'result.label': 'ラベル',
@@ -61,6 +67,8 @@ export default class {
         'error.fess_unavailable': '正在维护中',
         'error.fess_not_found': '找不到服务器。',
         'error.fess_unsupported_version': 'Fess: 版本错误  - 支持的最低版本 {{minFessVersion}}  /  当前版本 {{apiVersion}}',
+        'result.status': '{{recordCount}} 条结果 ({{execTime}} 秒)',
+        'result.status_over': '约 {{recordCount}} 条结果 ({{execTime}} 秒)',
         'result.number': '条结果',
         'result.second': '秒',
         'result.label': '标签',
@@ -88,6 +96,8 @@ export default class {
         'error.fess_unavailable': '正在維護中',
         'error.fess_not_found': '找不到服務器。',
         'error.fess_unsupported_version': 'Fess: 版本錯誤  - 支持的最低版本 {{minFessVersion}}  /  當前版本 {{apiVersion}}',
+        'result.status': '{{recordCount}} 条结果 ({{execTime}} 秒)',
+        'result.status_over': '約 {{recordCount}} 条结果 ({{execTime}} 秒)',
         'result.number': '条结果',
         'result.second': '秒',
         'result.label': '標籤',
@@ -115,6 +125,8 @@ export default class {
         'error.fess_unavailable': '멘 테넌 스입니다.',
         'error.fess_not_found': '서버가 발견되지 않았습니다.',
         'error.fess_unsupported_version': 'Fess: 버전 오류  - 최소 지원 버전 {{minFessVersion}}  /  현재의 버전 {{apiVersion}}',
+        'result.status': '<b>{{q}}</b>결과 <span class="br-phone"></span><b>{{recordCount}}</b>건 중 <b>{{startRecordNumber}}</b>-<b>{{endRecordNumber}}</b>건 표시 ({{execTime}} 초)',
+        'result.status_over': '<b>{{q}}</b>결과 <span class="br-phone"></span><b>{{recordCount}}</b>건 중 <b>{{startRecordNumber}}</b>-<b>{{endRecordNumber}}</b>건 표시 ({{execTime}} 초)',
         'result.number': '개',
         'result.second': '초',
         'result.label': '라벨',
@@ -142,6 +154,8 @@ export default class {
         'error.fess_unavailable': 'pod údržbou',
         'error.fess_not_found': 'Server nebyl nalezen.',
         'error.fess_unsupported_version': 'Fess: Chyba verze  - Minimální podporovaná verze {{minFessVersion}}  /  použitá verze {{apiVersion}}',
+        'result.status': '{{recordCount}} ({{execTime}} s)',
+        'result.status_over': 'about {{recordCount}} ({{execTime}} s)',
         'result.number': '',
         'result.second': 's',
         'result.label': 'Štítku',
@@ -169,6 +183,8 @@ export default class {
         'error.fess_unavailable': 'under vedligeholdelse',
         'error.fess_not_found': 'Server ikke fundet.',
         'error.fess_unsupported_version': 'Fess: Versionsfejl  - Support version {{minFessVersion}}  /  brugt version {{apiVersion}}',
+        'result.status': '{{recordCount}} resultater ({{execTime}} sekunder)',
+        'result.status_over': '{{recordCount}} resultater ({{execTime}} sekunder)',
         'result.number': 'resultater',
         'result.second': 'sekunder',
         'result.label': 'Etiket',
@@ -196,6 +212,8 @@ export default class {
         'error.fess_unavailable': 'Wartung wird durchgeführt.',
         'error.fess_not_found': 'Server nicht gefunden.',
         'error.fess_unsupported_version': 'Fess: Versionsfehler  - Minimale unterstützte Version {{minFessVersion}}  /  verwendete Version {{apiVersion}}',
+        'result.status': '{{recordCount}} resultater ({{execTime}} sekunder)',
+        'result.status_over': '{{recordCount}} Ergebnisse ({{execTime}} Sekunden)',
         'result.number': 'Ergebnisse',
         'result.second': 'Sekunden',
         'result.label': 'Labels',
@@ -223,6 +241,8 @@ export default class {
         'error.fess_unavailable': 'El mantenimiento está en progreso.',
         'error.fess_not_found': 'Servidor no encontrado.',
         'error.fess_unsupported_version': 'Fess: Error de version  - Versión mínima soportada {{minFessVersion}}  /  versión usada {{apiVersion}}',
+        'result.status': '{{recordCount}} resultados ({{execTime}} segundos)',
+        'result.status_over': '{{recordCount}} resultados ({{execTime}} segundos)',
         'result.number': 'resultados',
         'result.second': 'segundos',
         'result.label': 'Etiquetas',
@@ -250,6 +270,8 @@ export default class {
         'error.fess_unavailable': 'en maintenance',
         'error.fess_not_found': 'Serveur introuvable.',
         'error.fess_unsupported_version': 'Fess: Erreur de version  - Version minimale prise en charge {{minFessVersion}}  /  version utilisée {{apiVersion}}',
+        'result.status': '{{recordCount}} résultats ({{execTime}} secondes)',
+        'result.status_over': '{{recordCount}} résultats ({{execTime}} secondes)',
         'result.number': 'résultats',
         'result.second': 'secondes',
         'result.label': 'Libellés',
@@ -277,6 +299,8 @@ export default class {
         'error.fess_unavailable': 'in manutenzione',
         'error.fess_not_found': 'Server non trovato.',
         'error.fess_unsupported_version': 'Fess: Errore di versione  - Versione di supporto {{minFessVersion}}  /  versione usata {{apiVersion}}',
+        'result.status': '{{recordCount}} risultati ({{execTime}} secondi)',
+        'result.status_over': '{{recordCount}} risultati ({{execTime}} secondi)',
         'result.number': 'risultati',
         'result.second': 'secondi',
         'result.label': 'Etichette',
@@ -304,6 +328,8 @@ export default class {
         'error.fess_unavailable': 'karbantartás alatt',
         'error.fess_not_found': 'A kiszolgáló nem található.',
         'error.fess_unsupported_version': 'Fess: Verzióhiba  - Minimális támogatott verzió {{minFessVersion}}  /  használt verzió {{apiVersion}}',
+        'result.status': '{{recordCount}} találat ({{execTime}} másodperc)',
+        'result.status_over': '{{recordCount}} találat ({{execTime}} másodperc)',
         'result.number': 'találat',
         'result.second': 'másodperc',
         'result.label': 'Címke',
@@ -331,6 +357,8 @@ export default class {
         'error.fess_unavailable': 'onder onderhoud',
         'error.fess_not_found': 'Server niet gevonden.',
         'error.fess_unsupported_version': 'Fess: Versie fout  - Ondersteunende versie {{minFessVersion}}  /  gebruikte versie {{apiVersion}}',
+        'result.status': '{{recordCount}} resultaten ({{execTime}} seconden)',
+        'result.status_over': '{{recordCount}} resultaten ({{execTime}} seconden)',
         'result.number': 'resultaten',
         'result.second': 'seconden',
         'result.label': 'Labels',
@@ -358,6 +386,8 @@ export default class {
         'error.fess_unavailable': 'under vedlikehold',
         'error.fess_not_found': 'Server ikke funnet.',
         'error.fess_unsupported_version': 'Fess: Versjonsfeil  - Minimum støttet versjon {{minFessVersion}}  /  brukt versjon {{apiVersion}}',
+        'result.status': '{{recordCount}} resultater ({{execTime}} sekunder)',
+        'result.status_over': '{{recordCount}} resultater ({{execTime}} sekunder)',
         'result.number': 'resultater',
         'result.second': 'sekunder',
         'result.label': 'Etiketter',
@@ -385,6 +415,8 @@ export default class {
         'error.fess_unavailable': 'Konserwacja jest w toku.',
         'error.fess_not_found': 'Nie znaleziono serwera.',
         'error.fess_unsupported_version': 'Fess: Błąd wersji  - Minimalna obsługiwana wersja {{minFessVersion}}  /  używana wersja {{apiVersion}}',
+        'result.status': '{{recordCount}} wyników ({{execTime}} s)',
+        'result.status_over': '{{recordCount}} wyników ({{execTime}} s)',
         'result.number': 'wyników',
         'result.second': 's',
         'result.label': 'Etykiety',
@@ -412,6 +444,8 @@ export default class {
         'error.fess_unavailable': 'em manutenção',
         'error.fess_not_found': 'Servidor não encontrado.',
         'error.fess_unsupported_version': 'Fess: Erro de versão  - Versão mínima suportada {{minFessVersion}}  /  versão usada {{apiVersion}}',
+        'result.status': '{{recordCount}} resultados ({{execTime}} segundos)',
+        'result.status_over': '{{recordCount}} resultados ({{execTime}} segundos)',
         'result.number': 'resultados',
         'result.second': 'segundos',
         'result.label': 'Marcador',
@@ -439,6 +473,8 @@ export default class {
         'error.fess_unavailable': 'Huolto on käynnissä.',
         'error.fess_not_found': 'Palvelinta ei löydy.',
         'error.fess_unsupported_version': 'Fess: Versiovirhe  - Pienin tuettu versio {{minFessVersion}}  /  käytetty versio {{apiVersion}}',
+        'result.status': '{{recordCount}} tuloksesta ({{execTime}} sekuntia)',
+        'result.status_over': '{{recordCount}} tuloksesta ({{execTime}} sekuntia)',
         'result.number': 'tuloksesta',
         'result.second': 'sekuntia',
         'result.label': 'Tunniste',
@@ -466,6 +502,8 @@ export default class {
         'error.fess_unavailable': 'under underhåll',
         'error.fess_not_found': 'Server hittades inte.',
         'error.fess_unsupported_version': 'Fess: Versionsfel  - stödd version {{minFessVersion}}  /  använd version {{apiVersion}}',
+        'result.status': '{{recordCount}} resultat ({{execTime}} sekunder)',
+        'result.status_over': '{{recordCount}} resultat ({{execTime}} sekunder)',
         'result.number': 'resultat',
         'result.second': 'sekunder',
         'result.label': 'Etikett',
@@ -493,6 +531,8 @@ export default class {
         'error.fess_unavailable': 'bakım altında',
         'error.fess_not_found': 'Sunucu bulunamadı.',
         'error.fess_unsupported_version': 'Fess: Sürüm Hatası  - Minimum desteklenen sürüm {{minFessVersion}}  /  kullanılmış versiyon {{apiVersion}}',
+        'result.status': '{{recordCount}} sonuç ({{execTime}} saniye)',
+        'result.status_over': '{{recordCount}} sonuç ({{execTime}} saniye)',
         'result.number': 'sonuç',
         'result.second': 'saniye',
         'result.label': 'Etiket\'i',
@@ -520,6 +560,8 @@ export default class {
         'error.fess_unavailable': 'под техническим обслуживанием',
         'error.fess_not_found': 'Сервер не найден.',
         'error.fess_unsupported_version': 'Fess: Ошибка версии  - Минимальная поддерживаемая версия {{minFessVersion}}  /  используемая версия {{apiVersion}}',
+        'result.status': '{{recordCount}} страница ({{execTime}} сек.)',
+        'result.status_over': '{{recordCount}} страница ({{execTime}} сек.)',
         'result.number': 'страница',
         'result.second': 'сек.',
         'result.label': 'Ярлыки',
@@ -547,6 +589,8 @@ export default class {
         'error.fess_unavailable': 'تحت الصيانة',
         'error.fess_not_found': 'الخادم غير موجود.',
         'error.fess_unsupported_version': 'Fess: خطأ في الإصدار  - الحد الأدنى من النسخة المدعومة {{minFessVersion}}  /  النسخة المستخدمة {{apiVersion}}',
+        'result.status': '{{recordCount}} من النتائج ({{execTime}} عدد الثواني)',
+        'result.status_over': '{{recordCount}} من النتائج ({{execTime}} عدد الثواني)',
         'result.number': 'من النتائج',
         'result.second': 'عدد الثواني',
         'result.label': 'تصنيفات',
@@ -574,6 +618,8 @@ export default class {
         'error.fess_unavailable': 'поддръжката',
         'error.fess_not_found': 'Сървърът не е намерен.',
         'error.fess_unsupported_version': 'Fess: Версия Грешка  - Поддържаща версия {{minFessVersion}}  /  използваната версия {{apiVersion}}',
+        'result.status': '{{recordCount}} резултата ({{execTime}} секунди)',
+        'result.status_over': '{{recordCount}} резултата ({{execTime}} секунди)',
         'result.number': 'резултата',
         'result.second': 'секунди',
         'result.label': 'етикети',
@@ -601,6 +647,8 @@ export default class {
         'error.fess_unavailable': 'sota manteniment',
         'error.fess_not_found': 'El servidor no s\'ha trobat.',
         'error.fess_unsupported_version': 'Fess: Error de versió  - Versió de suport {{minFessVersion}}  /  versió usada {{apiVersion}}',
+        'result.status': '{{recordCount}} resultats ({{execTime}} segons)',
+        'result.status_over': '{{recordCount}} resultats ({{execTime}} segons)',
         'result.number': 'resultats',
         'result.second': 'segons',
         'result.label': 'etiquetes',
@@ -628,6 +676,8 @@ export default class {
         'error.fess_unavailable': 'pod održavanjem',
         'error.fess_not_found': 'Poslužitelj nije pronađen.',
         'error.fess_unsupported_version': 'Fess: Pogreška u verziji  - Minimalna podržana verzija {{minFessVersion}}  /  Trenutačna verzija {{apiVersion}}',
+        'result.status': '{{recordCount}} rezultata ({{execTime}} sek)',
+        'result.status_over': '{{recordCount}} rezultata ({{execTime}} sek)',
         'result.number': 'rezultata',
         'result.second': 'sek',
         'result.label': 'etikete',
@@ -655,6 +705,8 @@ export default class {
         'error.fess_unavailable': 'sa ilalim ng pagpapanatili',
         'error.fess_not_found': 'Hindi nakita ang server.',
         'error.fess_unsupported_version': 'Fess: Error sa Bersyon  - Suporta sa bersyon {{minFessVersion}}  /  ginamit na bersyon {{apiVersion}}',
+        'result.status': '{{recordCount}} resulta ({{execTime}} segundo)',
+        'result.status_over': '{{recordCount}} resulta ({{execTime}} segundo)',
         'result.number': 'resulta',
         'result.second': 'segundo',
         'result.label': 'Tatak',
@@ -682,6 +734,8 @@ export default class {
         'error.fess_unavailable': 'υπό συντήρηση',
         'error.fess_not_found': 'Ο διακομιστής δεν βρέθηκε.',
         'error.fess_unsupported_version': 'Fess: Σφάλμα έκδοσης  - Ελάχιστη υποστηριζόμενη έκδοση {{minFessVersion}}  /  χρησιμοποιημένη έκδοση {{apiVersion}}',
+        'result.status': '{{recordCount}} αποτελέσματα ({{execTime}} δευτερόλεπτα)',
+        'result.status_over': '{{recordCount}} αποτελέσματα ({{execTime}} δευτερόλεπτα)',
         'result.number': 'αποτελέσματα',
         'result.second': 'δευτερόλεπτα',
         'result.label': 'ετικέτες',
@@ -709,6 +763,8 @@ export default class {
         'error.fess_unavailable': 'תחת תחזוקה',
         'error.fess_not_found': 'השרת לא נמצא.',
         'error.fess_unsupported_version': 'Fess: שגיאת גירסה  - גרסה נתמכת מינימלית {{minFessVersion}}  /  גרסה בשימוש {{apiVersion}}',
+        'result.status': '{{recordCount}} תוצאות ({{execTime}} שניות)',
+        'result.status_over': '{{recordCount}} תוצאות ({{execTime}} שניות)',
         'result.number': 'תוצאות',
         'result.second': 'שניות',
         'result.label': 'תוויות',
@@ -736,6 +792,8 @@ export default class {
         'error.fess_unavailable': 'रखरखाव के तहत',
         'error.fess_not_found': 'सर्वर नहीं मिला',
         'error.fess_unsupported_version': 'Fess: संस्करण त्रुटि  - न्यूनतम समर्थित संस्करण {{minFessVersion}}  /  वर्तमान संस्करण {{apiVersion}}',
+        'result.status': '{{recordCount}} परिणाम ({{execTime}} सेकंड)',
+        'result.status_over': '{{recordCount}} परिणाम ({{execTime}} सेकंड)',
         'result.number': 'परिणाम',
         'result.second': 'सेकंड',
         'result.label': 'लेबल',
@@ -763,6 +821,8 @@ export default class {
         'error.fess_unavailable': 'di bawah pemeliharaan',
         'error.fess_not_found': 'Server tidak ditemukan.',
         'error.fess_unsupported_version': 'Fess: Kesalahan Versi  - Versi dukungan {{minFessVersion}}  /  versi yang digunakan {{apiVersion}}',
+        'result.status': '{{recordCount}} hasil ({{execTime}} detik)',
+        'result.status_over': '{{recordCount}} hasil ({{execTime}} detik)',
         'result.number': 'hasil',
         'result.second': 'detik',
         'result.label': 'label',
@@ -790,6 +850,8 @@ export default class {
         'error.fess_unavailable': 'zem uzturēšanas',
         'error.fess_not_found': 'Serveris nav atrasts.',
         'error.fess_unsupported_version': 'Fess: Versijas kļūda  - Minimālā atbalstītā versija {{minFessVersion}}  /  izmantotā versija {{apiVersion}}',
+        'result.status': '{{recordCount}} rezultāti ({{execTime}} sekundes)',
+        'result.status_over': '{{recordCount}} rezultāti ({{execTime}} sekundes)',
         'result.number': 'rezultāti',
         'result.second': 'sekundes',
         'result.label': 'etiķetes',
@@ -817,6 +879,8 @@ export default class {
         'error.fess_unavailable': 'pagal techninę priežiūrą',
         'error.fess_not_found': 'Serveris nerastas.',
         'error.fess_unsupported_version': 'Fess: Versijos klaida  - Minimali palaikoma versija {{minFessVersion}}  /  Dabartinė versija {{apiVersion}}',
+        'result.status': '{{recordCount}} rezult ({{execTime}} sek.)',
+        'result.status_over': '{{recordCount}} rezult ({{execTime}} sek.)',
         'result.number': 'rezult.',
         'result.second': 'sek.',
         'result.label': 'etiketės',
@@ -844,6 +908,8 @@ export default class {
         'error.fess_unavailable': 'în întreținere',
         'error.fess_not_found': 'Serverul nu a fost găsit.',
         'error.fess_unsupported_version': 'Fess: versiune eroare  - Versiune de suport {{minFessVersion}}  /  versiunea folosită {{apiVersion}}',
+        'result.status': '{{recordCount}} rezultate ({{execTime}} secunde)',
+        'result.status_over': '{{recordCount}} rezultate ({{execTime}} secunde)',
         'result.number': 'rezultate',
         'result.second': 'secunde',
         'result.label': 'etichete',
@@ -871,6 +937,8 @@ export default class {
         'error.fess_unavailable': 'под одржавањем',
         'error.fess_not_found': 'Сервер није пронађен.',
         'error.fess_unsupported_version': 'Fess: Верзија Грешка  - Минимална подржана верзија {{minFessVersion}}  /  употребљена верзија {{apiVersion}}',
+        'result.status': '{{recordCount}} резултата ({{execTime}} секунде/и)',
+        'result.status_over': '{{recordCount}} резултата ({{execTime}} секунде/и)',
         'result.number': 'резултата',
         'result.second': 'секунде/и',
         'result.label': 'Лабел',
@@ -898,6 +966,8 @@ export default class {
         'error.fess_unavailable': 'pod údržbou',
         'error.fess_not_found': 'Server nebol nájdený.',
         'error.fess_unsupported_version': 'Fess: Chyba verzie  - Minimálna podporovaná verzia {{minFessVersion}}  /  použitá verzia {{apiVersion}}',
+        'result.status': '{{recordCount}} výsledkov ({{execTime}} sekúnd)',
+        'result.status_over': '{{recordCount}} výsledkov ({{execTime}} sekúnd)',
         'result.number': 'výsledkov',
         'result.second': 'sekúnd',
         'result.label': 'etikety',
@@ -925,6 +995,8 @@ export default class {
         'error.fess_unavailable': 'pod vzdrževanjem',
         'error.fess_not_found': 'Strežnika ni mogoče najti.',
         'error.fess_unsupported_version': 'Fess: Napaka pri različici  - Najmanjša podprta različica {{minFessVersion}}  /  uporabljena različica {{apiVersion}}',
+        'result.status': '{{recordCount}} rez. ({{execTime}} sek.)',
+        'result.status_over': '{{recordCount}} rez. ({{execTime}} sek.)',
         'result.number': 'rez.',
         'result.second': 'sek.',
         'result.label': 'nalepk',
@@ -952,6 +1024,8 @@ export default class {
         'error.fess_unavailable': 'ภายใต้การบำรุงรักษา',
         'error.fess_not_found': 'ไม่พบเซิร์ฟเวอร์',
         'error.fess_unsupported_version': 'Fess: ข้อผิดพลาดของเวอร์ชัน  - เวอร์ชันสนับสนุน {{minFessVersion}}  /  เวอร์ชันปัจจุบัน {{apiVersion}}',
+        'result.status': '{{recordCount}} รายการ ({{execTime}} วินาที)',
+        'result.status_over': '{{recordCount}} รายการ ({{execTime}} วินาที)',
         'result.number': 'รายการ',
         'result.second': 'วินาที',
         'result.label': 'ป้ายกำกับ',
@@ -979,6 +1053,8 @@ export default class {
         'error.fess_unavailable': 'під технічним обслуговуванням',
         'error.fess_not_found': 'Сервер не знайдено.',
         'error.fess_unsupported_version': 'Fess: Помилка версії  - Мінімальна підтримувана версія {{minFessVersion}}  /  використовувана версія {{apiVersion}}',
+        'result.status': '{{recordCount}} результатів ({{execTime}} сек.)',
+        'result.status_over': '{{recordCount}} результатів ({{execTime}} сек.)',
         'result.number': 'результатів',
         'result.second': 'сек.',
         'result.label': 'міток',
@@ -1006,6 +1082,8 @@ export default class {
         'error.fess_unavailable': 'đang được bảo trì',
         'error.fess_not_found': 'Không tìm thấy máy chủ.',
         'error.fess_unsupported_version': 'Fess: Lỗi phiên bản  - Phiên bản được hỗ trợ tối thiểu {{minFessVersion}}  /  phiên bản đã sử dụng {{apiVersion}}',
+        'result.status': '{{recordCount}} kết quả ({{execTime}} giây)',
+        'result.status_over': '{{recordCount}} kết quả ({{execTime}} giây)',
         'result.number': 'kết quả',
         'result.second': 'giây',
         'result.label': 'nhãn',
@@ -1047,25 +1125,16 @@ export default class {
     return lang;
   }
 
-  render(html, vars, fessLang) {
-    const language = this.getLanguage(fessLang);
-    let tmpHtml = html;
-    const messages = this.messages['en'];
-    for(let key in messages) {
-      const reg = new RegExp('{' + key + '}', 'g');
-      tmpHtml = tmpHtml.replace(reg, this._getMessage(key, vars, language));
-    }
-    return tmpHtml;
+  get(key, vars) {
+    const language = this.getLanguage(this.fessLang);
+    const messages = this.messages[language];
+    return this._getMessage(key, vars, language);
   }
 
   _getMessage(key, vars, language) {
     let message = this.messages[language][key];
     if (message === undefined) {
       message = this.messages['en'][key];
-      /*if (message === undefined) {
-        console.log('Invalid message key:' + key);
-        return '';
-      }*/
     }
     for (var k in vars) {
       if (typeof vars[k] == 'string' || typeof vars[k] == 'number' || typeof vars == 'string') {
@@ -1073,8 +1142,6 @@ export default class {
         message = message.replace(reg, this._escapeHtml(vars[k]));
       }
     }
-    //var reg = new RegExp('{{[^{}]*}}', 'g');
-    //message = message.replace(reg, '');
     return message;
   }
 

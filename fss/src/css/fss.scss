@@ -1,0 +1,43 @@
+.fess-site-search {
+  .form-row {
+    padding: 1em 0;
+  }
+  .labels-box, .order-box {
+    max-width: 5em;
+  }
+  #subheader {
+    padding-bottom: 1em;
+  }
+
+  .label-tab-box {
+    border-bottom: 1px solid #a9a9a9;
+    margin-bottom: 10px;
+    font-size: 0px;
+  }
+  .label-tab {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid;
+    border-bottom: none;
+    border-color: #a9a9a9;
+    font-size: small;
+    cursor: pointer;
+    position: static;
+    margin-top: 5px;
+    margin-right: 2px;
+    padding: 2px 8px 0px 8px;
+  }
+  .label-tab-selected {
+    background-color: #ababc9;
+  }
+
+  .search-waiting {
+    z-index: 1001;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    height:100%;
+    background-color:rgba(255,255,255,0.6) !important;
+  }
+}
