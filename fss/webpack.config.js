@@ -3,11 +3,13 @@ const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 
+const output_file_name = process.env.OUTPUT_JS_FILENAME !== undefined ? process.env.OUTPUT_JS_FILENAME : 'fess-ss.min.js'
+
 module.exports = {
   entry: path.join(__dirname, "src/index.js"),
   output: {
     path: path.join(__dirname, './dest'),
-    filename: process.env.OUTPUT_JS_FILENAME
+    filename: output_file_name
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'static')
