@@ -4,13 +4,11 @@ import EventBus from '@/events/EventBus';
 class SearchEvent extends EventBus {
 
   emitBasicSearch(searchCond) {
-    console.log('Emit ' + this.BASIC_SEARCH);
     searchCond.addition.scrollTop = false;
     this.emit(this.BASIC_SEARCH, searchCond);
   }
 
   emitBasicSearchWithScroll(searchCond) {
-    console.log('Emit ' + this.BASIC_SEARCH + " with scroll");
     searchCond.addition.scrollTop = true;
     this.emit(this.BASIC_SEARCH, searchCond);
   }

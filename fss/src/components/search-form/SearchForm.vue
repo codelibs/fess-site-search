@@ -24,7 +24,6 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      console.log('form mounted');
       FormEvent.onUpdateFormValue((data) => {
         state.query = data;
       });
@@ -32,7 +31,6 @@ export default defineComponent({
 
     // method definitions
     const submit = () => {
-      console.log('form fubmit!!');
       if (props.resultPage === '') {
         const searchCond = SearchEvent.getInitialSearchCond();
         if (state.query !== '') {

@@ -132,7 +132,6 @@ export default defineComponent({
       searchService
         .search(copiedSearchCond, state)
         .then((res) => {
-          console.log('Search success');
           state.searchCond = copiedSearchCond;
           if (copiedSearchCond.addition.scrollTop) {
             const boxEle = document.querySelector("#search-result-box");

@@ -28,7 +28,6 @@ export default class {
       num: searchCond.pageSize,
       start: (searchCond.page - 1) * searchCond.pageSize,
     };
-    console.log('query params:' + searchCond.q);
     if (queryParams.q === '') {
       queryParams.q = '*:*';
     }
