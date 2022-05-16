@@ -1,7 +1,9 @@
 <script>
+import { defineComponent, reactive} from "vue";
+
 import MessageService from '@/service/MessageService';
 
-export default {
+export default defineComponent({
   props: {
     fessUrl: {
       type: String,
@@ -60,21 +62,23 @@ export default {
       default: '',
     }
   },
-  data: function() {
-    return {
+
+  setup(props, context) {
+    // reactive data
+    const state = reactive({
       existThumbnail: false,
-      message: new MessageService(this.language),
-    };
-  },
-  methods: {
-    formatDate(dateStr) {
+      message: new MessageService(props.language),
+    });
+
+    // method definitions
+    const formatDate = (dateStr) => {
       let formatted = dateStr;
       formatted = formatted.replace('T', ' ');
       formatted = formatted.substring(0, formatted.indexOf(':', formatted.indexOf(':') + 1));
       return formatted;
-    },
+    };
     
-    formatContentLength(contentLength) {
+    const formatContentLength = (contentLength) => {
       if (contentLength < 1000) {
         return contentLength;
       }
@@ -100,17 +104,25 @@ export default {
       formatted = contentLength / 1000;
       formatted = Math.floor(formatted * 10) / 10;
       return formatted + 'T';
-    },
+    };
 
-    hasThumbnail(element) {
-      this.existThumbnail = true;
-    },
+    const hasThumbnail = (element) => {
+      state.existThumbnail = true;
+    };
 
-    noThumbnail(element) {
-      this.existThumbnail = false;
-    }
+    const noThumbnail = (element) => {
+      state.existThumbnail = false;
+    };
+
+    return {
+      state,
+      formatDate,
+      formatContentLength,
+      hasThumbnail,
+      noThumbnail,
+    };
   }
-};
+});
 </script>
 
 <template>
@@ -128,7 +140,7 @@ export default {
       </a>
     </h3>
     <div class="body">
-      <div v-if="enableThumbnail" v-show="existThumbnail" class="mr-3">
+      <div v-if="enableThumbnail" v-show="state.existThumbnail" class="mr-3">
         <a
           class="link d-none d-sm-flex"
           :href="urlLink"
@@ -154,13 +166,13 @@ export default {
     <div class="info">
       <small>
         <span v-if="created !== ''">
-          {{ message.get('result.created') }}: {{ formatDate(created) }}
+          {{ state.message.get('result.created') }}: {{ formatDate(created) }}
         </span>
         <span v-if="lastModified !== ''">
-          {{ message.get('result.order.last_modified') }}: {{ formatDate(lastModified) }}
+          {{ state.message.get('result.order.last_modified') }}: {{ formatDate(lastModified) }}
         </span>
         <span v-if="contentLength > -1">
-          - {{ formatContentLength(contentLength) }} {{ message.get('result.size') }}
+          - {{ formatContentLength(contentLength) }} {{ state.message.get('result.size') }}
         </span>
       </small>
     </div>

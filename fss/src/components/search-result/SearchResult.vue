@@ -1,26 +1,28 @@
 <script>
-import SearchService from '@/service/SearchService';
-import FrontHelper from '@/helper/FrontHelper';
-import HistoryMode from '@/enum/HistoryMode';
+import { defineComponent, reactive, onMounted, nextTick } from "vue";
 
-import SearchEvent from '@/events/SearchEvent';
-import FormEvent from '@/events/FormEvent';
-import ResultHeader from '@/components/search-result/ResultHeader';
-import ResultItem from '@/components/search-result/ResultItem';
-import Pagination from '@/components/search-result/Pagination';
+import FrontHelper from "@/helper/FrontHelper";
+import HistoryMode from "@/enum/HistoryMode";
+import SearchService from "@/service/SearchService";
 
-const frontHelper = new FrontHelper();
+import SearchEvent from "@/events/SearchEvent";
+import FormEvent from "@/events/FormEvent";
+import ResultHeader from "@/components/search-result/ResultHeader";
+import ResultItem from "@/components/search-result/ResultItem";
+import ResultPagination from "@/components/search-result/ResultPagination";
 
-export default {
+const { getUrlParameters, getHistoryState, registerHistory } = FrontHelper();
+
+export default defineComponent({
   components: {
-    'result-header': ResultHeader,
-    'result-item': ResultItem,
-    'pagination': Pagination,
+    "result-header": ResultHeader,
+    "result-item": ResultItem,
+    "result-pagination": ResultPagination,
   },
   props: {
     fessUrl: {
       type: String,
-      default: 'http://localhost:8080/',
+      default: "http://localhost:8080/",
     },
     enableOrder: {
       type: Boolean,
@@ -40,7 +42,7 @@ export default {
     },
     language: {
       type: String,
-      default: '',
+      default: "",
     },
     pageSize: {
       type: Number,
@@ -48,24 +50,26 @@ export default {
     },
     linkTarget: {
       type: String,
-      default: '',
+      default: "",
     },
     enableRelated: {
       type: Boolean,
       default: false,
     },
   },
-  data: () => {
-    return {
+
+  setup(props, methods, context) {
+    // reactive data
+    const state = reactive({
       show: false,
       searching: false,
       recordCount: -1,
-      recordCountRelation: 'EQUAL_TO',
+      recordCountRelation: "EQUAL_TO",
       startRecordNumber: -1,
       endRecordNumber: -1,
       execTime: -1,
-      q: '',
-      queryId: '',
+      q: "",
+      queryId: "",
       items: [],
       relatedQueries: [],
       relatedContents: [],
@@ -76,156 +80,179 @@ export default {
         nextPage: false,
       },
       searchCond: {},
-    };
-  },
-  mounted: function() {
-    SearchEvent.handleBasicSearch(this.search);
-    window.addEventListener(
-      "popstate",
-      event => {
+    });
+
+    onMounted(() => {
+      SearchEvent.onBasicSearch((searchCond) => {
+        search(searchCond);
+      });
+      window.addEventListener("popstate", (event) => {
         if (event.state !== null) {
-          this.searchInternal(event.state.searchCond, HistoryMode.NONE);
+          searchInternal(event.state.searchCond, HistoryMode.NONE);
         }
-      }
-    );
-    this.$nextTick(() => {
-      const historyState = frontHelper.getHistoryState();
-      const urlParams = frontHelper.getUrlParameters();
-      if (urlParams['fss.version'] !== undefined) {
-        this._showVersion();
+      });
+    });
+
+    nextTick(() => {
+      const historyState = getHistoryState();
+      const urlParams = getUrlParameters();
+      if (urlParams["fss.version"] !== undefined) {
+        showVersion();
       }
       if (historyState !== null) {
-        this.searchInternal(historyState.searchCond, HistoryMode.REPLACE);
-      } else if (this._isAutoSearchCase(urlParams)) {
-        this.searchInternal(this._createSearchCondFromParameter(urlParams), HistoryMode.PUSH);
+        searchInternal(historyState.searchCond, HistoryMode.REPLACE);
+      } else if (isAutoSearchCase(urlParams)) {
+        searchInternal(
+          createSearchCondFromParameter(urlParams),
+          HistoryMode.PUSH
+        );
       }
     });
-  },
-  methods: {
-    search(searchCond) {
-      this.searchInternal(searchCond, HistoryMode.PUSH);
-    },
 
-    searchInternal(searchCond, historyMode) {
+    // method definitions
+    const search = (searchCond) => {
+      searchInternal(searchCond, HistoryMode.PUSH);
+    };
+
+    const searchInternal = (searchCond, historyMode) => {
       const copiedSearchCond = SearchEvent.copySearchCond(searchCond);
-      copiedSearchCond.pageSize = this.pageSize;
-      if (this.searching) {
-        console.log('Now searching...');
+      copiedSearchCond.pageSize = props.pageSize;
+      if (state.searching) {
+        console.log("Now searching...");
         return;
       }
 
-      FormEvent.updateFormValue(copiedSearchCond.q);
-      if (typeof ga == 'function') {
-        this._sendGA(copiedSearchCond);
+      FormEvent.emitUpdateFormValue(copiedSearchCond.q);
+      if (typeof ga == "function") {
+        context.sendGA(copiedSearchCond);
       }
 
-      this.searching = true;
-      const searchService = new SearchService(this.fessUrl);
-      searchService.search(copiedSearchCond, this).then((res) => {
-        this.searchCond = copiedSearchCond;
-        if (copiedSearchCond.addition.scrollTop) {
-          const boxEle = document.querySelector('#search-result-box');
-          const top = boxEle.getBoundingClientRect().top + window.pageYOffset;
-          window.scrollTo({
-            top: top,
-            behavior: "instant",
-          });
-          copiedSearchCond.addition.scrollTop = false;
-        }
-        if (historyMode === HistoryMode.PUSH) {
-          frontHelper.registerHistory(copiedSearchCond, false);
-        } else if (historyMode === HistoryMode.REPLACE) {
-          frontHelper.registerHistory(copiedSearchCond, true);
-        }
-        this.searching = false;
-        this.show = true;
-      }).catch((res) => {
-        this.searching = false;
-        console.log('Search error. ' + res);
-      });
-    },
-    
-    _isAutoSearchCase(params) {
-      return params['fss.query'] !== undefined;
-    },
+      state.searching = true;
+      const searchService = new SearchService(props.fessUrl);
+      searchService
+        .search(copiedSearchCond, state)
+        .then((res) => {
+          console.log('Search success');
+          state.searchCond = copiedSearchCond;
+          if (copiedSearchCond.addition.scrollTop) {
+            const boxEle = document.querySelector("#search-result-box");
+            const top = boxEle.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+              top: top,
+              behavior: "instant",
+            });
+            copiedSearchCond.addition.scrollTop = false;
+          }
+          if (historyMode === HistoryMode.PUSH) {
+            registerHistory(copiedSearchCond, false);
+          } else if (historyMode === HistoryMode.REPLACE) {
+            registerHistory(copiedSearchCond, true);
+          }
+          state.searching = false;
+          state.show = true;
+        })
+        .catch((res) => {
+          state.searching = false;
+          console.log("Search error. " + res);
+        });
+    };
 
-    _createSearchCondFromParameter(params) {
+    const isAutoSearchCase = (params) => {
+      return params["fss.query"] !== undefined;
+    };
+
+    const createSearchCondFromParameter = (params) => {
       const searchCond = SearchEvent.getInitialSearchCond();
-      if (params['fss.query'] !== undefined) {
-        searchCond.q = params['fss.query'][0];
+      if (params["fss.query"] !== undefined) {
+        searchCond.q = params["fss.query"][0];
       }
-      if (params['fss.label'] !== undefined) {
-        searchCond.label = params['fss.label'][0];
+      if (params["fss.label"] !== undefined) {
+        searchCond.label = params["fss.label"][0];
       }
-      if (params['fss.sort'] !== undefined) {
-        searchCond.sort = params['fss.sort'][0];
+      if (params["fss.sort"] !== undefined) {
+        searchCond.sort = params["fss.sort"][0];
       }
       return searchCond;
-    },
+    };
 
-    _sendGA(searchCond) {
-      if (typeof ga == 'function') {
-        let u = '/' + window.location.pathname + '?q=' + encodeURIComponent(searchCond.q);
+    const sendGA = (searchCond) => {
+      if (typeof ga == "function") {
+        let u =
+          "/" +
+          window.location.pathname +
+          "?q=" +
+          encodeURIComponent(searchCond.q);
         if (searchCond.page) {
-          u = u + '&page=' + searchCond.page;
+          u = u + "&page=" + searchCond.page;
         }
         if (searchCond.pageSize) {
-          u = u + '&pageSize=' + searchCond.pageSize;
+          u = u + "&pageSize=" + searchCond.pageSize;
         }
         if (searchCond.sort) {
-          u = u + '&sort=' + searchCond.sort;
+          u = u + "&sort=" + searchCond.sort;
         }
         if (searchCond.label) {
-          u = u + '&fields.label=' + searchCond.label;
+          u = u + "&fields.label=" + searchCond.label;
         }
-        ga('send', 'pageview', u); // eslint-disable-line
+        ga("send", "pageview", u); // eslint-disable-line
       }
-    },
+    };
 
-    _showVersion() {
+    const showVersion = () => {
       const searchService = new SearchService(this.fessUrl);
-      searchService.getFessVersion().then((fessVersion) => {
-        console.log('fss:' + require('@/../package.json').version + ' fess:' + fessVersion);
-      }).catch((e) => {
-        console.log('fss:' + require('@/../package.json').version);
-        console.error('Failed to get fess version.');
-        console.error(e);
-      });
-    }
+      searchService
+        .getFessVersion()
+        .then((fessVersion) => {
+          console.log(
+            "fss:" +
+              require("@/../package.json").version +
+              " fess:" +
+              fessVersion
+          );
+        })
+        .catch((e) => {
+          console.log("fss:" + require("@/../package.json").version);
+          console.error("Failed to get fess version.");
+          console.error(e);
+        });
+    };
+
+    return {
+      state,
+      search
+    };
   },
-};
+
+});
 </script>
 
 <template>
-  <div id="search-result-box" style="position:relative;">
-    <template v-if="show">
+  <div id="search-result-box" style="position: relative">
+    <template v-if="state.show">
       <result-header
         :fess-url="fessUrl"
-        :record-count-relation="recordCountRelation"
-        :record-count="recordCount"
-        :start-record-number="startRecordNumber"
-        :end-record-number="endRecordNumber"
-        :exec-time="execTime"
-        :current-search-cond="searchCond"
+        :record-count-relation="state.recordCountRelation"
+        :record-count="state.recordCount"
+        :start-record-number="state.startRecordNumber"
+        :end-record-number="state.endRecordNumber"
+        :exec-time="state.execTime"
+        :current-search-cond="state.searchCond"
         :enable-order="enableOrder"
         :enable-label="enableLabel"
         :enable-label-tab="enableLabelTab"
         :language="language"
         :enable-related="enableRelated"
-        :related-queries="relatedQueries"
-        :related-contents="relatedContents"
+        :related-queries="state.relatedQueries"
+        :related-contents="state.relatedContents"
       />
       <div id="result" class="">
         <ol class="list-unstyled">
-          <li
-            v-for="(item, index) in items"
-            :key="item.doc_id"
-          >
+          <li v-for="(item, index) in state.items" :key="item.doc_id">
             <result-item
               :fess-url="fessUrl"
               :content-title="item.title"
               :doc-id="item.doc_id"
-              :query-id="queryId"
+              :query-id="state.queryId"
               :url-link="item.url_link"
               :order="index"
               :content-description="item.content_description"
@@ -242,18 +269,18 @@ export default {
       </div>
       <div>
         <nav id="subfooter" class="mx-auto">
-          <pagination
-            v-if="recordCount > 0"
-            :page-numbers="pageInfo.pageNumbers"
-            :current-page-number="pageInfo.currentPageNumber"
-            :prev-page="pageInfo.prevPage"
-            :next-page="pageInfo.nextPage"
-            :current-search-cond="searchCond"
+          <result-pagination
+            v-if="state.recordCount > 0"
+            :page-numbers="state.pageInfo.pageNumbers"
+            :current-page-number="state.pageInfo.currentPageNumber"
+            :prev-page="state.pageInfo.prevPage"
+            :next-page="state.pageInfo.nextPage"
+            :current-search-cond="state.searchCond"
             :language="language"
           />
         </nav>
       </div>
-      <div v-if="searching" class="search-waiting" />
+      <div v-if="state.searching" class="search-waiting" />
     </template>
   </div>
 </template>

@@ -1,10 +1,11 @@
 <script>
+import { defineComponent, reactive, onMounted } from "vue";
+
 import SearchEvent from '@/events/SearchEvent';
 import FormEvent from '@/events/FormEvent';
-import FrontHelper from '@/helper/FrontHelper';
 import MessageService from '@/service/MessageService';
 
-export default {
+export default defineComponent({
   props: {
     resultPage: {
       type: String,
@@ -15,44 +16,53 @@ export default {
       default: '',
     }
   },
-  data: function() {
-    return {
+  setup(props, context) {
+    // reactive data
+    const state = reactive({
       query: '',
-      message: new MessageService(this.language),
-    };
-  },
-  mounted: function() {
-    FormEvent.handleUpdateFormValue((value) => {
-      this.query = value;
+      message: new MessageService(props.language),
     });
-  },
-  methods: {
-    submit(event) {
-      if (this.resultPage === '') {
+
+    onMounted(() => {
+      console.log('form mounted');
+      FormEvent.onUpdateFormValue((data) => {
+        state.query = data;
+      });
+    });
+
+    // method definitions
+    const submit = () => {
+      console.log('form fubmit!!');
+      if (props.resultPage === '') {
         const searchCond = SearchEvent.getInitialSearchCond();
-        if (this.query !== '') {
-          searchCond.q = this.query;
+        if (state.query !== '') {
+          searchCond.q = state.query;
         }
-        SearchEvent.sendBasicSearch(searchCond);
-        event.preventDefault();
+        SearchEvent.emitBasicSearch(searchCond);
         return;
       }
-    }
-  }
-};
+    };
+
+    return {
+      state,
+      submit,
+    };
+  },
+});
 </script>
 
+
 <template>
-  <form :action="resultPage" method="get" styleId="searchForm" @submit="submit">
+  <form method="GET" styleId="searchForm" @submit.prevent="submit">
     <div class="form-row align-items-center">
       <div class="col-auto">
         <div class="">
-          <input id="contentQuery" v-model="query" type="text" name="fss.query" maxlength="1000" size="50" value="" class="query form-control" autocomplete="off">
+          <input id="contentQuery" v-model="state.query" type="text" name="fss.query" maxlength="1000" size="50" class="query form-control" autocomplete="off">
         </div>
       </div>
       <div class="col-auto btn-group">
         <button id="searchButton" type="submit" name="search" class="btn btn-primary">
-          {{ message.get('form.search.button', {}, language) }}
+          {{ state.message.get('form.search.button', {}, language) }}
         </button>
       </div>
     </div>

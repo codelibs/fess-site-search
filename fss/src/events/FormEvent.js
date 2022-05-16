@@ -1,12 +1,16 @@
-import Vue from "vue";
+import EventBus from '@/events/EventBus';
 
-class FormEvent extends Vue {
-  updateFormValue(value) {
-    this.$emit('update-form-value', value);
+class FormEvent extends EventBus {
+  emitUpdateFormValue(value) {
+    this.emit(this.UPDATE_FORM_VALUE, value);
   }
 
-  handleUpdateFormValue(callback) {
-    this.$on('update-form-value', callback);
+  onUpdateFormValue(value) {
+    this.on(this.UPDATE_FORM_VALUE, value);
+  }
+
+  get UPDATE_FORM_VALUE() {
+    return 'update-form-value';
   }
 }
 

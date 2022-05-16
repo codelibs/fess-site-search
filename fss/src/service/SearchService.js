@@ -19,7 +19,7 @@ export default class {
     });
   }
 
-  search(searchCond, data) {
+  search(searchCond, state) {
     const url = this.fessUrl + '/json';
     const queryParams = {
       q: searchCond.q,
@@ -28,6 +28,7 @@ export default class {
       num: searchCond.pageSize,
       start: (searchCond.page - 1) * searchCond.pageSize,
     };
+    console.log('query params:' + searchCond.q);
     if (queryParams.q === '') {
       queryParams.q = '*:*';
     }
@@ -41,24 +42,24 @@ export default class {
       ).then((res) => {
         try {
           const response = res.data.response;
-          data.recordCount = response.record_count;
-          data.recordCountRelation = response.record_count_relation;
-          data.startRecordNumber = response.start_record_number;
-          data.endRecordNumber = response.end_record_number;
-          data.execTime = response.exec_time;
-          data.relatedQueries = response.related_query;
-          data.relatedContents = response.related_contents;
-          data.q = response.q;
-          data.queryId = response.query_id;
-          data.pageInfo.pageNumbers = response.page_numbers;
-          data.pageInfo.currentPageNumber = response.page_number;
-          data.pageInfo.prevPage = response.prev_page;
-          data.pageInfo.nextPage = response.next_page;
+          state.recordCount = response.record_count;
+          state.recordCountRelation = response.record_count_relation;
+          state.startRecordNumber = response.start_record_number;
+          state.endRecordNumber = response.end_record_number;
+          state.execTime = response.exec_time;
+          state.relatedQueries = response.related_query;
+          state.relatedContents = response.related_contents;
+          state.q = response.q;
+          state.queryId = response.query_id;
+          state.pageInfo.pageNumbers = response.page_numbers;
+          state.pageInfo.currentPageNumber = response.page_number;
+          state.pageInfo.prevPage = response.prev_page;
+          state.pageInfo.nextPage = response.next_page;
 
           const result = response.result;
-          data.items = [];
+          state.items = [];
           result.forEach((item, i) => {
-            data.items.push(item);
+            state.items.push(item);
           });
           resolve(response);
         } catch (e) {

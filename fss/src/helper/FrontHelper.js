@@ -1,6 +1,6 @@
 
-export default class {
-  getUrlParameters() {
+export default function() {
+  const getUrlParameters = () => {
     let hash = '';
     let url = location.href;
     if (url.indexOf('#') != -1) {
@@ -34,22 +34,28 @@ export default class {
 
     params['fess_url_hash'] = hash;
     return params;
-  }
+  };
 
-  getHistoryState() {
+  const getHistoryState = () => {
     if (history.state != null) {
       return history.state;
     }
     return null;
-  }
+  };
 
-  registerHistory(searchCond, replace) {
+  const registerHistory = (searchCond, replace) => {
     if (window.history && window.history.pushState) {
       if (replace) {
-        history.replaceState({searchCond: searchCond}, null);
+        history.replaceState({ searchCond: searchCond }, null);
       } else {
-        history.pushState({searchCond: searchCond}, null);
+        history.pushState({ searchCond: searchCond }, null);
       }
     }
-  }
+  };
+
+  return {
+    getUrlParameters,
+    getHistoryState,
+    registerHistory,
+  };
 }

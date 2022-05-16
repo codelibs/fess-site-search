@@ -1109,11 +1109,11 @@ export default class {
   }
 
   getLanguage(fessLang) {
-    let lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage  || 'en';
+    let lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage || 'en';
     if (lang.indexOf('-') > 0) {
       if (lang === 'zh-TW') {
         lang = 'tw';
-      } else if(lang === 'zh-CN' || lang === 'zh-HK') {
+      } else if (lang === 'zh-CN' || lang === 'zh-HK') {
         lang = "zh";
       } else {
         lang = lang.substr(0, lang.indexOf('-'));
@@ -1145,8 +1145,8 @@ export default class {
     return message;
   }
 
-  _escapeHtml (message) {
-    if(typeof message !== 'string') {
+  _escapeHtml(message) {
+    if (typeof message !== 'string') {
       return message;
     }
     return message.replace(/[&'`"<>]/g, match => (
