@@ -198,7 +198,7 @@ export default defineComponent({
     };
 
     const showVersion = () => {
-      const searchService = new SearchService(this.fessUrl);
+      const searchService = new SearchService(props.fessUrl);
       searchService
         .getFessVersion()
         .then((fessVersion) => {
