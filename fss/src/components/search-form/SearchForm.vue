@@ -30,13 +30,14 @@ export default defineComponent({
     });
 
     // method definitions
-    const submit = () => {
+    const submit = (event) => {
       if (props.resultPage === '') {
         const searchCond = SearchEvent.getInitialSearchCond();
         if (state.query !== '') {
           searchCond.q = state.query;
         }
         SearchEvent.emitBasicSearch(searchCond);
+        event.preventDefault();
         return;
       }
     };
@@ -51,7 +52,7 @@ export default defineComponent({
 
 
 <template>
-  <form method="GET" styleId="searchForm" @submit.prevent="submit">
+  <form :action="resultPage" method="GET" styleId="searchForm" @submit="submit">
     <div class="form-row align-items-center">
       <div class="col-auto">
         <div class="">
