@@ -1,4 +1,4 @@
-const { defineConfig } = require('@vue/cli-service')
+const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
   filenameHashing: false,
@@ -9,17 +9,5 @@ module.exports = defineConfig({
     output: {
       filename: 'fess-ss.js'
     }
-  },
-  /*
-  css: {
-    loaderOptions: {
-      scss: {
-        additionalData:
-          `@use "@/assets/scss/fss-bootstrap.scss";
-          @use "@/assets/scss/fss-style.scss";
-          @use "@/assets/scss/fss.scss";`
-      }
-    },
-  },
-  */
-})
+  }
+});

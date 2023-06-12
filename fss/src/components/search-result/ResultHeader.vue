@@ -168,15 +168,15 @@ export default defineComponent({
 <template>
   <div id="subheader" class="">
     <div v-if="enableLabelTab" class="label-tab-box">
-      <div @click="handleLabelTab" class="label-tab" value="">
+      <div class="label-tab" value="" @click="handleLabelTab">
         {{ state.message.get("result.label.all", {}) }}
       </div>
       <div
         v-for="label in state.labels"
         :key="label.value"
         :value="label.value"
-        @click="handleLabelTab"
         class="label-tab"
+        @click="handleLabelTab"
       >
         {{ label.label }}
       </div>

@@ -7,12 +7,15 @@
   <meta http-equiv="content-style-type" content="text/css"/>
   <meta http-equiv="content-script-type" content="text/javascript"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="./fss.css">
 </head>
 <body>
 <div class="fess-site-search" style="width:50%; margin-left: auto; margin-right: auto;">
   <fess-search-form
     result-page=""
     language="ja"
+    :enable-suggest="true"
+    suggest-url="https://search.n2sm.co.jp/suggest"
   ></fess-search-form>
   <fess-search-result
     fess-url="https://search.n2sm.co.jp/"

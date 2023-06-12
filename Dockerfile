@@ -1,4 +1,4 @@
-FROM node:8.15-slim
+FROM node:12-slim
 LABEL maintainer "N2SM <support@n2sm.net>"
 
 # Install latest npm
@@ -20,17 +20,20 @@ RUN npm install
 # Build 11.4
 RUN mkdir -p /app/fss/
 ADD fss/package.json /app/fss/
-ADD fss/webpack.config.js /app/fss/
+ADD fss/jsconfig.json /app/fss/
+ADD fss/babel.config.js /app/fss/
+ADD fss/.eslintrc.json /app/fss/
+ADD fss/vue.config.js /app/fss/
 
 WORKDIR /app/fss
 RUN npm install;
 
 ADD fss/src /app/fss/src
+ADD fss/public /app/fss/public
 RUN export OUTPUT_JS_FILENAME=fess-ss.min.js; \
-    node_modules/.bin/webpack; \
+    npm run build; \
     mkdir -p /app/app/static/fss; \
-    cp /app/instance/generates/fess-ss.min.js /app/app/static/fss/;
-
+    cp ./dist/fess-ss.js /app/app/static/fss/;
 
 EXPOSE 5000
 

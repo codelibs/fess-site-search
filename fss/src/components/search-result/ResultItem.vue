@@ -158,7 +158,7 @@ export default defineComponent({
           >
         </a>
       </div>
-      <div v-html="contentDescription" class="description" />
+      <div class="description" v-html="contentDescription" />
     </div>
     <div class="site text-truncate">
       <cite>{{ sitePath }}</cite>
