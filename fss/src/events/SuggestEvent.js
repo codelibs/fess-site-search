@@ -17,8 +17,8 @@ class SuggestEvent extends EventBus {
     this.on("suggest-result-" + type, handler);
   }
 
-  $emitCancel(type, value) {
-    this.emit("suggest-cancel-" + type, value);
+  $emitCancel(type) {
+    this.emit("suggest-cancel-" + type, "");
   }
 
   $onCancel(type, handler) {

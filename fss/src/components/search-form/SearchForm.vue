@@ -22,6 +22,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    enableSuggest: {
+      type: Boolean,
+      default: false,
+    },
     suggestUrl: {
       type: String,
       default: '',
@@ -58,6 +62,7 @@ export default defineComponent({
           searchCond.q = state.query;
         }
         SearchEvent.emitBasicSearch(searchCond);
+        SuggestEvent.$emitCancel('fss');
         event.preventDefault();
         return;
       }
@@ -79,6 +84,7 @@ export default defineComponent({
         <div class="">
           <input id="contentQuery" v-model="state.query" type="text" name="fss.query" maxlength="1000" size="50" class="query form-control" autocomplete="off">
           <suggest-box
+            v-if="enableSuggest"
             suggest-id="fss"
             target-element-id="contentQuery"
             :api-url="suggestUrl"

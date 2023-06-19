@@ -59,6 +59,10 @@ export default defineComponent({
       targetElem.addEventListener('compositionend', handleKeyup);
       targetElem.addEventListener('focusout', handleFocusOut);
 
+      SuggestEvent.$onCancel('fss', (data) => {
+        _cancel();
+      });
+
       setInterval(() => {
         if (state.newData !== null) {
           _suggest(state.newData);
@@ -84,7 +88,7 @@ export default defineComponent({
     };
 
     const handleFocusOut = () => {
-      console.log('handle handleFocusOut ' + event.keyCode);
+      console.log('handle handleFocusOut ');
       if (state.isMouseOver === false) {
         _cancel();
       }
