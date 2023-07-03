@@ -1,6 +1,6 @@
 import os
 from flask import request, render_template, jsonify, make_response
-from markdown import markdown
+import pycmarkgfm
 from .app import app
 from .backend import upload, wizard, js_exists
 
@@ -84,8 +84,7 @@ def render_markdown(html_file, md_file, lang):
     md_file = open(path, mode='r', encoding='utf-8')
     md_str = md_file.read()
     md_file.close()
-    extensions = ['gfm']
-    html = markdown(md_str, extensions=extensions)
+    html = pycmarkgfm.gfm_to_html(md_str)
     my_dic = {
         'language': lang,
         'markdown_content': html

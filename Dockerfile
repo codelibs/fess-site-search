@@ -1,23 +1,14 @@
-FROM node:12-slim
+FROM node:18.16.0-slim
 LABEL maintainer "N2SM <support@n2sm.net>"
 
 # Install latest npm
 RUN apt-get update \
  && apt-get upgrade -y \
- && apt-get install -y \
-    python3-pip \
+ && apt-get install -y python3 \
+ && apt-get install -y python3-pip \
  && apt-get clean
 
-WORKDIR /app
-ADD app /app/app
-ADD tests /app/tests
-ADD instance /app/instance
-ADD requirements.txt /app
-
-RUN pip3 install -r requirements.txt
-RUN npm install
-
-# Build 11.4
+# Build fss
 RUN mkdir -p /app/fss/
 ADD fss/package.json /app/fss/
 ADD fss/jsconfig.json /app/fss/
@@ -30,10 +21,18 @@ RUN npm install;
 
 ADD fss/src /app/fss/src
 ADD fss/public /app/fss/public
-RUN export OUTPUT_JS_FILENAME=fess-ss.min.js; \
-    npm run build; \
-    mkdir -p /app/app/static/fss; \
-    cp ./dist/fess-ss.js /app/app/static/fss/;
+RUN npm run build
+RUN mkdir -p /app/app/static/fss
+RUN cp ./dist/fess-ss.js /app/app/static/fss/
+
+# Build app
+WORKDIR /app
+ADD app /app/app
+ADD tests /app/tests
+ADD instance /app/instance
+ADD requirements.txt /app
+
+RUN pip3 install --break-system-packages -r requirements.txt
 
 EXPOSE 5000
 
