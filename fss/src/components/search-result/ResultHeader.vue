@@ -169,7 +169,12 @@ export default defineComponent({
 <template>
   <div id="subheader" class="">
     <div v-if="enableLabelTab" class="label-tab-box">
-      <div class="label-tab" value="" @click="handleLabelTab">
+      <div
+        class="label-tab"
+        :class="{ 'label-tab-selected': '' == state.selectedLabel || '_default_' == state.selectedLabel }"
+        value=""
+        @click="handleLabelTab"
+      >
         {{ state.message.get("result.label.all", {}) }}
       </div>
       <div
@@ -177,6 +182,7 @@ export default defineComponent({
         :key="label.value"
         :value="label.value"
         class="label-tab"
+        :class="{ 'label-tab-selected': label.value == state.selectedLabel }"
         @click="handleLabelTab"
       >
         {{ label.label }}
