@@ -27,12 +27,12 @@ RUN cp ./dist/fess-ss.js /app/app/static/fss/
 
 # Build app
 WORKDIR /app
+ADD requirements.txt /app
+RUN pip3 install --break-system-packages -r requirements.txt
+
 ADD app /app/app
 ADD tests /app/tests
 ADD instance /app/instance
-ADD requirements.txt /app
-
-RUN pip3 install --break-system-packages -r requirements.txt
 
 EXPOSE 5000
 

@@ -5,7 +5,7 @@ import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-bootstrap.scss';
 import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-style.scss';
 import '!style-loader!css-loader!sass-loader!@/assets/scss/fss.scss';
 
-window.addEventListener('load', () => {
+const initFss = () => {
   console.log("[FSS] Initialize fess-site-search...");
   const app = createApp({
     components: {
@@ -14,4 +14,6 @@ window.addEventListener('load', () => {
     }
   });
   app.mount('.fess-site-search');
-});
+};
+
+window.addEventListener('DOMContentLoaded', initFss);

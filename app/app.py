@@ -1,4 +1,5 @@
 import os
+import sys
 import base64
 from flask import Flask, Blueprint
 
@@ -13,3 +14,6 @@ gen_bp = Blueprint('generates', __name__, static_url_path='/generates', static_f
 app.register_blueprint(gen_bp)
 
 app.secret_key = os.getenv('APP_SECRET_KEY') or base64.b64encode(os.urandom(24))
+
+print('DOWNLOAD_FOLDER:' + app.config['DOWNLOAD_FOLDER'])
+sys.stdout.flush()

@@ -58,7 +58,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, methods, context) {
+  setup(props, context) {
     // reactive data
     const state = reactive({
       show: false,
@@ -124,7 +124,7 @@ export default defineComponent({
 
       FormEvent.emitUpdateFormValue(copiedSearchCond.q);
       if (typeof ga == "function") {
-        context.sendGA(copiedSearchCond);
+        sendGA(copiedSearchCond);
       }
 
       state.searching = true;

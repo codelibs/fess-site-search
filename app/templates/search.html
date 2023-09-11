@@ -14,5 +14,27 @@
 
   <script id="embed" js_path="{{message.js_path}}" page_path="{{message.page_path}}"></script>
 
-  <fess:search></fess:search>
+  <div id="fss" class="fess-site-search">
+    test
+    <fess-search-form result-page="" language="ja" :enable-suggest="true" suggest-url="https://search.n2sm.co.jp/suggest">
+    </fess-search-form>
+    <fess-search-result fess-url="https://search.n2sm.co.jp/" language="ja" link-target="_blank" :page-size="5"
+      :enable-thumbnail="true">
+    </fess-search-result>
+  </div>
+  <!--
+  <fess-search-form
+    result-page=""
+    language="ja"
+    :enable-suggest="true"
+    suggest-url="https://search.n2sm.co.jp/suggest">
+  </fess-search-form>
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp/"
+    language="ja"
+    link-target="_blank"
+    :page-size="5"
+    :enable-thumbnail="true">
+  </fess-search-result>
+-->
 </html>

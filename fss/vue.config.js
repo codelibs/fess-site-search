@@ -7,7 +7,7 @@ module.exports = defineConfig({
       splitChunks: false
     },
     output: {
-      filename: 'fess-ss.js'
+      filename: process.env.OUTPUT_JS_FILENAME || 'fess-ss.js'
     }
   }
 });
