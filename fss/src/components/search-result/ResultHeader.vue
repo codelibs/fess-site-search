@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, reactive, onMounted, onUpdated, nextTick } from "vue";
+import { defineComponent, reactive, onMounted, onUpdated, nextTick, watch, toRefs } from "vue";
 
 import SearchEvent from "@/events/SearchEvent";
 import SearchService from "@/service/SearchService";
@@ -78,6 +78,7 @@ export default defineComponent({
 
   setup(props, context) {
     // reactive data
+    const { currentSearchCond } = toRefs(props);
     const state = reactive({
       labels: [],
       selectedLabel: '_default_',
@@ -99,11 +100,11 @@ export default defineComponent({
         });
     });
 
-    onMounted(() => {
-      if (props.currentSearchCond.label !== "") {
+    watch(currentSearchCond, (newValue, oldValue) => {
+      if (currentSearchCond.label !== "") {
         state.selectedLabel = props.currentSearchCond.label;
       }
-      if (props.currentSearchCond.sort !== "") {
+      if (currentSearchCond.sort !== "") {
         state.selectedSort = props.currentSearchCond.sort;
       }
     });
