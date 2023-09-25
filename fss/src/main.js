@@ -5,6 +5,11 @@ import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-bootstrap.scss';
 import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-style.scss';
 import '!style-loader!css-loader!sass-loader!@/assets/scss/fss.scss';
 
+console.log(process.env);
+if (process.env.VUE_APP_INPUT_CSS_PATH !== undefined && process.env.VUE_APP_INPUT_CSS_PATH !== 'undefined') {
+  require('!style-loader!css-loader!' + process.env.VUE_APP_INPUT_CSS_PATH);
+}
+
 const initFss = () => {
   console.log("[FSS] Initialize fess-site-search...");
   const app = createApp({

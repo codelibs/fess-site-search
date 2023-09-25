@@ -39,7 +39,7 @@ export default defineComponent({
       top: "0px",
       left: "0px",
       width: "0px",
-      focusNum: -2,
+      focusNum: -1,
       newData: null,
       isMouseOver: false,
     });
@@ -74,28 +74,25 @@ export default defineComponent({
     const init = () => {
       state.show = false;
       state.suggestList = [];
-      state.focusNum = -2;
+      state.focusNum = -1;
       state.inputText = '';
       state.newData = null;
       state.isMouseOver = false;
     };
 
     const _cancel = () => {
-      console.log('cancel');
       setTimeout(() => {
         init();
       }, 100);
     };
 
     const handleFocusOut = () => {
-      console.log('handle handleFocusOut ');
       if (state.isMouseOver === false) {
         _cancel();
       }
     };
 
     const handleKeyup = (event) => {
-      console.log('handle keyup ' + event.keyCode);
       let ret = true;
       if (event.keyCode === 38 && state.show) {
         ret = _handleUpAllowKey();
@@ -104,7 +101,6 @@ export default defineComponent({
       } else if (event.keyCode === 40 && !state.show) {
         _suggest();
       } else if (_isInputKeyCode(event.keyCode)) {
-        console.log("text " + event.target.value);
         _handleUpdateKeywords(event.target.value);
       } else {
         // ignore
@@ -113,7 +109,6 @@ export default defineComponent({
     };
 
     const handleKeydown = (event) => {
-      console.log('handle keydown ' + event.keyCode);
       let ret = true;
       if (event.keyCode === 13 && state.show) {
         ret = _handleEnterKey(event);
@@ -124,7 +119,6 @@ export default defineComponent({
     };
 
     const _handleEnterKey = (event) => {
-      console.log("enter");
       if (state.focusNum < 0) {
         return true;
       }
@@ -137,7 +131,6 @@ export default defineComponent({
     };
 
     const _handleUpAllowKey = () => {
-      console.log('_handleUpAllowKey');
       state.focusNum -= 1;
       if (state.focusNum < -1) {
         state.focusNum = state.suggestList.length - 1;
@@ -145,7 +138,6 @@ export default defineComponent({
     };
 
     const _handleDownAllowKey = () => {
-      console.log('_handleDownAllowKey');
       state.focusNum += 1;
       if (state.focusNum >= state.suggestList.length) {
         state.focusNum = -1;
@@ -158,12 +150,10 @@ export default defineComponent({
 
     const handleMouseOver = (event) => {
       state.isMouseOver = true;
-      state.focusNum = event.target.getAttribute('data-suggest-item-id');
-      console.log("mouseOver focus:" + state.focusNum);
+      state.focusNum = Number(event.target.getAttribute('data-suggest-item-id'));
     };
 
     const handleMouseLeave = (event) => {
-      console.log("mouseLeave");
       state.focusNum = -1;
     };
 
@@ -176,13 +166,11 @@ export default defineComponent({
     };
 
     const handleMouseClick = (index) => {
-      console.log('handle mouse click');
       state.focusNum = index;
       _fix();
     };
 
     const _suggest = (keyword) => {
-      console.log('suggest! ' + keyword);
       doSuggest(props.apiUrl, keyword, props.num, props.label).then((suggestList) => {
         state.suggestList = suggestList;
         state.show = true;
@@ -192,7 +180,6 @@ export default defineComponent({
     const _fix = () => {
       if (state.focusNum >= 0) {
         let result = state.suggestList[state.focusNum];
-        console.log("suggest result: " + result);
         SuggestEvent.$emitResult(props.suggestId, result);
       }
       init();
@@ -230,7 +217,7 @@ export default defineComponent({
         v-for="(suggestItem, index) in state.suggestList"
         :key="suggestItem.key"
         class="suggest-item"
-        :style="{width: state.width, backgroundColor: index == state.focusNum ? '#aaa' : '#fff'}"
+        :style="{backgroundColor: index == state.focusNum ? '#aaa' : '#fff'}"
         :data-suggest-item-id="index"
         @mouseenter="handleMouseOver"
         @click="handleMouseClick(index)"
