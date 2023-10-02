@@ -47,7 +47,7 @@ def demo(fname):
     my_dic = {}
     my_dic['js_path'] = '/generates/fess-ss-{}.min.js'.format(fname)
     my_dic['js_file'] = 'fess-ss-{}.min.js'.format(fname)
-    my_dic['search_src'] = '/search/{}?q=test'.format(fname)
+    my_dic['search_src'] = '/search/{}?fss.query=test'.format(fname)
     print(my_dic['search_src'])
     return render_template('demo.html', message=my_dic)
 

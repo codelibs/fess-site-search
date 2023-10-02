@@ -78,7 +78,7 @@ export default defineComponent({
 
 
 <template>
-  <form :action="resultPage" method="GET" styleId="searchForm" @submit="submit">
+  <form :action="resultPage" method="GET" class="fessForm" styleId="searchForm" @submit="submit">
     <div class="form-row align-items-center">
       <div class="col-auto">
         <div class="">
@@ -92,7 +92,7 @@ export default defineComponent({
         </div>
       </div>
       <div class="col-auto btn-group">
-        <button id="searchButton" type="submit" name="search" class="btn btn-primary">
+        <button type="submit" name="search" class="searchButton btn btn-primary">
           {{ state.message.get('form.search.button', {}, language) }}
         </button>
       </div>
