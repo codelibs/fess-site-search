@@ -3,60 +3,77 @@ import { defineComponent, reactive} from "vue";
 
 import MessageService from '@/service/MessageService';
 
+/**
+ * Component for search result items.
+ */
 export default defineComponent({
   props: {
+    // Url of fess.
     fessUrl: {
       type: String,
       default: '',
     },
+    // Title.
     contentTitle: {
       type: String,
       default: '',
     },
+    // DocId.
     docId: {
       type: String,
       default: '',
     },
+    // QueryId.
     queryId: {
       type: String,
       default: '',
     },
+    // Url for link.
     urlLink: {
       type: String,
       default: '',
     },
+    // Order of search condition.
     order: {
       type: Number,
       default: -1,
     },
+    // Description.
     contentDescription: {
       type: String,
       default: '',
     },
+    // Content length.
     contentLength: {
       type: Number,
       default: -1,
     },
+    // SitePath.
     sitePath: {
       type: String,
       default: '',
     },
+    // Created date.
     created: {
-      type: String,
-      default: '',
+      type: Date,
+      default: null,
     },
+    // Last modified date.
     lastModified: {
-      type: String,
-      default: '',
+      type: Date,
+      default: null,
     },
+    // Language for search.
     language: {
       type: String,
       default: '',
     },
+    // Enable thumbnail display.
     enableThumbnail: {
       type: Boolean,
       default: true,
     },
+    // Target of link.
     linkTarget: {
       type: String,
       default: '',
@@ -71,45 +88,47 @@ export default defineComponent({
     });
 
     // method definitions
-    const formatDate = (dateStr) => {
-      let formatted = dateStr;
-      formatted = formatted.replace('T', ' ');
-      formatted = formatted.substring(0, formatted.indexOf(':', formatted.indexOf(':') + 1));
-      return formatted;
+
+    /**
+     * Format date string.
+     */
+    const formatDate = (date) => {
+      if (date == null) {
+        return '';
+      }
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      return year + '-' + month.toString().padStart(2, '0') 
+        + '-' + day.toString().padStart(2, '0') + ' ' 
+        + hours.toString().padStart(2, '0') + ':'
+        + minutes.toString().padStart(2, '0') + ':'
+        + seconds.toString().padStart(2, '0');
     };
     
+    // Format content length string.
     const formatContentLength = (contentLength) => {
-      if (contentLength < 1000) {
-        return contentLength;
+      const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+      let l = 0, n = parseInt(contentLength, 10) || 0;
+
+      while(n >= 1024 && ++l) {
+        n = n/1024;
       }
 
-      let formatted = contentLength / 1000;
-      formatted = Math.floor(formatted * 10) / 10;
-      if (formatted < 1000) {
-        return formatted + 'K';
-      }
-
-      formatted = contentLength / 1000;
-      formatted = Math.floor(formatted * 10) / 10;
-      if (formatted < 1000) {
-        return formatted + 'M';
-      }
-
-      formatted = contentLength / 1000;
-      formatted = Math.floor(formatted * 10) / 10;
-      if (formatted < 1000) {
-        return formatted + 'G';
-      }
-
-      formatted = contentLength / 1000;
-      formatted = Math.floor(formatted * 10) / 10;
-      return formatted + 'T';
+      //include a decimal point and a tenths-place digit if presenting 
+      //less than ten of KB or greater units
+      return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
     };
 
+    // Set the presence of a thumbnail.
     const hasThumbnail = (element) => {
       state.existThumbnail = true;
     };
 
+    // Set the absence of a thumbnail.
     const noThumbnail = (element) => {
       state.existThumbnail = false;
     };
@@ -166,13 +185,13 @@ export default defineComponent({
     <div class="info">
       <small>
         <span v-if="created !== ''">
-          {{ state.message.get('result.created') }}: {{ formatDate(created) }}
+          {{ state.message.get('result.created') }} {{ formatDate(created) }}&nbsp;
         </span>
         <span v-if="lastModified !== ''">
-          {{ state.message.get('result.order.last_modified') }}: {{ formatDate(lastModified) }}
+          {{ state.message.get('result.order.last_modified') }} {{ formatDate(lastModified) }}&nbsp;
         </span>
         <span v-if="contentLength > -1">
-          - {{ formatContentLength(contentLength) }} {{ state.message.get('result.size') }}
+          - {{ formatContentLength(contentLength) }} {{ state.message.get('result.size') }}&nbsp;
         </span>
       </small>
     </div>

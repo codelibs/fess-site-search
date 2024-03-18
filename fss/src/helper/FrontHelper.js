@@ -1,5 +1,15 @@
 
+/**
+ * FrontHelper.js
+ * 
+ * This module provides helper functions for front.
+ */
 export default function() {
+
+  /**
+   * Get Url Parameters
+   * @returns {Object<string, string[]>}
+   */
   const getUrlParameters = () => {
     let hash = '';
     let url = location.href;
@@ -9,6 +19,7 @@ export default function() {
       hash = array[1];
     }
 
+    // Parse url parameters.
     const params = (url => {
       const params = {};
       if (url.indexOf('?') != -1) {
@@ -36,6 +47,10 @@ export default function() {
     return params;
   };
 
+  /**
+   * Get History State
+   * @returns 
+   */
   const getHistoryState = () => {
     if (history.state != null) {
       return history.state;
@@ -43,6 +58,11 @@ export default function() {
     return null;
   };
 
+  /**
+   * Register History
+   * @param {Object} searchCond 
+   * @param {Boolean} replace 
+   */
   const registerHistory = (searchCond, replace) => {
     if (window.history && window.history.pushState) {
       if (replace) {

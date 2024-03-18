@@ -6,68 +6,86 @@ import SearchService from "@/service/SearchService";
 import MessageService from "@/service/MessageService";
 import FrontHelper from "@/helper/FrontHelper";
 
+/**
+ * Component for header of search result.
+ */
 export default defineComponent({
   props: {
+    // Url of fess.
     fessUrl: {
       type: String,
       default: "",
     },
+    // Record count reration. (equal or gte)
     recordCountRelation: {
       type: String,
       default: "",
     },
+    // Record count of search result.
     recordCount: {
       type: Number,
       default: -1,
     },
+    // Record number of search start position.
     startRecordNumber: {
       type: Number,
       default: -1,
     },
+    // Record number of search end position.
     endRecordNumber: {
       type: Number,
       default: -1,
     },
+    // Execution time of search.
     execTime: {
       type: Number,
       default: -1,
     },
+    // Search condition.
     currentSearchCond: {
       type: Object,
       default: () => {
         return {};
       },
     },
+    // Show order.
     showAllOrders: {
       type: Boolean,
       default: false,
     },
+    // Enable show order.
     enableOrder: {
       type: Boolean,
       default: true,
     },
+    // Enable show label.
     enableLabel: {
       type: Boolean,
       default: true,
     },
+    // Enable show label by tab style.
     enableLabelTab: {
       type: Boolean,
       default: false,
     },
+    // Search language.
     language: {
       type: String,
       default: "",
     },
+    // Enable show related info.
     enableRelated: {
       type: Boolean,
       default: false,
     },
+    // Related query of search result.
     relatedQueries: {
       type: Array,
       default: () => {
         return [];
       },
     },
+    // Related content of search result.
     relatedContents: {
       type: Array,
       default: () => {
@@ -82,24 +100,28 @@ export default defineComponent({
     const state = reactive({
       labels: [],
       selectedLabel: '_default_',
-      selectedSort: '_default_',
-      message: new MessageService(props.language),
+      selectedSort: '_default_'
     });
 
     // nextTick
     nextTick(() => {
       const service = new SearchService(props.fessUrl);
-      service
-        .getLabels()
-        .then((labels) => {
-          state.labels = labels;
-        })
-        .catch((res) => {
-          console.error('[FSS] Failed to get labels.');
-          console.error(res);
-        });
+
+      // Get labels.
+      if (props.enableLabel || props.enableLabelTab) {
+        service
+          .getLabels()
+          .then((labels) => {
+            state.labels = labels;
+          })
+          .catch((res) => {
+            console.error('[FSS] Failed to get labels.');
+            console.error(res);
+          });
+      }
     });
 
+    // Watch props change.
     watch(currentSearchCond, (newValue, oldValue) => {
       if (currentSearchCond.label !== "") {
         state.selectedLabel = props.currentSearchCond.label;
@@ -109,7 +131,13 @@ export default defineComponent({
       }
     });
 
+    const message = new MessageService(props.language);
+
     // method definitions
+
+    /**
+     * Execute search.
+     */
     const search = () => {
       const searchCond = { ...props.currentSearchCond };
       if (state.selectedSort !== '_default_') {
@@ -122,6 +150,9 @@ export default defineComponent({
       SearchEvent.emitBasicSearch(searchCond);
     };
 
+    /**
+     * Handle clicks on label tabs.
+     */
     const handleLabelTab = (event) => {
       if (event) {
         state.selectedLabel = event.target.getAttribute("value");
@@ -129,6 +160,9 @@ export default defineComponent({
       }
     };
 
+    /**
+     * Get url for related query.
+     */
     const getRelatedQueryLink = (query) => {
       const frontHelper = new FrontHelper();
       let url =
@@ -157,6 +191,7 @@ export default defineComponent({
 
     return {
       state,
+      message,
       search,
       handleLabelTab,
       getRelatedQueryLink,
@@ -175,7 +210,7 @@ export default defineComponent({
         value=""
         @click="handleLabelTab"
       >
-        {{ state.message.get("result.label.all", {}) }}
+        {{ message.get("result.label.all", {}) }}
       </div>
       <div
         v-for="label in state.labels"
@@ -190,7 +225,7 @@ export default defineComponent({
     </div>
     <div v-if="enableRelated && relatedQueries.length > 0">
       <div v-for="query in relatedQueries" :key="query">
-        {{ state.message.get("result.related_query_label") }}
+        {{ message.get("result.related_query_label") }}
         <a :href="getRelatedQueryLink(query)">{{ query }}</a>
       </div>
     </div>
@@ -203,15 +238,15 @@ export default defineComponent({
           <p
             v-if="recordCount === 0"
             v-html="
-              state.message.get('result.did_not_match', {
+              message.get('result.did_not_match', {
                 q: currentSearchCond.q,
               })
             "
           />
           <p
-            v-else-if="recordCountRelation === 'EQUAL_TO'"
+            v-else-if="recordCountRelation !== 'EQUAL_TO'"
             v-html="
-              state.message.get('result.status', {
+              message.get('result.status', {
                 q: currentSearchCond.q,
                 recordCount: recordCount,
                 startRecordNumber: startRecordNumber,
@@ -223,7 +258,7 @@ export default defineComponent({
           <p
             v-else
             v-html="
-              state.message.get('result.status_over', {
+              message.get('result.status_over', {
                 q: currentSearchCond.q,
                 recordCount: recordCount,
                 startRecordNumber: startRecordNumber,
@@ -241,10 +276,10 @@ export default defineComponent({
               @change="search"
             >
               <option value="_default_" disabled selected style="display: block">
-                {{ state.message.get("result.label") }}
+                {{ message.get("result.label") }}
               </option>
               <option value="">
-                {{ state.message.get("result.label.all") }}
+                {{ message.get("result.label.all") }}
               </option>
               <option
                 v-for="label in state.labels"
@@ -269,77 +304,77 @@ export default defineComponent({
                 selected
                 style="display: block"
               >
-                {{ state.message.get("result.order") }}
+                {{ message.get("result.order") }}
               </option>
               <option value="">
-                {{ state.message.get("result.order.score") }}
+                {{ message.get("result.order.score") }}
               </option>
               <template v-if="showAllOrders">
                 <option value="filename.asc">
-                  {{ state.message.get("result.order.filename") }} ({{
-                    state.message.get("result.order.asc")
+                  {{ message.get("result.order.filename") }} ({{
+                    message.get("result.order.asc")
                   }})
                 </option>
                 <option value="filename.desc">
-                  {{ state.message.get("result.order.filename") }} ({{
-                    state.message.get("result.order.desc")
+                  {{ message.get("result.order.filename") }} ({{
+                    message.get("result.order.desc")
                   }})
                 </option>
                 <option value="created.asc">
-                  {{ state.message.get("result.order.created") }} ({{
-                    state.message.get("result.order.asc")
+                  {{ message.get("result.order.created") }} ({{
+                    message.get("result.order.asc")
                   }})
                 </option>
                 <option value="created.desc">
-                  {{ state.message.get("result.order.created") }} ({{
-                    state.message.get("result.order.desc")
+                  {{ message.get("result.order.created") }} ({{
+                    message.get("result.order.desc")
                   }})
                 </option>
                 <option value="content_length.asc">
                   {{
-                    state.message.get("result.order.content_length")
+                    message.get("result.order.content_length")
                   }}
-                  ({{ state.message.get("result.order.asc") }})
+                  ({{ message.get("result.order.asc") }})
                 </option>
                 <option value="content_length.desc">
                   {{
-                    state.message.get("result.order.content_length")
+                    message.get("result.order.content_length")
                   }}
-                  ({{ state.message.get("result.order.desc") }})
+                  ({{ message.get("result.order.desc") }})
                 </option>
                 <option value="last_modified.asc">
                   {{
-                    state.message.get("result.order.last_modified")
+                    message.get("result.order.last_modified")
                   }}
-                  ({{ state.message.get("result.order.asc") }})
+                  ({{ message.get("result.order.asc") }})
                 </option>
                 <option value="last_modified.desc">
                   {{
-                    state.message.get("result.order.last_modified")
+                    message.get("result.order.last_modified")
                   }}
-                  ({{ state.message.get("result.order.desc") }})
+                  ({{ message.get("result.order.desc") }})
                 </option>
                 <option value="click_count.asc">
-                  {{ state.message.get("result.order.click_count") }} ({{
-                    state.message.get("result.order.asc")
+                  {{ message.get("result.order.click_count") }} ({{
+                    message.get("result.order.asc")
                   }})
                 </option>
                 <option value="click_count.desc">
-                  {{ state.message.get("result.order.click_count") }} ({{
-                    state.message.get("result.order.desc")
+                  {{ message.get("result.order.click_count") }} ({{
+                    message.get("result.order.desc")
                   }})
                 </option>
                 <option value="favorite_count.asc">
                   {{
-                    state.message.get("result.order.favorite_count")
+                    message.get("result.order.favorite_count")
                   }}
-                  ({{ state.message.get("result.order.asc") }})
+                  ({{ message.get("result.order.asc") }})
                 </option>
                 <option value="favorite_count.desc">
                   {{
-                    state.message.get("result.order.favorite_count")
+                    message.get("result.order.favorite_count")
                   }}
-                  ({{ state.message.get("result.order.desc") }})
+                  ({{ message.get("result.order.desc") }})
                 </option>
 
                 <option value="filename.asc">
@@ -381,7 +416,7 @@ export default defineComponent({
               </template>
               <template v-else>
                 <option value="last_modified.desc">
-                  {{ state.message.get("result.order.last_modified") }}
+                  {{ message.get("result.order.last_modified") }}
                 </option>
               </template>
             </select>

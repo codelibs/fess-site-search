@@ -8,6 +8,8 @@ export default class {
       this.handlers[type].forEach((handler) => {
         handler(data);
       });
+    } else {
+      console.warn('No handler for event:', type);
     }
   }
 

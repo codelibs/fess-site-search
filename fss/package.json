@@ -8,9 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "axios": "^1.4.0",
     "core-js": "^3.8.3",
-    "vue": "^3.3.4",
-    "axios": "^1.4.0"
+    "querystring-es3": "^0.2.1",
+    "superagent": "^5.3.0",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

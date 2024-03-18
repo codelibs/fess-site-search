@@ -22,5 +22,8 @@
   },
   "parserOptions": {
     "sourceType": "module"
-  }
+  },
+  "ignorePatterns": [
+    "src/openapi/"
+  ]
 }

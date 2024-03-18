@@ -8,24 +8,31 @@ import MessageService from '@/service/MessageService';
 
 import SuggestBox from "@/components/search-form/SuggestBox";
 
+/**
+ * Component for search form.
+ */
 export default defineComponent({
 
   components: {
     "suggest-box": SuggestBox
   },
   props: {
+    // The path to the search results page, if exists.
     resultPage: {
       type: String,
       default: '',
     },
+    // Language for search.
     language: {
       type: String,
       default: '',
     },
+    // Enable suggest.
     enableSuggest: {
       type: Boolean,
       default: false,
     },
+    // URL of suggest api.
     suggestUrl: {
       type: String,
       default: '',
@@ -35,33 +42,43 @@ export default defineComponent({
   setup(props, context) {
     // reactive data
     const state = reactive({
-      query: '',
-      message: new MessageService(props.language),
+      query: ''
     });
 
     onMounted(() => {
+      // Handle updates to form value by other components.
       FormEvent.onUpdateFormValue((data) => {
         state.query = data;
       });
 
+      // Handle the selection of suggest.
       SuggestEvent.$onResult('fss', (data) => {
         state.query = data;
         const searchCond = SearchEvent.getInitialSearchCond();
-        if (state.query !== '') {
-          searchCond.q = state.query;
-        }
+        searchCond.q = state.query;
         SearchEvent.emitBasicSearch(searchCond);
       });
     });
 
+    const messageService = new MessageService(props.language);
+
+
     // method definitions
+
+    /**
+     * Submit the form.
+     * If resultPage is empty, search on the current page.
+     */
     const submit = (event) => {
       if (props.resultPage === '') {
+        // Process on current page if resultPage is empty.
         const searchCond = SearchEvent.getInitialSearchCond();
         if (state.query !== '') {
           searchCond.q = state.query;
         }
+        // Emit search event.
         SearchEvent.emitBasicSearch(searchCond);
+        // Cancel suggest.
         SuggestEvent.$emitCancel('fss');
         event.preventDefault();
         return;
@@ -70,6 +87,7 @@ export default defineComponent({
 
     return {
       state,
+      messageService,
       submit,
     };
   },
@@ -93,7 +111,7 @@ export default defineComponent({
       </div>
       <div class="col-auto btn-group">
         <button type="submit" name="search" class="searchButton btn btn-primary">
-          {{ state.message.get('form.search.button', {}, language) }}
+          {{ messageService.get('form.search.button', {}, language) }}
         </button>
       </div>
     </div>

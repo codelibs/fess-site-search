@@ -1,8 +1,18 @@
 import axios from "axios";
+import SearchService from "@/service/SearchService";
 
+/**
+ * SuggestHelper.js
+ * 
+ * This module provides helper functions for suggest.
+ */
 export default function () {
+  /**
+   * Adjusts the display position of the suggestion box for optimal visibility.
+   * @param {Object} suggestState 
+   * @param {HTMLElement} targetElement 
+   */
   const adjustBox = (suggestState, targetElement) => {
-    console.log(targetElement);
     if (targetElement === null) {
       return;
     }
@@ -11,45 +21,36 @@ export default function () {
     suggestState.width = _suggestFormWidth(targetElement);
   };
 
-  //TODO client rectはカーソル位置とか考慮する必要があるというか要検討
   const _suggestFormLeft = (targetElement) => {
     const rect = targetElement.getBoundingClientRect();
-    console.log("clientLeft:" + rect.left);
     return rect.left + 'px';
   };
 
   const _suggestFormTop = (targetElement) => {
     const rect = targetElement.getBoundingClientRect();
-    console.log("clientTop:" + rect.top);
-    console.log("clientHeight:" + rect.height);
     return (rect.top + rect.height) + 'px';
   };
 
   const _suggestFormWidth = (targetElement) => {
     const rect = targetElement.getBoundingClientRect();
-    console.log("clientWidth:" + rect.width);
     return rect.width + 'px';
   };
 
+  /**
+   * Execute suggest.
+   * @param {String} fessUrl 
+   * @param {String} keyword 
+   * @param {Number} num 
+   * @param {Array<String>} labels 
+   * @returns List of suggest words.
+   */
   const doSuggest = async (
-    apiUrl,
+    fessUrl,
     keyword,
     num,
-    label) => {
-    const response = await axios.get(apiUrl, {
-      params: {
-        query: keyword,
-        fields: "_default,content,title",
-        num: num,
-        label: label
-      }
-    });
-
-    const resultList = [];
-    response.data.response.result.hits.forEach((hit) => {
-      resultList.push(hit.text);
-    });
-
+    labels) => {
+    const searchService = new SearchService(fessUrl);
+    const resultList = await searchService.suggest(keyword, num, labels, [], ['_default', 'content', 'title']);
     return resultList;
   };
 

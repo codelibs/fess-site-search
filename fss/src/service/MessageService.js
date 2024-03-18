@@ -1,3 +1,8 @@
+/**
+ * MessageService.js
+ * 
+ * Service class for message for each language.
+ */
 export default class {
   constructor(fessLang) {
     this.fessLang = fessLang;
@@ -1108,8 +1113,14 @@ export default class {
     };
   }
 
-  getLanguage(fessLang) {
-    let lang = fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage || 'en';
+  /**
+   * Get language.
+   * If fessLang is not set then use browser language.
+   * If browser language is not set then use 'en'.
+   * @returns 
+   */
+  getLanguage() {
+    let lang = this.fessLang || (window.navigator.languages && window.navigator.languages[0]) || window.navigator.userLanguage || window.navigator.language || window.navigator.browserLanguage || 'en';
     if (lang.indexOf('-') > 0) {
       if (lang === 'zh-TW') {
         lang = 'tw';
@@ -1125,8 +1136,14 @@ export default class {
     return lang;
   }
 
+  /**
+   * Get message from key and rendered by vars.
+   * @param {*} key 
+   * @param {*} vars 
+   * @returns 
+   */
   get(key, vars) {
-    const language = this.getLanguage(this.fessLang);
+    const language = this.getLanguage();
     const messages = this.messages[language];
     return this._getMessage(key, vars, language);
   }
@@ -1137,7 +1154,7 @@ export default class {
       message = this.messages['en'][key];
     }
     for (var k in vars) {
-      if (typeof vars[k] == 'string' || typeof vars[k] == 'number' || typeof vars == 'string') {
+      if (typeof vars[k] == 'string' || typeof vars[k] == 'number') {
         const reg = new RegExp('{{' + k + '}}', 'g');
         message = message.replace(reg, this._escapeHtml(vars[k]));
       }

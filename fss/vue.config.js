@@ -12,5 +12,13 @@ module.exports = defineConfig({
     config.optimization = {
       splitChunks: false
     };
+    
+    if (!config.resolve) {
+      config.resolve = {};
+    }
+    if (!config.resolve.fallback) {
+      config.resolve.fallback = {};
+    }
+    config.resolve.fallback.querystring = require.resolve('querystring-es3');
   }
 });

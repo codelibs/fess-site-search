@@ -6,25 +6,32 @@ import SuggestEvent from '@/events/SuggestEvent';
 
 const { adjustBox, doSuggest } = SuggestHelper();
 
-
+/**
+ * Component for suggest box.
+ */
 export default defineComponent({
   props: {
+    // Id of this component.
     suggestId: {
       type: String,
       default: "fss"
     },
+    // Id of target form element.
     targetElementId: {
       type: String,
       default: ""
     },
+    // Url of suggest api.
     apiUrl: {
       type: String,
       default: ""
     },
+    // Number of suggest words.
     suggestNum: {
       type: Number,
       default: 10
     },
+    // Label for filtering words.
     label: {
       type: String,
       default: ""
@@ -45,6 +52,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      // Get target form element.
       const targetElem = document.getElementById(props.targetElementId);
 
       // Setting the display position.
@@ -59,12 +67,15 @@ export default defineComponent({
       targetElem.addEventListener('compositionend', handleKeyup);
       targetElem.addEventListener('focusout', handleFocusOut);
 
+      // Handling cancel event.
       SuggestEvent.$onCancel('fss', (data) => {
         _cancel();
       });
 
+      // Periodically monitor the input.
       setInterval(() => {
         if (state.newData !== null) {
+          // Execute suggest when form value is changed.
           _suggest(state.newData);
           state.newData = null;
         }
@@ -75,32 +86,45 @@ export default defineComponent({
       state.show = false;
       state.suggestList = [];
       state.focusNum = -1;
-      state.inputText = '';
       state.newData = null;
       state.isMouseOver = false;
     };
 
+    /**
+     * Cancel suggest.
+     */
     const _cancel = () => {
       setTimeout(() => {
         init();
       }, 100);
     };
 
+    /**
+     * Handle forcus out.
+     */
     const handleFocusOut = () => {
       if (state.isMouseOver === false) {
         _cancel();
       }
     };
 
+    /**
+     * Handle key up events.
+     */
     const handleKeyup = (event) => {
       let ret = true;
       if (event.keyCode === 38 && state.show) {
+        // Up allow key.
         ret = _handleUpAllowKey();
       } else if (event.keyCode === 40 && state.show) {
+        // Down allow key when suggest bos is shown.
         ret = _handleDownAllowKey();
       } else if (event.keyCode === 40 && !state.show) {
-        _suggest();
+        // Down allow key when suggest box is not shown.
+        const inputText = document.getElementById(props.targetElementId).value;
+        _suggest(inputText);
       } else if (_isInputKeyCode(event.keyCode)) {
+        // Execute suggest when input is changed.
         _handleUpdateKeywords(event.target.value);
       } else {
         // ignore
@@ -108,6 +132,9 @@ export default defineComponent({
       return ret;
     };
 
+    /**
+     * Handle key down events.
+     */
     const handleKeydown = (event) => {
       let ret = true;
       if (event.keyCode === 13 && state.show) {
@@ -118,18 +145,26 @@ export default defineComponent({
       return ret;
     };
 
+    /**
+     * Handle Enter key event.
+     */
     const _handleEnterKey = (event) => {
       if (state.focusNum < 0) {
         return true;
       }
 
+      // Fix search word.
       _fix();
 
+      // Stop the Enter key event.
       event.stopPropagation();
       event.preventDefault();
       return false;
     };
 
+    /**
+     * Handle up allow key.
+    */
     const _handleUpAllowKey = () => {
       state.focusNum -= 1;
       if (state.focusNum < -1) {
@@ -137,6 +172,9 @@ export default defineComponent({
       }
     };
 
+    /**
+     * Handle down allow key.
+     */
     const _handleDownAllowKey = () => {
       state.focusNum += 1;
       if (state.focusNum >= state.suggestList.length) {
@@ -144,39 +182,71 @@ export default defineComponent({
       }
     };
 
+    /**
+     * Handle update keywords.
+     */
     const _handleUpdateKeywords = (data) => {
       state.newData = data;
     };
 
+    /**
+     * Handle mouse over on suggest list.
+     */
     const handleMouseOver = (event) => {
       state.isMouseOver = true;
       state.focusNum = Number(event.target.getAttribute('data-suggest-item-id'));
     };
 
+    /**
+     * Handle mouse leave from suggest list.
+     */
     const handleMouseLeave = (event) => {
+      state.isMouseOver = false;
       state.focusNum = -1;
     };
 
+    /**
+     * Handle mouse over on suggest box.
+     */
     const handleBoxMouseOver = (event) => {
       state.isMouseOver = true;
     };
 
+    /**
+     * Handle mouse leave from suggest box.
+     */
     const handleBoxMouseLeave = (event) => {
       state.isMouseOver = false;
     };
 
+    /**
+     * Handle mouse click.
+     */
     const handleMouseClick = (index) => {
       state.focusNum = index;
       _fix();
     };
 
+    /**
+     * Execute suggest.
+     */
     const _suggest = (keyword) => {
-      doSuggest(props.apiUrl, keyword, props.num, props.label).then((suggestList) => {
+      doSuggest(props.apiUrl, keyword, props.suggestNum, props.label.split(',')).then((suggestList) => {
         state.suggestList = suggestList;
-        state.show = true;
+        if (suggestList.length > 0) {
+          state.show = true;
+        } else {
+          state.show = false;
+        }
+      }).catch((error) => {
+        console.warn('Error occurred on suggest. ');
+        console.warn(error);
       });
     };
 
+    /**
+     * Fix search word.
+     */
     const _fix = () => {
       if (state.focusNum >= 0) {
         let result = state.suggestList[state.focusNum];
@@ -185,6 +255,9 @@ export default defineComponent({
       init();
     };
 
+    /**
+     * Determine if the key code corresponds to a character input.
+     */
     const _isInputKeyCode = (keyCode) => {
       return (keyCode >= 48 && keyCode <= 90) ||
         (keyCode >= 96 && keyCode <= 111) ||

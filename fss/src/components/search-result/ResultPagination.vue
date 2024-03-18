@@ -3,30 +3,39 @@ import { defineComponent, reactive } from "vue";
 
 import SearchEvent from "@/events/SearchEvent";
 
+/**
+ * Component for pagination of search result.
+ */
 export default defineComponent({
   props: {
+    // List of page numbers.
     pageNumbers: {
       type: Array,
       default: () => {
         return [];
       },
     },
+    // Current page number.
     currentPageNumber: {
       type: Number,
       default: -1,
     },
+    // Has previos page.
     prevPage: {
       type: Boolean,
       default: false,
     },
+    // Has next page.
     nextPage: {
       type: Boolean,
       default: false,
     },
+    // Current search condition.
     currentSearchCond: {
       type: Object,
       required: true,
     },
+    // Language for search.
     language: {
       type: String,
       default: "",
@@ -34,6 +43,10 @@ export default defineComponent({
   },
   setup(props, context) {
     // method definitions
+
+    /**
+     * Move to the specified page.
+     */
     const movePage = (pageNum) => {
       const searchCond = SearchEvent.copySearchCond(props.currentSearchCond);
       searchCond.page = pageNum;
