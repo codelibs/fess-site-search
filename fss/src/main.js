@@ -17,7 +17,7 @@ const initFss = () => {
       'fess-search-result': SearchResult,
     }
   });
-  app.mount('.fess-site-search');
+  app.mount('#fess-site-search');
 };
 
 window.addEventListener('DOMContentLoaded', initFss);

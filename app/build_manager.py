@@ -22,7 +22,7 @@ class _BdManager():
             return False
 
         # Parent process: return 'True' immediately if fork is succeeded
-        # Child process : executes 'webpack', releases semaphore and exits
+        # Child process : executes 'npm run build', releases semaphore and exits
         try:
             pid = os.fork()
             if pid == 0:  # Child

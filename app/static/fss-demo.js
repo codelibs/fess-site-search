@@ -22,7 +22,7 @@ function loadIframe() {
                     'fess-search-result': SearchResult,
                 }
             });
-            app.mount('.fess-site-search');
+            app.mount('#fess-site-search');
         };
         var s = document.getElementById('iframe').contentDocument.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(vueLoad, s);

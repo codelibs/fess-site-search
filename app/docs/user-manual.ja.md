@@ -23,23 +23,22 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 1. Webサイトの各ページに検索フォームを配置したい場合は、result.html?q=検索語 のように遷移するフォームを配置する
 
 ```html
-<script>
-  (function() {
-    var fess = document.createElement('script');
-    fess.type = 'text/javascript';
-    fess.async = true;
-    // FSS JSのURLをsrcに設定します
-    fess.src = 'fess-ss.min.js';
-    fess.charset = 'utf-8';
-    fess.setAttribute('id', 'fess-ss');
-    // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fess, s);
-  })();
-</script>
+<!-- FSS JSをロードします -->
+<script src="fess-ss.min.js"></script>
 
-<fess:search></fess:search>
+<!-- FSSを設置します -->
+<div id="fess-site-search" style="width:50%; margin-left: auto; margin-right: auto;">
+  <fess-search-form
+    language="ja"
+  ></fess-search-form>
+  <fess-search-result
+    fess-url="http://localhost:18080"
+    language="ja"
+    link-target="_blank"
+    :page-size="5"
+    :enable-thumbnail="true"
+  ></fess-search-result>
+</div>
 ```
 
 ### Google Site Search(GSS)等から移行する場合
