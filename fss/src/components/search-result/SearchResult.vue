@@ -40,7 +40,7 @@ export default defineComponent({
     // Enable filtering by label.
     enableLabel: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     // Enable show label by tab style.
     enableLabelTab: {

@@ -21,130 +21,118 @@ FSS requires Fess server as Search server before this installation.
 1. Rename the above file to fess-ss.min.js and upload it to your web site.
 1. Create HTML file(ex. result.html) to display a search result.
 1. Put the following HTML tags at a location to display a search box/result. (Replace a value of fess-url with your Fess server)
-1. To display a search result from other pages, put a search form to navigate to result.html?q=WORDS.
+1. To display a search result from other pages, put a search form to navigate to result.html?fss.query=WORDS.
 
 ```html
-<script>
-  (function() {
-    var fess = document.createElement('script');
-    fess.type = 'text/javascript';
-    fess.async = true;
-    // fess.src is URL for FSS JS
-    fess.src = 'fess-ss.min.js';
-    fess.charset = 'utf-8';
-    fess.setAttribute('id', 'fess-ss');
-    // fess-url is URL for Fess Server
-    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fess, s);
-  })();
-</script>
+<!-- Load FSS JS -->
+<script src="fess-ss.min.js"></script>
 
-<fess:search></fess:search>
-```
-
-### Case: Use FSS as Google Site Search Alternative
-
-1. Put the following HTML tags at a location to display a search box/result. (Replace a value of fess-url with your Fess server)
-1. To display a search result from other pages, put a search form to navigate to result.html?q=WORDS.
-
-```html
-<script>
-  (function() {
-    var fess = document.createElement('script');
-    fess.type = 'text/javascript';
-    fess.async = true;
-    // fess.src is URL for FSS JS
-    fess.src = 'fess-ss.min.js';
-    fess.charset = 'utf-8';
-    fess.setAttribute('id', 'fess-ss');
-    // fess-url is URL for Fess Server
-    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fess, s);
-  })();
-</script>
-
-<fess:search></fess:search>
+<!-- Set up FSS components -->
+<div id="fess-site-search">
+  <fess-search-form
+    language="ja"
+  ></fess-search-form>
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp"
+  ></fess-search-result>
+</div>
 ```
 
 ## Layout Of Search Result
 
-You can change the layout of your search result by selecting from `fess` tags.
+You can change the layout of your search result by selecting from tags.
 The following 3 layouts are available.
 
 ### Standard(Search Form/Result)
 ```html
-<fess:search></fess:search>
+<div id="fess-site-search">
+  <fess-search-form
+  ></fess-search-form>
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp"
+  ></fess-search-result>
+</div>
 ```
 
 ### Search Form Only
 ```html
-<fess:search-form-only></fess:search-form-only>
+<div id="fess-site-search">
+  <fess-search-form
+    result-page="Path of result page."
+  ></fess-search-form>
+</div>
 ```
 
 ### Search Result Only
 ```html
-<fess:search-result-only></fess:search-result-only>
+<div id="fess-site-search">
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp"
+  ></fess-search-result>
+</div>
 ```
 
 ## Options
 
-### Display Label Search Conditions
-```javascript
-fess.setAttribute('enable-labels', 'true');
+### Options for fess-search-form
+
+#### Set Language
+```html
+language="en"
 ```
 
-### Use Overlay Layout
-```javascript
-fess.setAttribute('popup-result', 'true');
+#### Use Auto-Complete
+```html
+:enable-suggest="true"
+:suggest-url="https://search.n2sm.co.jp"
 ```
 
-### Display Related Query/Content
-```javascript
-fess.setAttribute('enable-related', 'true');
+#### Move To Search Result Page
+```html
+result-page="result.html"
 ```
 
-### Use Auto-Complete
-```javascript
-fess.setAttribute('enable-suggest', 'true');
+### Options for fess-search-result
+
+#### Display Label Search Conditions
+```html
+:enable-label="true"
 ```
 
-### Hide Sort Condition
-```javascript
-fess.setAttribute('enable-order', 'false');
+#### Display Related Query/Content
+```html
+:enable-related="true"
 ```
 
-### Hide Thumbnail View
-```javascript
-fess.setAttribute('enable-thumbnail', 'false');
+#### Hide Sort Condition
+```html
+:enable-order="false"
 ```
 
-### Move To Search Result Page
-If you use `fess:search-form-only` tag, using the following setting, you can move to a search result page.
-```javascript
-fess.setAttribute('fess-search-page-path', 'result.html');
+#### Hide Thumbnail View
+```html
+:enable-thumbnail="false"
 ```
 
-### Change The Number of Reuslts
-```javascript
-fess.setAttribute('page-size', '20');
+#### Change The Number of Reuslts
+```html
+:page-size="20"
 ```
 
-### Open Document In New Tab
-```javascript
-fess.setAttribute('link-target', '_blank');
+#### Open Document In New Tab
+```html
+link-target="_blank"
 ```
 
-### Set Query Language
-```javascript
-fess.setAttribute('language', 'en');
+#### Set Query Language
+```html
+language="ja"
 ```
 
 ## Use Google Analytics
 
 To enable Site Search Tracking on Google Analytics, see [Set up Site Search](https://support.google.com/analytics/answer/1012264).
-Query Parameter is `q`.
+Query Parameter is `fss.query`.
 After that, in order to track search queries on FSS, put the following HTML tag before FSS tags.
 ```javascript
 <script>

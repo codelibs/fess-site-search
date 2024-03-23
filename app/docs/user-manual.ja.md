@@ -20,51 +20,21 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
 1. Webサイトに検索結果を表示するHTMLファイルを作成する (たとえばresult.html等)
 1. 以下のコードを作成したHTMLファイルの`<body>`要素以下で検索ボックスを表示したい位置に追加する (fess-urlの値は検索サーバのURLに変更してください)
-1. Webサイトの各ページに検索フォームを配置したい場合は、result.html?q=検索語 のように遷移するフォームを配置する
+1. Webサイトの各ページに検索フォームを配置したい場合は、result.html?fss.query=検索語 のように遷移するフォームを配置する
 
 ```html
 <!-- FSS JSをロードします -->
 <script src="fess-ss.min.js"></script>
 
 <!-- FSSを設置します -->
-<div id="fess-site-search" style="width:50%; margin-left: auto; margin-right: auto;">
+<div id="fess-site-search">
   <fess-search-form
     language="ja"
   ></fess-search-form>
   <fess-search-result
-    fess-url="http://localhost:18080"
-    language="ja"
-    link-target="_blank"
-    :page-size="5"
-    :enable-thumbnail="true"
+    fess-url="https://search.n2sm.co.jp"
   ></fess-search-result>
 </div>
-```
-
-### Google Site Search(GSS)等から移行する場合
-
-1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
-1. 以下のコードをGSSなどの検索結果を表示しているタグと置き換える (fess-urlの値は検索サーバのURLに変更してください)
-1. Webサイトの各ページに検索フォームを配置している場合は、そのまま利用可能です
-
-```html
-<script>
-  (function() {
-    var fess = document.createElement('script');
-    fess.type = 'text/javascript';
-    fess.async = true;
-    // FSS JSのURLをsrcに設定します
-    fess.src = 'fess-ss.min.js';
-    fess.charset = 'utf-8';
-    fess.setAttribute('id', 'fess-ss');
-    // Fessの検索APIのURLをfess-urlに設定します
-    fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(fess, s);
-  })();
-</script>
-
-<fess:search></fess:search>
 ```
 
 ## 検索結果の表示種類
@@ -74,73 +44,90 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 ### 検索フォームと検索結果を表示
 ```html
-<fess:search></fess:search>
+<div id="fess-site-search">
+  <fess-search-form
+  ></fess-search-form>
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp"
+  ></fess-search-result>
+</div>
 ```
 
 ### 検索フォームだけを表示
 ```html
-<fess:search-form-only></fess:search-form-only>
+<div id="fess-site-search">
+  <fess-search-form
+    result-page="検索結果ページのパス"
+  ></fess-search-form>
+</div>
 ```
 
 ### 検索結果だけを表示
 ```html
-<fess:search-result-only></fess:search-result-only>
+<div id="fess-site-search">
+  <fess-search-result
+    fess-url="https://search.n2sm.co.jp"
+  ></fess-search-result>
+</div>
 ```
 
 ## オプション
 
-script中の `fess.setAttribute('fess-url', '{fess url}');` の下に以下のコードを追加することで、FSSの検索オプションを利用できます。
+### fess-search-form (検索フォーム)
+fess-search-formに以下の属性を追加することで、FSSの検索フォームオプションを利用できます。
 
-### ラベル絞り込み検索を行うフォームを表示する場合
-```javascript
-fess.setAttribute('enable-labels', 'true');
+#### 言語を設定する場合
+```html
+language="ja"
 ```
 
-### 検索結果をポップアップで表示する場合
-```javascript
-fess.setAttribute('popup-result', 'true');
+#### サジェストを利用する場合
+```html
+:enable-suggest="true"
+:suggest-url="https://search.n2sm.co.jp"
 ```
 
-### 検索結果に関連クエリー/関連コンテンツを表示する場合
-```javascript
-fess.setAttribute('enable-related', 'true');
+#### 検索時に別のページへ移動する場合
+```html
+result-page="result.html"
 ```
 
-### サジェストを利用する場合
-```javascript
-fess.setAttribute('enable-suggest', 'true');
+### fess-search-result (検索結果)
+fess-search-resultに以下の属性を追加することで、FSSの検索結果オプションを利用できます。
+
+#### ラベル絞り込み検索を行うフォームを表示する場合
+```html
+:enable-label="true"
 ```
 
-### 検索結果のソートを非表示にする場合
-```javascript
-fess.setAttribute('enable-order', 'false');
+#### 検索結果に関連クエリー/関連コンテンツを表示する場合
+```html
+:enable-related="true"
 ```
 
-### 検索結果のサムネイルを非表示にする場合
-```javascript
-fess.setAttribute('enable-thumbnail', 'false');
+#### 検索結果のソートを非表示にする場合
+```html
+:enable-order="false"
 ```
 
-### 検索結果ページへ遷移させたい場合
-検索を実行した際に、指定したURLへページ遷移します。
-`fess:search-form-only`で検索フォームだけを表示して、検索結果は別のページで表示する場合に利用します。
-```javascript
-fess.setAttribute('fess-search-page-path', 'result.html');
+#### 検索結果のサムネイルを非表示にする場合
+```html
+:enable-thumbnail="false"
 ```
 
-### 検索結果の表示件数を変更する場合
-```javascript
-fess.setAttribute('page-size', '20');
+#### 検索結果の表示件数を変更する場合
+```html
+:page-size="20"
 ```
 
-### 検索結果を別タブで表示する場合
-```javascript
-fess.setAttribute('link-target', '_blank');
+#### 検索結果を別タブで表示する場合
+```html
+link-target="_blank"
 ```
 
-### 言語を指定しての検索を行う場合
-```javascript
-fess.setAttribute('language', 'ja');
+#### 言語を指定して検索する場合
+```html
+language="ja"
 ```
 
 ## デザインのカスタマイズ
@@ -149,8 +136,6 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 
 * Wizardタブのフォームに入力することで、背景色などを簡単にカスタマイズできます。
 * Custom CSSタブでCSSをアップロードすることで、任意のCSSをFSSに適用できます。
-    * FSSの画面構成については[FSS テンプレート](https://github.com/codelibs/fess-site-search/tree/master/fss/src/current/templates)を参照してください。
-    * 標準で適用されているCSSについては[FSS CSS](https://github.com/codelibs/fess-site-search/tree/master/fss/src/current/css)を参照してください。
 
 ### サムネイルのサイズ変更
 
@@ -158,11 +143,7 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 デフォルトのサイズは100pxです。
 
 ```css
-.fessWrapper .thumbnail {
-  width: 100px !important;
-}
-
-.fessWrapper .thumbnailBox {
+#fess-site-search .thumbnail {
   width: 100px !important;
 }
 ```
@@ -173,8 +154,8 @@ Shift\_JISなどのUTF-8以外のエンコーディングで作成されたサ�
 
 ```html
 <form action="search.html" method="get"
-  onsubmit="document.location=this.action+'?q='+encodeURIComponent(document.getElementById('query').value);return false">
-  <input type="text" id="query" name="q" value="">
+  onsubmit="document.location=this.action+'?fss.query='+encodeURIComponent(document.getElementById('query').value);return false">
+  <input type="text" id="query" name="fss.query" value="">
   <input type="submit" value="検索">
 </form>
 ```
@@ -185,8 +166,8 @@ Shift\_JISなどのUTF-8以外のエンコーディングで作成されたサ�
 ## Google Analytics連携
 
 Google Analyticsで検索キーワードを集計するためには、[サイト内検索を設定する](https://support.google.com/analytics/answer/1012264)を参照して、サイト内検索の設定を有効にしてください。
-クエリパラメータはqを指定してください。
-また、検索結果ページ内で入力された検索キーワードを集計するためには、以下のようなコードをFSSのJavaScriptの上部あたりに追加してイベントの集計を有効にする必要があります。
+クエリパラメータはfss.queryを指定してください。
+また、検索結果ページ内で入力された検索キーワードを集計するためには、以下のようなコードをページの上部あたりに追加してイベントの集計を有効にする必要があります。
 ```javascript
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
