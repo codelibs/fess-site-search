@@ -9,16 +9,23 @@ function loadIframe() {
         return $(this).data('src');
     });
     $('#iframe').on('load', function() {
-        var fess = document.createElement('script');
-        fess.type = 'text/javascript';
-        fess.async = true;
-        fess.src = $('#iframe').contents().find('script#embed').attr('js_path');
-        fess.charset = 'utf-8';
-        fess.setAttribute('id', 'fess-ss');
-        fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');
-        fess.setAttribute('fess-search-page-path', $('#iframe').contents().find('script#embed').attr('page_path'));
+        var vueLoad = document.createElement('script');
+        vueLoad.type = 'text/javascript';
+        vueLoad.async = false;
+        vueLoad.src = $('#iframe').contents().find('script#embed').attr('js_path');
+        vueLoad.charset = 'utf-8';
+        vueLoad.onload = () => {
+            console.log("[FSS] Initialize fess-site-search...");
+            const app = createApp({
+                components: {
+                    'fess-search-form': SearchForm,
+                    'fess-search-result': SearchResult,
+                }
+            });
+            app.mount('#fess-site-search');
+        };
         var s = document.getElementById('iframe').contentDocument.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(fess, s);
+        s.parentNode.insertBefore(vueLoad, s);
     });
 }
 

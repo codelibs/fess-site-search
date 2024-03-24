@@ -54,7 +54,7 @@ def create_random_css(filename):
           font-family: Times, serif;
         }}
 
-        .fessWrapper #searchButton {{
+        .fessWrapper .searchButton {{
           border: solid {1};
         }}
 

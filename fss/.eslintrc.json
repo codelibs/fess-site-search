@@ -1,11 +1,18 @@
 {
   "root": true,
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/recommended"
+  ],
   "rules": {
     "indent": [ 2, 2 ],
     "linebreak-style": [ 2, "unix" ],
     "semi": [ 2, "always" ],
-    "no-console": "off"
+    "no-console": "off",
+    "no-unused-vars": "off",
+    "vue/no-v-html": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/singleline-html-element-content-newline": "off"
   },
   "env": {
     "es6": true,
@@ -14,6 +21,9 @@
     "jquery": true
   },
   "parserOptions": {
-      "sourceType": "module"
-  }
+    "sourceType": "module"
+  },
+  "ignorePatterns": [
+    "src/openapi/"
+  ]
 }

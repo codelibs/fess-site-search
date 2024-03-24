@@ -5,7 +5,7 @@ from flask import redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from .app import app
 from .generate_config import generate_config
-from .webpack_manager import WebpackManager
+from .build_manager import BuildManager
 
 
 
@@ -19,7 +19,7 @@ def upload(form, file):
         fname = '{}_{}'.format(base, hash_str)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + '.css'))
         print('Upload: {}.css'.format(fname))
-        return run_webpack(fname)
+        return run_build(fname)
 
     return redirect(url_for('generator'))
 
@@ -31,14 +31,14 @@ def wizard(form):
     if js_exists(fname):
         return redirect(url_for('demo', fname=fname))
     elif generate_config(form, fname):
-        return run_webpack(fname)
+        return run_build(fname)
     else:
         return redirect(url_for('generator'))
 
 
-def run_webpack(fname):
-    wp_manager = WebpackManager()
-    if wp_manager.run(app.config['UPLOAD_FOLDER'], app.instance_path, fname):
+def run_build(fname):
+    build_manager = BuildManager()
+    if build_manager.run(app.config['DOWNLOAD_FOLDER'], app.config['UPLOAD_FOLDER'], app.instance_path, fname):
         return redirect(url_for('demo', fname=fname))
     else:
         flash('Please try again')

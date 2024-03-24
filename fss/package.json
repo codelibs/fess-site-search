@@ -1,26 +1,50 @@
 {
   "name": "fess-site-search",
-  "version": "13.1.6",
-  "main": "index.js",
-  "license": "ISC",
-  "dependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "babel-loader": "^8.0.6",
-    "core-js": "^3.3.5",
-    "css-loader": "^0.28.11",
-    "eslint": "^5.16.0",
-    "eslint-loader": "^2.2.1",
-    "extract-text-webpack-plugin": "^2.1.2",
-    "handlebars": "^4.5.1",
-    "handlebars-loader": "^1.7.1",
-    "jquery": "^3.4.1",
-    "json-loader": "^0.5.7",
-    "node-sass": "^4.13.0",
-    "regenerator-runtime": "^0.13.3",
-    "sass-loader": "^6.0.7",
-    "style-loader": "^0.18.2",
-    "webpack": "^2.7.0"
+  "version": "2.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "@babel/cli": "^7.0.0",
+    "axios": "^1.4.0",
+    "core-js": "^3.8.3",
+    "querystring-es3": "^0.2.1",
+    "superagent": "^5.3.0",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "sass": "^1.51.0",
+    "sass-loader": "^10.2.1",
+    "style-loader": "^3.3.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }

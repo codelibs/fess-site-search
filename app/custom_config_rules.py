@@ -59,7 +59,7 @@ class Font(AbstractConfigRule):
         return 'font-family'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{font-family: {};}}'''.format(font)
+        return '''#fess-site-search {{font-family: {};}}'''.format(font)
 
 
 class BackgroundColor(AbstractConfigRule):
@@ -67,7 +67,7 @@ class BackgroundColor(AbstractConfigRule):
         return 'bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search {{background-color: {};}}'''.format(color)
 
 
 class BorderColor(AbstractConfigRule):
@@ -75,7 +75,7 @@ class BorderColor(AbstractConfigRule):
         return 'border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper {{border: solid {};}}'''.format(font)
+        return '''#fess-site-search {{border: solid {};}}'''.format(font)
 
 
 # Search Box
@@ -84,7 +84,7 @@ class FormBorderColor(AbstractConfigRule):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper .fessForm, .fessFormOnly {{border: solid {};}}'''.format(font)
+        return '''#fess-site-search .fessForm, .fessFormOnly {{border: solid {};}}'''.format(font)
 
 
 # Search Button
@@ -93,7 +93,7 @@ class ButtonTextColor(AbstractConfigRule):
         return 'button-text-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton {{color: {};}}'''.format(color)
+        return '''#fess-site-search .searchButton {{color: {};}}'''.format(color)
 
 
 class ButtonBorderColor(AbstractConfigRule):
@@ -101,7 +101,7 @@ class ButtonBorderColor(AbstractConfigRule):
         return 'button-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton {{border: solid {};}}'''.format(color)
+        return '''#fess-site-search .searchButton {{border: solid {};}}'''.format(color)
 
 
 class ButtonBackgroundColor(AbstractConfigRule):
@@ -110,7 +110,7 @@ class ButtonBackgroundColor(AbstractConfigRule):
         return 'button-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search .searchButton {{background-color: {};}}'''.format(color)
 
 
 class ButtonActiveTextColor(AbstractConfigRule):
@@ -118,7 +118,7 @@ class ButtonActiveTextColor(AbstractConfigRule):
         return 'button-active-text-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{color: {};}}'''.format(color)
+        return '''#fess-site-search .searchButton:active, #fess-site-search .searchButton:hover, #fess-site-search .searchButton:focus {{color: {};}}'''.format(color)
 
 
 class ButtonActiveBorderColor(AbstractConfigRule):
@@ -126,7 +126,7 @@ class ButtonActiveBorderColor(AbstractConfigRule):
         return 'button-active-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{border: solid {};}}'''.format(color)
+        return '''#fess-site-search .searchButton:active, #fess-site-search .searchButton:hover, #fess-site-search .searchButton:focus {{border: solid {};}}'''.format(color)
 
 
 class ButtonActiveBackgroundColor(AbstractConfigRule):
@@ -135,7 +135,7 @@ class ButtonActiveBackgroundColor(AbstractConfigRule):
         return 'button-active-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .searchButton:active, .fessWrapper .searchButton:hover, .fessWrapper .searchButton:focus {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search .searchButton:active, #fess-site-search .searchButton:hover, #fess-site-search .searchButton:focus {{background-color: {};}}'''.format(color)
 
 
 # Label
@@ -158,7 +158,7 @@ class LabelboxBorderColor(AbstractConfigRule):
         return 'labelbox-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels, .fessWrapper select.field-labels:focus {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search select.field-labels, #fess-site-search select.field-labels:focus {{border-color: {};}}'''.format(color)
 
 
 class LabelboxBackgroundColor(AbstractConfigRule):
@@ -166,7 +166,7 @@ class LabelboxBackgroundColor(AbstractConfigRule):
         return 'labelbox-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search select.field-labels {{background-color: {};}}'''.format(color)
 
 
 class LabelboxSelectedBorderColor(AbstractConfigRule):
@@ -174,7 +174,7 @@ class LabelboxSelectedBorderColor(AbstractConfigRule):
         return 'labelbox-selected-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels.selected, fessWrapper select.field-labels.selected:focus {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search select.field-labels.selected, fessWrapper select.field-labels.selected:focus {{border-color: {};}}'''.format(color)
 
 
 class LabelboxSelectedBackgroundColor(AbstractConfigRule):
@@ -182,7 +182,7 @@ class LabelboxSelectedBackgroundColor(AbstractConfigRule):
         return 'labelbox-selected-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels.selected {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search select.field-labels.selected {{background-color: {};}}'''.format(color)
 
 
 class LabeltabVisibility(AbstractConfigRule):
@@ -204,7 +204,7 @@ class LabeltabBorderColor(AbstractConfigRule):
         return 'labeltab-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .label-tab {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search .label-tab {{border-color: {};}}'''.format(color)
 
 
 class LabeltabBackgroundColor(AbstractConfigRule):
@@ -212,7 +212,7 @@ class LabeltabBackgroundColor(AbstractConfigRule):
         return 'labeltab-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .label-tab {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search .label-tab {{background-color: {};}}'''.format(color)
 
 
 class LabeltabSelectedBorderColor(AbstractConfigRule):
@@ -220,7 +220,7 @@ class LabeltabSelectedBorderColor(AbstractConfigRule):
         return 'labeltab-selected-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .label-tab-selected {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search .label-tab-selected {{border-color: {};}}'''.format(color)
 
 
 class LabeltabSelectedBackgroundColor(AbstractConfigRule):
@@ -228,7 +228,7 @@ class LabeltabSelectedBackgroundColor(AbstractConfigRule):
         return 'labeltab-selected-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper .label-tab-selected {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search .label-tab-selected {{background-color: {};}}'''.format(color)
 
 
 # Order Box
@@ -265,7 +265,7 @@ class OrderboxBorderColor(AbstractConfigRule):
         return 'orderbox-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.sort, .fessWrapper select.sort:focus {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search select.sort, #fess-site-search select.sort:focus {{border-color: {};}}'''.format(color)
 
 
 class OrderboxBackgroundColor(AbstractConfigRule):
@@ -273,7 +273,7 @@ class OrderboxBackgroundColor(AbstractConfigRule):
         return 'orderbox-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.sort {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search select.sort {{background-color: {};}}'''.format(color)
 
 
 class OrderboxSelectedBorderColor(AbstractConfigRule):
@@ -281,7 +281,7 @@ class OrderboxSelectedBorderColor(AbstractConfigRule):
         return 'orderbox-selected-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.sort.selected, fessWrapper select.sort.selected:focus {{border-color: {};}}'''.format(color)
+        return '''#fess-site-search select.sort.selected, fessWrapper select.sort.selected:focus {{border-color: {};}}'''.format(color)
 
 
 class OrderboxSelectedBackgroundColor(AbstractConfigRule):
@@ -289,7 +289,7 @@ class OrderboxSelectedBackgroundColor(AbstractConfigRule):
         return 'orderbox-selected-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper select.sort.selected {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search select.sort.selected {{background-color: {};}}'''.format(color)
 
 
 # Result: General
@@ -298,7 +298,7 @@ class ResultBorderColor(AbstractConfigRule):
         return 'result-border-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #result li {{border: solid {};}}'''.format(color)
+        return '''#fess-site-search  #result li {{border: solid {};}}'''.format(color)
 
 
 class ResultBackgroundColor(AbstractConfigRule):
@@ -306,7 +306,7 @@ class ResultBackgroundColor(AbstractConfigRule):
         return 'result-bg-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #result li {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search  #result li {{background-color: {};}}'''.format(color)
 
 
 class ResultBorderColorHover(AbstractConfigRule):
@@ -314,7 +314,7 @@ class ResultBorderColorHover(AbstractConfigRule):
         return 'result-border-color-hover'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #result li:hover {{border: solid {};}}'''.format(color)
+        return '''#fess-site-search  #result li:hover {{border: solid {};}}'''.format(color)
 
 
 class ResultBackgroundColorHover(AbstractConfigRule):
@@ -322,7 +322,7 @@ class ResultBackgroundColorHover(AbstractConfigRule):
         return 'result-bg-color-hover'
 
     def gen_rule(self, color):
-        return '''.fessWrapper  #result li:hover {{background-color: {};}}'''.format(color)
+        return '''#fess-site-search  #result li:hover {{background-color: {};}}'''.format(color)
 
 
 # Result: Title
@@ -331,7 +331,7 @@ class ResultTitleColor(AbstractConfigRule):
         return 'result-title-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .title a:link {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .title a:link {{color: {};}}'''.format(color)
 
 
 class ResultVisitedTitleColor(AbstractConfigRule):
@@ -339,7 +339,7 @@ class ResultVisitedTitleColor(AbstractConfigRule):
         return 'result-visited-title-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .title a:visited {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .title a:visited {{color: {};}}'''.format(color)
 
 
 class ResultHoveredTitleColor(AbstractConfigRule):
@@ -347,7 +347,7 @@ class ResultHoveredTitleColor(AbstractConfigRule):
         return 'result-hovered-title-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .title a:hover {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .title a:hover {{color: {};}}'''.format(color)
 
 
 class ResultActiveTitleColor(AbstractConfigRule):
@@ -355,7 +355,7 @@ class ResultActiveTitleColor(AbstractConfigRule):
         return 'result-active-title-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .title a:active {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .title a:active {{color: {};}}'''.format(color)
 
 
 # Result: Snippet
@@ -378,7 +378,7 @@ class ResultSnippetColor(AbstractConfigRule):
         return 'result-snippet-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .body .description {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .body .description {{color: {};}}'''.format(color)
 
 
 # Result: URL
@@ -387,7 +387,7 @@ class ResultUrlVisibility(AbstractConfigRule):
         return 'result-url-visibility'
 
     def gen_rule(self, visible):
-        return '''.fessWrapper #result .body cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+        return '''#fess-site-search #result .body cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
 
     def isCheckbox(self):
         return True
@@ -398,7 +398,7 @@ class ResultUrlColor(AbstractConfigRule):
         return 'result-url-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .body cite {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .body cite {{color: {};}}'''.format(color)
 
 
 # Result: Details
@@ -421,7 +421,7 @@ class ResultDetailsColor(AbstractConfigRule):
         return 'result-details-color'
 
     def gen_rule(self, color):
-        return '''.fessWrapper #result .body .info {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .body .info {{color: {};}}'''.format(color)
 
 
 def get_config_rules():
