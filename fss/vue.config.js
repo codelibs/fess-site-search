@@ -9,6 +9,12 @@ module.exports = defineConfig({
     config.output.filename(process.env.OUTPUT_JS_FILENAME || 'fess-ss.js');
   },
   configureWebpack: config => {
+    config.plugins.push(
+        new (require('webpack')).DefinePlugin({
+          '__VUE_PROD_HYDRATION_MISMATCH_DETAILS__': JSON.stringify(false),
+        }),
+    );
+
     config.optimization = {
       splitChunks: false
     };
