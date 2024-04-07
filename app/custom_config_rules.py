@@ -169,22 +169,6 @@ class LabelboxBackgroundColor(AbstractConfigRule):
         return '''#fess-site-search select.field-labels {{background-color: {};}}'''.format(color)
 
 
-class LabelboxSelectedBorderColor(AbstractConfigRule):
-    def form_name(self):
-        return 'labelbox-selected-border-color'
-
-    def gen_rule(self, color):
-        return '''#fess-site-search select.field-labels.selected, fessWrapper select.field-labels.selected:focus {{border-color: {};}}'''.format(color)
-
-
-class LabelboxSelectedBackgroundColor(AbstractConfigRule):
-    def form_name(self):
-        return 'labelbox-selected-bg-color'
-
-    def gen_rule(self, color):
-        return '''#fess-site-search select.field-labels.selected {{background-color: {};}}'''.format(color)
-
-
 class LabeltabVisibility(AbstractConfigRule):
     def form_name(self):
         return 'labeltab-visibility'
@@ -430,7 +414,7 @@ def get_config_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
-        LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(), LabelboxSelectedBorderColor(), LabelboxSelectedBackgroundColor(),
+        LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(),
         LabeltabVisibility(), LabeltabBorderColor(), LabeltabBackgroundColor(), LabeltabSelectedBorderColor(), LabeltabSelectedBackgroundColor(),
         OrderboxVisibility(), OrderboxVerboseVisibility(),
         OrderboxBorderColor(), OrderboxBackgroundColor(), OrderboxSelectedBorderColor(), OrderboxSelectedBackgroundColor(),

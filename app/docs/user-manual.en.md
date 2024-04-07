@@ -99,6 +99,11 @@ result-page="result.html"
 :enable-label="true"
 ```
 
+#### Display Label Search Conditions in Tab Style
+```html
+:enable-label-tab="true"
+```
+
 #### Display Related Query/Content
 ```html
 :enable-related="true"

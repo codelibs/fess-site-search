@@ -237,8 +237,6 @@ function applyWizardDesign() {
         // Label
         new FssDesign('labelbox-border-color',          ['select.field-labels', 'select.field-labels:focus'], 'border-color'),
         new FssDesign('labelbox-bg-color',               'select.field-labels',                               'background-color'),
-        new FssDesign('labelbox-selected-border-color', ['select.field-labels.selected', 'select.field-labels.selected :focus'], 'border-color'),
-        new FssDesign('labelbox-selected-bg-color',      'select.field-labels.selected',                                         'background-color'),
         new FssDesign('labeltab-border-color',          '.label-tab',          'border-color'),
         new FssDesign('labeltab-bg-color',              '.label-tab',          'background-color'),
         new FssDesign('labeltab-selected-border-color', '.label-tab-selected', 'border-color'),
