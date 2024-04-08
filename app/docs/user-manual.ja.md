@@ -17,14 +17,14 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 ### 新規にFSSを導入する場合
 
-1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.min.jsにしてWebサイトに配置する
+1. FSSのJavaScriptファイルをダウンロードし、ファイル名をfess-ss.jsにしてWebサイトに配置する
 1. Webサイトに検索結果を表示するHTMLファイルを作成する (たとえばresult.html等)
 1. 以下のコードを作成したHTMLファイルの`<body>`要素以下で検索ボックスを表示したい位置に追加する (fess-urlの値は検索サーバのURLに変更してください)
 1. Webサイトの各ページに検索フォームを配置したい場合は、result.html?fss.query=検索語 のように遷移するフォームを配置する
 
 ```html
 <!-- FSS JSをロードします -->
-<script src="fess-ss.min.js"></script>
+<script src="fess-ss.js"></script>
 
 <!-- FSSを設置します -->
 <div id="fess-site-search">

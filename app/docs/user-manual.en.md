@@ -18,14 +18,14 @@ FSS requires Fess server as Search server before this installation.
 ### Case: Your site does not have a search page
 
 1. Download JavaScript file from FSS JS Genereator.
-1. Rename the above file to fess-ss.min.js and upload it to your web site.
+1. Rename the above file to fess-ss.js and upload it to your web site.
 1. Create HTML file(ex. result.html) to display a search result.
 1. Put the following HTML tags at a location to display a search box/result. (Replace a value of fess-url with your Fess server)
 1. To display a search result from other pages, put a search form to navigate to result.html?fss.query=WORDS.
 
 ```html
 <!-- Load FSS JS -->
-<script src="fess-ss.min.js"></script>
+<script src="fess-ss.js"></script>
 
 <!-- Set up FSS components -->
 <div id="fess-site-search">

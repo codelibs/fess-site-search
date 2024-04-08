@@ -32,9 +32,18 @@ const PreviewSettings = new class {
 
     reset() {
         var page_path = $('#preview-iframe').contents().find('script#embed').attr('page_path');
-        $('#preview-settings').val("fess.setAttribute('id', 'fess-ss');\n" +
-                                   "fess.setAttribute('fess-url', 'https://search.n2sm.co.jp/json');\n" +
-                                   `fess.setAttribute('fess-search-page-path', '${page_path}');`);
+        $('#preview-settings').val('<div id="fess-site-search">\n' +
+        '    <fess-search-form\n' +
+        '        suggest-url="https://search.n2sm.co.jp"\n' +
+        '    ></fess-search-form>\n' +
+        '    <fess-search-result\n' +
+        '        fess-url="https://search.n2sm.co.jp"\n' +
+        '        :enable-label="true"\n' +
+        '        :enable-thumbnail="true"\n' +
+        '        link-target="_blank"\n' +
+        '        :page-size="5"\n' +
+        '    ></fess-search-result>\n' +
+        '</div>');
     }
 
     _parse(settings) {
@@ -75,50 +84,27 @@ const PreviewSettings = new class {
         var attribute = {};
         Object.assign(attribute, this.design);
         Object.assign(attribute, this.settings);
-        if (!this._compare(this.applied, attribute)) {
-            this.applied = attribute;
-            document.getElementById('preview-iframe').contentWindow.location.reload();
-            document.getElementById('preview-iframe').onload = () => {
-                if (callback !== undefined) {
-                    callback();
-                }
-                var fess = document.createElement('script');
-                fess.type = 'text/javascript';
-                fess.async = true;
-                fess.src = $('#preview-iframe').contents().find('script#embed').attr('js_path');
-                fess.charset = 'utf-8';
-                for (let id in attribute) {
-                    fess.setAttribute(id, attribute[id]);
-                }
-                var s = document.getElementById('preview-iframe').contentDocument.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(fess, s);
+        var previewContent = $('#preview-settings').val();
+        $('#preview-iframe').on('load', function () {
+            if (callback !== undefined) {
+                callback();
             }
-        } else if (callback !== undefined) {
-            callback();
-        }
-    }
+            var $iframeContents = $('#preview-iframe').contents();
+            $iframeContents.find('#demo-content').html(previewContent);
 
-    _compare(obj1, obj2) {
-        for (var p in obj1) {
-            if (obj1.hasOwnProperty(p)) {
-                if (obj1[p] !== obj2[p]) {
-                    return false;
-                }
-            }
-        }
-        for (var p in obj2) {
-            if (obj2.hasOwnProperty(p)) {
-                if (obj1[p] !== obj2[p]) {
-                    return false;
-                }
-            }
-        }
-        return true;
+            // DOMContentLoaded event for init fss.
+            var iframeDocument = this.contentDocument || this.contentWindow.document;
+            var event = iframeDocument.createEvent('Event');
+            event.initEvent('DOMContentLoaded', true, true);
+            iframeDocument.dispatchEvent(event);
+        });
+        document.getElementById('preview-iframe').contentWindow.location.reload();
     }
 }
 
 
 function appendIframeDesign(id, cssStr) {
+    console.log('appendIframeDesign');
     $('#preview-iframe')
         .contents()
         .find('head')
@@ -138,9 +124,9 @@ class FssDesign {
     constructor(formId, target, prop, choices = {}) {
         this.formId = formId;
         if (target instanceof Array) {
-            this.target = '.fessWrapper ' + target.join(', .fessWrapper ');
+            this.target = '#fess-site-search ' + target.join(', #fess-site-search ');
         } else {
-            this.target = `.fessWrapper ${target}`;
+            this.target = `#fess-site-search ${target}`;
         }
         this.prop = prop;
         this.choices = choices;

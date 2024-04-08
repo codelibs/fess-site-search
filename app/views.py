@@ -56,7 +56,7 @@ def demo(fname):
 def preview():
     """search page used in preview"""
     my_dic = {}
-    my_dic['js_path'] = '/static/fss/fess-ss.min.js'
+    my_dic['js_path'] = '/static/fss/fess-ss.js'
     my_dic['page_path'] = '/search/'
     return render_template('search.html', message=my_dic)
 
