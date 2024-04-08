@@ -27,7 +27,6 @@ const PreviewSettings = new class {
     constructor() {
         this.applied = {};
         this.design = {};
-        this.settings = {};
     }
 
     reset() {
@@ -38,27 +37,35 @@ const PreviewSettings = new class {
         '    ></fess-search-form>\n' +
         '    <fess-search-result\n' +
         '        fess-url="https://search.n2sm.co.jp"\n' +
-        '        :enable-label="true"\n' +
-        '        :enable-thumbnail="true"\n' +
         '        link-target="_blank"\n' +
         '        :page-size="5"\n' +
         '    ></fess-search-result>\n' +
         '</div>');
     }
 
-    _parse(settings) {
-        var lines = settings.split('\n');
-        var attribute = {};
-        var reg = /.*'([^']+)',\s*'([^']+)'[^']*/;
-        for (let line of lines) {
-            if (line !== '') {
-                var arr = reg.exec(line);
-                if (arr === null || arr[0] !== line) {
-                    return null;
-                }
-                attribute[arr[1]] = arr[2];
-            }
-        }
+    _extractAttributes(tagContent) {
+        const regex = /([\w-_:]+)=["']([^"']+)["']/g;
+        const matches = tagContent.matchAll(regex);
+        return Array.from(matches).reduce((acc, match) => {
+            const [fullMatch, key, value] = match;
+            acc[key] = value;
+            return acc;
+        }, {});
+    }
+
+    _parse(settingsHtmlStr) {
+        const formRegex = /<fess-search-form(.*?)<\/fess-search-form>/s;
+        const formMatch = settingsHtmlStr.match(formRegex);
+        const formAttributes = formMatch ? this._extractAttributes(formMatch[1]) : {};
+
+        const resultRegex = /<fess-search-result(.*?)<\/fess-search-result>/s;
+        const resultMatch = settingsHtmlStr.match(resultRegex);
+        const resultAttributes = resultMatch ? this._extractAttributes(resultMatch[1]) : {};
+
+        var attribute = {
+            form: formAttributes,
+            result: resultAttributes
+        };
         return attribute;
     }
 
@@ -72,7 +79,6 @@ const PreviewSettings = new class {
     }
 
     apply() {
-        this.settings = this._parse($('#preview-settings').val());
         this.reload();
     }
 
@@ -81,19 +87,41 @@ const PreviewSettings = new class {
     }
 
     reload(callback) {
-        var attribute = {};
-        Object.assign(attribute, this.design);
-        Object.assign(attribute, this.settings);
-        var previewContent = $('#preview-settings').val();
+        var settings = this._parse($('#preview-settings').val());
         $('#preview-iframe').on('load', function () {
             if (callback !== undefined) {
                 callback();
             }
+            var iframeDocument = this.contentDocument || this.contentWindow.document;
+
+            var parentElement = iframeDocument.createElement('div');
+            parentElement.id = 'fess-site-search';
+
+            var formElement = iframeDocument.createElement('fess-search-form');
+            for (let id in settings['form']) {
+                console.log(id, settings['form'][id])
+                formElement.setAttribute(id, settings['form'][id]);
+            }
+            parentElement.appendChild(formElement);
+
+            var resultElement = iframeDocument.createElement('fess-search-result');
+            for (let id in settings['result']) {
+                console.log(id, settings['result'][id])
+                resultElement.setAttribute(id, settings['result'][id]);
+            }
+            for (let id in this.design) {
+                console.log(id, this.design[id])
+                resultElement.setAttribute(id, this.design[id]);
+            }
+            parentElement.appendChild(resultElement);
+
+            console.log(settings['result']);
+
             var $iframeContents = $('#preview-iframe').contents();
-            $iframeContents.find('#demo-content').html(previewContent);
+            $iframeContents.find('#demo-content').empty();
+            $iframeContents.find('#demo-content').append(parentElement);
 
             // DOMContentLoaded event for init fss.
-            var iframeDocument = this.contentDocument || this.contentWindow.document;
             var event = iframeDocument.createEvent('Event');
             event.initEvent('DOMContentLoaded', true, true);
             iframeDocument.dispatchEvent(event);
@@ -253,8 +281,8 @@ function applyWizardDesign() {
 
     const configs = [
         // Label
-        new FssConfig('labelbox-visibility', 'enable-labels',     {checked: 'true', unchecked: 'false'}),
-        new FssConfig('labeltab-visibility', 'enable-label-tabs', {checked: 'true', unchecked: 'false'}),
+        new FssConfig('labelbox-visibility', ':enable-label',     {checked: 'true', unchecked: 'false'}),
+        new FssConfig('labeltab-visibility', ':enable-label-tab', {checked: 'true', unchecked: 'false'}),
         // Order Box
         new FssConfig('orderbox-visibility',         'enable-order',      {checked: 'true', unchecked: 'false'}),
         new FssConfig('orderbox-verbose-visibility', 'enable-all-orders', {checked: 'true', unchecked: 'false'}),
