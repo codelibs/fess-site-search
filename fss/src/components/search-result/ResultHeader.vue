@@ -49,7 +49,7 @@ export default defineComponent({
       },
     },
     // Show order.
-    showAllOrders: {
+    enableAllOrders: {
       type: Boolean,
       default: false,
     },
@@ -309,7 +309,7 @@ export default defineComponent({
               <option value="">
                 {{ message.get("result.order.score") }}
               </option>
-              <template v-if="showAllOrders">
+              <template v-if="enableAllOrders">
                 <option value="filename.asc">
                   {{ message.get("result.order.filename") }} ({{
                     message.get("result.order.asc")
@@ -375,43 +375,6 @@ export default defineComponent({
                     message.get("result.order.favorite_count")
                   }}
                   ({{ message.get("result.order.desc") }})
-                </option>
-
-                <option value="filename.asc">
-                  {result.order.filename} ({result.order.asc})
-                </option>
-                <option value="filename.desc">
-                  {result.order.filename} ({result.order.desc})
-                </option>
-                <option value="created.asc">
-                  {result.order.created} ({result.order.asc})
-                </option>
-                <option value="created.desc">
-                  {result.order.created} ({result.order.desc})
-                </option>
-                <option value="content_length.asc">
-                  {result.order.content_length} ({result.order.asc})
-                </option>
-                <option value="content_length.desc">
-                  {result.order.content_length} ({result.order.desc})
-                </option>
-                <option value="last_modified.asc">
-                  {result.order.last_modified} ({result.order.asc})
-                </option>
-                <option value="last_modified.desc">
-                  {result.order.last_modified} ({result.order.desc})
-                </option>
-                <option value="click_count.asc">
-                  {result.order.click_count} ({result.order.asc})
-                </option>
-                <option value="click_count.desc">
-                  {result.order.click_count} ({result.order.desc})
-                </option>
-                <option value="favorite_count.asc">
-                  {result.order.favorite_count} ({result.order.asc})
-                </option>
-                <option value="favorite_count.desc">
-                  {result.order.favorite_count} ({result.order.desc})
                 </option>
               </template>
               <template v-else>

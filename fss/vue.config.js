@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 const webpack = require("webpack");
 
 process.env.VUE_APP_INPUT_CSS_PATH = process.env.INPUT_CSS_PATH;
+process.env.VUE_APP_INPUT_JSON_PATH = process.env.INPUT_JSON_PATH;
 module.exports = defineConfig({
   transpileDependencies: true,
   filenameHashing: false,

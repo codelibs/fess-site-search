@@ -3,6 +3,7 @@ import { defineComponent, reactive, onMounted, nextTick } from "vue";
 
 import FrontHelper from "@/helper/FrontHelper";
 import SearchResultHelper from "@/helper/SearchResultHelper";
+import jsonConfig from '@/config/JsonConfig';
 
 import HistoryMode from "@/enum/HistoryMode";
 import SearchService from "@/service/SearchService";
@@ -35,22 +36,27 @@ export default defineComponent({
     // Enable search order.
     enableOrder: {
       type: Boolean,
-      default: true,
+      default: jsonConfig.enableOrder(true),
+    },
+    // Enable all search order.
+    enableAllOrders: {
+      type: Boolean,
+      default: jsonConfig.enableAllOrders(false),
     },
     // Enable filtering by label.
     enableLabel: {
       type: Boolean,
-      default: false,
+      default: jsonConfig.enableLabels(false),
     },
     // Enable show label by tab style.
     enableLabelTab: {
       type: Boolean,
-      default: false,
+      default: jsonConfig.enableLabelTabs(false),
     },
     // Enable thumbnail
     enableThumbnail: {
       type: Boolean,
-      default: true,
+      default: jsonConfig.enableThumbnail(true),
     },
     // Language for search.
     language: {
@@ -71,6 +77,11 @@ export default defineComponent({
     enableRelated: {
       type: Boolean,
       default: false,
+    },
+    // Enable show details.
+    enableDetails: {
+      type: Boolean,
+      default: jsonConfig.enableDetails(true),
     },
   },
 
@@ -166,6 +177,7 @@ export default defineComponent({
         :exec-time="state.execTime"
         :current-search-cond="state.searchCond"
         :enable-order="enableOrder"
+        :enable-all-orders="enableAllOrders"
         :enable-label="enableLabel"
         :enable-label-tab="enableLabelTab"
         :language="language"
@@ -191,6 +203,7 @@ export default defineComponent({
               :language="language"
               :enable-thumbnail="enableThumbnail"
               :link-target="linkTarget"
+              :enable-details="enableDetails"
             />
           </li>
         </ol>

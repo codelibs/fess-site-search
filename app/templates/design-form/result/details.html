@@ -4,7 +4,7 @@
 
 {% block body %}
     {# Visibility #}
-    {% call visibility_checkbox('result-details-settings', 'result-details-visibility', 'Visible') %}
+    {% call visibility_checkbox('result-details-settings', 'result-details-visibility', 'Visible', 'checked') %}
         {# Color #}
         {{ color_form('result-details-color', 'Color', 'Color of Details in Result Components') }}
     {% endcall %}

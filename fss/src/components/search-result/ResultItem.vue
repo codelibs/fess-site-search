@@ -77,7 +77,12 @@ export default defineComponent({
     linkTarget: {
       type: String,
       default: '',
-    }
+    },
+    // Enable details.
+    enableDetails: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props, context) {
@@ -182,7 +187,7 @@ export default defineComponent({
     <div class="site text-truncate">
       <cite>{{ sitePath }}</cite>
     </div>
-    <div class="info">
+    <div v-if="enableDetails" class="info">
       <small>
         <span v-if="created !== ''">
           {{ state.message.get('result.created') }} {{ formatDate(created) }}&nbsp;

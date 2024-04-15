@@ -88,6 +88,7 @@ const PreviewSettings = new class {
 
     reload(callback) {
         var settings = this._parse($('#preview-settings').val());
+        var design = this.design;
         $('#preview-iframe').on('load', function () {
             if (callback !== undefined) {
                 callback();
@@ -109,9 +110,10 @@ const PreviewSettings = new class {
                 console.log(id, settings['result'][id])
                 resultElement.setAttribute(id, settings['result'][id]);
             }
-            for (let id in this.design) {
-                console.log(id, this.design[id])
-                resultElement.setAttribute(id, this.design[id]);
+            for (let id in design) {
+                console.log(id, design[id])
+                resultElement.setAttribute(id, design[id]);
+                console.log('Set attr to result. id=' + id + ', value=' + design[id]);
             }
             parentElement.appendChild(resultElement);
 
@@ -229,6 +231,7 @@ class FssConfig {
 }
 
 function applyWizardDesign() {
+    console.log('applyWizardDesign');
     resetIframeDesign();
 
     const designs = [
@@ -284,12 +287,12 @@ function applyWizardDesign() {
         new FssConfig('labelbox-visibility', ':enable-label',     {checked: 'true', unchecked: 'false'}),
         new FssConfig('labeltab-visibility', ':enable-label-tab', {checked: 'true', unchecked: 'false'}),
         // Order Box
-        new FssConfig('orderbox-visibility',         'enable-order',      {checked: 'true', unchecked: 'false'}),
-        new FssConfig('orderbox-verbose-visibility', 'enable-all-orders', {checked: 'true', unchecked: 'false'}),
+        new FssConfig('orderbox-visibility',         ':enable-order',      {checked: 'true', unchecked: 'false'}),
+        new FssConfig('orderbox-verbose-visibility', ':enable-all-orders', {checked: 'true', unchecked: 'false'}),
         // Result: Snippet
-        new FssConfig('result-thumbnail-visibility', 'enable-thumbnail', {checked: 'true', unchecked: 'false'}),
+        new FssConfig('result-thumbnail-visibility', ':enable-thumbnail', {checked: 'true', unchecked: 'false'}),
         // Result: Details
-        new FssConfig('result-details-visibility', 'enable-details', {checked: 'true', unchecked: 'false'})
+        new FssConfig('result-details-visibility', ':enable-details', {checked: 'true', unchecked: 'false'})
     ];
 
     let cssStr = '';
