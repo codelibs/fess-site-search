@@ -100,24 +100,18 @@ const PreviewSettings = new class {
 
             var formElement = iframeDocument.createElement('fess-search-form');
             for (let id in settings['form']) {
-                console.log(id, settings['form'][id])
                 formElement.setAttribute(id, settings['form'][id]);
             }
             parentElement.appendChild(formElement);
 
             var resultElement = iframeDocument.createElement('fess-search-result');
             for (let id in settings['result']) {
-                console.log(id, settings['result'][id])
                 resultElement.setAttribute(id, settings['result'][id]);
             }
             for (let id in design) {
-                console.log(id, design[id])
                 resultElement.setAttribute(id, design[id]);
-                console.log('Set attr to result. id=' + id + ', value=' + design[id]);
             }
             parentElement.appendChild(resultElement);
-
-            console.log(settings['result']);
 
             var $iframeContents = $('#preview-iframe').contents();
             $iframeContents.find('#demo-content').empty();
