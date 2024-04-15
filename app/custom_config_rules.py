@@ -260,22 +260,6 @@ class OrderboxBackgroundColor(AbstractConfigRule):
         return '''#fess-site-search select.sort {{background-color: {};}}'''.format(color)
 
 
-class OrderboxSelectedBorderColor(AbstractConfigRule):
-    def form_name(self):
-        return 'orderbox-selected-border-color'
-
-    def gen_rule(self, color):
-        return '''#fess-site-search select.sort.selected, fessWrapper select.sort.selected:focus {{border-color: {};}}'''.format(color)
-
-
-class OrderboxSelectedBackgroundColor(AbstractConfigRule):
-    def form_name(self):
-        return 'orderbox-selected-bg-color'
-
-    def gen_rule(self, color):
-        return '''#fess-site-search select.sort.selected {{background-color: {};}}'''.format(color)
-
-
 # Result: General
 class ResultBorderColor(AbstractConfigRule):
     def form_name(self):
@@ -371,7 +355,7 @@ class ResultUrlVisibility(AbstractConfigRule):
         return 'result-url-visibility'
 
     def gen_rule(self, visible):
-        return '''#fess-site-search #result .body cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+        return '''#fess-site-search #result cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
 
     def isCheckbox(self):
         return True
@@ -382,7 +366,7 @@ class ResultUrlColor(AbstractConfigRule):
         return 'result-url-color'
 
     def gen_rule(self, color):
-        return '''#fess-site-search #result .body cite {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result cite {{color: {};}}'''.format(color)
 
 
 # Result: Details
@@ -417,7 +401,7 @@ def get_config_rules():
         LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(),
         LabeltabVisibility(), LabeltabBorderColor(), LabeltabBackgroundColor(), LabeltabSelectedBorderColor(), LabeltabSelectedBackgroundColor(),
         OrderboxVisibility(), OrderboxVerboseVisibility(),
-        OrderboxBorderColor(), OrderboxBackgroundColor(), OrderboxSelectedBorderColor(), OrderboxSelectedBackgroundColor(),
+        OrderboxBorderColor(), OrderboxBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
         ResultThumbnailVisibility(), ResultSnippetColor(),

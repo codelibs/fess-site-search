@@ -255,8 +255,6 @@ function applyWizardDesign() {
         // Order Box
         new FssDesign('orderbox-border-color',          ['select.sort', 'select.sort:focus'], 'border-color'),
         new FssDesign('orderbox-bg-color',               'select.sort',                       'background-color'),
-        new FssDesign('orderbox-selected-border-color', ['select.sort.selected', 'select.sort.selected :focus'], 'border-color'),
-        new FssDesign('orderbox-selected-bg-color',      'select.sort.selected',                                 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
@@ -270,8 +268,8 @@ function applyWizardDesign() {
         // Result: Snippet
         new FssDesign('result-snippet-color', '#result .body .description', 'color'),
         // Result: URL
-        new FssDesign('result-url-visibility', '#result .body cite', 'display', {checked: 'inline', unchecked: 'none'}),
-        new FssDesign('result-url-color',      '#result .body cite', 'color'),
+        new FssDesign('result-url-visibility', '#result .site cite', 'display', {checked: 'inline', unchecked: 'none'}),
+        new FssDesign('result-url-color',      '#result .site cite', 'color'),
         // Result: Details
         new FssDesign('result-details-color',      '#result .body .info', 'color')
     ];
