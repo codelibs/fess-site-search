@@ -152,7 +152,7 @@ export default defineComponent({
 <template>
   <div>
     <h3 class="title text-truncate">
-      <a
+      <a v-html="contentTitle"
         class="link"
         :href="urlLink"
         :data-uri="urlLink" 
@@ -160,7 +160,6 @@ export default defineComponent({
         :data-order="order"
         :target="linkTarget"
       >
-        {{ contentTitle }}
       </a>
     </h3>
     <div class="body">

@@ -190,7 +190,7 @@ export default defineComponent({
           <li v-for="(item, index) in state.items" :key="item.doc_id">
             <result-item
               :fess-url="fessUrl"
-              :content-title="item.title"
+              :content-title="item.content_title"
               :doc-id="item.doc_id"
               :query-id="state.queryId"
               :url-link="item.url_link"
