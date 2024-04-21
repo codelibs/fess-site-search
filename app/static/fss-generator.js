@@ -271,7 +271,7 @@ function applyWizardDesign() {
         new FssDesign('result-url-visibility', '#result .site cite', 'display', {checked: 'inline', unchecked: 'none'}),
         new FssDesign('result-url-color',      '#result .site cite', 'color'),
         // Result: Details
-        new FssDesign('result-details-color',      '#result .body .info', 'color')
+        new FssDesign('result-details-color',      '#result .info', 'color')
     ];
 
     const configs = [

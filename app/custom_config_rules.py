@@ -355,7 +355,7 @@ class ResultUrlVisibility(AbstractConfigRule):
         return 'result-url-visibility'
 
     def gen_rule(self, visible):
-        return '''#fess-site-search #result cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+        return '''#fess-site-search #result .site cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
 
     def isCheckbox(self):
         return True
@@ -366,7 +366,7 @@ class ResultUrlColor(AbstractConfigRule):
         return 'result-url-color'
 
     def gen_rule(self, color):
-        return '''#fess-site-search #result cite {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .site cite {{color: {};}}'''.format(color)
 
 
 # Result: Details
@@ -389,7 +389,7 @@ class ResultDetailsColor(AbstractConfigRule):
         return 'result-details-color'
 
     def gen_rule(self, color):
-        return '''#fess-site-search #result .body .info {{color: {};}}'''.format(color)
+        return '''#fess-site-search #result .info {{color: {};}}'''.format(color)
 
 
 def get_config_rules():
