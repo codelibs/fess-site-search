@@ -27,7 +27,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 <script src="fess-ss.js"></script>
 
 <!-- FSSを設置します -->
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
     language="ja"
   ></fess-search-form>
@@ -44,7 +44,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 ### 検索フォームと検索結果を表示
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
   ></fess-search-form>
   <fess-search-result
@@ -55,7 +55,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 ### 検索フォームだけを表示
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
     result-page="検索結果ページのパス"
   ></fess-search-form>
@@ -64,7 +64,7 @@ FSSを利用するには事前にFessサーバを構築しておく必要があ�
 
 ### 検索結果だけを表示
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-result
     fess-url="https://search.n2sm.co.jp"
   ></fess-search-result>
@@ -148,7 +148,7 @@ FSS JS Generatorを利用して、デザインを修正することができま�
 デフォルトのサイズは100pxです。
 
 ```css
-#fess-site-search .thumbnail {
+.fess-site-search .thumbnail {
   width: 100px !important;
 }
 ```

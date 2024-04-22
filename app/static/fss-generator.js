@@ -31,7 +31,7 @@ const PreviewSettings = new class {
 
     reset() {
         var page_path = $('#preview-iframe').contents().find('script#embed').attr('page_path');
-        $('#preview-settings').val('<div id="fess-site-search">\n' +
+        $('#preview-settings').val('<div class="fess-site-search">\n' +
         '    <fess-search-form\n' +
         '        suggest-url="https://search.n2sm.co.jp"\n' +
         '    ></fess-search-form>\n' +
@@ -96,7 +96,7 @@ const PreviewSettings = new class {
             var iframeDocument = this.contentDocument || this.contentWindow.document;
 
             var parentElement = iframeDocument.createElement('div');
-            parentElement.id = 'fess-site-search';
+            parentElement.className = 'fess-site-search';
 
             var formElement = iframeDocument.createElement('fess-search-form');
             for (let id in settings['form']) {
@@ -148,9 +148,9 @@ class FssDesign {
     constructor(formId, target, prop, choices = {}) {
         this.formId = formId;
         if (target instanceof Array) {
-            this.target = '#fess-site-search ' + target.join(', #fess-site-search ');
+            this.target = '.fess-site-search ' + target.join(', .fess-site-search ');
         } else {
-            this.target = `#fess-site-search ${target}`;
+            this.target = `.fess-site-search ${target}`;
         }
         this.prop = prop;
         this.choices = choices;

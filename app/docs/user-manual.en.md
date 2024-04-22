@@ -28,7 +28,7 @@ FSS requires Fess server as Search server before this installation.
 <script src="fess-ss.js"></script>
 
 <!-- Set up FSS components -->
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
     language="ja"
   ></fess-search-form>
@@ -45,7 +45,7 @@ The following 3 layouts are available.
 
 ### Standard(Search Form/Result)
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
   ></fess-search-form>
   <fess-search-result
@@ -56,7 +56,7 @@ The following 3 layouts are available.
 
 ### Search Form Only
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-form
     result-page="Path of result page."
   ></fess-search-form>
@@ -65,7 +65,7 @@ The following 3 layouts are available.
 
 ### Search Result Only
 ```html
-<div id="fess-site-search">
+<div class="fess-site-search">
   <fess-search-result
     fess-url="https://search.n2sm.co.jp"
   ></fess-search-result>
