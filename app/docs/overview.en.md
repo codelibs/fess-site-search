@@ -1,15 +1,16 @@
-## What is Fess Site Search?
-Fess Site Search (FSS) provides a search feature that integrates [Enterprise Search Server Fess](http://fess.codelibs.org/) into an existing website.
-Using tags provided by FSS and JavaScript files, you can display a search box and search result table on your website.
-The installation is very easy and you can smoothly migrate from Google Site Search, Google Custom Search or the like.
+If you are using version 13 or earlier of Fess, click [here](https://fss-generator-v1.archive.n2sm.net).  
 
+## What is Fess Site Search?
+Fess Site Search (FSS) provides a search feature that integrates [Enterprise Search Server Fess](http://fess.codelibs.org/) into an existing website.  
+Using tags provided by FSS and JavaScript files, you can display a search box and search result table on your website.  
+The installation is very easy and you can smoothly migrate from Google Site Search, Google Custom Search or the like.  
 
 ## Site Map
 
 - [User Manual](/docs/manual)
 - [FSS JS Generator](/generator)
-This page provides a JavaScript file used to embed Fess into your webpage.
-You can also customize the appearance of your FSS engine here.
+This page provides a JavaScript file used to embed Fess into your webpage.  
+You can also customize the appearance of your FSS engine here.  
 
 
 ## Commercial Support
