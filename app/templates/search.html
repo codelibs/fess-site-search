@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
   <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-34667351-4"></script>
@@ -12,7 +11,20 @@
     <title>Demo</title>
   </head>
 
-  <script id="embed" js_path="{{message.js_path}}" page_path="{{message.page_path}}"></script>
+  <script id="embed" src="{{message.js_path}}" page_path="{{message.page_path}}"></script>
 
-  <fess:search></fess:search>
+  <div id="demo-content">
+    <div class="fess-site-search">
+      <fess-search-form
+        result-page=""
+        :enable-suggest="true"
+        suggest-url="https://search.n2sm.co.jp"
+      ></fess-search-form>
+      <fess-search-result
+        fess-url="https://search.n2sm.co.jp"
+        link-target="_blank"
+        :page-size="5"
+      ></fess-search-result>
+    </div>
+  </div>
 </html>

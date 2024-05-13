@@ -7,6 +7,7 @@ node_modules/
 instance
 !instance/*/.gitkeep
 *.tern-port
-app/static/fss/*/fess-ss.min.js
+app/static/fss/*/fess-ss.js
 tests/sample.css
 .cache/
+dest/

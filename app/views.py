@@ -1,6 +1,6 @@
 import os
 from flask import request, render_template, jsonify, make_response
-from markdown import markdown
+import pycmarkgfm
 from .app import app
 from .backend import upload, wizard, js_exists
 
@@ -47,7 +47,7 @@ def demo(fname):
     my_dic = {}
     my_dic['js_path'] = '/generates/fess-ss-{}.min.js'.format(fname)
     my_dic['js_file'] = 'fess-ss-{}.min.js'.format(fname)
-    my_dic['search_src'] = '/search/{}?q=test'.format(fname)
+    my_dic['search_src'] = '/search/{}?fss.query=test'.format(fname)
     print(my_dic['search_src'])
     return render_template('demo.html', message=my_dic)
 
@@ -56,7 +56,7 @@ def demo(fname):
 def preview():
     """search page used in preview"""
     my_dic = {}
-    my_dic['js_path'] = '/static/fss/fess-ss.min.js'
+    my_dic['js_path'] = '/static/fss/fess-ss.js'
     my_dic['page_path'] = '/search/'
     return render_template('search.html', message=my_dic)
 
@@ -84,8 +84,7 @@ def render_markdown(html_file, md_file, lang):
     md_file = open(path, mode='r', encoding='utf-8')
     md_str = md_file.read()
     md_file.close()
-    extensions = ['gfm']
-    html = markdown(md_str, extensions=extensions)
+    html = pycmarkgfm.gfm_to_html(md_str)
     my_dic = {
         'language': lang,
         'markdown_content': html
