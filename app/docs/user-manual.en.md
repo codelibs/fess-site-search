@@ -84,7 +84,7 @@ language="en"
 #### Use Auto-Complete
 ```html
 :enable-suggest="true"
-:suggest-url="https://search.n2sm.co.jp"
+suggest-url="https://search.n2sm.co.jp"
 ```
 
 #### Move To Search Result Page

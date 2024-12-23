@@ -84,7 +84,7 @@ language="ja"
 #### サジェストを利用する場合
 ```html
 :enable-suggest="true"
-:suggest-url="https://search.n2sm.co.jp"
+suggest-url="https://search.n2sm.co.jp"
 ```
 
 #### 検索時に別のページへ移動する場合
