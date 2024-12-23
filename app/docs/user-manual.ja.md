@@ -125,7 +125,7 @@ fess-search-resultに以下の属性を追加することで、FSSの検索結�
 :page-size="20"
 ```
 
-#### 検索結果を別タブで表示する場合
+#### 検索結果のリンク先を別タブで開く場合
 ```html
 link-target="_blank"
 ```
