@@ -4,8 +4,8 @@ FROM node:22-slim AS frontend-builder
 WORKDIR /app/fss
 
 # Install Node.js dependencies
-COPY fss/package.json fss/package-lock.json* ./
-RUN npm ci --no-audit
+COPY fss/package.json ./
+RUN npm install --no-audit
 
 # Copy frontend source code
 COPY fss/jsconfig.json fss/babel.config.js fss/vue.config.js ./
@@ -58,14 +58,14 @@ COPY --from=frontend-builder /usr/local/lib/node_modules /usr/local/lib/node_mod
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Copy frontend build configuration (needed for runtime builds)
-COPY fss/package.json fss/package-lock.json* /app/fss/
+COPY fss/package.json /app/fss/
 COPY fss/jsconfig.json fss/babel.config.js fss/vue.config.js /app/fss/
 COPY fss/src /app/fss/src
 COPY fss/public /app/fss/public
 
 # Install Node.js dependencies for runtime builds
 WORKDIR /app/fss
-RUN npm ci --production=false --no-audit
+RUN npm install --no-audit
 
 # Copy application code
 WORKDIR /app

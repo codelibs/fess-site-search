@@ -45,11 +45,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: fss/package-lock.json
+          cache-dependency-path: fss/package.json
 
       - name: Install Node.js dependencies
         working-directory: fss
-        run: npm ci
+        run: npm install
 
       - name: Run ESLint
         working-directory: fss
@@ -83,11 +83,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: fss/package-lock.json
+          cache-dependency-path: fss/package.json
 
       - name: Install Node.js dependencies
         working-directory: fss
-        run: npm ci
+        run: npm install
 
       - name: Build Vue.js application
         working-directory: fss
@@ -174,11 +174,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: fss/package-lock.json
+          cache-dependency-path: fss/package.json
 
       - name: Install dependencies
         working-directory: fss
-        run: npm ci
+        run: npm install
 
       - name: Build production bundle
         working-directory: fss
@@ -227,11 +227,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: fss/package-lock.json
+          cache-dependency-path: fss/package.json
 
       - name: Install Node.js dependencies
         working-directory: fss
-        run: npm ci
+        run: npm install
 
       - name: Run npm audit
         working-directory: fss
