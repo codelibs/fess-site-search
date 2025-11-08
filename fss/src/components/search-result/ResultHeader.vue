@@ -123,10 +123,10 @@ export default defineComponent({
 
     // Watch props change.
     watch(currentSearchCond, (newValue, oldValue) => {
-      if (currentSearchCond.label !== "") {
+      if (currentSearchCond.value.label !== "") {
         state.selectedLabel = props.currentSearchCond.label;
       }
-      if (currentSearchCond.sort !== "") {
+      if (currentSearchCond.value.sort !== "") {
         state.selectedSort = props.currentSearchCond.sort;
       }
     });
