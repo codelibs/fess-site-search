@@ -1,7 +1,8 @@
-import requests
-import re
 import random
+import re
 import time
+
+import requests
 
 ROOT_URL = 'http://localhost:5000'
 
@@ -48,20 +49,20 @@ def test_wizard():
 
 
 def create_random_css(filename):
-    rand_css = '''
+    rand_css = f'''
         .fessWrapper {{
-          background-color: {0};
+          background-color: {rand_col()};
           font-family: Times, serif;
         }}
 
         .fessWrapper .searchButton {{
-          border: solid {1};
+          border: solid {rand_col()};
         }}
 
         .fessWrapper #result li {{
-          background-color: {2};
+          background-color: {rand_col()};
         }}
-    '''.format(rand_col(), rand_col(), rand_col())
+    '''
 
     with open(filename, 'w') as f:
         f.write(rand_css)
@@ -70,7 +71,7 @@ def create_random_css(filename):
 def test_upload():
     css_file = 'tests/sample.css'
     create_random_css(css_file)
-    files = {'file': open(css_file, 'r')}
+    files = {'file': open(css_file)}
 
     res = requests.post(ROOT_URL + '/generator', files=files)
     assert res.status_code == 200

@@ -1,12 +1,13 @@
-import os
 import hashlib
+import os
 import random
-from flask import redirect, url_for, flash
-from werkzeug.utils import secure_filename
-from .app import app
-from .generate_config import generate_config
-from .build_manager import BuildManager
 
+from flask import flash, redirect, url_for
+from werkzeug.utils import secure_filename
+
+from .app import app
+from .build_manager import BuildManager
+from .generate_config import generate_config
 
 
 def upload(form, file):
@@ -16,9 +17,9 @@ def upload(form, file):
     if file and is_css(file.filename):
         base = secure_filename(file.filename)[:-4]
         hash_str = rand_hash()
-        fname = '{}_{}'.format(base, hash_str)
+        fname = f'{base}_{hash_str}'
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + '.css'))
-        print('Upload: {}.css'.format(fname))
+        print(f'Upload: {fname}.css')
         return run_build(fname)
 
     return redirect(url_for('generator'))
@@ -26,7 +27,7 @@ def upload(form, file):
 
 def wizard(form):
     hash_str = form2hash(form)
-    fname = 'wizard_{}'.format(hash_str)
+    fname = f'wizard_{hash_str}'
 
     if js_exists(fname):
         return redirect(url_for('demo', fname=fname))
@@ -69,6 +70,6 @@ def is_empty_form(form):
 
 
 def js_exists(fname):
-    jsfile = 'fess-ss-{}.min.js'.format(fname)
+    jsfile = f'fess-ss-{fname}.min.js'
     path = os.path.join(app.config['DOWNLOAD_FOLDER'], jsfile)
     return os.path.exists(path)

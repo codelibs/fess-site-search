@@ -1,14 +1,14 @@
-import subprocess
 import os
-import sys
 import shutil
+import subprocess
+import sys
 from multiprocessing import BoundedSemaphore
 
 # To share 'semaphore' among multiple workers on gunicorn, use '--preload' option
 semaphore = BoundedSemaphore(int(os.environ.get('APP_WEBPACK_LIMIT', '2')))
 
 
-class _BdManager():
+class _BdManager:
     """
     Used in 'BuildManager'.
     """
@@ -62,17 +62,17 @@ class _BdManager():
 
     def gen_exec_env(self, folder, fname):
         my_env = os.environ.copy()
-        jsfile = 'fess-ss-{}.min.js'.format(fname)
+        jsfile = f'fess-ss-{fname}.min.js'
 
-        my_env['INPUT_JSON_PATH'] = '{}/{}.json'.format(folder, fname)
-        my_env['INPUT_CSS_PATH'] = '{}/{}.css'.format(folder, fname)
+        my_env['INPUT_JSON_PATH'] = f'{folder}/{fname}.json'
+        my_env['INPUT_CSS_PATH'] = f'{folder}/{fname}.css'
         my_env['OUTPUT_JS_FILENAME'] = jsfile
 
         print('generate_js: ({}, {}) -> {}'.format(my_env['INPUT_JSON_PATH'], my_env['INPUT_CSS_PATH'], my_env['OUTPUT_JS_FILENAME']))
         return my_env
 
 
-class BuildManager():  # Singleton
+class BuildManager:  # Singleton
     """
     This class keeps the number of build processes from exceeding 'APP_WEBPACK_LIMIT'.
     """

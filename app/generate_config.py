@@ -1,7 +1,9 @@
 import os
+
 import cssutils
+
 from .app import app
-from .custom_config_rules import get_config_rules, add_rule
+from .custom_config_rules import add_rule, get_config_rules
 
 
 def generate_config(form, fname):

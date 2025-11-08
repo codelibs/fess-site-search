@@ -1,8 +1,10 @@
 import os
-from flask import request, render_template, jsonify, make_response
+
 import pycmarkgfm
+from flask import jsonify, make_response, render_template, request
+
 from .app import app
-from .backend import upload, wizard, js_exists
+from .backend import js_exists, upload, wizard
 
 
 @app.route('/')
@@ -45,9 +47,9 @@ def generator():
 def demo(fname):
     """demo page"""
     my_dic = {}
-    my_dic['js_path'] = '/generates/fess-ss-{}.min.js'.format(fname)
-    my_dic['js_file'] = 'fess-ss-{}.min.js'.format(fname)
-    my_dic['search_src'] = '/search/{}?fss.query=test'.format(fname)
+    my_dic['js_path'] = f'/generates/fess-ss-{fname}.min.js'
+    my_dic['js_file'] = f'fess-ss-{fname}.min.js'
+    my_dic['search_src'] = f'/search/{fname}?fss.query=test'
     print(my_dic['search_src'])
     return render_template('demo.html', message=my_dic)
 
@@ -65,8 +67,8 @@ def preview():
 def search(fname):
     """search frame in demo page"""
     my_dic = {}
-    my_dic['js_path'] = '/generates/fess-ss-{}.min.js'.format(fname)
-    my_dic['page_path'] = '/search/{}'.format(fname)
+    my_dic['js_path'] = f'/generates/fess-ss-{fname}.min.js'
+    my_dic['page_path'] = f'/search/{fname}'
     return render_template('search.html', message=my_dic)
 
 
@@ -81,7 +83,7 @@ def check_js(fname):
 def render_markdown(html_file, md_file, lang):
     """render a markdown document in DOCS_FOLDER"""
     path = os.path.join(app.config['DOCS_FOLDER'], md_file)
-    md_file = open(path, mode='r', encoding='utf-8')
+    md_file = open(path, encoding='utf-8')
     md_str = md_file.read()
     md_file.close()
     html = pycmarkgfm.gfm_to_html(md_str)
