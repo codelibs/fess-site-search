@@ -43,8 +43,8 @@ ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 
-# Copy Python dependencies configuration
-COPY pyproject.toml ./
+# Copy Python dependencies configuration and README
+COPY pyproject.toml README.md ./
 
 # Install Python dependencies using uv
 RUN uv pip install --system -e .

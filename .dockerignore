@@ -7,11 +7,11 @@
 .github/
 .travis.yml
 
-# Documentation
-*.md
-!README.md
+# Documentation (keep README.md, exclude others)
 CONTRIBUTING.md
-LICENSE
+SPECIFICATIONS.md
+docs/
+!README.md
 
 # Python
 __pycache__/

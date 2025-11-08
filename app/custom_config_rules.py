@@ -39,7 +39,7 @@ def add_rule(json, css, form, rule):
     else:
         try:
             css.add(fragment)
-        except Exception as e:
+        except Exception:
             print('Invalid:\n', fragment)
             print(traceback.format_exc())
 

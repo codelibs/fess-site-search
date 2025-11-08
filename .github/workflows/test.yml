@@ -100,12 +100,18 @@ jobs:
           mkdir -p instance/uploads
           mkdir -p instance/generates
 
+      - name: Start Flask application
+        run: |
+          export FLASK_APP=app/__init__.py
+          uv run flask run &
+          sleep 5
+          curl -f http://localhost:5000/ || (echo "Flask app failed to start" && exit 1)
+
       - name: Run tests
         run: |
           uv run pytest -v --cov=app --cov-report=xml --cov-report=term-missing
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.13'
         uses: codecov/codecov-action@v4
         with:
           file: ./coverage.xml
