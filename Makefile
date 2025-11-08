@@ -83,7 +83,11 @@ sync: ## Sync dependencies with uv
 
 validate: ## Validate configuration files
 	@echo "Validating pyproject.toml..."
-	@python3 -c "import tomllib; tomllib.load(open('pyproject.toml', 'rb'))" && echo "✓ pyproject.toml is valid"
+	@python3 -c "import sys; \
+		if sys.version_info < (3, 11): \
+			print('Error: Python 3.11+ required for tomllib'); sys.exit(1); \
+		import tomllib; \
+		tomllib.load(open('pyproject.toml', 'rb'))" && echo "✓ pyproject.toml is valid"
 	@echo "Validating package.json..."
 	@node -e "JSON.parse(require('fs').readFileSync('fss/package.json'))" && echo "✓ package.json is valid"
 	@echo "Checking Python syntax..."

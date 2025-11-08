@@ -3,7 +3,7 @@
 # Fess Site Search Installation Script
 # This script sets up the development environment for both backend and frontend
 
-SCRIPT_DIR=$(cd $(dirname $0); pwd)
+SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 
 echo "==> Installing Fess Site Search development environment"
 

@@ -156,91 +156,91 @@ fess-site-search/
 ### 3.1 Backend Stack
 
 #### Core Framework
-- **Flask 2.3.2**: Lightweight WSGI web application framework
+- **Flask ≥3.1.0**: Lightweight WSGI web application framework
   - Routing and request handling
   - Template rendering with Jinja2
   - Static file serving
 
 #### Python Libraries
-- **Gunicorn 22.0.0**: Production-grade WSGI HTTP server
+- **Gunicorn ≥23.0.0**: Production-grade WSGI HTTP server
   - Multi-worker process manager
   - Thread pooling for concurrent requests
 
-- **cssutils 1.0.2**: CSS parser and manipulation library
+- **cssutils ≥2.11.1**: CSS parser and manipulation library
   - Parsing uploaded CSS files
   - Validating CSS syntax
   - Extracting custom rules
 
-- **pycmarkgfm 1.2.0**: GitHub Flavored Markdown parser
+- **pycmarkgfm ≥1.2.1**: GitHub Flavored Markdown parser
   - Converting documentation files to HTML
   - Preserving markdown formatting
 
-- **pygments 2.16.1**: Syntax highlighting library
+- **pygments ≥2.18.0**: Syntax highlighting library
   - Code highlighting in documentation
 
-- **pytest 5.2.1**: Testing framework
+- **pytest ≥8.3.4**: Testing framework
   - Unit and integration tests
   - Test fixtures and assertions
+  - Coverage reporting
 
 ### 3.2 Frontend Stack
 
 #### Core Framework
-- **Vue.js 3.4.27**: Progressive JavaScript framework
+- **Vue.js ^3.5.13**: Progressive JavaScript framework
   - Component-based architecture
   - Reactive data binding
   - Virtual DOM rendering
 
 #### Vue Ecosystem
-- **Vue CLI 5.0**: Standard tooling for Vue development
+- **Vue CLI ~5.0.8**: Standard tooling for Vue development
   - Project scaffolding
   - Build orchestration
   - Plugin management
 
-- **Webpack** (via Vue CLI): Module bundler
+- **Webpack ^5.97.1** (via Vue CLI): Module bundler
   - JavaScript bundling and minification
   - SCSS preprocessing
   - Asset optimization
 
 #### JavaScript Libraries
-- **Axios 1.4.0**: Promise-based HTTP client
+- **Axios ^1.7.9**: Promise-based HTTP client
   - AJAX requests to Fess API
   - Request/response interceptors
 
-- **Superagent 5.3.0**: HTTP request library
-  - Alternative HTTP client
-  - Chainable API
-
-- **@babel/cli 7.x**: JavaScript transpiler
+- **@babel/cli ^7.25.9**: JavaScript transpiler
   - ES6+ to ES5 compilation
   - Browser compatibility
 
-- **core-js 3.8.3**: Polyfill library
+- **core-js ^3.39.0**: Polyfill library
   - ES6+ feature polyfills
   - Browser compatibility
 
 #### Styling
-- **Sass 1.51.0**: CSS preprocessor
+- **Sass ^1.81.0**: CSS preprocessor
   - SCSS syntax support
   - Variable-based theming
   - Nested selectors
 
-- **sass-loader 10.2.1**: Webpack loader for Sass
-- **style-loader 3.3.1**: Injects CSS into DOM
+- **sass-loader ^16.0.3**: Webpack loader for Sass
+  - SCSS compilation
+  - Source maps support
 
 #### Code Quality
-- **ESLint 7.32.0**: JavaScript linter
+- **ESLint ^8.57.1**: JavaScript linter
   - Code quality enforcement
   - Vue.js-specific rules
   - Automatic error detection
 
-- **eslint-plugin-vue 8.0.3**: Vue-specific ESLint rules
+- **eslint-plugin-vue ^9.31.0**: Vue-specific ESLint rules
   - Vue 3 best practices
   - Component structure validation
 
 ### 3.3 Development Tools
 
-- **Node.js 18.16.0**: JavaScript runtime
-- **npm**: Package manager
+- **Node.js ≥18 (22 recommended)**: JavaScript runtime
+- **npm ≥9**: Package manager
+- **Python ≥3.11 (3.13 recommended)**: Application runtime
+- **uv**: Fast Python package installer and resolver
 - **Docker**: Containerization platform
 - **Git**: Version control
 
@@ -683,19 +683,27 @@ pytest -v ./tests
 docker build -t fss .
 ```
 
-**Build Process**:
-1. Base image: `node:18.16.0-slim`
-2. Install Python 3 and pip
-3. Build Vue.js application:
-   - Copy package files
-   - Run `npm install`
-   - Copy source code
-   - Run `npm run build`
-   - Copy output to Flask static folder
-4. Install Python dependencies
-5. Copy application code
-6. Expose port 5000
-7. Set environment variables
+**Build Process** (Multi-stage):
+
+**Stage 1: Frontend Builder**
+1. Base image: `node:22-slim`
+2. Install Node.js dependencies with `npm ci`
+3. Copy Vue.js source code
+4. Run `npm run build` to create production bundle
+
+**Stage 2: Production Image**
+1. Base image: `python:3.13-slim`
+2. Install system dependencies (curl, ca-certificates)
+3. Install uv package manager
+4. Install Python dependencies using uv
+5. Copy built frontend assets from Stage 1
+6. Copy Node.js runtime for dynamic builds
+7. Install Node.js dependencies for runtime builds
+8. Copy application code
+9. Create instance directories
+10. Expose port 5000
+11. Configure health check
+12. Set environment variables
 
 #### Run Docker Container
 
