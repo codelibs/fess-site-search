@@ -65,8 +65,8 @@ Thumbs.db
 instance/uploads/*
 instance/generates/*
 
-# Tests
-tests/
+# Test artifacts (but keep test files)
+.pytest_cache/
 *.test.js
 *.spec.js
 
