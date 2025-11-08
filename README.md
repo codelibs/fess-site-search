@@ -2,7 +2,7 @@
 
 [![CI/CD Pipeline](https://github.com/codelibs/fess-site-search/actions/workflows/test.yml/badge.svg)](https://github.com/codelibs/fess-site-search/actions/workflows/test.yml)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
 [![Node](https://img.shields.io/badge/node-18+-green.svg)](https://nodejs.org/)
 
 Fess Site Search (FSS) is a customizable JavaScript widget generator that enables you to easily embed powerful search functionality on your website, powered by the [Fess](https://fess.codelibs.org/) search engine.
@@ -41,7 +41,7 @@ open http://localhost:5000
 
 #### Prerequisites
 
-- **Python 3.11+** ([Download](https://www.python.org/downloads/))
+- **Python 3.13** ([Download](https://www.python.org/downloads/))
 - **Node.js 18+** ([Download](https://nodejs.org/))
 - **uv** - Fast Python package installer ([Install](https://github.com/astral-sh/uv))
 

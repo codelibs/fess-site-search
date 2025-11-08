@@ -84,8 +84,8 @@ sync: ## Sync dependencies with uv
 validate: ## Validate configuration files
 	@echo "Validating pyproject.toml..."
 	@python3 -c "import sys; \
-		if sys.version_info < (3, 11): \
-			print('Error: Python 3.11+ required for tomllib'); sys.exit(1); \
+		if sys.version_info < (3, 13): \
+			print('Error: Python 3.13+ required'); sys.exit(1); \
 		import tomllib; \
 		tomllib.load(open('pyproject.toml', 'rb'))" && echo "✓ pyproject.toml is valid"
 	@echo "Validating package.json..."

@@ -239,7 +239,7 @@ fess-site-search/
 
 - **Node.js ≥18 (22 recommended)**: JavaScript runtime
 - **npm ≥9**: Package manager
-- **Python ≥3.11 (3.13 recommended)**: Application runtime
+- **Python 3.13**: Application runtime
 - **uv**: Fast Python package installer and resolver
 - **Docker**: Containerization platform
 - **Git**: Version control
