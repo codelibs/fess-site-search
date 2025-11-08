@@ -63,7 +63,7 @@ def is_css(filename):
 
 
 def is_empty_form(form):
-    for (k, v) in form.items():
+    for (_k, v) in form.items():
         if v:
             return False
     return True

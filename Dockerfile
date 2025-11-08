@@ -36,10 +36,10 @@ RUN apt-get update \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     && curl -LsSf https://astral.sh/uv/install.sh | sh \
-    && /root/.cargo/bin/uv --version
+    && /root/.local/bin/uv --version
 
 # Add uv to PATH
-ENV PATH="/root/.cargo/bin:$PATH"
+ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 
@@ -47,7 +47,7 @@ WORKDIR /app
 COPY pyproject.toml ./
 
 # Install Python dependencies using uv
-RUN /root/.cargo/bin/uv pip install --system -e .
+RUN uv pip install --system -e .
 
 # Copy built frontend files from builder stage
 RUN mkdir -p /app/app/static/fss
