@@ -29,14 +29,18 @@ ENV PYTHONUNBUFFERED=1 \
     APP_WEBPACK_LIMIT=4 \
     UV_SYSTEM_PYTHON=1
 
-# Install system dependencies and uv
+# Install system dependencies, build tools, and uv
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
         ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
+        gcc \
+        g++ \
+        make \
+        libc6-dev \
     && curl -LsSf https://astral.sh/uv/install.sh | sh \
-    && /root/.local/bin/uv --version
+    && /root/.local/bin/uv --version \
+    && rm -rf /var/lib/apt/lists/*
 
 # Add uv to PATH
 ENV PATH="/root/.local/bin:$PATH"
@@ -47,6 +51,7 @@ WORKDIR /app
 COPY pyproject.toml README.md ./
 
 # Install Python dependencies using uv
+# Note: Build tools (gcc, g++, make) are kept for potential runtime compilation needs
 RUN uv pip install --system -e .
 
 # Copy built frontend files from builder stage
