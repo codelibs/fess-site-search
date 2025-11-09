@@ -103,13 +103,42 @@ jobs:
       - name: Start Flask application
         run: |
           export FLASK_APP=app/__init__.py
-          uv run flask run &
-          sleep 5
-          curl -f http://localhost:5000/ || (echo "Flask app failed to start" && exit 1)
+          # Ensure node and npm are in PATH for Flask subprocess
+          echo "Node path: $(which node)"
+          echo "NPM path: $(which npm)"
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          # Start Flask in background
+          uv run flask run > flask.log 2>&1 &
+          FLASK_PID=$!
+          echo "Flask PID: $FLASK_PID"
+          # Wait for Flask to start
+          sleep 10
+          # Check if Flask is running
+          if ! curl -f http://localhost:5000/; then
+            echo "Flask app failed to start"
+            echo "=== Flask log ==="
+            cat flask.log
+            kill $FLASK_PID || true
+            exit 1
+          fi
+          echo "Flask is running"
 
       - name: Run tests
         run: |
           uv run pytest -v --cov=app --cov-report=xml --cov-report=term-missing
+        timeout-minutes: 10
+
+      - name: Stop Flask application
+        if: always()
+        run: |
+          # Kill Flask process
+          pkill -f "flask run" || true
+          # Show Flask log for debugging
+          if [ -f flask.log ]; then
+            echo "=== Flask log ==="
+            tail -100 flask.log
+          fi
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
