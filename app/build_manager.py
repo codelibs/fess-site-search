@@ -87,5 +87,5 @@ class BuildManager:  # Singleton
 
         return cls._instance
 
-    def run(self, folder, instance_path, fname):
-        return self._instance.run(folder, instance_path, fname)
+    def run(self, dwn_folder, up_folder, instance_path, fname):
+        return self._instance.run(dwn_folder, up_folder, instance_path, fname)
