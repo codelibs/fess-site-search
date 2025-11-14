@@ -27,5 +27,6 @@ module.exports = defineConfig({
       config.resolve.fallback = {};
     }
     config.resolve.fallback.querystring = require.resolve('querystring-es3');
+    config.resolve.fallback.fs = false;  // Ignore fs module for browser builds
   }
 });

@@ -39,7 +39,7 @@ export default defineComponent({
     }
   },
 
-  setup(props, context) {
+  setup(props) {
     // reactive data
     const state = reactive({
       query: ''

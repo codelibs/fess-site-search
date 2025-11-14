@@ -24,7 +24,7 @@ export default function() {
       if (url.indexOf('?') != -1) {
         const array = url.split('?');
         const paramArray = array[1].split('&');
-        paramArray.forEach((val, index, ar) => {
+        paramArray.forEach((val) => {
           const tpl = val.split('=');
           const key = decodeURIComponent(tpl[0]);
           let value = '';

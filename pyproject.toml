@@ -79,7 +79,7 @@ addopts = [
 
 [tool.ruff]
 line-length = 160
-target-version = "py311"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [
@@ -99,7 +99,7 @@ ignore = [
 "tests/*" = ["B", "F401", "F811"]
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.13"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
