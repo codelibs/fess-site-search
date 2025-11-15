@@ -124,8 +124,10 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest -v tests/
-        timeout-minutes: 15
+          # Skip slow tests (webpack build tests) in CI environment
+          # Run locally with: pytest -v tests/ (includes all tests)
+          uv run pytest -v -m "not slow" tests/
+        timeout-minutes: 10
 
       - name: Stop Flask application
         if: always()

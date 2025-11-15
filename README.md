@@ -179,15 +179,24 @@ npm run lint:fix
 ### Running Tests
 
 ```bash
-# Run all tests
+# Run all tests (excluding slow webpack build tests)
+uv run pytest -v -m "not slow"
+
+# Run all tests including slow tests (requires Flask server)
 uv run pytest -v
 
-# Run with coverage
-uv run pytest --cov=app --cov-report=html
+# Run only slow tests (webpack build tests)
+uv run pytest -v -m "slow"
 
 # Run specific test file
 uv run pytest tests/test_status.py -v
 ```
+
+**Test Categories:**
+- **Fast tests** (`not slow`): Basic Flask routes and functionality (~5 seconds)
+- **Slow tests** (`slow`): Dynamic webpack builds and uploads (~30-120 seconds)
+
+**Note:** Slow tests require a running Flask server and may take several minutes in CI environments.
 
 ### Building for Production
 
