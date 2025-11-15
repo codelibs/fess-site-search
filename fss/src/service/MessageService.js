@@ -1144,7 +1144,6 @@ export default class {
    */
   get(key, vars) {
     const language = this.getLanguage();
-    const messages = this.messages[language];
     return this._getMessage(key, vars, language);
   }
 

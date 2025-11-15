@@ -5,7 +5,7 @@ import sys
 from multiprocessing import BoundedSemaphore
 
 # To share 'semaphore' among multiple workers on gunicorn, use '--preload' option
-semaphore = BoundedSemaphore(int(os.environ.get('APP_WEBPACK_LIMIT', '2')))
+semaphore = BoundedSemaphore(int(os.environ.get("APP_WEBPACK_LIMIT", "2")))
 
 
 class _BdManager:
@@ -31,15 +31,15 @@ class _BdManager:
                 proc = subprocess.Popen(cmd, env=my_env, cwd=cwd)
                 outs, errs = proc.communicate()
 
-                print('Build Success.')
+                print("Build Success.")
                 sys.stdout.flush()
-                jsfile = my_env['OUTPUT_JS_FILENAME']
-                srcPath = os.path.join(os.path.join(instance_path, '../fss/dist'), jsfile)
+                jsfile = my_env["OUTPUT_JS_FILENAME"]
+                srcPath = os.path.join(os.path.join(instance_path, "../fss/dist"), jsfile)
                 destPath = os.path.join(dwn_folder, jsfile)
-                print('Do move. src:' + srcPath + ' to:' + destPath)
+                print("Do move. src:" + srcPath + " to:" + destPath)
                 sys.stdout.flush()
                 shutil.move(srcPath, destPath)
-                print('Move success.')
+                print("Move success.")
                 sys.stdout.flush()
             else:
                 return True
@@ -47,28 +47,34 @@ class _BdManager:
             self.semaphore.release()
             return False
         else:
-            assert(pid == 0)
+            assert pid == 0
             self.semaphore.release()
             os._exit(0)
 
-        assert(pid == 0)
+        assert pid == 0
         self.semaphore.release()
         os._exit(0)
 
     def gen_command(self, path):
-        cwd = os.path.join(path, '../fss')
-        cmd = 'npm run build'
+        cwd = os.path.join(path, "../fss")
+        cmd = "npm run build"
         return (cwd, cmd.split())
 
     def gen_exec_env(self, folder, fname):
         my_env = os.environ.copy()
-        jsfile = f'fess-ss-{fname}.min.js'
+        jsfile = f"fess-ss-{fname}.min.js"
 
-        my_env['INPUT_JSON_PATH'] = f'{folder}/{fname}.json'
-        my_env['INPUT_CSS_PATH'] = f'{folder}/{fname}.css'
-        my_env['OUTPUT_JS_FILENAME'] = jsfile
+        my_env["INPUT_JSON_PATH"] = f"{folder}/{fname}.json"
+        my_env["INPUT_CSS_PATH"] = f"{folder}/{fname}.css"
+        my_env["OUTPUT_JS_FILENAME"] = jsfile
 
-        print('generate_js: ({}, {}) -> {}'.format(my_env['INPUT_JSON_PATH'], my_env['INPUT_CSS_PATH'], my_env['OUTPUT_JS_FILENAME']))
+        print(
+            "generate_js: ({}, {}) -> {}".format(
+                my_env["INPUT_JSON_PATH"],
+                my_env["INPUT_CSS_PATH"],
+                my_env["OUTPUT_JS_FILENAME"],
+            )
+        )
         return my_env
 
 

@@ -8,14 +8,14 @@ class AbstractConfigRule(metaclass=ABCMeta):
 
     @abstractmethod
     def form_name(self):
-        return ''
+        return ""
 
     @abstractmethod
     def gen_rule(self, val):
-        return ''
+        return ""
 
     def filetype(self):
-        return 'css'
+        return "css"
 
     def isCheckbox(self):
         return False
@@ -26,21 +26,21 @@ def add_rule(json, css, form, rule):
 
     if rule.isCheckbox():
         if not val:
-            val = 'unchecked'
+            val = "unchecked"
         else:
-            val = 'checked'
+            val = "checked"
     elif not val:
         return (json, css)
 
     fragment = rule.gen_rule(val)
 
-    if rule.filetype() == 'json':
-        json += ('' if json == '' else ',') + fragment
+    if rule.filetype() == "json":
+        json += ("" if json == "" else ",") + fragment
     else:
         try:
             css.add(fragment)
         except Exception:
-            print('Invalid:\n', fragment)
+            print("Invalid:\n", fragment)
             print(traceback.format_exc())
 
     return (json, css)
@@ -57,7 +57,7 @@ How to add Custom CSS and JSON Rule:
 # General Design
 class Font(AbstractConfigRule):
     def form_name(self):
-        return 'font-family'
+        return "font-family"
 
     def gen_rule(self, font):
         return f'''.fess-site-search {{font-family: {font};}}'''
@@ -65,7 +65,7 @@ class Font(AbstractConfigRule):
 
 class BackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'bg-color'
+        return "bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search {{background-color: {color};}}'''
@@ -73,7 +73,7 @@ class BackgroundColor(AbstractConfigRule):
 
 class BorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'border-color'
+        return "border-color"
 
     def gen_rule(self, font):
         return f'''.fess-site-search {{border: solid {font};}}'''
@@ -82,7 +82,7 @@ class BorderColor(AbstractConfigRule):
 # Search Box
 class FormBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'searchbox-border-color'
+        return "searchbox-border-color"
 
     def gen_rule(self, font):
         return f'''.fess-site-search .fessForm .query {{border: solid {font};}}'''
@@ -91,7 +91,7 @@ class FormBorderColor(AbstractConfigRule):
 # Search Button
 class ButtonTextColor(AbstractConfigRule):
     def form_name(self):
-        return 'button-text-color'
+        return "button-text-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton {{color: {color};}}'''
@@ -99,7 +99,7 @@ class ButtonTextColor(AbstractConfigRule):
 
 class ButtonBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'button-border-color'
+        return "button-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton {{border: solid {color};}}'''
@@ -108,7 +108,7 @@ class ButtonBorderColor(AbstractConfigRule):
 class ButtonBackgroundColor(AbstractConfigRule):
 
     def form_name(self):
-        return 'button-bg-color'
+        return "button-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton {{background-color: {color};}}'''
@@ -116,7 +116,7 @@ class ButtonBackgroundColor(AbstractConfigRule):
 
 class ButtonActiveTextColor(AbstractConfigRule):
     def form_name(self):
-        return 'button-active-text-color'
+        return "button-active-text-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton:active, .fess-site-search .searchButton:hover, .fess-site-search .searchButton:focus {{color: {color};}}'''
@@ -124,7 +124,7 @@ class ButtonActiveTextColor(AbstractConfigRule):
 
 class ButtonActiveBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'button-active-border-color'
+        return "button-active-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton:active, .fess-site-search .searchButton:hover, .fess-site-search .searchButton:focus {{border: solid {color};}}'''
@@ -133,7 +133,7 @@ class ButtonActiveBorderColor(AbstractConfigRule):
 class ButtonActiveBackgroundColor(AbstractConfigRule):
 
     def form_name(self):
-        return 'button-active-bg-color'
+        return "button-active-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .searchButton:active, .fess-site-search .searchButton:hover, .fess-site-search .searchButton:focus {{background-color: {color};}}'''
@@ -142,13 +142,13 @@ class ButtonActiveBackgroundColor(AbstractConfigRule):
 # Label
 class LabelboxVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'labelbox-visibility'
+        return "labelbox-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableLabels": true' if visible == 'checked' else '"enableLabels": false')
+        return ('"enableLabels": true' if visible == "checked" else '"enableLabels": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -156,7 +156,7 @@ class LabelboxVisibility(AbstractConfigRule):
 
 class LabelboxBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'labelbox-border-color'
+        return "labelbox-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search select.field-labels, .fess-site-search select.field-labels:focus {{border-color: {color};}}'''
@@ -164,7 +164,7 @@ class LabelboxBorderColor(AbstractConfigRule):
 
 class LabelboxBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'labelbox-bg-color'
+        return "labelbox-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search select.field-labels {{background-color: {color};}}'''
@@ -172,13 +172,13 @@ class LabelboxBackgroundColor(AbstractConfigRule):
 
 class LabeltabVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'labeltab-visibility'
+        return "labeltab-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableLabelTabs": true' if visible == 'checked' else '"enableLabelTabs": false')
+        return ('"enableLabelTabs": true' if visible == "checked" else '"enableLabelTabs": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -186,7 +186,7 @@ class LabeltabVisibility(AbstractConfigRule):
 
 class LabeltabBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'labeltab-border-color'
+        return "labeltab-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .label-tab {{border-color: {color};}}'''
@@ -194,7 +194,7 @@ class LabeltabBorderColor(AbstractConfigRule):
 
 class LabeltabBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'labeltab-bg-color'
+        return "labeltab-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .label-tab {{background-color: {color};}}'''
@@ -202,7 +202,7 @@ class LabeltabBackgroundColor(AbstractConfigRule):
 
 class LabeltabSelectedBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'labeltab-selected-border-color'
+        return "labeltab-selected-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .label-tab-selected {{border-color: {color};}}'''
@@ -210,7 +210,7 @@ class LabeltabSelectedBorderColor(AbstractConfigRule):
 
 class LabeltabSelectedBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'labeltab-selected-bg-color'
+        return "labeltab-selected-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search .label-tab-selected {{background-color: {color};}}'''
@@ -219,13 +219,13 @@ class LabeltabSelectedBackgroundColor(AbstractConfigRule):
 # Order Box
 class OrderboxVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'orderbox-visibility'
+        return "orderbox-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableOrder": true' if visible == 'checked' else '"enableOrder": false')
+        return ('"enableOrder": true' if visible == "checked" else '"enableOrder": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -233,13 +233,13 @@ class OrderboxVisibility(AbstractConfigRule):
 
 class OrderboxVerboseVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'orderbox-verbose-visibility'
+        return "orderbox-verbose-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableAllOrders": true' if visible == 'checked' else '"enableAllOrders": false')
+        return ('"enableAllOrders": true' if visible == "checked" else '"enableAllOrders": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -247,7 +247,7 @@ class OrderboxVerboseVisibility(AbstractConfigRule):
 
 class OrderboxBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'orderbox-border-color'
+        return "orderbox-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search select.sort, .fess-site-search select.sort:focus {{border-color: {color};}}'''
@@ -255,7 +255,7 @@ class OrderboxBorderColor(AbstractConfigRule):
 
 class OrderboxBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'orderbox-bg-color'
+        return "orderbox-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search select.sort {{background-color: {color};}}'''
@@ -264,7 +264,7 @@ class OrderboxBackgroundColor(AbstractConfigRule):
 # Result: General
 class ResultBorderColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-border-color'
+        return "result-border-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search  #result li {{border: solid {color};}}'''
@@ -272,7 +272,7 @@ class ResultBorderColor(AbstractConfigRule):
 
 class ResultBackgroundColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-bg-color'
+        return "result-bg-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search  #result li {{background-color: {color};}}'''
@@ -280,7 +280,7 @@ class ResultBackgroundColor(AbstractConfigRule):
 
 class ResultBorderColorHover(AbstractConfigRule):
     def form_name(self):
-        return 'result-border-color-hover'
+        return "result-border-color-hover"
 
     def gen_rule(self, color):
         return f'''.fess-site-search  #result li:hover {{border: solid {color};}}'''
@@ -288,7 +288,7 @@ class ResultBorderColorHover(AbstractConfigRule):
 
 class ResultBackgroundColorHover(AbstractConfigRule):
     def form_name(self):
-        return 'result-bg-color-hover'
+        return "result-bg-color-hover"
 
     def gen_rule(self, color):
         return f'''.fess-site-search  #result li:hover {{background-color: {color};}}'''
@@ -297,7 +297,7 @@ class ResultBackgroundColorHover(AbstractConfigRule):
 # Result: Title
 class ResultTitleColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-title-color'
+        return "result-title-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .title a:link {{color: {color};}}'''
@@ -305,7 +305,7 @@ class ResultTitleColor(AbstractConfigRule):
 
 class ResultVisitedTitleColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-visited-title-color'
+        return "result-visited-title-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .title a:visited {{color: {color};}}'''
@@ -313,7 +313,7 @@ class ResultVisitedTitleColor(AbstractConfigRule):
 
 class ResultHoveredTitleColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-hovered-title-color'
+        return "result-hovered-title-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .title a:hover {{color: {color};}}'''
@@ -321,7 +321,7 @@ class ResultHoveredTitleColor(AbstractConfigRule):
 
 class ResultActiveTitleColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-active-title-color'
+        return "result-active-title-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .title a:active {{color: {color};}}'''
@@ -330,13 +330,13 @@ class ResultActiveTitleColor(AbstractConfigRule):
 # Result: Snippet
 class ResultThumbnailVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'result-thumbnail-visibility'
+        return "result-thumbnail-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableThumbnail": true' if visible == 'checked' else '"enableThumbnail": false')
+        return ('"enableThumbnail": true' if visible == "checked" else '"enableThumbnail": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -344,7 +344,7 @@ class ResultThumbnailVisibility(AbstractConfigRule):
 
 class ResultSnippetColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-snippet-color'
+        return "result-snippet-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .body .description {{color: {color};}}'''
@@ -353,10 +353,10 @@ class ResultSnippetColor(AbstractConfigRule):
 # Result: URL
 class ResultUrlVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'result-url-visibility'
+        return "result-url-visibility"
 
     def gen_rule(self, visible):
-        return '''.fess-site-search #result .site cite {{display: {};}}'''.format('inline' if visible == 'checked' else 'none')
+        return ""'.fess-site-search #result .site cite {{display: {};}}'''.format("inline" if visible == "checked" else "none")
 
     def isCheckbox(self):
         return True
@@ -364,7 +364,7 @@ class ResultUrlVisibility(AbstractConfigRule):
 
 class ResultUrlColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-url-color'
+        return "result-url-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .site cite {{color: {color};}}'''
@@ -373,13 +373,13 @@ class ResultUrlColor(AbstractConfigRule):
 # Result: Details
 class ResultDetailsVisibility(AbstractConfigRule):
     def form_name(self):
-        return 'result-details-visibility'
+        return "result-details-visibility"
 
     def gen_rule(self, visible):
-        return ('"enableDetails": true' if visible == 'checked' else '"enableDetails": false')
+        return ('"enableDetails": true' if visible == "checked" else '"enableDetails": false')
 
     def filetype(self):
-        return 'json'
+        return "json"
 
     def isCheckbox(self):
         return True
@@ -387,7 +387,7 @@ class ResultDetailsVisibility(AbstractConfigRule):
 
 class ResultDetailsColor(AbstractConfigRule):
     def form_name(self):
-        return 'result-details-color'
+        return "result-details-color"
 
     def gen_rule(self, color):
         return f'''.fess-site-search #result .info {{color: {color};}}'''
