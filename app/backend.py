@@ -11,14 +11,14 @@ from .generate_config import generate_config
 
 
 def upload(form, file):
-    if file.filename == '':
+    if file.filename == "":
         return redirect(url_for('generator'))
 
     if file and is_css(file.filename):
         base = secure_filename(file.filename)[:-4]
         hash_str = rand_hash()
         fname = f'{base}_{hash_str}'
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname + '.css'))
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], fname + '.css'))
         print(f'Upload: {fname}.css')
         return run_build(fname)
 
@@ -39,15 +39,15 @@ def wizard(form):
 
 def run_build(fname):
     build_manager = BuildManager()
-    if build_manager.run(app.config['DOWNLOAD_FOLDER'], app.config['UPLOAD_FOLDER'], app.instance_path, fname):
+    if build_manager.run(app.config["DOWNLOAD_FOLDER"], app.config["UPLOAD_FOLDER"], app.instance_path, fname):
         return redirect(url_for('demo', fname=fname))
     else:
-        flash('Please try again')
+        flash("Please try again")
         return redirect(url_for('generator'))
 
 
 def rand_hash():
-    hashstr = hashlib.sha256(str(random.getrandbits(256)).encode('utf-8')).hexdigest()
+    hashstr = hashlib.sha256(str(random.getrandbits(256)).encode("utf-8")).hexdigest()
     return hashstr[:10]
 
 
@@ -71,5 +71,5 @@ def is_empty_form(form):
 
 def js_exists(fname):
     jsfile = f'fess-ss-{fname}.min.js'
-    path = os.path.join(app.config['DOWNLOAD_FOLDER'], jsfile)
+    path = os.path.join(app.config["DOWNLOAD_FOLDER"], jsfile)
     return os.path.exists(path)
