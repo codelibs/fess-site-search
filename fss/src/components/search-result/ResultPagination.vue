@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, reactive } from "vue";
+import { defineComponent } from "vue";
 
 import SearchEvent from "@/events/SearchEvent";
 
@@ -41,7 +41,7 @@ export default defineComponent({
       default: "",
     },
   },
-  setup(props, context) {
+  setup(props) {
     // method definitions
 
     /**

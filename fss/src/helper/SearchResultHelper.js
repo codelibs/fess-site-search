@@ -63,9 +63,9 @@ export default function () {
         state.searching = false;
         state.show = true;
       })
-      .catch((res) => {
+      .catch(() => {
         state.searching = false;
-        console.log("Search error. " + res);
+        console.log("Search error.");
       });
   };
 

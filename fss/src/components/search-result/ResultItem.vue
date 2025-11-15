@@ -85,7 +85,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, context) {
+  setup(props) {
     // reactive data
     const state = reactive({
       existThumbnail: false,
@@ -129,12 +129,12 @@ export default defineComponent({
     };
 
     // Set the presence of a thumbnail.
-    const hasThumbnail = (element) => {
+    const hasThumbnail = () => {
       state.existThumbnail = true;
     };
 
     // Set the absence of a thumbnail.
-    const noThumbnail = (element) => {
+    const noThumbnail = () => {
       state.existThumbnail = false;
     };
 
