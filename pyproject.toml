@@ -1,0 +1,136 @@
+[project]
+name = "fess-site-search"
+version = "2.0.0"
+description = "Fess Site Search (FSS) provides JavaScript widgets to deploy search features on your website, powered by Fess search engine"
+readme = "README.md"
+requires-python = ">=3.13"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "CodeLibs Project", email = "support@n2sm.net"}
+]
+maintainers = [
+    {name = "CodeLibs Project", email = "support@n2sm.net"}
+]
+keywords = ["fess", "search", "widget", "javascript", "generator"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Code Generators",
+]
+
+dependencies = [
+    "flask>=3.1.0",
+    "gunicorn>=23.0.0",
+    "cssutils>=2.11.1",
+    "pycmarkgfm>=1.2.1",
+    "pygments>=2.18.0",
+    "werkzeug>=3.1.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.4",
+    "mypy>=1.13.0",
+]
+
+[project.urls]
+Homepage = "https://fss-generator.codelibs.org/"
+Documentation = "https://fss-generator.codelibs.org/docs/manual"
+Repository = "https://github.com/codelibs/fess-site-search"
+Issues = "https://github.com/codelibs/fess-site-search/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.8.4",
+    "mypy>=1.13.0",
+    "requests>=2.32.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--cov=app",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+
+[tool.ruff]
+line-length = 160
+target-version = "py313"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B", "F401", "F811"]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+
+[[tool.mypy.overrides]]
+module = [
+    "cssutils.*",
+    "pycmarkgfm.*",
+]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["app"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

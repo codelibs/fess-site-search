@@ -1,13 +1,81 @@
+# Editor and IDE
 *~
-*/.tern-port
-node_modules/
-*package-lock.json
-*.egg-info*
-*/__pycache__/*
-instance
-!instance/*/.gitkeep
+*.swp
+*.swo
+.vscode/
+.idea/
 *.tern-port
+*/.tern-port
+
+# Python
+__pycache__/
+*/__pycache__/*
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.eggs/
+dist/
+build/
+wheels/
+pip-wheel-metadata/
+*.manifest
+*.spec
+
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# uv
+.uv/
+uv.lock
+
+# pytest
+.pytest_cache/
+.cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
+
+# Vue.js / Frontend
+dist/
+dest/
+.DS_Store
+*.local
+
+# Flask
+instance/
+!instance/.gitkeep
+!instance/*/.gitkeep
+*.pyc
+*.pyo
+
+# Application specific
 app/static/fss/*/fess-ss.js
 tests/sample.css
-.cache/
-dest/
+
+# Build artifacts
+fss/dist/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

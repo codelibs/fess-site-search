@@ -71,15 +71,15 @@ export default class {
           state.pageInfo.nextPage = response.next_page;
 
           state.items = [];
-          response.data.forEach((item, i) => {
+          response.data.forEach((item) => {
             state.items.push(item);
           });
           resolve(response);
         } catch (e) {
           reject(e);
         }
-      }).catch((res) => {
-        reject(res);
+      }).catch(() => {
+        reject();
       });
     });
   }
@@ -94,7 +94,7 @@ export default class {
       searchApi.listLabels().then((response) => {
         const labels = [];
         if (response.record_count > 0) {
-          response.data.forEach((label, i) => {
+          response.data.forEach((label) => {
             labels.push(label);
           });
         }
@@ -127,7 +127,7 @@ export default class {
         suggestApi.findSuggestWords(keyword, opts).then((response) => {
           const words = [];
           if (response.record_count > 0) {
-            response.data.forEach((word, i) => {
+            response.data.forEach((word) => {
               words.push(word.text);
             });
           }

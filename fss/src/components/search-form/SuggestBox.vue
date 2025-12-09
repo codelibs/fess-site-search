@@ -38,7 +38,7 @@ export default defineComponent({
     }
   },
 
-  setup(props, context) {
+  setup(props) {
     // reactive state
     const state = reactive({
       show: false,
@@ -68,7 +68,7 @@ export default defineComponent({
       targetElem.addEventListener('focusout', handleFocusOut);
 
       // Handling cancel event.
-      SuggestEvent.$onCancel('fss', (data) => {
+      SuggestEvent.$onCancel('fss', () => {
         _cancel();
       });
 
@@ -200,7 +200,7 @@ export default defineComponent({
     /**
      * Handle mouse leave from suggest list.
      */
-    const handleMouseLeave = (event) => {
+    const handleMouseLeave = () => {
       state.isMouseOver = false;
       state.focusNum = -1;
     };
@@ -208,14 +208,14 @@ export default defineComponent({
     /**
      * Handle mouse over on suggest box.
      */
-    const handleBoxMouseOver = (event) => {
+    const handleBoxMouseOver = () => {
       state.isMouseOver = true;
     };
 
     /**
      * Handle mouse leave from suggest box.
      */
-    const handleBoxMouseLeave = (event) => {
+    const handleBoxMouseLeave = () => {
       state.isMouseOver = false;
     };
 
@@ -271,7 +271,9 @@ export default defineComponent({
       state,
       handleMouseOver,
       handleMouseLeave,
-      handleMouseClick
+      handleMouseClick,
+      handleBoxMouseOver,
+      handleBoxMouseLeave
     };
   }
 });

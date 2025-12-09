@@ -1,4 +1,3 @@
-import axios from "axios";
 import SearchService from "@/service/SearchService";
 
 /**

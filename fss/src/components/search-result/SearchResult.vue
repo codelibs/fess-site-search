@@ -6,15 +6,13 @@ import SearchResultHelper from "@/helper/SearchResultHelper";
 import jsonConfig from '@/config/JsonConfig';
 
 import HistoryMode from "@/enum/HistoryMode";
-import SearchService from "@/service/SearchService";
 
 import SearchEvent from "@/events/SearchEvent";
-import FormEvent from "@/events/FormEvent";
 import ResultHeader from "@/components/search-result/ResultHeader";
 import ResultItem from "@/components/search-result/ResultItem";
 import ResultPagination from "@/components/search-result/ResultPagination";
 
-const { getUrlParameters, getHistoryState, registerHistory } = FrontHelper();
+const { getUrlParameters, getHistoryState } = FrontHelper();
 const { doSearch, isAutoSearchCase, createSearchCondFromParameter, showVersion } = SearchResultHelper();
 
 
@@ -85,7 +83,7 @@ export default defineComponent({
     },
   },
 
-  setup(props, context) {
+  setup(props) {
     // reactive data
     const state = reactive({
       show: false,

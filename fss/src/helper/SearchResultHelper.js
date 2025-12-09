@@ -38,7 +38,7 @@ export default function () {
     const searchService = new SearchService(fessUrl);
     searchService
       .search(searchCondForSearch, state)
-      .then((res) => {
+      .then(() => {
         // Update search condition by condition.
         state.searchCond = searchCondForSearch;
 
@@ -63,9 +63,9 @@ export default function () {
         state.searching = false;
         state.show = true;
       })
-      .catch((res) => {
+      .catch(() => {
         state.searching = false;
-        console.log("Search error. " + res);
+        console.log("Search error.");
       });
   };
 
