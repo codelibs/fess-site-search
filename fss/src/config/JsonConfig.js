@@ -1,21 +1,20 @@
 /**
  * JsonConfig.js
- * 
+ *
  * This module provides json config values.
  */
 
 class JsonConfig {
 
   constructor() {
-    if (process.env.VUE_APP_INPUT_JSON_PATH !== undefined && process.env.VUE_APP_INPUT_JSON_PATH !== 'undefined') {
+    // Viteビルド時に__FSS_JSON_CONFIG__が埋め込まれる
+    const config = typeof __FSS_JSON_CONFIG__ !== 'undefined' ? __FSS_JSON_CONFIG__ : {};
+    if (Object.keys(config).length > 0) {
       console.group('[FSS] Load generated configs...');
-      this.config = require(process.env.VUE_APP_INPUT_JSON_PATH);
-      console.log(this.config);
+      console.log(config);
       console.groupEnd();
-    } else {
-      // default
-      this.config = {};
     }
+    this.config = config;
   }
 
   enableLabels(defaultVal) {
