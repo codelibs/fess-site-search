@@ -9,7 +9,9 @@ import '@/assets/scss/fss.scss';
 // Dynamically import if custom CSS path is specified
 const inputCssPath = import.meta.env.VITE_INPUT_CSS_PATH;
 if (inputCssPath && inputCssPath !== 'undefined') {
-  // Use dynamic import in Vite (conditional because it may not be resolved at build time)
+  // Note: @vite-ignore bypasses Vite's static analysis
+  // The CSS file must exist at the specified path at runtime
+  // If the path is invalid, the import will fail at runtime (caught by .catch())
   import(/* @vite-ignore */ inputCssPath).catch((err) => {
     console.warn('[FSS] Failed to load custom CSS:', inputCssPath, err);
   });

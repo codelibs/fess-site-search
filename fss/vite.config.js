@@ -22,7 +22,7 @@ if (process.env.INPUT_JSON_PATH) {
 const defineEnv = {
   // Replace process.env.NODE_ENV referenced by Vue.js
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-  __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+  __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: JSON.stringify(false),
   'import.meta.env.VITE_INPUT_CSS_PATH': JSON.stringify(process.env.INPUT_CSS_PATH || ''),
   '__FSS_JSON_CONFIG__': JSON.stringify(jsonConfig),
 };

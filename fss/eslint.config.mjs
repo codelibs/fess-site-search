@@ -74,6 +74,25 @@ export default [
 
       // Vue: Don't force content newline for single-line elements
       'vue/singleline-html-element-content-newline': 'off',
+
+      // Vue: Enforce attribute order for consistency
+      'vue/attributes-order': ['error', {
+        order: [
+          'DEFINITION',
+          'LIST_RENDERING',
+          'CONDITIONALS',
+          'RENDER_MODIFIERS',
+          'GLOBAL',
+          'UNIQUE',
+          'SLOT',
+          'TWO_WAY_BINDING',
+          'OTHER_DIRECTIVES',
+          'OTHER_ATTR',
+          'EVENTS',
+          'CONTENT',
+        ],
+        alphabetical: false
+      }],
     },
   },
 
