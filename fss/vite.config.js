@@ -20,6 +20,8 @@ if (process.env.INPUT_JSON_PATH) {
 
 // 環境変数を定義オブジェクトに変換（JSONシリアライズ可能な値にする）
 const defineEnv = {
+  // Vue.jsが参照するprocess.env.NODE_ENVを置き換え
+  'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
   'import.meta.env.VITE_INPUT_CSS_PATH': JSON.stringify(process.env.INPUT_CSS_PATH || ''),
   '__FSS_JSON_CONFIG__': JSON.stringify(jsonConfig),
