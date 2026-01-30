@@ -1,12 +1,20 @@
 import { createApp } from 'vue/dist/vue.esm-bundler';
-import SearchForm from '@/components/search-form/SearchForm';
-import SearchResult from '@/components/search-result/SearchResult';
-import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-bootstrap.scss';
-import '!style-loader!css-loader!sass-loader!@/assets/scss/fss-style.scss';
-import '!style-loader!css-loader!sass-loader!@/assets/scss/fss.scss';
+import SearchForm from '@/components/search-form/SearchForm.vue';
+import SearchResult from '@/components/search-result/SearchResult.vue';
+// In Vite, load styles with normal import (vite-plugin-css-injected-by-js embeds them in JS)
+import '@/assets/scss/fss-bootstrap.scss';
+import '@/assets/scss/fss-style.scss';
+import '@/assets/scss/fss.scss';
 
-if (process.env.VUE_APP_INPUT_CSS_PATH !== undefined && process.env.VUE_APP_INPUT_CSS_PATH !== 'undefined') {
-  require('!style-loader!css-loader!' + process.env.VUE_APP_INPUT_CSS_PATH);
+// Dynamically import if custom CSS path is specified
+const inputCssPath = import.meta.env.VITE_INPUT_CSS_PATH;
+if (inputCssPath && inputCssPath !== 'undefined') {
+  // Note: @vite-ignore bypasses Vite's static analysis
+  // The CSS file must exist at the specified path at runtime
+  // If the path is invalid, the import will fail at runtime (caught by .catch())
+  import(/* @vite-ignore */ inputCssPath).catch((err) => {
+    console.warn('[FSS] Failed to load custom CSS:', inputCssPath, err);
+  });
 }
 
 const initFss = () => {

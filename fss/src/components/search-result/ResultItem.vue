@@ -152,13 +152,14 @@ export default defineComponent({
 <template>
   <div>
     <h3 class="title text-truncate">
-      <a v-html="contentTitle"
-        class="link"
+      <a
+class="link"
         :href="urlLink"
-        :data-uri="urlLink" 
-        :data-id="docId"
+        :data-uri="urlLink"
+        :data-id="docId" 
         :data-order="order"
         :target="linkTarget"
+        v-html="contentTitle"
       >
       </a>
     </h3>

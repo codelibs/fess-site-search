@@ -234,7 +234,8 @@ export default defineComponent({
     </div>
     <table width="100%" class="result-header">
       <tbody>
-        <td>
+        <tr>
+          <td>
           <p
             v-if="recordCount === 0"
             v-html="
@@ -385,6 +386,7 @@ export default defineComponent({
             </select>
           </div>
         </td>
+        </tr>
       </tbody>
     </table>
   </div>

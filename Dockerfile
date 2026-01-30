@@ -8,7 +8,7 @@ COPY fss/package.json ./
 RUN npm install --no-audit
 
 # Copy frontend source code
-COPY fss/jsconfig.json fss/babel.config.js fss/vue.config.js ./
+COPY fss/jsconfig.json fss/vite.config.js fss/index.html ./
 COPY fss/src ./src
 COPY fss/public ./public
 
@@ -65,7 +65,7 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # Copy frontend build configuration (needed for runtime builds)
 COPY fss/package.json /app/fss/
-COPY fss/jsconfig.json fss/babel.config.js fss/vue.config.js /app/fss/
+COPY fss/jsconfig.json fss/vite.config.js fss/index.html /app/fss/
 COPY fss/src /app/fss/src
 COPY fss/public /app/fss/public
 
