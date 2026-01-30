@@ -6,21 +6,21 @@ import globals from 'globals';
 /**
  * ESLint 9 Flat Config for Fess Site Search
  *
- * 移行元: .eslintrc.json
- * - ESLint 9のFlat Config形式に変換
- * - Vue 3プロジェクトのルール設定
- * - Prettierとの統合
+ * Migrated from: .eslintrc.json
+ * - Converted to ESLint 9 Flat Config format
+ * - Vue 3 project rule settings
+ * - Prettier integration
  */
 export default [
-  // ESLint推奨ルール
+  // ESLint recommended rules
   js.configs.recommended,
 
-  // Vue 3推奨ルール（全てのVueファイルに適用）
+  // Vue 3 recommended rules (applies to all Vue files)
   ...pluginVue.configs['flat/recommended'],
 
-  // プロジェクト全体の設定
+  // Project-wide settings
   {
-    // 無視パターン（旧 ignorePatterns）
+    // Ignore patterns (formerly ignorePatterns)
     ignores: [
       'src/openapi/',
       'dist/',
@@ -28,55 +28,55 @@ export default [
     ],
   },
 
-  // JavaScript・Vueファイル共通の設定
+  // Common settings for JavaScript and Vue files
   {
     files: ['src/**/*.{js,vue}'],
 
     languageOptions: {
-      // ECMAScript 2022（旧 ecmaVersion）
+      // ECMAScript 2022 (formerly ecmaVersion)
       ecmaVersion: 2022,
 
-      // モジュール形式（旧 sourceType）
+      // Module format (formerly sourceType)
       sourceType: 'module',
 
-      // グローバル変数（旧 env: es6, node, browser, jquery）
+      // Global variables (formerly env: es6, node, browser, jquery)
       globals: {
         ...globals.es2021,
         ...globals.node,
         ...globals.browser,
         ...globals.jquery,
-        // Viteビルド時に定義されるグローバル変数
+        // Global variables defined at Vite build time
         __FSS_JSON_CONFIG__: 'readonly',
       },
     },
 
     rules: {
-      // インデント: 2スペース
+      // Indent: 2 spaces
       'indent': ['error', 2],
 
-      // 改行コード: LF (Unix)
+      // Line ending: LF (Unix)
       'linebreak-style': ['error', 'unix'],
 
-      // セミコロン: 必須
+      // Semicolon: required
       'semi': ['error', 'always'],
 
-      // console.log 許可（開発中は有用）
+      // Allow console.log (useful during development)
       'no-console': 'off',
 
-      // 未使用変数の警告を無効化
+      // Disable unused variable warnings
       'no-unused-vars': 'off',
 
-      // Vue: v-html の使用を許可（XSS対策は開発者が責任を持つ）
+      // Vue: Allow v-html (developer is responsible for XSS prevention)
       'vue/no-v-html': 'off',
 
-      // Vue: 1行あたりの属性数制限を無効化（可読性は開発者判断）
+      // Vue: Disable max attributes per line (readability is developer's choice)
       'vue/max-attributes-per-line': 'off',
 
-      // Vue: 単一行要素のコンテンツ改行を強制しない
+      // Vue: Don't force content newline for single-line elements
       'vue/singleline-html-element-content-newline': 'off',
     },
   },
 
-  // Prettier統合（最後に配置してルールの衝突を回避）
+  // Prettier integration (placed last to avoid rule conflicts)
   prettier,
 ];

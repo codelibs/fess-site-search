@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 
-// INPUT_JSON_PATHが指定されている場合、JSONファイルを読み込んで埋め込む
+// Load and embed JSON file if INPUT_JSON_PATH is specified
 let jsonConfig = {};
 if (process.env.INPUT_JSON_PATH) {
   try {
@@ -18,9 +18,9 @@ if (process.env.INPUT_JSON_PATH) {
   }
 }
 
-// 環境変数を定義オブジェクトに変換（JSONシリアライズ可能な値にする）
+// Convert environment variables to define object (make values JSON-serializable)
 const defineEnv = {
-  // Vue.jsが参照するprocess.env.NODE_ENVを置き換え
+  // Replace process.env.NODE_ENV referenced by Vue.js
   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
   __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
   'import.meta.env.VITE_INPUT_CSS_PATH': JSON.stringify(process.env.INPUT_CSS_PATH || ''),
@@ -31,37 +31,37 @@ const defineEnv = {
 export default defineConfig({
   plugins: [
     vue(),
-    cssInjectedByJsPlugin(), // CSSをJSに埋め込む（ウィジェットとして配布するため）
+    cssInjectedByJsPlugin(), // Embed CSS in JS (for widget distribution)
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      // querystringポリフィル（ブラウザ環境で必要）
+      // querystring polyfill (required for browser environment)
       querystring: 'querystring-es3',
     },
-    // 拡張子の自動解決（Vue CLI互換）
+    // Auto-resolve extensions (Vue CLI compatible)
     extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },
   define: defineEnv,
   build: {
-    // ライブラリモードで単一ファイル出力
+    // Output single file in library mode
     lib: {
       entry: path.resolve(__dirname, 'src/main.js'),
-      name: 'FessSiteSearch', // グローバル変数名（IIFE形式）
+      name: 'FessSiteSearch', // Global variable name (IIFE format)
       fileName: () => process.env.OUTPUT_JS_FILENAME || 'fess-ss.js',
-      formats: ['iife'], // 即時実行関数形式（ウィジェット用）
+      formats: ['iife'], // Immediately Invoked Function Expression format (for widget)
     },
     rollupOptions: {
-      // 外部依存を含めて単一ファイルにバンドル
+      // Bundle all dependencies into single file
       external: [],
       output: {
-        // グローバル変数の設定は不要（external: []のため）
+        // No globals setting needed (because external: [])
         globals: {},
       },
     },
-    // ファイル名のハッシュ化を無効化
+    // Disable filename hashing
     cssCodeSplit: false,
-    // ソースマップは本番ビルドでは無効化
+    // Disable sourcemap for production build
     sourcemap: false,
   },
 });

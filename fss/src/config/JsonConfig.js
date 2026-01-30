@@ -7,7 +7,7 @@
 class JsonConfig {
 
   constructor() {
-    // Viteビルド時に__FSS_JSON_CONFIG__が埋め込まれる
+    // __FSS_JSON_CONFIG__ is embedded at Vite build time
     const config = typeof __FSS_JSON_CONFIG__ !== 'undefined' ? __FSS_JSON_CONFIG__ : {};
     if (Object.keys(config).length > 0) {
       console.group('[FSS] Load generated configs...');
