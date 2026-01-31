@@ -1,0 +1,141 @@
+// -----------------------------------------------------------------------------
+// Search Result Layout
+// Page layout and content area styles migrated from fss-style.scss
+// -----------------------------------------------------------------------------
+
+.fess-site-search {
+  // Header area
+  #searchOptions {
+    position: fixed;
+    z-index: 10;
+
+    .container {
+      width: $search-options-width;
+      max-width: 100%;
+      height: 100%;
+      overflow: auto;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      right: -$search-options-width; // Initially off-screen
+      padding-top: 72px;
+      padding-bottom: 20px;
+      color: #fff;
+      background-color: $search-options-bg;
+      transition: all 0.4s ease 0s;
+    }
+
+    // Slide in when active
+    &.active .container {
+      right: 0;
+    }
+  }
+
+  // Top page layout
+  .mainLogo {
+    margin-bottom: 1em;
+
+    // Mobile display
+    @media (max-width: 575.98px) {
+      img {
+        width: $logo-mobile-width;
+      }
+    }
+  }
+
+  .searchFormBox {
+    margin-top: 8em;
+    margin-bottom: 4em;
+
+    // Mobile display
+    @media (max-width: 575.98px) {
+      margin-top: 4em;
+    }
+  }
+
+  .notification {
+    font-size: 1.2em;
+    margin: 0.2em;
+  }
+
+  .searchButtonBox {
+    margin-top: 1em;
+  }
+
+  // Search result area
+  .form-row {
+    padding: 1em 0;
+  }
+
+  .labels-box,
+  .order-box {
+    max-width: 5em;
+  }
+
+  #subheader {
+    padding-bottom: 1em;
+  }
+
+  // Search result list
+  #result {
+    ol li {
+      margin: 1em 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    // Visited link styles
+    .title a:visited {
+      color: $link-visited-color;
+    }
+
+    // Search result body
+    .body {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    // Site URL display
+    .site cite {
+      color: $site-cite-color;
+      font-style: normal;
+    }
+
+    // Hide "more" on desktop
+    .more {
+      display: none;
+    }
+
+    // Favorite feature (not implemented)
+    .favorited {
+      display: none;
+    }
+
+    // Thumbnail image
+    .thumbnail {
+      width: $thumbnail-width;
+      min-height: 30px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+    }
+
+    // Mobile display adjustments
+    @media (max-width: 575.98px) {
+      .info {
+        display: none;
+      }
+
+      .more {
+        display: block;
+      }
+
+      .description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

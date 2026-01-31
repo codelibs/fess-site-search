@@ -1,0 +1,59 @@
+// -----------------------------------------------------------------------------
+// Custom CSS Variables
+// Custom variables for the fess-site-search project
+// -----------------------------------------------------------------------------
+
+// Color Palette
+// Bootstrap 4.6.2 default color definitions
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+
+  // Theme colors
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+
+  // Breakpoints
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+
+  // Fonts
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+// Sass Custom Variables
+// Project-specific color definitions
+$link-visited-color: #014c8c;
+$site-cite-color: #093;
+$label-tab-border-color: #a9a9a9;
+$label-tab-selected-bg: #ababc9;
+$suggest-box-border-color: #cccccc;
+$search-waiting-overlay-bg: rgba(255, 255, 255, 0.6);
+$search-options-bg: rgba(60, 60, 60, 0.93);
+
+// Size-related
+$search-options-width: 500px;
+$thumbnail-width: 100px;
+$logo-mobile-width: 200px;
