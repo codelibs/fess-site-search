@@ -1,0 +1,42 @@
+// =============================================================================
+// Fess Site Search Main Stylesheet
+// =============================================================================
+//
+// [Directory Structure]
+// abstracts/ - Variables, functions, mixins (no output)
+// vendors/   - External libraries (Bootstrap, etc.)
+// base/      - Reset, base styles, overrides
+// components/- Reusable components
+// layout/    - Layout, page-specific styles
+//
+// [Import Order]
+// 1. Variables & Functions (foundation used by others)
+// 2. Vendor Libraries (Bootstrap)
+// 3. Base Styles & Overrides
+// 4. Components
+// 5. Layout
+//
+// =============================================================================
+
+// 1. Variables
+// Custom CSS variables and Sass variables
+@import 'abstracts/variables';
+
+// 2. Vendor Libraries
+// Import required Bootstrap 4.6.2 components
+// Wrapped in .fess-site-search namespace
+@import 'vendors/bootstrap';
+
+// 3. Base Styles
+// Override Bootstrap default styles
+@import 'base/overrides';
+
+// 4. Components
+// Reusable UI components
+@import 'components/suggest-box';      // Search suggestions
+@import 'components/label-tab';        // Label tabs
+@import 'components/search-waiting';   // Loading overlay
+
+// 5. Layout
+// Page layout and content areas
+@import 'layout/search-result';        // Search results page

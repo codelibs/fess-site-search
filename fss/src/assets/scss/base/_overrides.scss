@@ -1,0 +1,64 @@
+// -----------------------------------------------------------------------------
+// Bootstrap Overrides & Base Style Adjustments
+// Bootstrap default style overrides migrated from fss-style.scss
+// -----------------------------------------------------------------------------
+
+.fess-site-search {
+  // Base element style adjustments
+  html {
+    min-height: 100%;
+    position: relative;
+  }
+
+  body {
+    padding: 1em 0;
+    margin: 56px 0 4em;
+  }
+
+  footer {
+    width: 100%;
+    bottom: 0;
+    height: 4em;
+    position: absolute;
+    border-top: 1px solid;
+    padding-top: 1em;
+  }
+
+  // Heading style adjustments
+  h1,
+  h2,
+  h3 {
+    line-height: 32px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  // Disable form control border-radius
+  .form-control {
+    border-radius: 0px;
+  }
+
+  // Hide legend
+  legend {
+    display: none;
+  }
+
+  // Disable list group item border-radius
+  :first-child.list-group-item {
+    border-radius: 0px;
+  }
+
+  :last-child.list-group-item {
+    border-radius: 0px;
+  }
+}

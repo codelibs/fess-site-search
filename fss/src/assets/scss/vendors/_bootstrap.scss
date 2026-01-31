@@ -1,0 +1,39 @@
+// -----------------------------------------------------------------------------
+// Bootstrap 4.6.2 Import
+// Import only required components and isolate with namespace
+// -----------------------------------------------------------------------------
+
+// Bootstrap functions and mixins (foundation used by other components)
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+// Wrap all Bootstrap styles in .fess-site-search namespace
+// This prevents style conflicts with host page
+.fess-site-search {
+  // Reset & Base styles
+  // Note: Bootstrap's root CSS variables are omitted to maintain namespace isolation
+  @import 'bootstrap/scss/reboot';
+  @import 'bootstrap/scss/type';
+  @import 'bootstrap/scss/images';
+
+  // Layout
+  @import 'bootstrap/scss/grid';
+  @import 'bootstrap/scss/tables';  // Used in ResultHeader.vue
+
+  // Components
+  // Form-related (used in search form)
+  @import 'bootstrap/scss/forms';
+  @import 'bootstrap/scss/buttons';
+  @import 'bootstrap/scss/button-group';  // Used for btn-group in SearchForm.vue
+  @import 'bootstrap/scss/input-group';
+  @import 'bootstrap/scss/custom-forms';
+
+  // Navigation & Pagination
+  @import 'bootstrap/scss/pagination';
+
+  // Utility classes
+  // Bootstrap utility classes used in Vue components
+  // e.g., d-none, d-sm-flex, mx-auto, mr-3, text-truncate, col-auto, etc.
+  @import 'bootstrap/scss/utilities';
+}
