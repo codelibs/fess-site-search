@@ -12,7 +12,7 @@
 // This prevents style conflicts with host page
 .fess-site-search {
   // Reset & Base styles
-  @import 'bootstrap/scss/root';
+  // Note: Bootstrap's root CSS variables are omitted to maintain namespace isolation
   @import 'bootstrap/scss/reboot';
   @import 'bootstrap/scss/type';
   @import 'bootstrap/scss/images';
