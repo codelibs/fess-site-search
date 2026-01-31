@@ -1,7 +1,7 @@
 import { createApp } from 'vue/dist/vue.esm-bundler';
 import SearchForm from '@/components/search-form/SearchForm.vue';
 import SearchResult from '@/components/search-result/SearchResult.vue';
-// Viteでスタイルを読み込み (vite-plugin-css-injected-by-jsによりJSに埋め込まれる)
+// Import styles with Vite (embedded in JS by vite-plugin-css-injected-by-js)
 import '@/assets/scss/main.scss';
 
 // Dynamically import if custom CSS path is specified
