@@ -1,39 +1,37 @@
 // -----------------------------------------------------------------------------
-// Bootstrap 4.6.2 Import
+// Bootstrap 5.3.3 Import
 // Import only required components and isolate with namespace
 // -----------------------------------------------------------------------------
 
-// Bootstrap functions and mixins (foundation used by other components)
+// Bootstrap 5 requires specific import order
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark'; // NEW in BS5: Dark mode variables
+@import 'bootstrap/scss/maps'; // NEW in BS5: Required for color/spacing maps
 @import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities'; // MOVED: Must be imported before namespace for API
 
 // Wrap all Bootstrap styles in .fess-site-search namespace
 // This prevents style conflicts with host page
 .fess-site-search {
-  // Reset & Base styles
-  // Note: Bootstrap's root CSS variables are omitted to maintain namespace isolation
+  @import 'bootstrap/scss/root'; // NEW in BS5: CSS custom properties (--bs-*)
   @import 'bootstrap/scss/reboot';
   @import 'bootstrap/scss/type';
   @import 'bootstrap/scss/images';
 
-  // Layout
+  @import 'bootstrap/scss/containers'; // NEW in BS5: Replaces part of grid system
   @import 'bootstrap/scss/grid';
-  @import 'bootstrap/scss/tables';  // Used in ResultHeader.vue
+  @import 'bootstrap/scss/tables'; // Used in ResultHeader.vue
 
-  // Components
   // Form-related (used in search form)
-  @import 'bootstrap/scss/forms';
+  // NOTE: In BS5, forms includes input-group, form-control, form-select, etc.
+  @import 'bootstrap/scss/forms'; // Includes input-group (custom-forms merged here)
   @import 'bootstrap/scss/buttons';
-  @import 'bootstrap/scss/button-group';  // Used for btn-group in SearchForm.vue
-  @import 'bootstrap/scss/input-group';
-  @import 'bootstrap/scss/custom-forms';
+  @import 'bootstrap/scss/button-group'; // Used for btn-group in SearchForm.vue
 
   // Navigation & Pagination
   @import 'bootstrap/scss/pagination';
 
-  // Utility classes
-  // Bootstrap utility classes used in Vue components
-  // e.g., d-none, d-sm-flex, mx-auto, mr-3, text-truncate, col-auto, etc.
-  @import 'bootstrap/scss/utilities';
+  // Generates utility classes based on $utilities map configuration
+  @import 'bootstrap/scss/utilities/api';
 }

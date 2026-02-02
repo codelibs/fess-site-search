@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.3.3",
     "core-js": "^3.39.0",
     "querystring-es3": "^0.2.1",
     "superagent": "^10.1.1",
