@@ -4,39 +4,34 @@
 // -----------------------------------------------------------------------------
 
 // Bootstrap 5 requires specific import order
-// Phase 1: Foundation imports (outside namespace)
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/variables-dark';  // NEW in BS5: Dark mode variables
-@import 'bootstrap/scss/maps';            // NEW in BS5: Required for color/spacing maps
+@import 'bootstrap/scss/variables-dark'; // NEW in BS5: Dark mode variables
+@import 'bootstrap/scss/maps'; // NEW in BS5: Required for color/spacing maps
 @import 'bootstrap/scss/mixins';
-@import 'bootstrap/scss/utilities';       // MOVED: Must be imported before namespace for API
+@import 'bootstrap/scss/utilities'; // MOVED: Must be imported before namespace for API
 
 // Wrap all Bootstrap styles in .fess-site-search namespace
 // This prevents style conflicts with host page
 .fess-site-search {
-  // Phase 2: Core styles with CSS custom properties
-  @import 'bootstrap/scss/root';       // NEW in BS5: CSS custom properties (--bs-*)
+  @import 'bootstrap/scss/root'; // NEW in BS5: CSS custom properties (--bs-*)
   @import 'bootstrap/scss/reboot';
   @import 'bootstrap/scss/type';
   @import 'bootstrap/scss/images';
 
-  // Phase 3: Layout
-  @import 'bootstrap/scss/containers';  // NEW in BS5: Replaces part of grid system
+  @import 'bootstrap/scss/containers'; // NEW in BS5: Replaces part of grid system
   @import 'bootstrap/scss/grid';
-  @import 'bootstrap/scss/tables';      // Used in ResultHeader.vue
+  @import 'bootstrap/scss/tables'; // Used in ResultHeader.vue
 
-  // Phase 4: Components
   // Form-related (used in search form)
   // NOTE: In BS5, forms includes input-group, form-control, form-select, etc.
-  @import 'bootstrap/scss/forms';       // Includes input-group (custom-forms merged here)
+  @import 'bootstrap/scss/forms'; // Includes input-group (custom-forms merged here)
   @import 'bootstrap/scss/buttons';
-  @import 'bootstrap/scss/button-group';  // Used for btn-group in SearchForm.vue
+  @import 'bootstrap/scss/button-group'; // Used for btn-group in SearchForm.vue
 
   // Navigation & Pagination
   @import 'bootstrap/scss/pagination';
 
-  // Phase 5: Utilities API (must be last)
   // Generates utility classes based on $utilities map configuration
   @import 'bootstrap/scss/utilities/api';
 }
