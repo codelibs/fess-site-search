@@ -97,7 +97,7 @@ export default defineComponent({
 
 <template>
   <form :action="resultPage" method="GET" class="fessForm" styleId="searchForm" @submit="submit">
-    <div class="form-row align-items-center">
+    <div class="row g-2 fss-form-row align-items-center">
       <div class="col-auto">
         <div class="">
           <input id="contentQuery" v-model="state.query" type="text" name="fss.query" maxlength="1000" size="50" class="query form-control" autocomplete="off">

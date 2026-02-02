@@ -63,7 +63,7 @@
   }
 
   // Search result area
-  .form-row {
+  .fss-form-row {
     padding: 1em 0;
   }
 
@@ -83,6 +83,17 @@
 
       &:first-child {
         margin-top: 0;
+      }
+    }
+
+    // Link styles (Bootstrap 5 uses CSS custom properties which don't work in namespace)
+    .title a {
+      color: #0d6efd;  // Bootstrap 5 default link color
+      text-decoration: none;
+
+      &:hover {
+        color: #0a58ca;
+        text-decoration: underline;
       }
     }
 

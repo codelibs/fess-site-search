@@ -79,3 +79,6 @@ logs/
 # OS
 .DS_Store
 Thumbs.db
+
+# AI
+claude_progress

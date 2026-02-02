@@ -164,7 +164,7 @@ class="link"
       </a>
     </h3>
     <div class="body">
-      <div v-if="enableThumbnail" v-show="state.existThumbnail" class="mr-3">
+      <div v-if="enableThumbnail" v-show="state.existThumbnail" class="me-3">
         <a
           class="link d-none d-sm-flex"
           :href="urlLink"
