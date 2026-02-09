@@ -35,3 +35,10 @@ declare function ga(
   hitType: string,
   fieldsObject?: string | object
 ): void;
+
+/**
+ * Extend Window interface to include Google Analytics
+ */
+interface Window {
+  ga?: typeof ga;
+}

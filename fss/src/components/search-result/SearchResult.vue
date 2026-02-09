@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, onMounted, nextTick } from 'vue';
+import { reactive, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import FrontHelper from '@/helper/FrontHelper';
 import SearchResultHelper from '@/helper/SearchResultHelper';
 import jsonConfig from '@/config/JsonConfig';
@@ -9,6 +9,7 @@ import ResultHeader from '@/components/search-result/ResultHeader.vue';
 import ResultItem from '@/components/search-result/ResultItem.vue';
 import ResultPagination from '@/components/search-result/ResultPagination.vue';
 import type { SearchCondition, SearchState } from '@/types/search.types';
+import type { EventHandler } from '@/types/event.types';
 
 const { getUrlParameters, getHistoryState } = FrontHelper();
 const { doSearch, isAutoSearchCase, createSearchCondFromParameter, showVersion } =
@@ -88,20 +89,36 @@ const searchInternal = (searchCond: SearchCondition, historyMode: HistoryMode): 
   doSearch(props.fessUrl, copiedSearchCond, historyMode, state);
 };
 
+// Event handlers and DOM event listeners stored for cleanup
+let basicSearchHandler: EventHandler<SearchCondition> | null = null;
+let popstateHandler: ((event: PopStateEvent) => void) | null = null;
+
 // Component lifecycle
 onMounted(() => {
   // Handle search event
-  SearchEvent.onBasicSearch((searchCond: SearchCondition) => {
+  basicSearchHandler = (searchCond: SearchCondition) => {
     search(searchCond);
-  });
+  };
+  SearchEvent.onBasicSearch(basicSearchHandler);
 
   // Handle popstate (browser back/forward)
-  window.addEventListener('popstate', (event: PopStateEvent) => {
+  popstateHandler = (event: PopStateEvent) => {
     if (event.state !== null && event.state.searchCond) {
       // Search by condition of popstate
       searchInternal(event.state.searchCond, HistoryMode.NONE);
     }
-  });
+  };
+  window.addEventListener('popstate', popstateHandler);
+});
+
+// Cleanup event handlers to prevent memory leaks
+onBeforeUnmount(() => {
+  if (basicSearchHandler) {
+    SearchEvent.offBasicSearch(basicSearchHandler);
+  }
+  if (popstateHandler) {
+    window.removeEventListener('popstate', popstateHandler);
+  }
 });
 
 nextTick(() => {

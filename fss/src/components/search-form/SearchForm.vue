@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, onBeforeUnmount } from 'vue';
 import SearchEvent from '@/events/SearchEvent';
 import FormEvent from '@/events/FormEvent';
 import SuggestEvent from '@/events/SuggestEvent';
 import MessageService from '@/service/MessageService';
 import SuggestBox from '@/components/search-form/SuggestBox.vue';
+import type { EventHandler } from '@/types/event.types';
 
 /**
  * Component for search form.
@@ -60,20 +61,36 @@ const submit = (event: Event): void => {
   // If resultPage is set, let the form submit naturally (navigate to resultPage)
 };
 
+// Event handlers stored for cleanup
+let updateFormValueHandler: EventHandler<string> | null = null;
+let suggestResultHandler: EventHandler<string> | null = null;
+
 // Component lifecycle
 onMounted(() => {
   // Handle updates to form value by other components
-  FormEvent.onUpdateFormValue((data: string) => {
+  updateFormValueHandler = (data: string) => {
     state.query = data;
-  });
+  };
+  FormEvent.onUpdateFormValue(updateFormValueHandler);
 
   // Handle the selection of suggest
-  SuggestEvent.$onResult('fss', (data: string) => {
+  suggestResultHandler = (data: string) => {
     state.query = data;
     const searchCond = SearchEvent.getInitialSearchCond();
     searchCond.q = state.query;
     SearchEvent.emitBasicSearch(searchCond);
-  });
+  };
+  SuggestEvent.$onResult('fss', suggestResultHandler);
+});
+
+// Cleanup event handlers to prevent memory leaks
+onBeforeUnmount(() => {
+  if (updateFormValueHandler) {
+    FormEvent.offUpdateFormValue(updateFormValueHandler);
+  }
+  if (suggestResultHandler) {
+    SuggestEvent.$offResult('fss', suggestResultHandler);
+  }
 });
 </script>
 

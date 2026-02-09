@@ -28,6 +28,78 @@ export default class SearchService {
   }
 
   /**
+   * Handle Axios errors with structured logging and user-friendly error messages.
+   * This method centralizes error handling logic to avoid code duplication.
+   *
+   * @param operation - Name of the operation that failed (e.g., 'search', 'getFessVersion')
+   * @param error - The error object caught from axios
+   * @param context - Additional context information for debugging
+   * @throws Error with user-friendly message
+   */
+  private _handleAxiosError(
+    operation: string,
+    error: unknown,
+    context?: Record<string, unknown>
+  ): never {
+    // Build base error information for logging
+    const errorInfo = {
+      operation,
+      timestamp: new Date().toISOString(),
+      ...context,
+    };
+
+    if (axios.isAxiosError(error)) {
+      // Extract detailed information from Axios error
+      const statusCode = error.response?.status;
+      const statusText = error.response?.statusText;
+      const responseData = error.response?.data;
+      const requestUrl = error.config?.url;
+
+      // Log structured error information
+      console.error(`${operation} failed`, {
+        ...errorInfo,
+        errorType: 'AxiosError',
+        statusCode,
+        statusText,
+        requestUrl,
+        responseData,
+        message: error.message,
+        code: error.code,
+        stack: error.stack,
+      });
+
+      // Generate user-friendly error messages based on error type
+      let errorMessage = `${operation} failed`;
+      if (statusCode === 404) {
+        errorMessage = `${operation} endpoint not found. Please check Fess URL configuration.`;
+      } else if (statusCode === 401 || statusCode === 403) {
+        errorMessage = `Access denied to ${operation} endpoint. Please check authentication settings.`;
+      } else if (statusCode && statusCode >= 500) {
+        errorMessage = `${operation} server error. Please try again later.`;
+      } else if (statusCode) {
+        errorMessage = `${operation} failed: HTTP ${statusCode} ${statusText}`;
+      } else if (error.code === 'ECONNABORTED') {
+        errorMessage = `${operation} request timeout. Please try again.`;
+      } else if (error.code === 'ERR_NETWORK') {
+        errorMessage = `Network error. Please check your connection and Fess URL.`;
+      } else {
+        errorMessage = `${operation} failed: ${error.message}`;
+      }
+
+      throw new Error(errorMessage);
+    } else {
+      // Handle non-Axios errors (unexpected errors)
+      console.error(`${operation} failed with unexpected error`, {
+        ...errorInfo,
+        errorType: 'UnknownError',
+        error,
+      });
+
+      throw new Error(`${operation} failed: ${error}`);
+    }
+  }
+
+  /**
    * Get Fess version from server
    * @returns Promise resolving to version string
    */
@@ -37,7 +109,7 @@ export default class SearchService {
       const res: AxiosResponse = await axios.get(url);
       return res.data.response.version as string;
     } catch (e) {
-      throw new Error(`Failed to get Fess version: ${e}`);
+      this._handleAxiosError('Get Fess version', e, { url });
     }
   }
 
@@ -78,7 +150,8 @@ export default class SearchService {
       state.relatedContents = response.related_contents ?? [];
       state.q = response.q ?? '';
       state.queryId = response.query_id ?? '';
-      state.pageInfo.pageNumbers = (response.page_numbers ?? []).map((n) => parseInt(n, 10));
+      // Convert string array to number array efficiently using Number constructor
+      state.pageInfo.pageNumbers = (response.page_numbers ?? []).map(Number);
       state.pageInfo.currentPageNumber = response.page_number ?? 1;
       state.pageInfo.prevPage = response.prev_page ?? false;
       state.pageInfo.nextPage = response.next_page ?? false;
@@ -102,7 +175,13 @@ export default class SearchService {
 
       return response;
     } catch (e) {
-      throw new Error(`Search failed: ${e}`);
+      this._handleAxiosError('Search', e, {
+        query: searchCond.q,
+        page: searchCond.page,
+        pageSize: searchCond.pageSize,
+        label: searchCond.label,
+        sort: searchCond.sort,
+      });
     }
   }
 
@@ -127,8 +206,8 @@ export default class SearchService {
       }
 
       return labels;
-    } catch (error) {
-      throw new Error(`Failed to get labels: ${error}`);
+    } catch (e) {
+      this._handleAxiosError('Get labels', e);
     }
   }
 
@@ -171,7 +250,13 @@ export default class SearchService {
 
       return words;
     } catch (e) {
-      throw new Error(`Suggest failed: ${e}`);
+      this._handleAxiosError('Suggest', e, {
+        keyword,
+        num,
+        labels: labels.length > 0 ? labels : undefined,
+        fields: fields.length > 0 ? fields : undefined,
+        langs: langs.length > 0 ? langs : undefined,
+      });
     }
   }
 }

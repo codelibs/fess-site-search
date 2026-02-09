@@ -27,7 +27,7 @@ class SearchEvent extends EventBus {
    * @param searchCond - Search condition parameters
    */
   emitBasicSearch(searchCond: SearchCondition): void {
-    // Ensure addition object exists
+    // Ensure addition object exists with explicit initialization
     if (!searchCond.addition) {
       searchCond.addition = {};
     }
@@ -41,7 +41,7 @@ class SearchEvent extends EventBus {
    * @param searchCond - Search condition parameters
    */
   emitBasicSearchWithScroll(searchCond: SearchCondition): void {
-    // Ensure addition object exists
+    // Ensure addition object exists with explicit initialization
     if (!searchCond.addition) {
       searchCond.addition = {};
     }
@@ -56,6 +56,15 @@ class SearchEvent extends EventBus {
    */
   onBasicSearch(handler: EventHandler<SearchCondition>): void {
     this.on(this.BASIC_SEARCH, handler);
+  }
+
+  /**
+   * Unregister a handler for basic search events
+   *
+   * @param handler - Function to be removed
+   */
+  offBasicSearch(handler: EventHandler<SearchCondition>): void {
+    this.off(this.BASIC_SEARCH, handler);
   }
 
   /**

@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fess Site Search - Development</title>
 </head>
+
 <body>
   <h1>Fess Site Search - Development Server</h1>
 
   <div class="fess-site-search">
-    <fess-search-form
-      language="ja"
-    ></fess-search-form>
-    <fess-search-result
-      fess-url="https://search.n2sm.co.jp/"
-      language="ja"
-      link-target="_blank"
-      :page-size="5"
-      :enable-label="true"
-      :enable-thumbnail="true"
-    ></fess-search-result>
+    <fess-search-form language="ja" :enable-suggest="true" suggest-url="https://search.n2sm.co.jp/"></fess-search-form>
+    <fess-search-result fess-url="https://search.n2sm.co.jp/" language="ja" link-target="_blank" :page-size="5"
+      :enable-label="true" :enable-thumbnail="true"></fess-search-result>
   </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>

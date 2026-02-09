@@ -4,7 +4,7 @@ import SearchEvent from '@/events/SearchEvent';
 import SearchService from '@/service/SearchService';
 import MessageService from '@/service/MessageService';
 import FrontHelper from '@/helper/FrontHelper';
-import type { SearchCondition } from '@/types/search.types';
+import type { SearchCondition, RelatedContent } from '@/types/search.types';
 
 /**
  * Component for header of search result.
@@ -32,7 +32,7 @@ interface Props {
   language?: string;
   enableRelated?: boolean;
   relatedQueries?: string[];
-  relatedContents?: unknown[];
+  relatedContents?: RelatedContent[];
 }
 
 // Props with defaults
@@ -174,7 +174,7 @@ const getRelatedQueryLink = (query: string): string => {
     <div v-if="enableLabelTab" class="label-tab-box">
       <div
         class="label-tab"
-        :class="{ 'label-tab-selected': '' == state.selectedLabel || '_default_' == state.selectedLabel }"
+        :class="{ 'label-tab-selected': state.selectedLabel === '' || state.selectedLabel === '_default_' }"
         value=""
         @click="handleLabelTab"
       >
@@ -185,7 +185,7 @@ const getRelatedQueryLink = (query: string): string => {
         :key="label.value"
         :value="label.value"
         class="label-tab"
-        :class="{ 'label-tab-selected': label.value == state.selectedLabel }"
+        :class="{ 'label-tab-selected': label.value === state.selectedLabel }"
         @click="handleLabelTab"
       >
         {{ label.label }}

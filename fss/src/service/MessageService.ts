@@ -1172,27 +1172,11 @@ export default class MessageService {
    * @returns Language code
    */
   getLanguage(): LanguageCode {
-    // Extend Navigator interface to support legacy properties
-    interface NavigatorWithLegacy extends Navigator {
-      userLanguage?: string;
-      browserLanguage?: string;
-    }
+    // Get browser language from the most reliable source
+    let lang: string = this.fessLang || window.navigator.language || 'en';
 
-    const nav = window.navigator as NavigatorWithLegacy;
-
-    let lang: string =
-      this.fessLang || (nav.languages && nav.languages[0]) || nav.userLanguage || nav.language || nav.browserLanguage || 'en';
-
-    // Handle language variants (e.g., 'zh-TW' → 'tw')
-    if (lang.indexOf('-') > 0) {
-      if (lang === 'zh-TW') {
-        lang = 'tw';
-      } else if (lang === 'zh-CN' || lang === 'zh-HK') {
-        lang = 'zh';
-      } else {
-        lang = lang.substring(0, lang.indexOf('-'));
-      }
-    }
+    // Normalize language variants to supported language codes
+    lang = this.normalizeLanguageCode(lang);
 
     // Fallback to English if language not supported
     if (this.messages[lang as LanguageCode] === undefined) {
@@ -1200,6 +1184,35 @@ export default class MessageService {
     }
 
     return lang as LanguageCode;
+  }
+
+  /**
+   * Normalize language code by handling regional variants
+   * Maps language tags (e.g., 'zh-TW', 'zh-CN') to supported codes
+   * @param langCode - Language code to normalize
+   * @returns Normalized language code
+   */
+  private normalizeLanguageCode(langCode: string): string {
+    // Language variant mapping table
+    // Maps full language tags to their corresponding supported language codes
+    const languageVariants: Record<string, string> = {
+      'zh-TW': 'tw', // Traditional Chinese (Taiwan)
+      'zh-HK': 'zh', // Traditional Chinese (Hong Kong) → Simplified Chinese
+      'zh-CN': 'zh', // Simplified Chinese (China)
+    };
+
+    // Check for exact match in variant mapping
+    if (languageVariants[langCode] !== undefined) {
+      return languageVariants[langCode];
+    }
+
+    // Extract base language code from regional variant (e.g., 'en-US' → 'en')
+    const dashIndex = langCode.indexOf('-');
+    if (dashIndex > 0) {
+      return langCode.substring(0, dashIndex);
+    }
+
+    return langCode;
   }
 
   /**
@@ -1251,17 +1264,15 @@ export default class MessageService {
       return String(message);
     }
 
-    return message.replace(
-      /[&'`"<>]/g,
-      (match) =>
-        ({
-          '&': '&amp;',
-          "'": '&#x27;',
-          '`': '&#x60;',
-          '"': '&quot;',
-          '<': '&lt;',
-          '>': '&gt;',
-        })[match] ?? match
-    );
+    const escapeMap: Record<string, string> = {
+      '&': '&amp;',
+      "'": '&#x27;',
+      '`': '&#x60;',
+      '"': '&quot;',
+      '<': '&lt;',
+      '>': '&gt;',
+    };
+
+    return message.replace(/[&'`"<>]/g, (match) => escapeMap[match] ?? match);
   }
 }

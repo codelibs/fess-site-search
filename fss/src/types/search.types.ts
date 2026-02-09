@@ -39,6 +39,15 @@ export interface SearchResultItem {
 }
 
 /**
+ * Related content (HTML string to be rendered)
+ *
+ * This type represents HTML content returned by the Fess API
+ * that is displayed as related content in search results.
+ * The content is rendered using v-html in the UI.
+ */
+export type RelatedContent = string;
+
+/**
  * Pagination information
  */
 export interface PageInfo {
@@ -61,7 +70,7 @@ export interface SearchState {
   queryId: string;
   items: SearchResultItem[];
   relatedQueries: string[];
-  relatedContents: unknown[];
+  relatedContents: RelatedContent[];
   pageInfo: PageInfo;
   searching?: boolean;
   show?: boolean;

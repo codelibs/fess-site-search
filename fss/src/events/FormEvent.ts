@@ -36,6 +36,15 @@ class FormEvent extends EventBus {
   onUpdateFormValue(handler: EventHandler<string>): void {
     this.on(this.UPDATE_FORM_VALUE, handler);
   }
+
+  /**
+   * Unregister a handler for form value update events
+   *
+   * @param handler - Function to be removed
+   */
+  offUpdateFormValue(handler: EventHandler<string>): void {
+    this.off(this.UPDATE_FORM_VALUE, handler);
+  }
 }
 
 /**

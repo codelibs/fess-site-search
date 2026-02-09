@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, onBeforeUnmount } from 'vue';
 import SuggestHelper from '@/helper/SuggestHelper';
 import SuggestEvent from '@/events/SuggestEvent';
+import type { EventHandler } from '@/types/event.types';
+import { SUGGEST_DEBOUNCE_DELAY_MS, SUGGEST_CANCEL_DELAY_MS } from '@/constants';
+import {
+  KEY_NAME_ENTER,
+  KEY_NAME_TAB,
+  KEY_NAME_ARROW_UP,
+  KEY_NAME_ARROW_DOWN,
+  isInputKey,
+} from '@/constants/keyboard';
 
 const { adjustBox, doSuggest } = SuggestHelper();
 
@@ -34,8 +43,15 @@ interface State {
   top: string;
   left: string;
   width: string;
+  /**
+   * Index of currently focused suggestion item (-1 means no focus).
+   * Used for keyboard navigation (arrow up/down) through suggestion list.
+   */
   focusNum: number;
-  newData: string | null;
+  /**
+   * Flag to track if mouse cursor is over the suggest box or its items.
+   * Prevents suggest box from closing when user is interacting with mouse.
+   */
   isMouseOver: boolean;
 }
 
@@ -47,7 +63,6 @@ const state = reactive<State>({
   left: '0px',
   width: '0px',
   focusNum: -1,
-  newData: null,
   isMouseOver: false,
 });
 
@@ -58,7 +73,6 @@ const init = (): void => {
   state.show = false;
   state.suggestList = [];
   state.focusNum = -1;
-  state.newData = null;
   state.isMouseOver = false;
 };
 
@@ -68,7 +82,7 @@ const init = (): void => {
 const _cancel = (): void => {
   setTimeout(() => {
     init();
-  }, 100);
+  }, SUGGEST_CANCEL_DELAY_MS);
 };
 
 /**
@@ -83,24 +97,27 @@ const handleFocusOut = (): void => {
 
 /**
  * Handle key up events.
- * Handles arrow keys and input changes
+ * Processes keyboard navigation and input changes:
+ * - Arrow Up: Navigate to previous suggestion
+ * - Arrow Down: Navigate to next suggestion or trigger suggest if box is hidden
+ * - Input keys: Trigger debounced suggest on text input
  */
 const handleKeyup = (event: KeyboardEvent): boolean => {
   let ret = true;
-  if (event.keyCode === 38 && state.show) {
-    // Up arrow key
+  if (event.key === KEY_NAME_ARROW_UP && state.show) {
+    // Navigate to previous suggestion when suggest box is shown
     ret = _handleUpAllowKey();
-  } else if (event.keyCode === 40 && state.show) {
-    // Down arrow key when suggest box is shown
+  } else if (event.key === KEY_NAME_ARROW_DOWN && state.show) {
+    // Navigate to next suggestion when suggest box is shown
     ret = _handleDownAllowKey();
-  } else if (event.keyCode === 40 && !state.show) {
-    // Down arrow key when suggest box is not shown
+  } else if (event.key === KEY_NAME_ARROW_DOWN && !state.show) {
+    // Trigger suggest when arrow down is pressed and box is hidden
     const inputElem = document.getElementById(props.targetElementId) as HTMLInputElement;
     if (inputElem) {
       _suggest(inputElem.value);
     }
-  } else if (_isInputKeyCode(event.keyCode)) {
-    // Execute suggest when input is changed
+  } else if (isInputKey(event.key)) {
+    // Execute suggest when input is changed (alphanumeric, backspace, space, delete, punctuation)
     const target = event.target as HTMLInputElement;
     _handleUpdateKeywords(target.value);
   }
@@ -109,13 +126,15 @@ const handleKeyup = (event: KeyboardEvent): boolean => {
 
 /**
  * Handle key down events.
- * Handles Enter and Tab keys
+ * Processes Enter key to confirm selection and Tab key to close suggest box:
+ * - Enter: Apply focused suggestion to input field (prevents form submission)
+ * - Tab: Close suggest box when mouse is over (allows tab navigation)
  */
 const handleKeydown = (event: KeyboardEvent): boolean => {
   let ret = true;
-  if (event.keyCode === 13 && state.show) {
+  if (event.key === KEY_NAME_ENTER && state.show) {
     ret = _handleEnterKey(event);
-  } else if (event.keyCode === 9 && state.show && state.isMouseOver) {
+  } else if (event.key === KEY_NAME_TAB && state.show && state.isMouseOver) {
     _cancel();
   }
   return ret;
@@ -141,7 +160,7 @@ const _handleEnterKey = (event: KeyboardEvent): boolean => {
 
 /**
  * Handle up arrow key.
- * Moves focus to previous suggestion
+ * Moves focus to previous suggestion (wraps to last item if at top).
  */
 const _handleUpAllowKey = (): boolean => {
   state.focusNum -= 1;
@@ -153,7 +172,7 @@ const _handleUpAllowKey = (): boolean => {
 
 /**
  * Handle down arrow key.
- * Moves focus to next suggestion
+ * Moves focus to next suggestion (wraps to -1 if at bottom, meaning no focus).
  */
 const _handleDownAllowKey = (): boolean => {
   state.focusNum += 1;
@@ -165,14 +184,31 @@ const _handleDownAllowKey = (): boolean => {
 
 /**
  * Handle update keywords.
- * Stores new data for periodic suggest execution
+ * Executes suggest with debouncing to prevent excessive API calls.
+ * Debouncing delays the API call until user stops typing for a configured period,
+ * reducing server load and improving performance during rapid input.
  */
 const _handleUpdateKeywords = (data: string): void => {
-  state.newData = data;
+  // Skip suggest during IME composition (e.g., Japanese/Chinese input)
+  if (isComposing) {
+    return;
+  }
+
+  // Cancel previous debounce timer to reset the delay
+  if (debounceTimerId !== null) {
+    clearTimeout(debounceTimerId);
+  }
+
+  // Set new debounce timer - API call executes after user stops typing
+  debounceTimerId = window.setTimeout(() => {
+    _suggest(data);
+    debounceTimerId = null;
+  }, SUGGEST_DEBOUNCE_DELAY_MS);
 };
 
 /**
  * Handle mouse over on suggest list item.
+ * Updates focus to the hovered item and sets isMouseOver flag.
  */
 const handleMouseOver = (event: MouseEvent): void => {
   state.isMouseOver = true;
@@ -185,6 +221,7 @@ const handleMouseOver = (event: MouseEvent): void => {
 
 /**
  * Handle mouse leave from suggest list.
+ * Clears focus and isMouseOver flag when cursor leaves the list area.
  */
 const handleMouseLeave = (): void => {
   state.isMouseOver = false;
@@ -193,6 +230,7 @@ const handleMouseLeave = (): void => {
 
 /**
  * Handle mouse over on suggest box.
+ * Sets isMouseOver flag to prevent box from closing when cursor is over the container.
  */
 const handleBoxMouseOver = (): void => {
   state.isMouseOver = true;
@@ -200,6 +238,7 @@ const handleBoxMouseOver = (): void => {
 
 /**
  * Handle mouse leave from suggest box.
+ * Clears isMouseOver flag to allow box to close when focus is lost.
  */
 const handleBoxMouseLeave = (): void => {
   state.isMouseOver = false;
@@ -247,24 +286,50 @@ const _fix = (): void => {
 };
 
 /**
- * Determine if the key code corresponds to a character input.
- * Returns true for alphanumeric keys, backspace, space, delete, and punctuation
+ * Handle composition start event (IME input).
+ * Prevents suggest API calls during IME composition (e.g., Japanese, Chinese input)
+ * where intermediate characters should not trigger suggestions.
  */
-const _isInputKeyCode = (keyCode: number): boolean => {
-  return (
-    (keyCode >= 48 && keyCode <= 90) ||
-    (keyCode >= 96 && keyCode <= 111) ||
-    keyCode === 8 ||
-    keyCode === 32 ||
-    keyCode === 46 ||
-    (keyCode >= 186 && keyCode <= 226)
-  );
+const handleCompositionStart = (): void => {
+  isComposing = true;
 };
+
+/**
+ * Handle composition end event (IME input complete).
+ * Clears IME composition flag and triggers suggest with the finalized text.
+ * This ensures suggestions are shown after user completes multi-byte character input.
+ */
+const handleCompositionEnd = (event: CompositionEvent): void => {
+  isComposing = false;
+  // Trigger suggest after IME composition is complete with final text
+  const target = event.target as HTMLInputElement;
+  if (target && target.value) {
+    _handleUpdateKeywords(target.value);
+  }
+};
+
+// Store references for cleanup
+let targetElem: HTMLElement | null = null;
+let resizeHandler: (() => void) | null = null;
+let cancelEventHandler: EventHandler<string> | null = null;
+
+/**
+ * Debounce timer ID for suggest execution.
+ * Used to delay API calls until user stops typing, preventing excessive requests.
+ */
+let debounceTimerId: number | null = null;
+
+/**
+ * IME composition state flag.
+ * True during multi-byte character input (Japanese, Chinese, etc.),
+ * prevents suggest calls on intermediate composition characters.
+ */
+let isComposing = false;
 
 // Component lifecycle
 onMounted(() => {
   // Get target form element
-  const targetElem = document.getElementById(props.targetElementId);
+  targetElem = document.getElementById(props.targetElementId);
 
   if (!targetElem) {
     console.warn(`[FSS] Target element not found: ${props.targetElementId}`);
@@ -273,29 +338,53 @@ onMounted(() => {
 
   // Setting the display position
   adjustBox(state, targetElem);
-  window.addEventListener('resize', () => {
-    adjustBox(state, targetElem);
-  });
+  resizeHandler = () => {
+    if (targetElem) {
+      adjustBox(state, targetElem);
+    }
+  };
+  window.addEventListener('resize', resizeHandler);
 
   // Handling key events in the input form
   targetElem.addEventListener('keyup', handleKeyup);
   targetElem.addEventListener('keydown', handleKeydown);
-  targetElem.addEventListener('compositionend', (e) => handleKeyup(e as unknown as KeyboardEvent));
+  targetElem.addEventListener('compositionstart', handleCompositionStart);
+  targetElem.addEventListener('compositionend', handleCompositionEnd);
   targetElem.addEventListener('focusout', handleFocusOut);
 
   // Handling cancel event
-  SuggestEvent.$onCancel('fss', () => {
+  cancelEventHandler = () => {
     _cancel();
-  });
+  };
+  SuggestEvent.$onCancel(props.suggestId, cancelEventHandler);
+});
 
-  // Periodically monitor the input
-  setInterval(() => {
-    if (state.newData !== null) {
-      // Execute suggest when form value is changed
-      _suggest(state.newData);
-      state.newData = null;
-    }
-  }, 500);
+// Cleanup event handlers and listeners to prevent memory leaks
+onBeforeUnmount(() => {
+  // Clear debounce timer
+  if (debounceTimerId !== null) {
+    clearTimeout(debounceTimerId);
+    debounceTimerId = null;
+  }
+
+  // Remove DOM event listeners
+  if (targetElem) {
+    targetElem.removeEventListener('keyup', handleKeyup);
+    targetElem.removeEventListener('keydown', handleKeydown);
+    targetElem.removeEventListener('compositionstart', handleCompositionStart);
+    targetElem.removeEventListener('compositionend', handleCompositionEnd);
+    targetElem.removeEventListener('focusout', handleFocusOut);
+  }
+
+  // Remove window event listener
+  if (resizeHandler) {
+    window.removeEventListener('resize', resizeHandler);
+  }
+
+  // Remove EventBus handler
+  if (cancelEventHandler) {
+    SuggestEvent.$offCancel(props.suggestId, cancelEventHandler);
+  }
 });
 </script>
 

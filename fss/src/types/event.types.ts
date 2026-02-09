@@ -15,6 +15,9 @@ export type EventHandler<T = unknown> = (data: T) => void;
 /**
  * Event handlers map
  * Maps event names to arrays of handler functions
+ *
+ * @deprecated This type is now internal to EventBus and uses Map instead.
+ * External code should not need to reference this type directly.
  */
 export type EventHandlers = {
   [eventName: string]: EventHandler<unknown>[];
@@ -27,6 +30,7 @@ export type EventHandlers = {
 export interface IEventBus {
   emit<T>(type: string, data: T): void;
   on<T>(type: string, handler: EventHandler<T>): void;
+  off<T>(type: string, handler: EventHandler<T>): void;
 }
 
 /**
