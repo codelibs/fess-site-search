@@ -1,152 +1,124 @@
-<script>
-import { defineComponent, reactive} from "vue";
-
+<script setup lang="ts">
+import { reactive } from 'vue';
 import MessageService from '@/service/MessageService';
 
 /**
  * Component for search result items.
  */
-export default defineComponent({
-  props: {
-    // Url of fess.
-    fessUrl: {
-      type: String,
-      default: '',
-    },
-    // Title.
-    contentTitle: {
-      type: String,
-      default: '',
-    },
-    // DocId.
-    docId: {
-      type: String,
-      default: '',
-    },
-    // QueryId.
-    queryId: {
-      type: String,
-      default: '',
-    },
-    // Url for link.
-    urlLink: {
-      type: String,
-      default: '',
-    },
-    // Order of search condition.
-    order: {
-      type: Number,
-      default: -1,
-    },
-    // Description.
-    contentDescription: {
-      type: String,
-      default: '',
-    },
-    // Content length.
-    contentLength: {
-      type: Number,
-      default: -1,
-    },
-    // SitePath.
-    sitePath: {
-      type: String,
-      default: '',
-    },
-    // Created date.
-    created: {
-      type: Date,
-      default: null,
-    },
-    // Last modified date.
-    lastModified: {
-      type: Date,
-      default: null,
-    },
-    // Language for search.
-    language: {
-      type: String,
-      default: '',
-    },
-    // Enable thumbnail display.
-    enableThumbnail: {
-      type: Boolean,
-      default: true,
-    },
-    // Target of link.
-    linkTarget: {
-      type: String,
-      default: '',
-    },
-    // Enable details.
-    enableDetails: {
-      type: Boolean,
-      default: true,
-    },
-  },
 
-  setup(props) {
-    // reactive data
-    const state = reactive({
-      existThumbnail: false,
-      message: new MessageService(props.language),
-    });
+// Props interface
+interface Props {
+  fessUrl?: string;
+  contentTitle?: string;
+  docId?: string;
+  queryId?: string;
+  urlLink?: string;
+  order?: number;
+  contentDescription?: string;
+  contentLength?: number;
+  sitePath?: string;
+  created?: Date | string | null;
+  lastModified?: Date | string | null;
+  language?: string;
+  enableThumbnail?: boolean;
+  linkTarget?: string;
+  enableDetails?: boolean;
+}
 
-    // method definitions
-
-    /**
-     * Format date string.
-     */
-    const formatDate = (date) => {
-      if (date == null) {
-        return '';
-      }
-      const day = date.getDate();
-      const month = date.getMonth() + 1;
-      const year = date.getFullYear();
-      const hours = date.getHours();
-      const minutes = date.getMinutes();
-      const seconds = date.getSeconds();
-      return year + '-' + month.toString().padStart(2, '0') 
-        + '-' + day.toString().padStart(2, '0') + ' ' 
-        + hours.toString().padStart(2, '0') + ':'
-        + minutes.toString().padStart(2, '0') + ':'
-        + seconds.toString().padStart(2, '0');
-    };
-    
-    // Format content length string.
-    const formatContentLength = (contentLength) => {
-      const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-      let l = 0, n = parseInt(contentLength, 10) || 0;
-
-      while(n >= 1024 && ++l) {
-        n = n/1024;
-      }
-
-      //include a decimal point and a tenths-place digit if presenting 
-      //less than ten of KB or greater units
-      return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
-    };
-
-    // Set the presence of a thumbnail.
-    const hasThumbnail = () => {
-      state.existThumbnail = true;
-    };
-
-    // Set the absence of a thumbnail.
-    const noThumbnail = () => {
-      state.existThumbnail = false;
-    };
-
-    return {
-      state,
-      formatDate,
-      formatContentLength,
-      hasThumbnail,
-      noThumbnail,
-    };
-  }
+// Props with defaults
+const props = withDefaults(defineProps<Props>(), {
+  fessUrl: '',
+  contentTitle: '',
+  docId: '',
+  queryId: '',
+  urlLink: '',
+  order: -1,
+  contentDescription: '',
+  contentLength: -1,
+  sitePath: '',
+  created: null,
+  lastModified: null,
+  language: '',
+  enableThumbnail: true,
+  linkTarget: '',
+  enableDetails: true,
 });
+
+// State interface
+interface State {
+  existThumbnail: boolean;
+  message: MessageService;
+}
+
+// Reactive state
+const state = reactive<State>({
+  existThumbnail: false,
+  message: new MessageService(props.language),
+});
+
+/**
+ * Format date string.
+ * Converts Date object to YYYY-MM-DD HH:mm:ss format
+ */
+const formatDate = (date: Date | string | null): string => {
+  if (date == null) {
+    return '';
+  }
+
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+
+  const day = dateObj.getDate();
+  const month = dateObj.getMonth() + 1;
+  const year = dateObj.getFullYear();
+  const hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const seconds = dateObj.getSeconds();
+
+  return (
+    year +
+    '-' +
+    month.toString().padStart(2, '0') +
+    '-' +
+    day.toString().padStart(2, '0') +
+    ' ' +
+    hours.toString().padStart(2, '0') +
+    ':' +
+    minutes.toString().padStart(2, '0') +
+    ':' +
+    seconds.toString().padStart(2, '0')
+  );
+};
+
+/**
+ * Format content length string with appropriate unit (B, KB, MB, etc.)
+ */
+const formatContentLength = (contentLength: number): string => {
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  let l = 0;
+  let n = parseInt(String(contentLength), 10) || 0;
+
+  while (n >= 1024 && ++l) {
+    n = n / 1024;
+  }
+
+  // Include a decimal point and a tenths-place digit if presenting
+  // less than ten of KB or greater units
+  return n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l];
+};
+
+/**
+ * Set the presence of a thumbnail.
+ */
+const hasThumbnail = (): void => {
+  state.existThumbnail = true;
+};
+
+/**
+ * Set the absence of a thumbnail.
+ */
+const noThumbnail = (): void => {
+  state.existThumbnail = false;
+};
 </script>
 
 <template>

@@ -18,10 +18,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src/",
-    "lint:fix": "eslint src/ --fix",
-    "format": "prettier --write \"src/**/*.{js,vue,json,css,scss}\"",
-    "format:check": "prettier --check \"src/**/*.{js,vue,json,css,scss}\""
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint src/ --ext .js,.ts,.vue",
+    "lint:fix": "eslint src/ --ext .js,.ts,.vue --fix",
+    "format": "prettier --write \"src/**/*.{js,ts,vue,json,css,scss}\"",
+    "format:check": "prettier --check \"src/**/*.{js,ts,vue,json,css,scss}\""
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -32,15 +33,22 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
+    "@types/node": "^25.2.2",
+    "@types/superagent": "^8.1.9",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
     "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.17.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.31.0",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",
     "sass": "^1.81.0",
+    "typescript": "^5.9.3",
     "vite": "^6.0.5",
-    "vite-plugin-css-injected-by-js": "^3.5.2"
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vue-tsc": "^3.2.4"
   },
   "browserslist": [
     "> 1%",

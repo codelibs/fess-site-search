@@ -1,204 +1,172 @@
-<script>
-import { defineComponent, reactive, nextTick, watch, toRefs } from "vue";
-
-import SearchEvent from "@/events/SearchEvent";
-import SearchService from "@/service/SearchService";
-import MessageService from "@/service/MessageService";
-import FrontHelper from "@/helper/FrontHelper";
+<script setup lang="ts">
+import { reactive, nextTick, watch, toRefs } from 'vue';
+import SearchEvent from '@/events/SearchEvent';
+import SearchService from '@/service/SearchService';
+import MessageService from '@/service/MessageService';
+import FrontHelper from '@/helper/FrontHelper';
+import type { SearchCondition } from '@/types/search.types';
 
 /**
  * Component for header of search result.
  */
-export default defineComponent({
-  props: {
-    // Url of fess.
-    fessUrl: {
-      type: String,
-      default: "",
-    },
-    // Record count reration. (equal or gte)
-    recordCountRelation: {
-      type: String,
-      default: "",
-    },
-    // Record count of search result.
-    recordCount: {
-      type: Number,
-      default: -1,
-    },
-    // Record number of search start position.
-    startRecordNumber: {
-      type: Number,
-      default: -1,
-    },
-    // Record number of search end position.
-    endRecordNumber: {
-      type: Number,
-      default: -1,
-    },
-    // Execution time of search.
-    execTime: {
-      type: Number,
-      default: -1,
-    },
-    // Search condition.
-    currentSearchCond: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-    // Show order.
-    enableAllOrders: {
-      type: Boolean,
-      default: false,
-    },
-    // Enable show order.
-    enableOrder: {
-      type: Boolean,
-      default: true,
-    },
-    // Enable show label.
-    enableLabel: {
-      type: Boolean,
-      default: true,
-    },
-    // Enable show label by tab style.
-    enableLabelTab: {
-      type: Boolean,
-      default: false,
-    },
-    // Search language.
-    language: {
-      type: String,
-      default: "",
-    },
-    // Enable show related info.
-    enableRelated: {
-      type: Boolean,
-      default: false,
-    },
-    // Related query of search result.
-    relatedQueries: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
-    // Related content of search result.
-    relatedContents: {
-      type: Array,
-      default: () => {
-        return [];
-      },
-    },
-  },
 
-  setup(props) {
-    // reactive data
-    const { currentSearchCond } = toRefs(props);
-    const state = reactive({
-      labels: [],
-      selectedLabel: '_default_',
-      selectedSort: '_default_'
-    });
+// Label interface
+interface Label {
+  value: string;
+  label: string;
+}
 
-    // nextTick
-    nextTick(() => {
-      const service = new SearchService(props.fessUrl);
+// Props interface
+interface Props {
+  fessUrl?: string;
+  recordCountRelation?: string;
+  recordCount?: number;
+  startRecordNumber?: number;
+  endRecordNumber?: number;
+  execTime?: number;
+  currentSearchCond?: SearchCondition;
+  enableAllOrders?: boolean;
+  enableOrder?: boolean;
+  enableLabel?: boolean;
+  enableLabelTab?: boolean;
+  language?: string;
+  enableRelated?: boolean;
+  relatedQueries?: string[];
+  relatedContents?: unknown[];
+}
 
-      // Get labels.
-      if (props.enableLabel || props.enableLabelTab) {
-        service
-          .getLabels()
-          .then((labels) => {
-            state.labels = labels;
-          })
-          .catch((res) => {
-            console.error('[FSS] Failed to get labels.');
-            console.error(res);
-          });
-      }
-    });
-
-    // Watch props change.
-    watch(currentSearchCond, () => {
-      if (currentSearchCond.value.label !== "") {
-        state.selectedLabel = props.currentSearchCond.label;
-      }
-      if (currentSearchCond.value.sort !== "") {
-        state.selectedSort = props.currentSearchCond.sort;
-      }
-    });
-
-    const message = new MessageService(props.language);
-
-    // method definitions
-
-    /**
-     * Execute search.
-     */
-    const search = () => {
-      const searchCond = { ...props.currentSearchCond };
-      if (state.selectedSort !== '_default_') {
-        searchCond.sort = state.selectedSort;
-      }
-      if (state.selectedLabel !== '_default_') {
-        searchCond.label = state.selectedLabel;
-      }
-      searchCond.page = 1;
-      SearchEvent.emitBasicSearch(searchCond);
-    };
-
-    /**
-     * Handle clicks on label tabs.
-     */
-    const handleLabelTab = (event) => {
-      if (event) {
-        state.selectedLabel = event.target.getAttribute("value");
-        search();
-      }
-    };
-
-    /**
-     * Get url for related query.
-     */
-    const getRelatedQueryLink = (query) => {
-      const frontHelper = new FrontHelper();
-      let url =
-        location.href.replace(/\?.*$/, "") +
-        "?fss.query=" +
-        encodeURIComponent(query);
-      const urlParams = frontHelper.getUrlParameters();
-      const hash = urlParams["fess_url_hash"];
-      Object.keys(urlParams).forEach(function (key) {
-        if (key !== "fss.query" && key !== "fess_url_hash") {
-          this[key].forEach(function (val) {
-            url =
-              url +
-              "&" +
-              encodeURIComponent(key) +
-              "=" +
-              encodeURIComponent(val);
-          });
-        }
-      }, urlParams);
-      if (hash !== undefined && hash !== "") {
-        url = url + "#" + hash;
-      }
-      return url;
-    };
-
-    return {
-      state,
-      message,
-      search,
-      handleLabelTab,
-      getRelatedQueryLink,
-    };
-  },
-
+// Props with defaults
+const props = withDefaults(defineProps<Props>(), {
+  fessUrl: '',
+  recordCountRelation: '',
+  recordCount: -1,
+  startRecordNumber: -1,
+  endRecordNumber: -1,
+  execTime: -1,
+  currentSearchCond: () => ({
+    q: '',
+    page: 1,
+    pageSize: 10,
+  }),
+  enableAllOrders: false,
+  enableOrder: true,
+  enableLabel: true,
+  enableLabelTab: false,
+  language: '',
+  enableRelated: false,
+  relatedQueries: () => [],
+  relatedContents: () => [],
 });
+
+// State interface
+interface State {
+  labels: Label[];
+  selectedLabel: string;
+  selectedSort: string;
+}
+
+// Reactive data
+const { currentSearchCond } = toRefs(props);
+const state = reactive<State>({
+  labels: [],
+  selectedLabel: '_default_',
+  selectedSort: '_default_',
+});
+
+// Initialize - fetch labels
+nextTick(() => {
+  const service = new SearchService(props.fessUrl);
+
+  // Get labels if enabled
+  if (props.enableLabel || props.enableLabelTab) {
+    service
+      .getLabels()
+      .then((labels) => {
+        state.labels = labels;
+      })
+      .catch((res) => {
+        console.error('[FSS] Failed to get labels.');
+        console.error(res);
+      });
+  }
+});
+
+// Watch props change
+watch(
+  currentSearchCond,
+  () => {
+    const cond = currentSearchCond.value;
+    if (cond && cond.label && cond.label !== '') {
+      state.selectedLabel = cond.label;
+    }
+    if (cond && cond.sort && cond.sort !== '') {
+      state.selectedSort = cond.sort;
+    }
+  },
+  { deep: true }
+);
+
+const message = new MessageService(props.language);
+
+/**
+ * Execute search with current filter selections.
+ */
+const search = (): void => {
+  const cond = props.currentSearchCond;
+  if (!cond) return;
+
+  const searchCond: SearchCondition = { ...cond };
+  if (state.selectedSort !== '_default_') {
+    searchCond.sort = state.selectedSort;
+  }
+  if (state.selectedLabel !== '_default_') {
+    searchCond.label = state.selectedLabel;
+  }
+  searchCond.page = 1;
+  SearchEvent.emitBasicSearch(searchCond);
+};
+
+/**
+ * Handle clicks on label tabs.
+ */
+const handleLabelTab = (event: MouseEvent): void => {
+  if (event && event.target) {
+    const target = event.target as HTMLElement;
+    const value = target.getAttribute('value');
+    if (value !== null) {
+      state.selectedLabel = value;
+      search();
+    }
+  }
+};
+
+/**
+ * Get URL for related query.
+ * Constructs URL with query parameter and preserves existing URL params
+ */
+const getRelatedQueryLink = (query: string): string => {
+  const { getUrlParameters } = FrontHelper();
+  let url =
+    location.href.replace(/\?.*$/, '') + '?fss.query=' + encodeURIComponent(query);
+  const urlParams = getUrlParameters();
+  const hash = urlParams['fess_url_hash'];
+
+  // Append other URL parameters
+  Object.keys(urlParams).forEach((key: string) => {
+    if (key !== 'fss.query' && key !== 'fess_url_hash' && urlParams[key]) {
+      urlParams[key].forEach((val: string) => {
+        url = url + '&' + encodeURIComponent(key) + '=' + encodeURIComponent(val);
+      });
+    }
+  });
+
+  // Append hash if exists
+  if (hash !== undefined && hash.length > 0 && hash[0] !== '') {
+    url = url + '#' + hash[0];
+  }
+
+  return url;
+};
 </script>
 
 <template>
@@ -230,7 +198,7 @@ export default defineComponent({
       </div>
     </div>
     <div v-if="enableRelated && relatedContents.length > 0">
-      <div v-for="content in relatedContents" :key="content" v-html="content" />
+      <div v-for="(content, index) in relatedContents" :key="index" v-html="content" />
     </div>
     <table width="100%" class="result-header">
       <tbody>

@@ -33,6 +33,13 @@ export default defineConfig({
     vue(),
     cssInjectedByJsPlugin(), // Embed CSS in JS (for widget distribution)
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ['color-functions', 'global-builtin', 'import'],
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -46,7 +53,7 @@ export default defineConfig({
   build: {
     // Output single file in library mode
     lib: {
-      entry: path.resolve(__dirname, 'src/main.js'),
+      entry: path.resolve(__dirname, 'src/main.ts'),
       name: 'FessSiteSearch', // Global variable name (IIFE format)
       fileName: () => process.env.OUTPUT_JS_FILENAME || 'fess-ss.js',
       formats: ['iife'], // Immediately Invoked Function Expression format (for widget)
