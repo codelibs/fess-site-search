@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import FrontHelper from '@/helper/FrontHelper';
-import SearchResultHelper from '@/helper/SearchResultHelper';
+import { useFrontHelper } from '@/composables/useFrontHelper';
+import { useSearchResultHelper } from '@/composables/useSearchResultHelper';
 import jsonConfig from '@/config/JsonConfig';
 import HistoryMode from '@/enum/HistoryMode';
 import SearchEvent from '@/events/SearchEvent';
@@ -11,9 +11,9 @@ import ResultPagination from '@/components/search-result/ResultPagination.vue';
 import type { SearchCondition, SearchState } from '@/types/search.types';
 import type { EventHandler } from '@/types/event.types';
 
-const { getUrlParameters, getHistoryState } = FrontHelper();
+const { getUrlParameters, getHistoryState } = useFrontHelper();
 const { doSearch, isAutoSearchCase, createSearchCondFromParameter, showVersion } =
-  SearchResultHelper();
+  useSearchResultHelper();
 
 /**
  * Component for search result.

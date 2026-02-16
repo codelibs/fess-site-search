@@ -3,7 +3,7 @@ import { reactive, nextTick, watch, toRefs } from 'vue';
 import SearchEvent from '@/events/SearchEvent';
 import SearchService from '@/service/SearchService';
 import MessageService from '@/service/MessageService';
-import FrontHelper from '@/helper/FrontHelper';
+import { useFrontHelper } from '@/composables/useFrontHelper';
 import type { SearchCondition, RelatedContent } from '@/types/search.types';
 
 /**
@@ -145,7 +145,7 @@ const handleLabelTab = (event: MouseEvent): void => {
  * Constructs URL with query parameter and preserves existing URL params
  */
 const getRelatedQueryLink = (query: string): string => {
-  const { getUrlParameters } = FrontHelper();
+  const { getUrlParameters } = useFrontHelper();
   let url =
     location.href.replace(/\?.*$/, '') + '?fss.query=' + encodeURIComponent(query);
   const urlParams = getUrlParameters();

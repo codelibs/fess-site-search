@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount } from 'vue';
-import SuggestHelper from '@/helper/SuggestHelper';
+import { useSuggestHelper } from '@/composables/useSuggestHelper';
 import SuggestEvent from '@/events/SuggestEvent';
 import type { EventHandler } from '@/types/event.types';
 import { SUGGEST_DEBOUNCE_DELAY_MS, SUGGEST_CANCEL_DELAY_MS } from '@/constants';
@@ -12,7 +12,7 @@ import {
   isInputKey,
 } from '@/constants/keyboard';
 
-const { adjustBox, doSuggest } = SuggestHelper();
+const { adjustBox, doSuggest } = useSuggestHelper();
 
 /**
  * Component for suggest box.
