@@ -1,5 +1,7 @@
 import js from '@eslint/js';
 import pluginVue from 'eslint-plugin-vue';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
@@ -9,6 +11,7 @@ import globals from 'globals';
  * Migrated from: .eslintrc.json
  * - Converted to ESLint 9 Flat Config format
  * - Vue 3 project rule settings
+ * - TypeScript support (Phase 1)
  * - Prettier integration
  */
 export default [
@@ -93,6 +96,73 @@ export default [
         ],
         alphabetical: false
       }],
+    },
+  },
+
+  // TypeScript files (non-Vue)
+  {
+    files: ['src/**/*.{ts,tsx}'],
+
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        project: ['./tsconfig.json'],
+      },
+      globals: {
+        ...globals.es2021,
+        ...globals.browser,
+        __FSS_JSON_CONFIG__: 'readonly',
+      },
+    },
+
+    plugins: {
+      '@typescript-eslint': tseslint,
+    },
+
+    rules: {
+      // Disable base rules that are covered by TypeScript
+      'indent': 'off',
+      'no-unused-vars': 'off',
+
+      // TypeScript-specific rules
+      '@typescript-eslint/indent': ['error', 2],
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/consistent-type-imports': ['error', {
+        prefer: 'type-imports',
+      }],
+    },
+  },
+
+  // Type declaration files (*.d.ts)
+  {
+    files: ['src/**/*.d.ts'],
+    rules: {
+      // Allow 'any' type in declaration files for external libraries
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+
+  // Vue files with TypeScript (when using lang="ts")
+  {
+    files: ['**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        parser: tsparser,
+        ecmaVersion: 2022,
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      // Vue + TypeScript
+      'vue/script-setup-uses-vars': 'error',
     },
   },
 

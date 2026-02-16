@@ -1,165 +1,141 @@
-<script>
-import { defineComponent, reactive, onMounted, nextTick } from "vue";
-
-import FrontHelper from "@/helper/FrontHelper";
-import SearchResultHelper from "@/helper/SearchResultHelper";
+<script setup lang="ts">
+import { reactive, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { useFrontHelper } from '@/composables/useFrontHelper';
+import { useSearchResultHelper } from '@/composables/useSearchResultHelper';
 import jsonConfig from '@/config/JsonConfig';
+import HistoryMode from '@/enum/HistoryMode';
+import SearchEvent from '@/events/SearchEvent';
+import ResultHeader from '@/components/search-result/ResultHeader.vue';
+import ResultItem from '@/components/search-result/ResultItem.vue';
+import ResultPagination from '@/components/search-result/ResultPagination.vue';
+import type { SearchCondition, SearchState } from '@/types/search.types';
+import type { EventHandler } from '@/types/event.types';
 
-import HistoryMode from "@/enum/HistoryMode";
-
-import SearchEvent from "@/events/SearchEvent";
-import ResultHeader from "@/components/search-result/ResultHeader";
-import ResultItem from "@/components/search-result/ResultItem";
-import ResultPagination from "@/components/search-result/ResultPagination";
-
-const { getUrlParameters, getHistoryState } = FrontHelper();
-const { doSearch, isAutoSearchCase, createSearchCondFromParameter, showVersion } = SearchResultHelper();
-
+const { getUrlParameters, getHistoryState } = useFrontHelper();
+const { doSearch, isAutoSearchCase, createSearchCondFromParameter, showVersion } =
+  useSearchResultHelper();
 
 /**
  * Component for search result.
  */
-export default defineComponent({
-  components: {
-    "result-header": ResultHeader,
-    "result-item": ResultItem,
-    "result-pagination": ResultPagination,
+
+// Props interface
+interface Props {
+  fessUrl?: string;
+  enableOrder?: boolean;
+  enableAllOrders?: boolean;
+  enableLabel?: boolean;
+  enableLabelTab?: boolean;
+  enableThumbnail?: boolean;
+  language?: string;
+  pageSize?: number;
+  linkTarget?: string;
+  enableRelated?: boolean;
+  enableDetails?: boolean;
+}
+
+// Props with defaults
+const props = withDefaults(defineProps<Props>(), {
+  fessUrl: 'http://localhost:8080/',
+  enableOrder: () => jsonConfig.enableOrder(true),
+  enableAllOrders: () => jsonConfig.enableAllOrders(false),
+  enableLabel: () => jsonConfig.enableLabels(false),
+  enableLabelTab: () => jsonConfig.enableLabelTabs(false),
+  enableThumbnail: () => jsonConfig.enableThumbnail(true),
+  language: '',
+  pageSize: 10,
+  linkTarget: '',
+  enableRelated: false,
+  enableDetails: () => jsonConfig.enableDetails(true),
+});
+
+// Reactive state (implements SearchState interface)
+const state = reactive<SearchState>({
+  show: false,
+  searching: false,
+  recordCount: -1,
+  recordCountRelation: 'EQUAL_TO',
+  startRecordNumber: -1,
+  endRecordNumber: -1,
+  execTime: -1,
+  q: '',
+  queryId: '',
+  items: [],
+  relatedQueries: [],
+  relatedContents: [],
+  pageInfo: {
+    pageNumbers: [],
+    currentPageNumber: -1,
+    prevPage: false,
+    nextPage: false,
   },
-  props: {
-    // Url of fess.
-    fessUrl: {
-      type: String,
-      default: "http://localhost:8080/",
-    },
-    // Enable search order.
-    enableOrder: {
-      type: Boolean,
-      default: jsonConfig.enableOrder(true),
-    },
-    // Enable all search order.
-    enableAllOrders: {
-      type: Boolean,
-      default: jsonConfig.enableAllOrders(false),
-    },
-    // Enable filtering by label.
-    enableLabel: {
-      type: Boolean,
-      default: jsonConfig.enableLabels(false),
-    },
-    // Enable show label by tab style.
-    enableLabelTab: {
-      type: Boolean,
-      default: jsonConfig.enableLabelTabs(false),
-    },
-    // Enable thumbnail
-    enableThumbnail: {
-      type: Boolean,
-      default: jsonConfig.enableThumbnail(true),
-    },
-    // Language for search.
-    language: {
-      type: String,
-      default: "",
-    },
-    // Page size of search result..
-    pageSize: {
-      type: Number,
-      default: 10,
-    },
-    // Link target.
-    linkTarget: {
-      type: String,
-      default: "",
-    },
-    // Enable show related info.
-    enableRelated: {
-      type: Boolean,
-      default: false,
-    },
-    // Enable show details.
-    enableDetails: {
-      type: Boolean,
-      default: jsonConfig.enableDetails(true),
-    },
-  },
+});
 
-  setup(props) {
-    // reactive data
-    const state = reactive({
-      show: false,
-      searching: false,
-      recordCount: -1,
-      recordCountRelation: "EQUAL_TO",
-      startRecordNumber: -1,
-      endRecordNumber: -1,
-      execTime: -1,
-      q: "",
-      queryId: "",
-      items: [],
-      relatedQueries: [],
-      relatedContents: [],
-      pageInfo: {
-        pageNumbers: [],
-        currentPageNumber: -1,
-        prevPage: false,
-        nextPage: false,
-      },
-      searchCond: {},
-    });
+/**
+ * Execute search with PUSH history mode.
+ */
+const search = (searchCond: SearchCondition): void => {
+  searchInternal(searchCond, HistoryMode.PUSH);
+};
 
-    onMounted(() => {
-      // Handle search event.
-      SearchEvent.onBasicSearch((searchCond) => {
-        search(searchCond);
-      });
+/**
+ * Execute search with specified history mode.
+ * Copies search condition and applies pageSize from props
+ */
+const searchInternal = (searchCond: SearchCondition, historyMode: HistoryMode): void => {
+  // Copy search condition for customization
+  const copiedSearchCond = SearchEvent.copySearchCond(searchCond);
+  copiedSearchCond.pageSize = props.pageSize;
+  doSearch(props.fessUrl, copiedSearchCond, historyMode, state);
+};
 
-      // Handle popstate.
-      window.addEventListener("popstate", (event) => {
-        if (event.state !== null) {
-          // Search by condition of popstate.
-          searchInternal(event.state.searchCond, HistoryMode.NONE);
-        }
-      });
-    });
+// Event handlers and DOM event listeners stored for cleanup
+let basicSearchHandler: EventHandler<SearchCondition> | null = null;
+let popstateHandler: ((event: PopStateEvent) => void) | null = null;
 
-    nextTick(() => {
-      const historyState = getHistoryState();
-      const urlParams = getUrlParameters();
+// Component lifecycle
+onMounted(() => {
+  // Handle search event
+  basicSearchHandler = (searchCond: SearchCondition) => {
+    search(searchCond);
+  };
+  SearchEvent.onBasicSearch(basicSearchHandler);
 
-      // Show version.
-      if (urlParams["fss.version"] !== undefined) {
-        showVersion(props.fessUrl);
-      }
+  // Handle popstate (browser back/forward)
+  popstateHandler = (event: PopStateEvent) => {
+    if (event.state !== null && event.state.searchCond) {
+      // Search by condition of popstate
+      searchInternal(event.state.searchCond, HistoryMode.NONE);
+    }
+  };
+  window.addEventListener('popstate', popstateHandler);
+});
 
-      // Auto search if necessary.
-      if (historyState !== null) {
-        searchInternal(historyState.searchCond, HistoryMode.REPLACE);
-      } else if (isAutoSearchCase(urlParams)) {
-        searchInternal(
-          createSearchCondFromParameter(urlParams),
-          HistoryMode.PUSH
-        );
-      }
-    });
+// Cleanup event handlers to prevent memory leaks
+onBeforeUnmount(() => {
+  if (basicSearchHandler) {
+    SearchEvent.offBasicSearch(basicSearchHandler);
+  }
+  if (popstateHandler) {
+    window.removeEventListener('popstate', popstateHandler);
+  }
+});
 
-    // method definitions
-    const search = (searchCond) => {
-      searchInternal(searchCond, HistoryMode.PUSH);
-    };
+nextTick(() => {
+  const historyState = getHistoryState();
+  const urlParams = getUrlParameters();
 
-    const searchInternal = (searchCond, historyMode) => {
-      // Copy search condition for custormization.
-      const copiedSearchCond = SearchEvent.copySearchCond(searchCond);
-      copiedSearchCond.pageSize = props.pageSize;
-      doSearch(props.fessUrl, copiedSearchCond, historyMode, state);
-    };
+  // Show version if requested
+  if (urlParams['fss.version'] !== undefined) {
+    showVersion(props.fessUrl);
+  }
 
-    return {
-      state,
-      search
-    };
-  },
-
+  // Auto search if necessary
+  if (historyState !== null) {
+    searchInternal(historyState.searchCond, HistoryMode.REPLACE);
+  } else if (isAutoSearchCase(urlParams)) {
+    searchInternal(createSearchCondFromParameter(urlParams), HistoryMode.PUSH);
+  }
 });
 </script>
 

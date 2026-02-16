@@ -1,96 +1,96 @@
-<script>
-import { defineComponent, reactive, onMounted } from "vue";
-
+<script setup lang="ts">
+import { reactive, onMounted, onBeforeUnmount } from 'vue';
 import SearchEvent from '@/events/SearchEvent';
 import FormEvent from '@/events/FormEvent';
 import SuggestEvent from '@/events/SuggestEvent';
 import MessageService from '@/service/MessageService';
-
-import SuggestBox from "@/components/search-form/SuggestBox";
+import SuggestBox from '@/components/search-form/SuggestBox.vue';
+import type { EventHandler } from '@/types/event.types';
 
 /**
  * Component for search form.
  */
-export default defineComponent({
 
-  components: {
-    "suggest-box": SuggestBox
-  },
-  props: {
-    // The path to the search results page, if exists.
-    resultPage: {
-      type: String,
-      default: '',
-    },
-    // Language for search.
-    language: {
-      type: String,
-      default: '',
-    },
-    // Enable suggest.
-    enableSuggest: {
-      type: Boolean,
-      default: false,
-    },
-    // URL of suggest api.
-    suggestUrl: {
-      type: String,
-      default: '',
+// Props interface
+interface Props {
+  resultPage?: string;
+  language?: string;
+  enableSuggest?: boolean;
+  suggestUrl?: string;
+}
+
+// Props with defaults
+const props = withDefaults(defineProps<Props>(), {
+  resultPage: '',
+  language: '',
+  enableSuggest: false,
+  suggestUrl: '',
+});
+
+// State interface
+interface State {
+  query: string;
+}
+
+// Reactive state
+const state = reactive<State>({
+  query: '',
+});
+
+// Initialize message service
+const messageService = new MessageService(props.language);
+
+/**
+ * Submit the form.
+ * If resultPage is empty, search on the current page.
+ * Otherwise, navigate to the result page.
+ */
+const submit = (event: Event): void => {
+  if (props.resultPage === '') {
+    // Process on current page if resultPage is empty
+    const searchCond = SearchEvent.getInitialSearchCond();
+    if (state.query !== '') {
+      searchCond.q = state.query;
     }
-  },
+    // Emit search event
+    SearchEvent.emitBasicSearch(searchCond);
+    // Cancel suggest
+    SuggestEvent.$emitCancel('fss');
+    event.preventDefault();
+  }
+  // If resultPage is set, let the form submit naturally (navigate to resultPage)
+};
 
-  setup(props) {
-    // reactive data
-    const state = reactive({
-      query: ''
-    });
+// Event handlers stored for cleanup
+let updateFormValueHandler: EventHandler<string> | null = null;
+let suggestResultHandler: EventHandler<string> | null = null;
 
-    onMounted(() => {
-      // Handle updates to form value by other components.
-      FormEvent.onUpdateFormValue((data) => {
-        state.query = data;
-      });
+// Component lifecycle
+onMounted(() => {
+  // Handle updates to form value by other components
+  updateFormValueHandler = (data: string) => {
+    state.query = data;
+  };
+  FormEvent.onUpdateFormValue(updateFormValueHandler);
 
-      // Handle the selection of suggest.
-      SuggestEvent.$onResult('fss', (data) => {
-        state.query = data;
-        const searchCond = SearchEvent.getInitialSearchCond();
-        searchCond.q = state.query;
-        SearchEvent.emitBasicSearch(searchCond);
-      });
-    });
+  // Handle the selection of suggest
+  suggestResultHandler = (data: string) => {
+    state.query = data;
+    const searchCond = SearchEvent.getInitialSearchCond();
+    searchCond.q = state.query;
+    SearchEvent.emitBasicSearch(searchCond);
+  };
+  SuggestEvent.$onResult('fss', suggestResultHandler);
+});
 
-    const messageService = new MessageService(props.language);
-
-
-    // method definitions
-
-    /**
-     * Submit the form.
-     * If resultPage is empty, search on the current page.
-     */
-    const submit = (event) => {
-      if (props.resultPage === '') {
-        // Process on current page if resultPage is empty.
-        const searchCond = SearchEvent.getInitialSearchCond();
-        if (state.query !== '') {
-          searchCond.q = state.query;
-        }
-        // Emit search event.
-        SearchEvent.emitBasicSearch(searchCond);
-        // Cancel suggest.
-        SuggestEvent.$emitCancel('fss');
-        event.preventDefault();
-        return;
-      }
-    };
-
-    return {
-      state,
-      messageService,
-      submit,
-    };
-  },
+// Cleanup event handlers to prevent memory leaks
+onBeforeUnmount(() => {
+  if (updateFormValueHandler) {
+    FormEvent.offUpdateFormValue(updateFormValueHandler);
+  }
+  if (suggestResultHandler) {
+    SuggestEvent.$offResult('fss', suggestResultHandler);
+  }
 });
 </script>
 
@@ -111,7 +111,7 @@ export default defineComponent({
       </div>
       <div class="col-auto btn-group">
         <button type="submit" name="search" class="searchButton btn btn-primary">
-          {{ messageService.get('form.search.button', {}, language) }}
+          {{ messageService.get('form.search.button', {}) }}
         </button>
       </div>
     </div>

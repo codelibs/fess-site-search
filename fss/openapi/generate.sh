@@ -43,15 +43,15 @@ mkdir $base_dir/work/volume
 cp $base_dir/work/fess/src/main/config/openapi/openapi-user.yaml $base_dir/work/volume
 docker run --rm \
     -v ${PWD}/work/volume:/local \
-    openapitools/openapi-generator-cli:v7.4.0 generate \
+    openapitools/openapi-generator-cli:v7.18.0 generate \
     -i /local/openapi-user.yaml \
-    -g javascript \
-    --additional-properties=usePromises=true,useES6=true \
-    -o /local/out/javascript
+    -g typescript-axios \
+    --additional-properties=supportsES6=true,withSeparateModelsAndApi=true,modelPackage=model,apiPackage=api \
+    -o /local/out/typescript
 
 if [[ "x$FESS_TAG" != x ]] ; then
     module_version=$FESS_TAG
-else 
+else
     module_version="main"
 fi
 module_dir="$base_dir/../src/openapi/$module_version"
@@ -62,4 +62,6 @@ if [ -e "$module_dir" ] ; then
 fi
 echo "Copy generated codes to $module_dir"
 mkdir $module_dir
-cp -r $base_dir/work/volume/out/javascript/src/* $module_dir
+cp -r $base_dir/work/volume/out/typescript/* $module_dir
+
+echo "OpenAPI TypeScript generation complete!"

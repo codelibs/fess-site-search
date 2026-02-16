@@ -1,4 +1,15 @@
-# fss
+# fss (Fess Site Search)
+
+Fess Site Search JavaScript widget generator built with Vue 3 and TypeScript.
+
+## Technology Stack
+
+- **Language**: TypeScript 5.9+
+- **Framework**: Vue 3 (Composition API)
+- **Build Tool**: Vite 6
+- **Styling**: Bootstrap 5 + SCSS
+- **Type Checking**: vue-tsc
+- **Linting**: ESLint + Prettier
 
 ## Project setup
 ```
@@ -8,6 +19,11 @@ npm install
 ### Development server with hot-reload
 ```
 npm run dev
+```
+
+### Type check
+```
+npm run type-check
 ```
 
 ### Build for production
@@ -23,15 +39,48 @@ npm run preview
 ### Lint files
 ```
 npm run lint
+npm run lint:fix  # Auto-fix lint errors
 ```
 
 ### Format files
 ```
 npm run format
+npm run format:check  # Check formatting without changes
 ```
 
 ### Customize configuration
 See [Vite Configuration Reference](https://vite.dev/config/).
+
+### Generate OpenAPI client
+
+Generate TypeScript API client from Fess OpenAPI specification.
+
+```bash
+cd openapi
+./generate.sh
+```
+
+To generate for a specific Fess version:
+
+```bash
+./generate.sh -t 14.18.0
+```
+
+This script clones the Fess repository, extracts the OpenAPI specification, and generates TypeScript-Axios client code into `src/openapi/main/`.
+
+## TypeScript Migration
+
+This project has been fully migrated to TypeScript. For detailed information:
+
+- **Migration Plan**: See `claude_progress/typescript_migration_plan.md`
+- **Developer Guide**: See `claude_progress/typescript_migration_guide.md`
+- **Phase 7 Report**: See `claude_progress/typescript_migration_phase7_report.md`
+
+### Key Features
+- ✅ 100% TypeScript (hand-written code)
+- ✅ Strict mode enabled
+- ✅ Zero `any` type usage (excluding auto-generated OpenAPI code)
+- ✅ Full type safety with comprehensive type definitions
 
 ## Usage
 
