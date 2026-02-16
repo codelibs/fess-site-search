@@ -80,6 +80,12 @@ const init = (): void => {
  * Cancel suggest with a delay.
  */
 const _cancel = (): void => {
+  // Clear debounce timer to prevent pending suggest execution
+  if (debounceTimerId !== null) {
+    clearTimeout(debounceTimerId);
+    debounceTimerId = null;
+  }
+
   setTimeout(() => {
     init();
   }, SUGGEST_CANCEL_DELAY_MS);
