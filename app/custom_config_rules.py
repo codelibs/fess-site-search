@@ -84,7 +84,7 @@ class FormBorderColor(AbstractConfigRule):
         return 'searchbox-border-color'
 
     def gen_rule(self, font):
-        return '''.fessWrapper .fessForm, .fessFormOnly {{border: solid {};}}'''.format(font)
+        return '''.fessWrapper input.query {{border-color: {};}}'''.format(font)
 
 
 # Search Button
@@ -167,22 +167,6 @@ class LabelboxBackgroundColor(AbstractConfigRule):
 
     def gen_rule(self, color):
         return '''.fessWrapper select.field-labels {{background-color: {};}}'''.format(color)
-
-
-class LabelboxSelectedBorderColor(AbstractConfigRule):
-    def form_name(self):
-        return 'labelbox-selected-border-color'
-
-    def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels.selected, fessWrapper select.field-labels.selected:focus {{border-color: {};}}'''.format(color)
-
-
-class LabelboxSelectedBackgroundColor(AbstractConfigRule):
-    def form_name(self):
-        return 'labelbox-selected-bg-color'
-
-    def gen_rule(self, color):
-        return '''.fessWrapper select.field-labels.selected {{background-color: {};}}'''.format(color)
 
 
 class LabeltabVisibility(AbstractConfigRule):
@@ -274,22 +258,6 @@ class OrderboxBackgroundColor(AbstractConfigRule):
 
     def gen_rule(self, color):
         return '''.fessWrapper select.sort {{background-color: {};}}'''.format(color)
-
-
-class OrderboxSelectedBorderColor(AbstractConfigRule):
-    def form_name(self):
-        return 'orderbox-selected-border-color'
-
-    def gen_rule(self, color):
-        return '''.fessWrapper select.sort.selected, fessWrapper select.sort.selected:focus {{border-color: {};}}'''.format(color)
-
-
-class OrderboxSelectedBackgroundColor(AbstractConfigRule):
-    def form_name(self):
-        return 'orderbox-selected-bg-color'
-
-    def gen_rule(self, color):
-        return '''.fessWrapper select.sort.selected {{background-color: {};}}'''.format(color)
 
 
 # Result: General
@@ -430,10 +398,10 @@ def get_config_rules():
         FormBorderColor(),
         ButtonTextColor(), ButtonBorderColor(), ButtonBackgroundColor(),
         ButtonActiveTextColor(), ButtonActiveBorderColor(), ButtonActiveBackgroundColor(),
-        LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(), LabelboxSelectedBorderColor(), LabelboxSelectedBackgroundColor(),
+        LabelboxVisibility(), LabelboxBorderColor(), LabelboxBackgroundColor(),
         LabeltabVisibility(), LabeltabBorderColor(), LabeltabBackgroundColor(), LabeltabSelectedBorderColor(), LabeltabSelectedBackgroundColor(),
         OrderboxVisibility(), OrderboxVerboseVisibility(),
-        OrderboxBorderColor(), OrderboxBackgroundColor(), OrderboxSelectedBorderColor(), OrderboxSelectedBackgroundColor(),
+        OrderboxBorderColor(), OrderboxBackgroundColor(),
         ResultBorderColor(), ResultBackgroundColor(), ResultBorderColorHover(), ResultBackgroundColorHover(),
         ResultTitleColor(), ResultVisitedTitleColor(), ResultHoveredTitleColor(), ResultActiveTitleColor(),
         ResultThumbnailVisibility(), ResultSnippetColor(),

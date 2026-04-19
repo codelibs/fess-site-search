@@ -15,7 +15,7 @@ See [FSS Generator](https://fss-generator.codelibs.org/docs/manual).
 
 ```bash
 $ docker build -t fss .
-$ docker run -d -p 5000:5000 fss
+$ docker run -d -p 5001:5000 fss
 ```
 
 and then access http://localhost:5000.

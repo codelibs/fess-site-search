@@ -1,6 +1,21 @@
 FROM node:8.15-slim
 LABEL maintainer "N2SM <support@n2sm.net>"
 
+# Use Debian archive repository since stretch is EOL
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i '/stretch-updates/d' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until && \
+    echo 'Acquire::AllowInsecureRepositories "true";' >> /etc/apt/apt.conf.d/99no-check-valid-until && \
+    echo 'APT::Get::AllowUnauthenticated "true";' >> /etc/apt/apt.conf.d/99no-check-valid-until
+
+# Disable GPG checks for archived repositories
+RUN apt-get -o Acquire::AllowInsecureRepositories=true \
+            -o Acquire::Check-Valid-Until=false update && \
+    apt-get -o Acquire::AllowInsecureRepositories=true \
+            -o Acquire::Check-Valid-Until=false install -y python3-pip && \
+    apt-get clean
+
 # Install latest npm
 RUN apt-get update \
  && apt-get upgrade -y \
