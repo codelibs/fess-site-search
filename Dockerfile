@@ -1,27 +1,24 @@
-FROM node:8.15-slim
+FROM node:12-slim
 LABEL maintainer "N2SM <support@n2sm.net>"
 
-# Use Debian archive repository since stretch is EOL
+# Install Python, pip, and build dependencies
+# Note: Debian stretch (used by node:12-slim) is EOL. We use archive.debian.org
+# with Check-Valid-Until disabled, but signature verification remains enabled where possible.
+# This is a compromise between security and functionality for legacy dependencies (node-sass 4.x).
+# Build dependencies (python, make, g++) are required for node-sass compilation.
+# Using Python 2 for node-gyp compatibility with node-sass 4.x
 RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
     sed -i '/stretch-updates/d' /etc/apt/sources.list && \
     sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
     echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until && \
-    echo 'Acquire::AllowInsecureRepositories "true";' >> /etc/apt/apt.conf.d/99no-check-valid-until && \
-    echo 'APT::Get::AllowUnauthenticated "true";' >> /etc/apt/apt.conf.d/99no-check-valid-until
-
-# Disable GPG checks for archived repositories
-RUN apt-get -o Acquire::AllowInsecureRepositories=true \
-            -o Acquire::Check-Valid-Until=false update && \
-    apt-get -o Acquire::AllowInsecureRepositories=true \
-            -o Acquire::Check-Valid-Until=false install -y python3-pip && \
-    apt-get clean
-
-# Install latest npm
-RUN apt-get update \
- && apt-get upgrade -y \
- && apt-get install -y \
-    python3-pip \
- && apt-get clean
+    apt-get update && \
+    apt-get install -y \
+        python \
+        python3-pip \
+        make \
+        g++ \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 ADD app /app/app
@@ -30,7 +27,6 @@ ADD instance /app/instance
 ADD requirements.txt /app
 
 RUN pip3 install -r requirements.txt
-RUN npm install
 
 # Build 11.4
 RUN mkdir -p /app/fss/

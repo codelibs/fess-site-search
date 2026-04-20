@@ -223,7 +223,7 @@ function applyWizardDesign() {
         new FssDesign('border-color', '', 'border'),
         new FssDesign('bg-color',     '', 'background-color'),
         // Search Box
-        new FssDesign('searchbox-border-color', 'input.query', 'border'),
+        new FssDesign('searchbox-border-color', ['input.query', 'input.query:focus'], 'border-color'),
         // Search Button
         new FssDesign('button-text-color', '.searchButton', 'color'),
         new FssDesign('button-border-color', '.searchButton', 'border'),
