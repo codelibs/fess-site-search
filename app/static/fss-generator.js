@@ -223,7 +223,7 @@ function applyWizardDesign() {
         new FssDesign('border-color', '', 'border'),
         new FssDesign('bg-color',     '', 'background-color'),
         // Search Box
-        new FssDesign('searchbox-border-color', '.fessForm', 'border'),
+        new FssDesign('searchbox-border-color', ['input.query', 'input.query:focus'], 'border-color'),
         // Search Button
         new FssDesign('button-text-color', '.searchButton', 'color'),
         new FssDesign('button-border-color', '.searchButton', 'border'),
@@ -237,8 +237,6 @@ function applyWizardDesign() {
         // Label
         new FssDesign('labelbox-border-color',          ['select.field-labels', 'select.field-labels:focus'], 'border-color'),
         new FssDesign('labelbox-bg-color',               'select.field-labels',                               'background-color'),
-        new FssDesign('labelbox-selected-border-color', ['select.field-labels.selected', 'select.field-labels.selected :focus'], 'border-color'),
-        new FssDesign('labelbox-selected-bg-color',      'select.field-labels.selected',                                         'background-color'),
         new FssDesign('labeltab-border-color',          '.label-tab',          'border-color'),
         new FssDesign('labeltab-bg-color',              '.label-tab',          'background-color'),
         new FssDesign('labeltab-selected-border-color', '.label-tab-selected', 'border-color'),
@@ -246,8 +244,6 @@ function applyWizardDesign() {
         // Order Box
         new FssDesign('orderbox-border-color',          ['select.sort', 'select.sort:focus'], 'border-color'),
         new FssDesign('orderbox-bg-color',               'select.sort',                       'background-color'),
-        new FssDesign('orderbox-selected-border-color', ['select.sort.selected', 'select.sort.selected :focus'], 'border-color'),
-        new FssDesign('orderbox-selected-bg-color',      'select.sort.selected',                                 'background-color'),
         // Result: General
         new FssDesign('result-border-color',       '#result li',       'border'),
         new FssDesign('result-bg-color',           '#result li',       'background-color'),
