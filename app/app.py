@@ -1,7 +1,8 @@
+import base64
 import os
 import sys
-import base64
-from flask import Flask, Blueprint
+
+from flask import Blueprint, Flask
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = os.path.join(app.instance_path, 'uploads')

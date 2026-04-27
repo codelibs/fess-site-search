@@ -1,0 +1,18 @@
+# Build artifacts
+dist
+build
+coverage
+
+# Dependencies
+node_modules
+
+# Generated code
+src/openapi
+
+# Lock files
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+npm-debug.log*

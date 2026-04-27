@@ -1,0 +1,161 @@
+// -----------------------------------------------------------------------------
+// Bootstrap Overrides & Base Style Adjustments
+// Bootstrap default style overrides migrated from fss-style.scss
+// -----------------------------------------------------------------------------
+
+.fess-site-search {
+  // Base element style adjustments
+  html {
+    min-height: 100%;
+    position: relative;
+  }
+
+  body {
+    padding: 1em 0;
+    margin: 56px 0 4em;
+  }
+
+  footer {
+    width: 100%;
+    bottom: 0;
+    height: 4em;
+    position: absolute;
+    border-top: 1px solid;
+    padding-top: 1em;
+  }
+
+  // Heading style adjustments
+  h1,
+  h2,
+  h3 {
+    line-height: 32px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  // Form control styles
+  // Bootstrap 5 uses CSS custom properties (--bs-*) for borders, but these
+  // are not available inside the namespace. Define explicit border styles.
+  .form-control {
+    border-radius: 0px;
+    border: 1px solid #ced4da;  // Bootstrap 5 default border color
+  }
+
+  .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  }
+
+  // Button group styles
+  // Bootstrap 5 uses CSS custom properties which don't work in namespace
+  .btn-group {
+    display: inline-flex;
+    vertical-align: middle;
+
+    > .btn {
+      position: relative;
+      flex: 1 1 auto;
+
+      &:hover,
+      &:focus,
+      &:active,
+      &.active {
+        z-index: 1;
+      }
+    }
+  }
+
+  // Button styles
+  .btn {
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+
+    &:hover {
+      background-color: #0b5ed7;
+      border-color: #0a58ca;
+    }
+
+    &:focus {
+      background-color: #0b5ed7;
+      border-color: #0a58ca;
+      box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+    }
+
+    &:active,
+    &.active {
+      background-color: #0a58ca;
+      border-color: #0a53be;
+    }
+  }
+
+  // Pagination styles
+  // Bootstrap 5 uses CSS custom properties which don't work in namespace
+  .pagination {
+    .page-item:not(:first-child) .page-link {
+      margin-left: -1px;  // Prevent double borders
+    }
+
+    .page-link {
+      color: #0d6efd;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      text-decoration: none;
+
+      &:hover {
+        color: #0a58ca;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+      }
+
+      &:focus {
+        color: #0a58ca;
+        background-color: #e9ecef;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+      }
+    }
+
+    .page-item.active .page-link {
+      color: #fff;
+      background-color: #0d6efd;
+      border-color: #0d6efd;
+    }
+
+    .page-item.disabled .page-link {
+      color: #6c757d;
+      background-color: #fff;
+      border-color: #dee2e6;
+    }
+  }
+
+  // Hide legend
+  legend {
+    display: none;
+  }
+
+  // Disable list group item border-radius
+  :first-child.list-group-item {
+    border-radius: 0px;
+  }
+
+  :last-child.list-group-item {
+    border-radius: 0px;
+  }
+}

@@ -1,0 +1,27 @@
+// -----------------------------------------------------------------------------
+// Suggest Box Component
+// Dropdown for displaying search term autocomplete suggestions
+// -----------------------------------------------------------------------------
+
+.fess-site-search {
+  .suggest-box {
+    // Display above search results
+    z-index: 1000;
+    position: absolute !important;
+    text-align: left;
+
+    // Styling
+    background-color: #fff;
+    border: 1px solid $suggest-box-border-color;
+    box-shadow:
+      1px 3px 2px 0px rgba(0, 0, 0, 0.1),
+      1px 3px 2px 0px rgba(236, 236, 236, 0.8);
+
+    // Suggest list
+    ol {
+      list-style: none;
+      padding: 0;
+      margin: 2px;
+    }
+  }
+}

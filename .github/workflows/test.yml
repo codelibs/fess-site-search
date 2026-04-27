@@ -1,0 +1,263 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.13"
+  NODE_VERSION: "22"
+
+jobs:
+  lint:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install Python dependencies
+        run: |
+          uv sync --all-extras
+
+      - name: Run ruff linter
+        run: |
+          uv run ruff check app/ tests/ || echo "Linting issues found - please fix locally"
+        continue-on-error: true
+
+      - name: Check ruff formatting
+        run: |
+          uv run ruff format --check app/ tests/ || echo "Formatting issues found - please run 'ruff format app/ tests/' locally"
+        continue-on-error: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fss/package.json
+
+      - name: Install Node.js dependencies
+        working-directory: fss
+        run: npm install
+
+      - name: Run ESLint
+        working-directory: fss
+        run: npm run lint || echo "ESLint issues found - please fix locally"
+        continue-on-error: true
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install Python dependencies
+        run: |
+          uv sync --all-extras
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fss/package.json
+
+      - name: Install Node.js dependencies
+        working-directory: fss
+        run: npm install
+
+      - name: Build Vue.js application
+        working-directory: fss
+        run: npm run build
+
+      - name: Copy built files
+        run: |
+          mkdir -p app/static/fss
+          cp fss/dist/fess-ss.js app/static/fss/
+
+      - name: Create instance directories
+        run: |
+          mkdir -p instance/uploads
+          mkdir -p instance/generates
+
+      - name: Start Flask application
+        run: |
+          export FLASK_APP=app/__init__.py
+          # Start Flask in background
+          uv run flask run > flask.log 2>&1 &
+          FLASK_PID=$!
+          echo "Flask PID: $FLASK_PID"
+          # Wait for Flask to start
+          sleep 15
+          # Check if Flask is running
+          if ! curl -f http://localhost:5000/; then
+            echo "Flask app failed to start"
+            echo "=== Flask log ==="
+            cat flask.log
+            kill $FLASK_PID || true
+            exit 1
+          fi
+          echo "Flask is running"
+
+      - name: Run tests
+        run: |
+          # Skip slow tests (webpack build tests) in CI environment
+          # Run locally with: pytest -v tests/ (includes all tests)
+          uv run pytest -v -m "not slow" tests/
+        timeout-minutes: 10
+
+      - name: Stop Flask application
+        if: always()
+        run: |
+          # Kill Flask process
+          pkill -f "flask run" || true
+          # Show Flask log for debugging
+          if [ -f flask.log ]; then
+            echo "=== Flask log ==="
+            tail -200 flask.log
+          fi
+
+  docker:
+    name: Docker Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          tags: fss:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Docker container
+        run: |
+          docker run -d -p 5000:5000 --name fss-test fss:test
+          sleep 10
+
+      - name: Check container health
+        run: |
+          docker ps | grep fss-test
+          docker logs fss-test
+
+      - name: Install test dependencies
+        run: |
+          pip install pytest requests
+
+      - name: Run integration tests against Docker container
+        run: |
+          pytest -v tests/test_status.py
+
+      - name: Stop Docker container
+        if: always()
+        run: |
+          docker stop fss-test || true
+          docker rm fss-test || true
+
+  build-frontend:
+    name: Build Frontend Assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fss/package.json
+
+      - name: Install dependencies
+        working-directory: fss
+        run: npm install
+
+      - name: Build production bundle
+        working-directory: fss
+        run: npm run build
+
+      - name: Check build output
+        working-directory: fss
+        run: |
+          ls -lh dist/
+          test -f dist/fess-ss.js
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fss-build-${{ github.sha }}
+          path: fss/dist/
+          retention-days: 7
+
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          uv sync
+
+      - name: Run pip-audit
+        run: |
+          uv pip install pip-audit
+          uv run pip-audit
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: fss/package.json
+
+      - name: Install Node.js dependencies
+        working-directory: fss
+        run: npm install
+
+      - name: Run npm audit
+        working-directory: fss
+        run: npm audit --audit-level=moderate
+        continue-on-error: true

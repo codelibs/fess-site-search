@@ -1,0 +1,37 @@
+// -----------------------------------------------------------------------------
+// Bootstrap 5.3.3 Import
+// Import only required components and isolate with namespace
+// -----------------------------------------------------------------------------
+
+// Bootstrap 5 requires specific import order
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark'; // NEW in BS5: Dark mode variables
+@import 'bootstrap/scss/maps'; // NEW in BS5: Required for color/spacing maps
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities'; // MOVED: Must be imported before namespace for API
+
+// Wrap all Bootstrap styles in .fess-site-search namespace
+// This prevents style conflicts with host page
+.fess-site-search {
+  @import 'bootstrap/scss/root'; // NEW in BS5: CSS custom properties (--bs-*)
+  @import 'bootstrap/scss/reboot';
+  @import 'bootstrap/scss/type';
+  @import 'bootstrap/scss/images';
+
+  @import 'bootstrap/scss/containers'; // NEW in BS5: Replaces part of grid system
+  @import 'bootstrap/scss/grid';
+  @import 'bootstrap/scss/tables'; // Used in ResultHeader.vue
+
+  // Form-related (used in search form)
+  // NOTE: In BS5, forms includes input-group, form-control, form-select, etc.
+  @import 'bootstrap/scss/forms'; // Includes input-group (custom-forms merged here)
+  @import 'bootstrap/scss/buttons';
+  @import 'bootstrap/scss/button-group'; // Used for btn-group in SearchForm.vue
+
+  // Navigation & Pagination
+  @import 'bootstrap/scss/pagination';
+
+  // Generates utility classes based on $utilities map configuration
+  @import 'bootstrap/scss/utilities/api';
+}

@@ -1,0 +1,33 @@
+// -----------------------------------------------------------------------------
+// Label Tab Component
+// Label tabs for filtering search results
+// -----------------------------------------------------------------------------
+
+.fess-site-search {
+  // Tab container
+  .label-tab-box {
+    border-bottom: 1px solid $label-tab-border-color;
+    margin-bottom: 10px;
+    font-size: 0px; // Remove gaps between inline-block elements
+  }
+
+  // Individual tab
+  .label-tab {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid;
+    border-bottom: none; // Connect with bottom border
+    border-color: $label-tab-border-color;
+    font-size: small;
+    cursor: pointer;
+    position: static;
+    margin-top: 5px;
+    margin-right: 2px;
+    padding: 2px 8px 0px 8px;
+  }
+
+  // Selected tab state
+  .label-tab-selected {
+    background-color: $label-tab-selected-bg;
+  }
+}
