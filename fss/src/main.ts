@@ -21,15 +21,11 @@ const initFss = (): void => {
   app.mount('.fess-site-search');
 };
 
-// Dynamically import if custom CSS path is specified
-const inputCssPath: string = import.meta.env.VITE_INPUT_CSS_PATH as string;
-if (inputCssPath && inputCssPath !== 'undefined') {
-  // Note: @vite-ignore bypasses Vite's static analysis
-  // The CSS file must exist at the specified path at runtime
-  // If the path is invalid, the import will fail at runtime (caught by .catch())
-  import(/* @vite-ignore */ inputCssPath).catch((err: Error) => {
-    console.warn('[FSS] Failed to load custom CSS:', inputCssPath, err);
-  });
+// Inject custom CSS generated at build time (embedded via __FSS_CUSTOM_CSS__ define)
+if (__FSS_CUSTOM_CSS__) {
+  const styleEl = document.createElement('style');
+  styleEl.textContent = __FSS_CUSTOM_CSS__;
+  document.head.appendChild(styleEl);
 }
 
 // Initialize on DOM ready

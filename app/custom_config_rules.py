@@ -1,6 +1,8 @@
 import traceback
 from abc import ABCMeta, abstractmethod
 
+DEFAULT_BORDER_WIDTH = "1px"
+
 
 class AbstractConfigRule(metaclass=ABCMeta):
 
@@ -75,8 +77,8 @@ class BorderColor(AbstractConfigRule):
     def form_name(self):
         return "border-color"
 
-    def gen_rule(self, font):
-        return f'''.fess-site-search {{border: solid {font};}}'''
+    def gen_rule(self, color):
+        return f'''.fess-site-search {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 # Search Box
@@ -84,8 +86,8 @@ class FormBorderColor(AbstractConfigRule):
     def form_name(self):
         return "searchbox-border-color"
 
-    def gen_rule(self, font):
-        return f'''.fess-site-search .fessForm .query {{border: solid {font};}}'''
+    def gen_rule(self, color):
+        return f'''.fess-site-search .fessForm .query {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 # Search Button
@@ -102,7 +104,7 @@ class ButtonBorderColor(AbstractConfigRule):
         return "button-border-color"
 
     def gen_rule(self, color):
-        return f'''.fess-site-search .searchButton {{border: solid {color};}}'''
+        return f'''.fess-site-search .searchButton {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 class ButtonBackgroundColor(AbstractConfigRule):
@@ -127,7 +129,7 @@ class ButtonActiveBorderColor(AbstractConfigRule):
         return "button-active-border-color"
 
     def gen_rule(self, color):
-        return f'''.fess-site-search .searchButton:active, .fess-site-search .searchButton:hover, .fess-site-search .searchButton:focus {{border: solid {color};}}'''
+        return f'''.fess-site-search .searchButton:active, .fess-site-search .searchButton:hover, .fess-site-search .searchButton:focus {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 class ButtonActiveBackgroundColor(AbstractConfigRule):
@@ -267,7 +269,7 @@ class ResultBorderColor(AbstractConfigRule):
         return "result-border-color"
 
     def gen_rule(self, color):
-        return f'''.fess-site-search  #result li {{border: solid {color};}}'''
+        return f'''.fess-site-search  #result li {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 class ResultBackgroundColor(AbstractConfigRule):
@@ -283,7 +285,7 @@ class ResultBorderColorHover(AbstractConfigRule):
         return "result-border-color-hover"
 
     def gen_rule(self, color):
-        return f'''.fess-site-search  #result li:hover {{border: solid {color};}}'''
+        return f'''.fess-site-search  #result li:hover {{border: {DEFAULT_BORDER_WIDTH} solid {color};}}'''
 
 
 class ResultBackgroundColorHover(AbstractConfigRule):

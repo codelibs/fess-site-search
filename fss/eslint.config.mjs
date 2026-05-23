@@ -50,6 +50,7 @@ export default [
         ...globals.jquery,
         // Global variables defined at Vite build time
         __FSS_JSON_CONFIG__: 'readonly',
+        __FSS_CUSTOM_CSS__: 'readonly',
       },
     },
 
@@ -114,6 +115,7 @@ export default [
         ...globals.es2021,
         ...globals.browser,
         __FSS_JSON_CONFIG__: 'readonly',
+        __FSS_CUSTOM_CSS__: 'readonly',
       },
     },
 
