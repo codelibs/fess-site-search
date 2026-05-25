@@ -1,9 +1,4 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_INPUT_CSS_PATH: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+declare const __FSS_JSON_CONFIG__: Record<string, unknown>;
+declare const __FSS_CUSTOM_CSS__: string;

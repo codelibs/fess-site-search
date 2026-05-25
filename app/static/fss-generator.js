@@ -17,6 +17,7 @@ $('#upload-form').submit(preventDoubleSubmission);
 */
 const WIZARD_STYLE_ID = 'wizard-style';
 const UPLOADED_STYLE_ID = 'uploaded-style';
+const DEFAULT_BORDER_WIDTH = '1px';
 
 window.addEventListener("load", () => {
     PreviewSettings.reset();
@@ -176,7 +177,7 @@ class FssDesign {
 
     formatter(value) {
         if (this.prop == 'border') {
-            return `solid ${value}`;
+            return `${DEFAULT_BORDER_WIDTH} solid ${value}`;
         } else if (this.type == 'checkbox') {
             return this.choices[value];
         }
