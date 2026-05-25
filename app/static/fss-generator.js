@@ -137,10 +137,14 @@ function resetIframeDesign() {
 class FssDesign {
     constructor(formId, target, prop, choices = {}) {
         this.formId = formId;
+        // The repeated `.fessWrapper.fessWrapper` raises specificity so the preview design
+        // outranks ss.scss defaults (e.g. .label-tab colors), which the FSS bundle injects
+        // into the iframe head after this style, regardless of injection order.
+        const scope = '.fessWrapper.fessWrapper';
         if (target instanceof Array) {
-            this.target = '.fessWrapper ' + target.join(', .fessWrapper ');
+            this.target = `${scope} ` + target.join(`, ${scope} `);
         } else {
-            this.target = `.fessWrapper ${target}`;
+            this.target = `${scope} ${target}`;
         }
         this.prop = prop;
         this.choices = choices;

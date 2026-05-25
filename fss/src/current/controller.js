@@ -79,7 +79,7 @@ export default class {
     state.searchParams    = null;
     state.searchResponse  = null;
     state.enableOrder     = this._convert('enable-order',      conf.enableOrder,     true );
-    state.enableAllOrders = this._convert('enable-all-orders', conf.enableAllOrder,  false);
+    state.enableAllOrders = this._convert('enable-all-orders', conf.enableAllOrders, false);
     state.enableLabels    = this._convert('enable-labels',     conf.enableLabels,    false);
     state.enableLabelTabs = this._convert('enable-label-tabs', conf.enableLabelTabs, false);
     state.enableThumbnail = this._convert('enable-thumbnail',  conf.enableThumbnail, true );
